@@ -1,5 +1,7 @@
 # React form validation
 
+[![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
+
 ```
 npm i romagny13-react-form-validation -S
 ```
