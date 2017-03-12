@@ -1,4 +1,4 @@
-# React form validation
+# React Form Validation
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
