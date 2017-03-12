@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>React Form Validation</title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="../../dist/react-form-validation.min.js"></script>
+    <script type="text/babel">
+        var FormComponent = ReactFormValidation.FormComponent; 
+        var Validator = ReactFormValidation.Validator;
+
+        var Home = React.createClass({ 
+            getInitialState: function (){
+                return {
+                    formConfig:{
+                        'firstname': [Validator.required(), Validator.minLength(3)]
+                    },
+                    user:{
+                        firstname:'Marie'
+                    },
+                    formStates:{
+                        'firstname': {
+                            hasError:false,
+                            errors:{}
+                        }
+                    },
+                    hasError: false
+                };
+            },
+            onChange: function (event){
+                var name = event.target.name;
+                var value = event.target.value;
+                var user = this.state.user;
+                user[name] = value;
+                this.setState({
+                    user:user
+                });
+            },
+            onStateChange:function (hasError, formStates){
+                this.setState({
+                    hasError:hasError,
+                    formStates: formStates
+                });
+            },
+            onSubmit: function (hasError, formStates) {
+                if (!hasError) {
+                    console.log('save', this.state.user);
+                }
+                else {
+                    this.setState({
+                        hasError,
+                        formStates
+                    });
+                }
+             },
+            render() {
+                let formGroup = this.state.hasError ? 'form-group has-error': 'form-group';
+                return(
+                    <FormComponent id="my-form" formConfig={this.state.formConfig}  onStateChange={this.onStateChange} onSubmit={this.onSubmit}>
+                         <div className={formGroup}>
+                            <label htmlFor="firstname">Firstname:</label>
+                            <input type="text" id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
+                            {this.state.formStates.firstname.errors.required ? (
+                                <span className="help-block">This field is required</span>
+                            ) : null}
+                            {this.state.formStates.firstname.errors.minLength ? (
+                                <span className="help-block">Please enter at least than 3 characters.</span>
+                            ) : null}
+                         </div >
+                         <input className="btn btn-default" type="submit" value="Submit" />
+                    </FormComponent>
+                );
+            }
+        });
+
+        ReactDOM.render(<div className="container"><h2>Form validation with es5</h2><Home /></div>, document.getElementById('app'));
+    </script>
+</body>
+
+</html>
