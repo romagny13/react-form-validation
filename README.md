@@ -14,7 +14,7 @@ npm i romagny13-react-form-validation -S
 - pattern
 - custom
 
-## form config
+## Form config
 
 create a form config with validators 
 
@@ -33,7 +33,7 @@ let formConfig = {
 };
 ```
 
-### model and form elements
+### Model and form elements
 
 formConfig =  model + form elements (element without model property)
 
@@ -56,7 +56,7 @@ let formElements = {
 };
 ```
 
-## create initial state
+## Create initial state
 
 ```js
 let formStates = getInitialFormState(formConfig);
@@ -69,7 +69,7 @@ this.state = {
 };
 ```
 
-### formStates
+### Form states
 
 Example
 ```js
@@ -83,7 +83,7 @@ With a named custom validator :
 this.state.formStates.likes.errors.onOreMore
 ```
 
-## create a form with binding and validation
+## Create a form with binding and validation
 
 Simple component example with validation
 
