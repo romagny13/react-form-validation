@@ -256,7 +256,7 @@ var Home = React.createClass({
         }
     },
     render() {
-        let formGroup = this.state.user.firstname.hasError ? 'form-group has-error' : 'form-group';
+        let formGroup = this.state.formStates.firstname.hasError ? 'form-group has-error' : 'form-group';
         return (
             <FormComponent id="my-form" formConfig={this.state.formConfig} onStateChange={this.onStateChange} onSubmit={this.onSubmit}>
                 <div className={formGroup}>
