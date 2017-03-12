@@ -14,6 +14,12 @@ npm i romagny13-react-form-validation -S
 - pattern
 - custom
 
+## imports with es6
+
+```js
+import { Validator, FormComponent, getInitialFormState,  getElementValue } from 'romagny13-react-form-validation';
+```
+
 ## Form config
 
 create a form config with validators 
@@ -250,7 +256,7 @@ var Home = React.createClass({
         }
     },
     render() {
-        let formGroup = this.state.hasError ? 'form-group has-error' : 'form-group';
+        let formGroup = this.state.user.firstname.hasError ? 'form-group has-error' : 'form-group';
         return (
             <FormComponent id="my-form" formConfig={this.state.formConfig} onStateChange={this.onStateChange} onSubmit={this.onSubmit}>
                 <div className={formGroup}>
