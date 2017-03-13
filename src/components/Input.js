@@ -12,7 +12,7 @@ export class Input extends React.Component {
         };
 
         this.onChange = this.onChange.bind(this);
-        this.context.formGroup.register(this.props.name, this);
+        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     getName() {
         return this.props.name;

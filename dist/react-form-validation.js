@@ -500,6 +500,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _FormGroup = __webpack_require__(5);
 
+	var _util = __webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -521,7 +523,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        _this.onChange = _this.onChange.bind(_this);
-	        _this.context.formGroup.register(_this.props.name, _this);
+	        if ((0, _util.isDefined)(_this.context.formGroup)) {
+	            _this.context.formGroup.register(_this.props.name, _this);
+	        }
 	        return _this;
 	    }
 
@@ -615,7 +619,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            firstError: ''
 	        };
 	        _this.onChange = _this.onChange.bind(_this);
-	        _this.context.form.register(_this);
+	        if ((0, _util.isDefined)(_this.context.form)) {
+	            _this.context.form.register(_this);
+	        }
 	        return _this;
 	    }
 
@@ -739,6 +745,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _FormGroup = __webpack_require__(5);
 
+	var _util = __webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -761,7 +769,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        _this.onChange = _this.onChange.bind(_this);
 	        _this.indexOf = _this.indexOf.bind(_this);
-	        _this.context.formGroup.register(_this.props.name, _this);
+	        if ((0, _util.isDefined)(_this.context.formGroup)) {
+	            _this.context.formGroup.register(_this.props.name, _this);
+	        }
 	        return _this;
 	    }
 
@@ -857,6 +867,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _util = __webpack_require__(1);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -984,7 +996,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        _this.onChange = _this.onChange.bind(_this);
-	        _this.context.formGroup.register(_this.props.name, _this);
+	        if ((0, _util.isDefined)(_this.context.formGroup)) {
+	            _this.context.formGroup.register(_this.props.name, _this);
+	        }
 	        return _this;
 	    }
 
@@ -1051,6 +1065,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _FormGroup = __webpack_require__(5);
 
+	var _util = __webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1072,7 +1088,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        _this.onChange = _this.onChange.bind(_this);
-	        _this.context.formGroup.register(_this.props.name, _this);
+	        if ((0, _util.isDefined)(_this.context.formGroup)) {
+	            _this.context.formGroup.register(_this.props.name, _this);
+	        }
 	        return _this;
 	    }
 
@@ -1149,6 +1167,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _FormGroup = __webpack_require__(5);
 
+	var _util = __webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1170,7 +1190,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        _this.onChange = _this.onChange.bind(_this);
-	        _this.context.formGroup.register(_this.props.name, _this);
+	        if ((0, _util.isDefined)(_this.context.formGroup)) {
+	            _this.context.formGroup.register(_this.props.name, _this);
+	        }
 	        return _this;
 	    }
 
@@ -1247,6 +1269,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _FormGroup = __webpack_require__(5);
 
+	var _util = __webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1268,7 +1292,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        _this.onChange = _this.onChange.bind(_this);
-	        _this.context.formGroup.register(_this.props.name, _this);
+	        if ((0, _util.isDefined)(_this.context.formGroup)) {
+	            _this.context.formGroup.register(_this.props.name, _this);
+	        }
 	        return _this;
 	    }
 

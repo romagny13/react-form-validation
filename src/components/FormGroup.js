@@ -1,5 +1,5 @@
 import React from 'react';
-import { validateValue, getElementValue, firstProp, isFunction } from '../common/util';
+import { validateValue, getElementValue, firstProp, isDefined, isFunction } from '../common/util';
 
 export class FormGroup extends React.Component {
     constructor(props, context) {
@@ -9,7 +9,7 @@ export class FormGroup extends React.Component {
             firstError: ''
         };
         this.onChange = this.onChange.bind(this);
-        this.context.form.register(this);
+       if (isDefined(this.context.form)) { this.context.form.register(this); }
     }
 
     getChildContext() {

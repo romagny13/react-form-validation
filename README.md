@@ -55,14 +55,18 @@ const user = {
 
 ### Components
 
+Allow to validate value and show error messages:
 - Form
-- FormGroup
+- FormGroup 
+
+Allow to bind value and be notified on value change:
 - Input
 - Checkbox
 - CheckboxGroup
 - RadioGroup
 - Select
 - TextArea
+
 
 ## Create a form with binding and validation
 

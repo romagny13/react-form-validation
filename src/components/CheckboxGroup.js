@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
+import { isDefined } from '../common/util';
 
 export class CheckboxGroup extends React.Component {
     constructor(props, context) {
@@ -10,7 +11,7 @@ export class CheckboxGroup extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.indexOf = this.indexOf.bind(this);
-        this.context.formGroup.register(this.props.name, this);
+      if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     getName(){
         return this.props.name;
