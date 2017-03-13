@@ -3,7 +3,6 @@ import React from 'react';
 export class Form extends React.Component {
     constructor(props) {
         super(props);
-
         this.formGroups = [];
         this.submitted = false;
         this.onSubmit = this.onSubmit.bind(this);
