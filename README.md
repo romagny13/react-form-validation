@@ -55,10 +55,9 @@ const user = {
 
 ### Components
 
-Allow to validate value and show error messages:
+Allow to validate value and show error messages (node: css class "has-error" is added on FormGroup on error):
 - Form
 - FormGroup 
-Note: css class "has-error" is added on FormGroup on error
 
 Allow to bind value and be notified on value change:
 - Input
