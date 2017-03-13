@@ -138,12 +138,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _Form = __webpack_require__(7);
+	var _FormComponent = __webpack_require__(7);
 
 	Object.defineProperty(exports, 'Form', {
 	  enumerable: true,
 	  get: function get() {
-	    return _Form.Form;
+	    return _FormComponent.Form;
 	  }
 	});
 
@@ -212,6 +212,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.validateValue = validateValue;
 	exports.objLength = objLength;
 	exports.firstProp = firstProp;
+	exports.getInputInitialValue = getInputInitialValue;
 	function isUndefined(value) {
 	    return typeof value === 'undefined';
 	}
@@ -279,6 +280,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return obj[Object.keys(obj)[0]];
 	}
 
+	function getInputInitialValue(type, value) {
+	    if (isDefined(value)) {
+	        return value;
+	    } else if (type === 'range' || type === 'number') {
+	        return 0;
+	    } else {
+	        return '';
+	    }
+	}
+
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
@@ -292,11 +303,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	exports.isRequired = isRequired;
 	exports.formatMessage = formatMessage;
 
 	var _util = __webpack_require__(1);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function isRequired(value) {
+	    return value === null || (0, _util.isUndefined)(value) || value === '' || (0, _util.isBoolean)(value) && value === false;
+	}
 
 	function formatMessage(message, searchValue, replaceValue) {
 	    return message.replace(searchValue, replaceValue);
@@ -313,7 +329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(RequiredValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
-	            if (value === null || (0, _util.isUndefined)(value) || value === '' || (0, _util.isBoolean)(value) && value === false) {
+	            if (isRequired(value)) {
 	                this.error = this.message;
 	                return false;
 	            } else {
@@ -338,7 +354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(MinLengthValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
-	            if (value && value.length < this.minLength) {
+	            if (!isRequired(value) && value.length < this.minLength) {
 	                // error
 	                this.error = this.message;
 	                return false;
@@ -364,7 +380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(MaxLengthValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
-	            if (value && value.length > this.maxLength) {
+	            if (!isRequired(value) && value.length > this.maxLength) {
 	                // error
 	                this.error = this.message;
 	                return false;
@@ -390,7 +406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(PatternValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
-	            if ((0, _util.isDefined)(value) && !this.pattern.test(value)) {
+	            if (!isRequired(value) && !this.pattern.test(value)) {
 	                this.error = this.message;
 	                return false;
 	            } else {
@@ -415,7 +431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(CustomValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
-	            if (!this.fn(value)) {
+	            if (!isRequired(value) && !this.fn(value)) {
 	                this.error = this.message;
 	                return false;
 	            } else {
@@ -538,15 +554,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return Checkbox;
 	}(_react2.default.Component);
-	/*Checkbox.propTypes = {
-	    id: React.PropTypes.string,
-	    name: React.PropTypes.string.isRequired,
-	    className: React.PropTypes.string,
-	    onChange: React.PropTypes.func,
-	    checked: React.PropTypes.bool
-	};*/
 
-
+	Checkbox.propTypes = {
+	    id: _react2.default.PropTypes.string,
+	    name: _react2.default.PropTypes.string.isRequired,
+	    className: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    checked: _react2.default.PropTypes.bool
+	};
 	Checkbox.defaultProps = {
 	    checked: false
 	};
@@ -643,6 +658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var oldFirstError = this.state.firstError;
 
 	                // validateValue
+	                var name = event.target.name;
 	                var value = (0, _util.getElementValue)(event.target);
 	                var validation = (0, _util.validateValue)(value, this.props.validators);
 	                var hasError = validation.hasError;
@@ -658,7 +674,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                    // notify
 	                    if ((0, _util.isFunction)(this.props.onChange)) {
-	                        this.props.onChange(this.props.name, value);
+	                        this.props.onChange(name, value);
 	                    }
 	                }
 	            }
@@ -687,15 +703,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return FormGroup;
 	}(_react2.default.Component);
-	/*FormGroup.propTypes = {
-	    name: React.PropTypes.string.isRequired,
-	    onChange: React.PropTypes.func,
-	    className: React.PropTypes.string,
-	    children: React.PropTypes.array,
-	    validators: React.PropTypes.array
-	};*/
 
-
+	FormGroup.propTypes = {
+	    onChange: _react2.default.PropTypes.func,
+	    className: _react2.default.PropTypes.string,
+	    validators: _react2.default.PropTypes.array,
+	    children: _react2.default.PropTypes.node
+	};
 	FormGroup.defaultProps = {
 	    validators: []
 	};
@@ -812,15 +826,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return CheckboxGroup;
 	}(_react2.default.Component);
-	/*CheckboxGroup.propTypes = {
-	    name: React.PropTypes.string.isRequired,
-	    className: React.PropTypes.string,
-	    onChange: React.PropTypes.func,
-	    dataSource: React.PropTypes.array.isRequired,
-	    currents: React.PropTypes.array.isRequired
-	};*/
 
-
+	CheckboxGroup.propTypes = {
+	    name: _react2.default.PropTypes.string.isRequired,
+	    className: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    dataSource: _react2.default.PropTypes.array.isRequired,
+	    currents: _react2.default.PropTypes.array
+	};
+	CheckboxGroup.defaultProps = {
+	    currents: []
+	};
 	CheckboxGroup.contextTypes = {
 	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
 	};
@@ -916,12 +932,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return Form;
 	}(_react2.default.Component);
-	/*Form.propTypes = {
-	    onSubmit: React.PropTypes.func.isRequired,
-	    children: React.PropTypes.array
-	};*/
 
-
+	Form.propTypes = {
+	    onSubmit: _react2.default.PropTypes.func.isRequired,
+	    children: _react2.default.PropTypes.node
+	};
 	Form.childContextTypes = {
 	    form: _react2.default.PropTypes.any
 	};
@@ -945,6 +960,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _FormGroup = __webpack_require__(5);
 
+	var _util = __webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -961,8 +978,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
 
+	        var value = (0, _util.getInputInitialValue)(props.type, props.value);
 	        _this.state = {
-	            value: props.value
+	            value: value
 	        };
 
 	        _this.onChange = _this.onChange.bind(_this);
@@ -998,16 +1016,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return Input;
 	}(_react2.default.Component);
-	/*Input.propTypes = {
-	    id: React.PropTypes.string,
-	    name: React.PropTypes.string.isRequired,
-	    className: React.PropTypes.string,
-	    onChange: React.PropTypes.func,
-	    type: React.PropTypes.string,
-	    value: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-	};*/
 
-
+	Input.propTypes = {
+	    id: _react2.default.PropTypes.string,
+	    name: _react2.default.PropTypes.string.isRequired,
+	    className: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    type: _react2.default.PropTypes.string,
+	    value: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.number, _react2.default.PropTypes.bool])
+	};
 	Input.defaultProps = {
 	    type: 'text'
 	};
@@ -1101,15 +1118,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return RadioGroup;
 	}(_react2.default.Component);
-	/*RadioGroup.propTypes = {
-	    name: React.PropTypes.string.isRequired,
-	    className: React.PropTypes.string,
-	    onChange: React.PropTypes.func,
-	    dataSource: React.PropTypes.array.isRequired,
-	    current: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-	};*/
 
-
+	RadioGroup.propTypes = {
+	    name: _react2.default.PropTypes.string.isRequired,
+	    className: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    dataSource: _react2.default.PropTypes.array.isRequired,
+	    current: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.number, _react2.default.PropTypes.bool])
+	};
 	RadioGroup.contextTypes = {
 	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
 	};
@@ -1185,7 +1201,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return _react2.default.createElement(
 	                'select',
-	                { name: this.props.name, value: this.state.current, onChange: this.onChange, className: this.props.className },
+	                { id: this.props.id, name: this.props.name, value: this.state.current, onChange: this.onChange, className: this.props.className },
 	                this.props.dataSource.map(function (current, i) {
 	                    return _react2.default.createElement(
 	                        'option',
@@ -1199,15 +1215,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return Select;
 	}(_react2.default.Component);
-	/*Select.propTypes = {
-	    name: React.PropTypes.string.isRequired,
-	    className: React.PropTypes.string,
-	    onChange: React.PropTypes.func,
-	    dataSource: React.PropTypes.array.isRequired,
-	    current: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-	};*/
 
-
+	Select.propTypes = {
+	    id: _react2.default.PropTypes.string,
+	    name: _react2.default.PropTypes.string.isRequired,
+	    className: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    dataSource: _react2.default.PropTypes.array.isRequired,
+	    current: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.number, _react2.default.PropTypes.bool])
+	};
 	Select.contextTypes = {
 	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
 	};
@@ -1284,16 +1300,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return TextArea;
 	}(_react2.default.Component);
-	/*TextArea.propTypes = {
-	    id: React.PropTypes.string,
-	    name: React.PropTypes.string.isRequired,
-	    className: React.PropTypes.string,
-	    onChange: React.PropTypes.func,
-	    type: React.PropTypes.string,
-	    value: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-	};*/
 
-
+	TextArea.propTypes = {
+	    id: _react2.default.PropTypes.string,
+	    name: _react2.default.PropTypes.string.isRequired,
+	    className: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    type: _react2.default.PropTypes.string,
+	    value: _react2.default.PropTypes.string
+	};
+	TextArea.defaultProps = {
+	    value: ''
+	};
 	TextArea.contextTypes = {
 	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
 	};

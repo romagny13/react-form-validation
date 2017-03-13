@@ -55,3 +55,15 @@ export function objLength(obj) {
 export function firstProp(obj) {
     return obj[Object.keys(obj)[0]];
 }
+
+export function getInputInitialValue(type, value) {
+    if (isDefined(value)) {
+        return value;
+    }
+    else if (type === 'range' || type === 'number') {
+        return 0;
+    }
+    else {
+        return '';
+    }
+}

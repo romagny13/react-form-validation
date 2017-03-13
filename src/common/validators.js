@@ -1,5 +1,9 @@
 import { isUndefined, isDefined, isString, isNumber, isBoolean } from './util';
 
+export function isRequired(value) {
+    return value === null || isUndefined(value) || value === '' || (isBoolean(value) && value === false);
+}
+
 export function formatMessage(message, searchValue, replaceValue) {
     return message.replace(searchValue, replaceValue);
 }
@@ -11,7 +15,7 @@ export class RequiredValidator {
     }
 
     validate(value) {
-        if (value === null || isUndefined(value) || value === '' || (isBoolean(value) && value === false)) {
+        if (isRequired(value)) {
             this.error = this.message;
             return false;
         }
@@ -30,7 +34,7 @@ export class MinLengthValidator {
     }
 
     validate(value) {
-        if (value && value.length < this.minLength) {
+        if (!isRequired(value) && value.length < this.minLength) {
             // error
             this.error = this.message;
             return false;
@@ -50,7 +54,7 @@ export class MaxLengthValidator {
     }
 
     validate(value) {
-        if (value && value.length > this.maxLength) {
+        if (!isRequired(value) && value.length > this.maxLength) {
             // error
             this.error = this.message;
             return false;
@@ -69,7 +73,7 @@ export class PatternValidator {
         this.message = isString(message) ? message : 'Please fix this field.';
     }
     validate(value) {
-        if (isDefined(value) && !this.pattern.test(value)) {
+        if (!isRequired(value) && !this.pattern.test(value)) {
             this.error = this.message;
             return false;
         }
@@ -87,7 +91,7 @@ export class CustomValidator {
         this.message = isString(message) ? message : 'Please fix this field.';
     }
     validate(value) {
-        if (!this.fn(value)) {
+        if (!isRequired(value) && !this.fn(value)) {
             this.error = this.message;
             return false;
         }
@@ -111,7 +115,7 @@ export class Validator {
     static pattern(pattern, message, name) {
         return new PatternValidator(pattern, message, name);
     }
-    static custom(fn, message,name) {
-        return new CustomValidator(fn, message,name);
+    static custom(fn, message, name) {
+        return new CustomValidator(fn, message, name);
     }
 }

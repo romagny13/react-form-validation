@@ -2,7 +2,7 @@ export { getElementValue, getInitialFormState, validateValue } from './common/ut
 export { RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator, CustomValidator, Validator } from './common/validators';
 export { Checkbox } from './components/Checkbox'; 
 export { CheckboxGroup } from './components/CheckboxGroup';
-export { Form } from './components/Form';  
+export { Form } from './components/FormComponent';  
 export { FormGroup } from './components/FormGroup'; 
 export { Input } from './components/Input'; 
 export { RadioGroup } from './components/RadioGroup'; 

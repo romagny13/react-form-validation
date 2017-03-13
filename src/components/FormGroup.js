@@ -50,6 +50,7 @@ export class FormGroup extends React.Component {
             let oldFirstError = this.state.firstError;
 
             // validateValue
+            let name = event.target.name;
             let value = getElementValue(event.target);
             let validation = validateValue(value, this.props.validators);
             let hasError = validation.hasError;
@@ -64,7 +65,7 @@ export class FormGroup extends React.Component {
                 });
 
                 // notify
-                if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, value); }
+                if (isFunction(this.props.onChange)) { this.props.onChange(name, value); }
             }
         }
     }
@@ -81,13 +82,12 @@ export class FormGroup extends React.Component {
         );
     }
 }
-/*FormGroup.propTypes = {
-    name: React.PropTypes.string.isRequired,
+FormGroup.propTypes = {
     onChange: React.PropTypes.func,
     className: React.PropTypes.string,
-    children: React.PropTypes.array,
-    validators: React.PropTypes.array
-};*/
+    validators: React.PropTypes.array,
+    children: React.PropTypes.node
+};
 FormGroup.defaultProps = {
     validators: []
 };

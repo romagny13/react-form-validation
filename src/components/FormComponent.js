@@ -3,6 +3,7 @@ import React from 'react';
 export class Form extends React.Component {
     constructor(props) {
         super(props);
+
         this.formGroups = [];
         this.submitted = false;
         this.onSubmit = this.onSubmit.bind(this);
@@ -51,10 +52,10 @@ export class Form extends React.Component {
         );
     }
 }
-/*Form.propTypes = {
+Form.propTypes = {
     onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.array
-};*/
+    children: React.PropTypes.node
+};
 Form.childContextTypes = {
     form: React.PropTypes.any
 };

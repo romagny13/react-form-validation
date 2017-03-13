@@ -1,11 +1,14 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
+import { isDefined, getInputInitialValue } from '../common/util';
+
 
 export class Input extends React.Component {
     constructor(props, context) {
         super(props, context);
+        let value = getInputInitialValue(props.type, props.value);
         this.state = {
-            value: props.value
+            value
         };
 
         this.onChange = this.onChange.bind(this);
@@ -30,14 +33,14 @@ export class Input extends React.Component {
         );
     }
 }
-/*Input.propTypes = {
+Input.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
-    value: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-};*/
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+};
 Input.defaultProps = {
     type: 'text'
 };

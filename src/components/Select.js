@@ -11,10 +11,10 @@ export class Select extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.context.formGroup.register(this.props.name, this);
     }
-    getName(){
+    getName() {
         return this.props.name;
     }
-    getValue(){
+    getValue() {
         return this.state.current;
     }
     onChange(event) {
@@ -27,7 +27,7 @@ export class Select extends React.Component {
     }
     render() {
         return (
-            <select name={this.props.name} value={this.state.current} onChange={this.onChange} className={this.props.className}>
+            <select id={this.props.id} name={this.props.name} value={this.state.current} onChange={this.onChange} className={this.props.className}>
                 {this.props.dataSource.map((current, i) => {
                     return (
                         <option key={i} value={current} onChange={this.onChange}>{current}</option>
@@ -37,13 +37,14 @@ export class Select extends React.Component {
         );
     }
 }
-/*Select.propTypes = {
+Select.propTypes = {
+    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-};*/
+    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+};
 Select.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };

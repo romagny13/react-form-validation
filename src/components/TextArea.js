@@ -30,14 +30,17 @@ export class TextArea extends React.Component {
         );
     }
 }
-/*TextArea.propTypes = {
+TextArea.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
-    value: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-};*/
+    value: React.PropTypes.string
+};
+TextArea.defaultProps = {
+    value: ''
+};
 TextArea.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };

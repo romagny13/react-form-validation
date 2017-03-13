@@ -38,13 +38,13 @@ export class RadioGroup extends React.Component {
         );
     }
 }
-/*RadioGroup.propTypes = {
+RadioGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
-};*/
+    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+};
 RadioGroup.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };

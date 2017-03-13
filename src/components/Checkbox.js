@@ -31,13 +31,13 @@ export class Checkbox extends React.Component {
         );
     }
 }
-/*Checkbox.propTypes = {
+Checkbox.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     checked: React.PropTypes.bool
-};*/
+};
 Checkbox.defaultProps = {
     checked: false
 };

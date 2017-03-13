@@ -2,7 +2,7 @@ import React from 'react';
 import { Validator } from '../../../src/common/validators';
 import { Checkbox } from '../../../src/components/Checkbox';
 import { CheckboxGroup } from '../../../src/components/CheckboxGroup';
-import { Form } from '../../../src/components/Form';
+import { Form } from '../../../src/components/FormComponent';
 import { FormGroup } from '../../../src/components/FormGroup';
 import { Input } from '../../../src/components/Input';
 import { RadioGroup } from '../../../src/components/RadioGroup';

@@ -57,13 +57,16 @@ export class CheckboxGroup extends React.Component {
         );
     }
 }
-/*CheckboxGroup.propTypes = {
+CheckboxGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
-    currents: React.PropTypes.array.isRequired
-};*/
+    currents: React.PropTypes.array
+};
+CheckboxGroup.defaultProps = {
+    currents:[]
+};
 CheckboxGroup.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
