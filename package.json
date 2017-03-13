@@ -1,6 +1,6 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "description",
   "main": "dist/react-form-validation.js",
   "scripts": {
@@ -11,15 +11,24 @@
     "test": "karma start",
     "test:browser": "webpack --config webpack.config.test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "romagny13-react-form-validation",
+    "react-form-validation",
+    "react",
+    "form",
+    "validation"
+  ],
+  "author": "romagny13 <romagny13@yahoo.fr>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:romagny13/react-form-validation.git"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.38",
     "babel-cli": "^6.22.2",
     "babel-loader": "^6.2.10",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "bootstrap": "^3.3.7",

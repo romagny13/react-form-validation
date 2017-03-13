@@ -62,12 +62,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util = __webpack_require__(1);
 
-	Object.defineProperty(exports, 'formHasError', {
-	  enumerable: true,
-	  get: function get() {
-	    return _util.formHasError;
-	  }
-	});
 	Object.defineProperty(exports, 'getElementValue', {
 	  enumerable: true,
 	  get: function get() {
@@ -126,12 +120,75 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _form = __webpack_require__(3);
+	var _Checkbox = __webpack_require__(3);
 
-	Object.defineProperty(exports, 'FormComponent', {
+	Object.defineProperty(exports, 'Checkbox', {
 	  enumerable: true,
 	  get: function get() {
-	    return _form.FormComponent;
+	    return _Checkbox.Checkbox;
+	  }
+	});
+
+	var _CheckboxGroup = __webpack_require__(6);
+
+	Object.defineProperty(exports, 'CheckboxGroup', {
+	  enumerable: true,
+	  get: function get() {
+	    return _CheckboxGroup.CheckboxGroup;
+	  }
+	});
+
+	var _Form = __webpack_require__(7);
+
+	Object.defineProperty(exports, 'Form', {
+	  enumerable: true,
+	  get: function get() {
+	    return _Form.Form;
+	  }
+	});
+
+	var _FormGroup = __webpack_require__(5);
+
+	Object.defineProperty(exports, 'FormGroup', {
+	  enumerable: true,
+	  get: function get() {
+	    return _FormGroup.FormGroup;
+	  }
+	});
+
+	var _Input = __webpack_require__(8);
+
+	Object.defineProperty(exports, 'Input', {
+	  enumerable: true,
+	  get: function get() {
+	    return _Input.Input;
+	  }
+	});
+
+	var _RadioGroup = __webpack_require__(9);
+
+	Object.defineProperty(exports, 'RadioGroup', {
+	  enumerable: true,
+	  get: function get() {
+	    return _RadioGroup.RadioGroup;
+	  }
+	});
+
+	var _Select = __webpack_require__(10);
+
+	Object.defineProperty(exports, 'Select', {
+	  enumerable: true,
+	  get: function get() {
+	    return _Select.Select;
+	  }
+	});
+
+	var _TextArea = __webpack_require__(11);
+
+	Object.defineProperty(exports, 'TextArea', {
+	  enumerable: true,
+	  get: function get() {
+	    return _TextArea.TextArea;
 	  }
 	});
 
@@ -149,11 +206,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.isString = isString;
 	exports.isNumber = isNumber;
 	exports.isBoolean = isBoolean;
+	exports.isFunction = isFunction;
 	exports.getInitialFormState = getInitialFormState;
 	exports.getElementValue = getElementValue;
-	exports.formHasError = formHasError;
-	exports.omit = omit;
 	exports.validateValue = validateValue;
+	exports.objLength = objLength;
+	exports.firstProp = firstProp;
 	function isUndefined(value) {
 	    return typeof value === 'undefined';
 	}
@@ -168,6 +226,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	function isBoolean(value) {
 	    return typeof value === 'boolean';
+	}
+	function isFunction(value) {
+	    return typeof value === 'function';
 	}
 	var isArray = exports.isArray = Array.isArray;
 
@@ -196,28 +257,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 
-	function formHasError(controls) {
-	    for (var name in controls) {
-	        if (controls.hasOwnProperty(name)) {
-	            var control = controls[name];
-	            if (control.hasError) {
-	                return true;
-	            }
-	        }
-	    }
-	    return false;
-	}
-
-	function omit(obj, omitKeys) {
-	    var result = {};
-	    for (var name in obj) {
-	        if (omitKeys.indexOf(name) == -1) {
-	            result[name] = obj[name];
-	        }
-	    }
-	    return result;
-	}
-
 	function validateValue(value, validators) {
 	    var result = {
 	        hasError: false,
@@ -226,10 +265,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    validators.forEach(function (validator) {
 	        if (!validator.validate(value)) {
 	            result.hasError = true;
-	            result.errors[validator.name] = validator.name;
+	            result.errors[validator.name] = validator.error;
 	        }
 	    });
 	    return result;
+	}
+
+	function objLength(obj) {
+	    return Object.keys(obj).length;
+	}
+
+	function firstProp(obj) {
+	    return obj[Object.keys(obj)[0]];
 	}
 
 /***/ },
@@ -245,23 +292,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	exports.formatMessage = formatMessage;
+
 	var _util = __webpack_require__(1);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function formatMessage(message, searchValue, replaceValue) {
+	    return message.replace(searchValue, replaceValue);
+	}
+
 	var RequiredValidator = exports.RequiredValidator = function () {
-	    function RequiredValidator() {
+	    function RequiredValidator(message) {
 	        _classCallCheck(this, RequiredValidator);
 
 	        this.name = 'required';
+	        this.message = (0, _util.isString)(message) ? message : 'This field is required.';
 	    }
 
 	    _createClass(RequiredValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
 	            if (value === null || (0, _util.isUndefined)(value) || value === '' || (0, _util.isBoolean)(value) && value === false) {
+	                this.error = this.message;
 	                return false;
 	            } else {
+	                this.error = undefined;
 	                return true;
 	            }
 	        }
@@ -271,19 +327,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	var MinLengthValidator = exports.MinLengthValidator = function () {
-	    function MinLengthValidator(minLength) {
+	    function MinLengthValidator(minLength, message) {
 	        _classCallCheck(this, MinLengthValidator);
 
 	        this.name = 'minLength';
 	        this.minLength = (0, _util.isNumber)(minLength) ? minLength : 3;
+	        this.message = (0, _util.isString)(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', minLength);
 	    }
 
 	    _createClass(MinLengthValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
 	            if (value && value.length < this.minLength) {
+	                // error
+	                this.error = this.message;
 	                return false;
 	            } else {
+	                this.error = undefined;
 	                return true;
 	            }
 	        }
@@ -293,19 +353,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	var MaxLengthValidator = exports.MaxLengthValidator = function () {
-	    function MaxLengthValidator(maxLength) {
+	    function MaxLengthValidator(maxLength, message) {
 	        _classCallCheck(this, MaxLengthValidator);
 
 	        this.name = 'maxLength';
 	        this.maxLength = (0, _util.isNumber)(maxLength) ? maxLength : 30;
+	        this.message = (0, _util.isString)(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', maxLength);
 	    }
 
 	    _createClass(MaxLengthValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
 	            if (value && value.length > this.maxLength) {
+	                // error
+	                this.error = this.message;
 	                return false;
 	            } else {
+	                this.error = undefined;
 	                return true;
 	            }
 	        }
@@ -315,19 +379,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	var PatternValidator = exports.PatternValidator = function () {
-	    function PatternValidator(pattern) {
+	    function PatternValidator(pattern, message) {
 	        _classCallCheck(this, PatternValidator);
 
-	        this.name = 'pattern';
+	        this.name = (0, _util.isString)(name) ? name : 'pattern';
 	        this.pattern = pattern;
+	        this.message = (0, _util.isString)(message) ? message : 'Please fix this field.';
 	    }
 
 	    _createClass(PatternValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
 	            if ((0, _util.isDefined)(value) && !this.pattern.test(value)) {
+	                this.error = this.message;
 	                return false;
 	            } else {
+	                this.error = undefined;
 	                return true;
 	            }
 	        }
@@ -337,19 +404,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	var CustomValidator = exports.CustomValidator = function () {
-	    function CustomValidator(fn, name) {
+	    function CustomValidator(fn, message, name) {
 	        _classCallCheck(this, CustomValidator);
 
-	        this.name = name ? name : 'custom';
 	        this.fn = fn;
+	        this.name = (0, _util.isString)(name) ? name : 'custom';
+	        this.message = (0, _util.isString)(message) ? message : 'Please fix this field.';
 	    }
 
 	    _createClass(CustomValidator, [{
 	        key: 'validate',
 	        value: function validate(value) {
 	            if (!this.fn(value)) {
+	                this.error = this.message;
 	                return false;
 	            } else {
+	                this.error = undefined;
 	                return true;
 	            }
 	        }
@@ -365,28 +435,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _createClass(Validator, null, [{
 	        key: 'required',
-	        value: function required() {
-	            return new RequiredValidator();
+	        value: function required(message) {
+	            return new RequiredValidator(message);
 	        }
 	    }, {
 	        key: 'minLength',
-	        value: function minLength(_minLength) {
-	            return new MinLengthValidator(_minLength);
+	        value: function minLength(_minLength, message) {
+	            return new MinLengthValidator(_minLength, message);
 	        }
 	    }, {
 	        key: 'maxLength',
-	        value: function maxLength(_maxLength) {
-	            return new MaxLengthValidator(_maxLength);
+	        value: function maxLength(_maxLength, message) {
+	            return new MaxLengthValidator(_maxLength, message);
 	        }
 	    }, {
 	        key: 'pattern',
-	        value: function pattern(_pattern) {
-	            return new PatternValidator(_pattern);
+	        value: function pattern(_pattern, message, name) {
+	            return new PatternValidator(_pattern, message, name);
 	        }
 	    }, {
 	        key: 'custom',
-	        value: function custom(fn, name) {
-	            return new CustomValidator(fn, name);
+	        value: function custom(fn, message, name) {
+	            return new CustomValidator(fn, message, name);
 	        }
 	    }]);
 
@@ -404,9 +474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.FormComponent = undefined;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	exports.Checkbox = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -414,7 +482,100 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _validators = __webpack_require__(2);
+	var _FormGroup = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Checkbox = exports.Checkbox = function (_React$Component) {
+	    _inherits(Checkbox, _React$Component);
+
+	    function Checkbox(props, context) {
+	        _classCallCheck(this, Checkbox);
+
+	        var _this = _possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call(this, props, context));
+
+	        _this.state = {
+	            checked: props.checked
+	        };
+
+	        _this.onChange = _this.onChange.bind(_this);
+	        _this.context.formGroup.register(_this.props.name, _this);
+	        return _this;
+	    }
+
+	    _createClass(Checkbox, [{
+	        key: 'getName',
+	        value: function getName() {
+	            return this.props.name;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            return this.state.checked;
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(event) {
+	            var checked = event.target.checked;
+	            this.setState({
+	                checked: checked
+	            });
+	            // notify
+	            this.props.onChange(this.props.name, checked);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement('input', { type: 'checkbox', id: this.props.id, name: this.props.name, checked: this.state.checked, onChange: this.onChange, className: this.props.className });
+	        }
+	    }]);
+
+	    return Checkbox;
+	}(_react2.default.Component);
+	/*Checkbox.propTypes = {
+	    id: React.PropTypes.string,
+	    name: React.PropTypes.string.isRequired,
+	    className: React.PropTypes.string,
+	    onChange: React.PropTypes.func,
+	    checked: React.PropTypes.bool
+	};*/
+
+
+	Checkbox.defaultProps = {
+	    checked: false
+	};
+	Checkbox.contextTypes = {
+	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FormGroup = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
 
 	var _util = __webpack_require__(1);
 
@@ -426,98 +587,315 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FormComponent = exports.FormComponent = function (_React$Component) {
-	    _inherits(FormComponent, _React$Component);
+	var FormGroup = exports.FormGroup = function (_React$Component) {
+	    _inherits(FormGroup, _React$Component);
 
-	    function FormComponent(props) {
-	        _classCallCheck(this, FormComponent);
+	    function FormGroup(props, context) {
+	        _classCallCheck(this, FormGroup);
 
-	        var _this = _possibleConstructorReturn(this, (FormComponent.__proto__ || Object.getPrototypeOf(FormComponent)).call(this, props));
-
-	        _this.propsToAdd = (0, _util.omit)(_this.props, ['formConfig', 'onStateChange', 'onSubmit', 'children']);
+	        var _this = _possibleConstructorReturn(this, (FormGroup.__proto__ || Object.getPrototypeOf(FormGroup)).call(this, props, context));
 
 	        _this.state = {
-	            formConfig: props.formConfig,
-	            formStates: (0, _util.getInitialFormState)(props.formConfig),
 	            hasError: false,
-	            submitted: false
+	            firstError: ''
 	        };
-
-	        _this.onSubmit = _this.onSubmit.bind(_this);
 	        _this.onChange = _this.onChange.bind(_this);
+	        _this.context.form.register(_this);
 	        return _this;
 	    }
 
-	    _createClass(FormComponent, [{
+	    _createClass(FormGroup, [{
+	        key: 'getChildContext',
+	        value: function getChildContext() {
+	            return { formGroup: this };
+	        }
+	    }, {
+	        key: 'register',
+	        value: function register(name, formElement) {
+	            this.formElement = formElement;
+	        }
+	    }, {
 	        key: 'validate',
-	        value: function validate(name, value) {
-	            var formElementConfig = this.state.formConfig[name];
-	            if (formElementConfig) {
-	                return (0, _util.validateValue)(value, formElementConfig);
-	            }
+	        value: function validate() {
+	            var name = this.formElement.getName();
+	            var value = this.formElement.getValue();
+	            var validation = (0, _util.validateValue)(value, this.props.validators);
+	            var hasError = validation.hasError;
+	            var firstError = hasError ? (0, _util.firstProp)(validation.errors) : '';
+
+	            // change state
+	            this.setState({
+	                hasError: hasError,
+	                firstError: firstError
+	            });
+
+	            return {
+	                name: name,
+	                hasError: hasError,
+	                firstError: firstError
+	            };
 	        }
 	    }, {
 	        key: 'onChange',
 	        value: function onChange(event) {
 	            if (this.canValidate) {
-	                var name = event.target.name;
+	                var oldHasError = this.state.hasError;
+	                var oldFirstError = this.state.firstError;
+
+	                // validateValue
 	                var value = (0, _util.getElementValue)(event.target);
-	                var formStates = this.state.formStates;
-	                if (formStates[name]) {
+	                var validation = (0, _util.validateValue)(value, this.props.validators);
+	                var hasError = validation.hasError;
+	                var firstError = hasError ? (0, _util.firstProp)(validation.errors) : '';
 
-	                    var oldHasError = formStates[name].hasError;
-	                    var oldFirstError = formStates[name].errors[Object.keys(formStates[name].errors)[0]];
-	                    var validation = this.validate(name, value);
-	                    if (validation) {
-	                        formStates[name].hasError = validation.hasError;
-	                        formStates[name].errors = validation.errors;
-	                    }
-
-	                    // check form has error
-	                    var hasError = (0, _util.formHasError)(formStates);
-
-	                    // set state
+	                if (hasError !== oldHasError || firstError !== oldFirstError) {
+	                    // change state
 	                    this.setState({
-	                        formStates: formStates,
-	                        hasError: hasError
+	                        value: value,
+	                        hasError: hasError,
+	                        firstError: firstError
 	                    });
 
-	                    // notify only if state !== previous state
-	                    if (validation.hasError !== oldHasError || validation.errors[0] !== oldFirstError) {
-	                        this.props.onStateChange(hasError, formStates);
+	                    // notify
+	                    if ((0, _util.isFunction)(this.props.onChange)) {
+	                        this.props.onChange(this.props.name, value);
 	                    }
 	                }
 	            }
 	        }
 	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var groupClassName = this.state.hasError ? this.props.className + ' has-error' : this.props.className;
+	            return _react2.default.createElement(
+	                'div',
+	                { className: groupClassName, onChange: this.onChange },
+	                this.props.children,
+	                this.state.hasError ? _react2.default.createElement(
+	                    'span',
+	                    { className: 'help-block' },
+	                    this.state.firstError
+	                ) : null
+	            );
+	        }
+	    }, {
+	        key: 'canValidate',
+	        get: function get() {
+	            return this.props.validators.length > 0 && this.context.form.canValidate;
+	        }
+	    }]);
+
+	    return FormGroup;
+	}(_react2.default.Component);
+	/*FormGroup.propTypes = {
+	    name: React.PropTypes.string.isRequired,
+	    onChange: React.PropTypes.func,
+	    className: React.PropTypes.string,
+	    children: React.PropTypes.array,
+	    validators: React.PropTypes.array
+	};*/
+
+
+	FormGroup.defaultProps = {
+	    validators: []
+	};
+	FormGroup.contextTypes = {
+	    form: _react2.default.PropTypes.any
+	};
+	FormGroup.childContextTypes = {
+	    formGroup: _react2.default.PropTypes.any
+	};
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.CheckboxGroup = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FormGroup = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CheckboxGroup = exports.CheckboxGroup = function (_React$Component) {
+	    _inherits(CheckboxGroup, _React$Component);
+
+	    function CheckboxGroup(props, context) {
+	        _classCallCheck(this, CheckboxGroup);
+
+	        var _this = _possibleConstructorReturn(this, (CheckboxGroup.__proto__ || Object.getPrototypeOf(CheckboxGroup)).call(this, props, context));
+
+	        _this.state = {
+	            currents: props.currents
+	        };
+
+	        _this.onChange = _this.onChange.bind(_this);
+	        _this.indexOf = _this.indexOf.bind(_this);
+	        _this.context.formGroup.register(_this.props.name, _this);
+	        return _this;
+	    }
+
+	    _createClass(CheckboxGroup, [{
+	        key: 'getName',
+	        value: function getName() {
+	            return this.props.name;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            return this.state.currents;
+	        }
+	    }, {
+	        key: 'indexOf',
+	        value: function indexOf(value) {
+	            var currents = this.props.currents;
+	            for (var i = 0; i < currents.length; i++) {
+	                if (currents[i] === value) {
+	                    return i;
+	                }
+	            }
+	            return -1;
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(event) {
+	            var value = event.target.value;
+	            var index = this.indexOf(value);
+	            var currents = this.state.currents;
+	            if (index !== -1) {
+	                currents.splice(index, 1);
+	            } else {
+	                currents.push(value);
+	            }
+
+	            this.setState({
+	                currents: currents
+	            });
+	            // notify
+	            this.props.onChange(this.props.name, currents);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.props.dataSource.map(function (current, i) {
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { key: i },
+	                        _react2.default.createElement('input', { type: 'checkbox', name: _this2.props.name, checked: _this2.indexOf(current) !== -1, value: current, onChange: _this2.onChange, className: _this2.props.className }),
+	                        current
+	                    );
+	                })
+	            );
+	        }
+	    }]);
+
+	    return CheckboxGroup;
+	}(_react2.default.Component);
+	/*CheckboxGroup.propTypes = {
+	    name: React.PropTypes.string.isRequired,
+	    className: React.PropTypes.string,
+	    onChange: React.PropTypes.func,
+	    dataSource: React.PropTypes.array.isRequired,
+	    currents: React.PropTypes.array.isRequired
+	};*/
+
+
+	CheckboxGroup.contextTypes = {
+	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Form = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Form = exports.Form = function (_React$Component) {
+	    _inherits(Form, _React$Component);
+
+	    function Form(props) {
+	        _classCallCheck(this, Form);
+
+	        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+	        _this.formGroups = [];
+	        _this.submitted = false;
+	        _this.onSubmit = _this.onSubmit.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Form, [{
+	        key: 'getChildContext',
+	        value: function getChildContext() {
+	            return { form: this };
+	        }
+	    }, {
+	        key: 'register',
+	        value: function register(formGroup) {
+	            this.formGroups.push(formGroup);
+	        }
+	    }, {
 	        key: 'onSubmit',
 	        value: function onSubmit(event) {
 	            event.preventDefault();
-	            var form = event.target;
-	            var hasError = false;
-	            var formStates = this.state.formStates;
-	            for (var i = 0; i < form.elements.length; i++) {
-	                var element = form.elements[i];
-	                if (element.type !== 'submit') {
-	                    var name = element.name;
-	                    var value = (0, _util.getElementValue)(element);
-	                    var validation = this.validate(name, value);
-	                    if (validation) {
-	                        formStates[name].hasError = validation.hasError;
-	                        formStates[name].errors = validation.errors;
-	                    }
 
-	                    if (validation && validation.hasError) {
+	            var formStates = {};
+	            var hasError = false;
+
+	            this.formGroups.forEach(function (formGroup) {
+	                var validation = formGroup.validate();
+	                if (validation) {
+	                    var name = validation.name;
+	                    formStates[name] = {};
+	                    formStates[name].hasError = validation.hasError;
+	                    formStates[name].firstError = validation.firstError;
+	                    if (validation.hasError) {
 	                        hasError = true;
 	                    }
 	                }
-	            }
-	            this.setState({
-	                formStates: formStates,
-	                hasError: hasError,
-	                submitted: true
 	            });
 
+	            this.submitted = true;
 	            this.props.onSubmit(hasError, formStates);
 	        }
 	    }, {
@@ -525,32 +903,400 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'form',
-	                _extends({ onSubmit: this.onSubmit, onChange: this.onChange }, this.propsToAdd),
+	                { onSubmit: this.onSubmit },
 	                this.props.children
 	            );
 	        }
 	    }, {
 	        key: 'canValidate',
 	        get: function get() {
-	            return this.state.submitted;
+	            return this.submitted === true;
 	        }
 	    }]);
 
-	    return FormComponent;
+	    return Form;
 	}(_react2.default.Component);
+	/*Form.propTypes = {
+	    onSubmit: React.PropTypes.func.isRequired,
+	    children: React.PropTypes.array
+	};*/
 
-	FormComponent.propTypes = {
-	    children: _react.PropTypes.array.isRequired,
-	    formConfig: _react.PropTypes.object.isRequired,
-	    onStateChange: _react.PropTypes.func.isRequired,
-	    onSubmit: _react.PropTypes.func.isRequired
+
+	Form.childContextTypes = {
+	    form: _react2.default.PropTypes.any
 	};
 
 /***/ },
-/* 4 */
-/***/ function(module, exports) {
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Input = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FormGroup = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Input = exports.Input = function (_React$Component) {
+	    _inherits(Input, _React$Component);
+
+	    function Input(props, context) {
+	        _classCallCheck(this, Input);
+
+	        var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
+
+	        _this.state = {
+	            value: props.value
+	        };
+
+	        _this.onChange = _this.onChange.bind(_this);
+	        _this.context.formGroup.register(_this.props.name, _this);
+	        return _this;
+	    }
+
+	    _createClass(Input, [{
+	        key: 'getName',
+	        value: function getName() {
+	            return this.props.name;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            return this.state.value;
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(event) {
+	            var value = event.target.value;
+	            this.setState({
+	                value: value
+	            });
+	            this.props.onChange(this.props.name, value);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement('input', { type: this.props.type, id: this.props.id, name: this.props.name, value: this.state.value, onChange: this.onChange, className: this.props.className });
+	        }
+	    }]);
+
+	    return Input;
+	}(_react2.default.Component);
+	/*Input.propTypes = {
+	    id: React.PropTypes.string,
+	    name: React.PropTypes.string.isRequired,
+	    className: React.PropTypes.string,
+	    onChange: React.PropTypes.func,
+	    type: React.PropTypes.string,
+	    value: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
+	};*/
+
+
+	Input.defaultProps = {
+	    type: 'text'
+	};
+	Input.contextTypes = {
+	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
+	};
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.RadioGroup = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FormGroup = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RadioGroup = exports.RadioGroup = function (_React$Component) {
+	    _inherits(RadioGroup, _React$Component);
+
+	    function RadioGroup(props, context) {
+	        _classCallCheck(this, RadioGroup);
+
+	        var _this = _possibleConstructorReturn(this, (RadioGroup.__proto__ || Object.getPrototypeOf(RadioGroup)).call(this, props, context));
+
+	        _this.state = {
+	            current: props.current
+	        };
+
+	        _this.onChange = _this.onChange.bind(_this);
+	        _this.context.formGroup.register(_this.props.name, _this);
+	        return _this;
+	    }
+
+	    _createClass(RadioGroup, [{
+	        key: 'getName',
+	        value: function getName() {
+	            return this.props.name;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            return this.state.current;
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(event) {
+	            var current = event.target.value;
+	            this.setState({
+	                current: current
+	            });
+	            // notify
+	            this.props.onChange(this.props.name, current);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.props.dataSource.map(function (current, i) {
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { key: i },
+	                        _react2.default.createElement('input', { type: 'radio', name: _this2.props.name, checked: _this2.state.current === current, value: current, onChange: _this2.onChange, className: _this2.props.className }),
+	                        current
+	                    );
+	                })
+	            );
+	        }
+	    }]);
+
+	    return RadioGroup;
+	}(_react2.default.Component);
+	/*RadioGroup.propTypes = {
+	    name: React.PropTypes.string.isRequired,
+	    className: React.PropTypes.string,
+	    onChange: React.PropTypes.func,
+	    dataSource: React.PropTypes.array.isRequired,
+	    current: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
+	};*/
+
+
+	RadioGroup.contextTypes = {
+	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Select = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FormGroup = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Select = exports.Select = function (_React$Component) {
+	    _inherits(Select, _React$Component);
+
+	    function Select(props, context) {
+	        _classCallCheck(this, Select);
+
+	        var _this = _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props, context));
+
+	        _this.state = {
+	            current: props.current
+	        };
+
+	        _this.onChange = _this.onChange.bind(_this);
+	        _this.context.formGroup.register(_this.props.name, _this);
+	        return _this;
+	    }
+
+	    _createClass(Select, [{
+	        key: 'getName',
+	        value: function getName() {
+	            return this.props.name;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            return this.state.current;
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(event) {
+	            var current = event.target.options[event.target.selectedIndex].value;
+	            this.setState({
+	                current: current
+	            });
+	            // notify
+	            this.props.onChange(this.props.name, current);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            return _react2.default.createElement(
+	                'select',
+	                { name: this.props.name, value: this.state.current, onChange: this.onChange, className: this.props.className },
+	                this.props.dataSource.map(function (current, i) {
+	                    return _react2.default.createElement(
+	                        'option',
+	                        { key: i, value: current, onChange: _this2.onChange },
+	                        current
+	                    );
+	                })
+	            );
+	        }
+	    }]);
+
+	    return Select;
+	}(_react2.default.Component);
+	/*Select.propTypes = {
+	    name: React.PropTypes.string.isRequired,
+	    className: React.PropTypes.string,
+	    onChange: React.PropTypes.func,
+	    dataSource: React.PropTypes.array.isRequired,
+	    current: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
+	};*/
+
+
+	Select.contextTypes = {
+	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
+	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.TextArea = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FormGroup = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TextArea = exports.TextArea = function (_React$Component) {
+	    _inherits(TextArea, _React$Component);
+
+	    function TextArea(props, context) {
+	        _classCallCheck(this, TextArea);
+
+	        var _this = _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, props, context));
+
+	        _this.state = {
+	            value: props.value
+	        };
+
+	        _this.onChange = _this.onChange.bind(_this);
+	        _this.context.formGroup.register(_this.props.name, _this);
+	        return _this;
+	    }
+
+	    _createClass(TextArea, [{
+	        key: 'getName',
+	        value: function getName() {
+	            return this.props.name;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            return this.state.value;
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(event) {
+	            var value = event.target.value;
+	            this.setState({
+	                value: value
+	            });
+	            this.props.onChange(this.props.name, value);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement('textarea', { id: this.props.id, name: this.props.name, rows: this.props.rows, cols: this.props.cols, value: this.state.value, onChange: this.onChange, className: this.props.className });
+	        }
+	    }]);
+
+	    return TextArea;
+	}(_react2.default.Component);
+	/*TextArea.propTypes = {
+	    id: React.PropTypes.string,
+	    name: React.PropTypes.string.isRequired,
+	    className: React.PropTypes.string,
+	    onChange: React.PropTypes.func,
+	    type: React.PropTypes.string,
+	    value: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool)
+	};*/
+
+
+	TextArea.contextTypes = {
+	    formGroup: _react2.default.PropTypes.instanceOf(_FormGroup.FormGroup)
+	};
 
 /***/ }
 /******/ ])

@@ -1,95 +1,117 @@
-import { isUndefined, isDefined, isNumber, isBoolean } from './util';
+import { isUndefined, isDefined, isString, isNumber, isBoolean } from './util';
+
+export function formatMessage(message, searchValue, replaceValue) {
+    return message.replace(searchValue, replaceValue);
+}
 
 export class RequiredValidator {
-    constructor() {
+    constructor(message) {
         this.name = 'required';
+        this.message = isString(message) ? message : 'This field is required.';
     }
+
     validate(value) {
         if (value === null || isUndefined(value) || value === '' || (isBoolean(value) && value === false)) {
+            this.error = this.message;
             return false;
         }
         else {
+            this.error = undefined;
             return true;
         }
     }
 }
 
 export class MinLengthValidator {
-    constructor(minLength) {
+    constructor(minLength, message) {
         this.name = 'minLength';
         this.minLength = isNumber(minLength) ? minLength : 3;
+        this.message = isString(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', minLength);
     }
 
     validate(value) {
         if (value && value.length < this.minLength) {
+            // error
+            this.error = this.message;
             return false;
         }
         else {
+            this.error = undefined;
             return true;
         }
     }
 }
 
 export class MaxLengthValidator {
-    constructor(maxLength) {
+    constructor(maxLength, message) {
         this.name = 'maxLength';
         this.maxLength = isNumber(maxLength) ? maxLength : 30;
+        this.message = isString(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', maxLength);
     }
 
     validate(value) {
         if (value && value.length > this.maxLength) {
+            // error
+            this.error = this.message;
             return false;
         }
         else {
+            this.error = undefined;
             return true;
         }
     }
 }
 
 export class PatternValidator {
-    constructor(pattern) {
-        this.name = 'pattern';
+    constructor(pattern, message) {
+        this.name = isString(name) ? name : 'pattern';
         this.pattern = pattern;
+        this.message = isString(message) ? message : 'Please fix this field.';
     }
     validate(value) {
         if (isDefined(value) && !this.pattern.test(value)) {
+            this.error = this.message;
             return false;
         }
         else {
+            this.error = undefined;
             return true;
         }
     }
 }
 
 export class CustomValidator {
-    constructor(fn, name) {
-        this.name = name ? name : 'custom';
+    constructor(fn, message, name) {
         this.fn = fn;
+        this.name = isString(name) ? name : 'custom';
+        this.message = isString(message) ? message : 'Please fix this field.';
     }
     validate(value) {
         if (!this.fn(value)) {
+            this.error = this.message;
             return false;
         }
         else {
+            this.error = undefined;
             return true;
         }
     }
 }
 
 export class Validator {
-    static required() {
-        return new RequiredValidator();
+    static required(message) {
+        return new RequiredValidator(message);
     }
-    static minLength(minLength) {
-        return new MinLengthValidator(minLength);
+    static minLength(minLength, message) {
+        return new MinLengthValidator(minLength, message);
     }
-    static maxLength(maxLength) {
-        return new MaxLengthValidator(maxLength);
+    static maxLength(maxLength, message) {
+        return new MaxLengthValidator(maxLength, message);
     }
-    static pattern(pattern) {
-        return new PatternValidator(pattern);
+    static pattern(pattern, message, name) {
+        return new PatternValidator(pattern, message, name);
     }
-    static custom(fn, name) {
-        return new CustomValidator(fn, name);
+    static custom(fn, message,name) {
+        return new CustomValidator(fn, message,name);
     }
 }

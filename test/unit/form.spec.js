@@ -77,8 +77,8 @@ describe('Form', () => {
         it('Should set name', () => {
             let validator = new CustomValidator(() => {
                 return true;
-            }, 'Message');
-            assert.equal(validator.name, 'Message');
+            }, 'Message', 'Name');
+            assert.equal(validator.name, 'Name');
         });
 
         it('custom ko', () => {
@@ -103,35 +103,35 @@ describe('Form', () => {
             let validators = [new RequiredValidator(), new MinLengthValidator(3), new MaxLengthValidator(10)];
             let result = validateValue(undefined, validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'required');
+            assert.equal(firstError(result.errors), 'This field is required.');
         });
 
         it('Should required null', () => {
             let validators = [new RequiredValidator(), new MinLengthValidator(3), new MaxLengthValidator(10)];
             let result = validateValue(null, validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'required');
+            assert.equal(firstError(result.errors), 'This field is required.');
         });
 
         it('Should required string empty', () => {
             let validators = [new RequiredValidator(), new MinLengthValidator(3), new MaxLengthValidator(10)];
             let result = validateValue('', validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'required');
+            assert.equal(firstError(result.errors), 'This field is required.');
         });
 
         it('Should required boolean false', () => {
             let validators = [new RequiredValidator(), new MinLengthValidator(3), new MaxLengthValidator(10)];
             let result = validateValue(false, validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'required');
+            assert.equal(firstError(result.errors), 'This field is required.');
         });
 
         it('Should minlength', () => {
             let validators = [new RequiredValidator(), new MinLengthValidator(3), new MaxLengthValidator(10)];
             let result = validateValue('ab', validators);
             assert.equal(objLength(result.errors), 1);
-            assert.equal(firstError(result.errors), 'minLength');
+            assert.equal(firstError(result.errors), 'Please enter at least than 3 characters.');
         });
 
         it('Should pass without required if string empty', () => {
@@ -150,7 +150,7 @@ describe('Form', () => {
             let validators = [new RequiredValidator(), new PatternValidator(/^[a-z]+$/)];
             let result = validateValue(120, validators);
             assert.equal(objLength(result.errors), 1);
-            assert.equal(firstError(result.errors), 'pattern');
+            assert.equal(firstError(result.errors), 'Please fix this field.');
         });
 
         it('Should pass pattern', () => {
@@ -160,6 +160,5 @@ describe('Form', () => {
         });
 
     });
-
 
 });

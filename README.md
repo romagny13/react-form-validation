@@ -6,6 +6,14 @@
 npm i romagny13-react-form-validation -S
 ```
 
+## imports with es6
+
+Example 
+
+```js
+import { Validator, Form, FormGroup, Input } from 'romagny13-react-form-validation';
+```
+
 ## Validators
 
 - required
@@ -14,39 +22,27 @@ npm i romagny13-react-form-validation -S
 - pattern
 - custom
 
-## imports with es6
-
 ```js
-import { Validator, FormComponent, getInitialFormState,  getElementValue } from 'romagny13-react-form-validation';
-```
-
-## Form config
-
-create a form config with validators 
-
-```js
-let formConfig = {
+const validators = {
     'firstname': [Validator.required(), Validator.minLength(3)],
     'lastname': [Validator.maxLength(10)],
     'email': [Validator.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)],
     'age': [Validator.custom((value) => {
         return value > 0 && value < 120;
-    })], 
+    })],
     'agree': [Validator.required()],
     'likes': [Validator.custom(() => {
-        return this.state.user.likes.length > 0;
-    }, 'oneOrMore')] // custom validator named 'oneOrMore'
+        return this.user.likes.length > 0;
+    }, 'Please select one or more items.')]
 };
 ```
 
-### Model and form elements
-
-formConfig =  model + form elements (element without model property)
+### Model
 
 Example
+
 ```js
-// model
-let user = {
+const user = {
     firstname: 'Marie',
     lastname: 'Bellin',
     email: '',
@@ -55,39 +51,18 @@ let user = {
     preference: 'b',
     likes: ['Milk', 'Cakes']
 };
-
-// form elements
-let formElements = {
-    agree: false
-};
 ```
 
-## Create initial state
+### Components
 
-```js
-let formStates = getInitialFormState(formConfig);
-this.state = {
-    formConfig,
-    user,
-    formElements,
-    formStates,
-    hasError: false
-};
-```
-
-### Form states
-
-Example
-```js
-this.state.formStates.firstname.hasError
-this.state.formStates.firstname.errors.required
-```
-
-With a named custom validator :
-
-```js
-this.state.formStates.likes.errors.onOreMore
-```
+- Form
+- FormGroup
+- Input
+- Checkbox
+- CheckboxGroup
+- RadioGroup
+- Select
+- TextArea
 
 ## Create a form with binding and validation
 
@@ -98,104 +73,93 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
 
-        // form config (= model + form elements)
-        let formConfig = {
+        this.user = {
+            firstname: 'Marie',
+            lastname: 'Bellin',
+            email: '',
+            age: 20,
+            list: '2',
+            preference: 'b',
+            likes: ['Milk', 'Cakes']
+        };
+
+        this.validators = {
             'firstname': [Validator.required(), Validator.minLength(3)],
-            'agree': [Validator.required()]
-        };
-
-        // model
-        let user = {
-            firstname: 'Marie'
-        };
-
-        // form elements
-        let formElements = {
-            agree: false
-        };
-
-        // form states (errors)
-        let formStates = getInitialFormState(formConfig);
-        this.state = {
-            formConfig,
-            user,
-            formElements,
-            formStates,
-            hasError: false
+            'lastname': [Validator.maxLength(10)],
+            'email': [Validator.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)],
+            'age': [Validator.custom((value) => {
+                return value > 0 && value < 120;
+            })],
+            'agree': [Validator.required()],
+            'likes': [Validator.custom(() => {
+                return this.user.likes.length > 0;
+            }, 'Please select one or more items.')]
         };
 
         this.onChange = this.onChange.bind(this);
-        this.onFormElementChange = this.onFormElementChange.bind(this);
-        this.onStateChange = this.onStateChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onChange(event) {
-        let name = event.target.name;
-        let value = getElementValue(event.target);
-        let user = this.state.user;
-
-        user[name] = value;
-        this.setState({
-            user
-        });
-    }
-
-    onFormElementChange(event) {
-        let name = event.target.name;
-        let value = getElementValue(event.target);
-        let formElements = this.state.formElements;
-
-        formElements[name] = value;
-        this.setState({
-            formElements
-        });
-    }
-
-    onStateChange(hasError, formStates) {
-        this.setState({
-            hasError,
-            formStates
-        });
+    onChange(name, value) {
+        if (name === 'agree') {
+            console.log('App agree', value);
+        }
+        else {
+            this.user[name] = value;
+            console.log('user updated', this.user);
+        }
     }
 
     onSubmit(hasError, formStates) {
+        console.log('submitted', hasError, formStates);
         if (!hasError) {
-            console.log('save', this.state.user);
-        }
-        else {
-            this.setState({
-                hasError,
-                formStates
-            });
+            console.log('save user', this.user);
         }
     }
 
     render() {
-        // with bootstrap
-        let groupFirstnameClassName = this.state.formStates.firstname.hasError ? 'form-group has-error' : 'form-group';
-        let groupAgreeClassName = this.state.formStates.agree.hasError ? 'form-group has-error' : 'form-group';
-
         return (
-            <FormComponent formConfig={this.state.formConfig} onStateChange={this.onStateChange} onSubmit={this.onSubmit}>
-                <div className={groupFirstnameClassName}>
-                    <label htmlFor="firstname">Firstname:</label>
-                    <input type="text" id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
-                    {this.state.formStates.firstname.errors.required ? (
-                        <span className="help-block">This field is required</span>
-                    ) : null}
-                    {this.state.formStates.firstname.errors.minLength ? (
-                        <span className="help-block">Please enter at least than 3 characters.</span>
-                    ) : null}
-                </div >
-                <div className={groupAgreeClassName}>
-                    <div className="checkbox"> <label><input type="checkbox" name="agree" checked={this.state.formElements.agree === true} onChange={this.onFormElementChange} />Agree to conditions</label></div>
-                    {this.state.formStates.agree.errors.required ? (
-                        <span className="help-block">Please agree to conditions.</span>
-                    ) : null}
-                </div>
-                <input className="btn btn-default" type="submit" value="Submit" />
-            </FormComponent>
+            <div className="container">
+                <h2>Form binding and validation</h2>
+                <Form onSubmit={this.onSubmit}>
+                    <FormGroup className="form-group" validators={this.validators['firstname']}>
+                        <label htmlFor="firstname">Firstname:</label>
+                        <Input id="firstname" name="firstname" value={this.user.firstname} onChange={this.onChange} className="form-control" />
+                    </FormGroup>
+                    <FormGroup className="form-group" validators={this.validators['lastname']}>
+                        <label htmlFor="lastname">Lastname:</label>
+                        <Input id="lastname" name="lastname" value={this.user.lastname} onChange={this.onChange} className="form-control" />
+                    </FormGroup>
+                    <FormGroup className="form-group" validators={this.validators['email']}>
+                        <label htmlFor="email">Email:</label>
+                        <Input id="email" name="email" value={this.user.email} onChange={this.onChange} className="form-control" />
+                    </FormGroup>
+                    <FormGroup className="form-group" validators={this.validators['age']}>
+                        <label htmlFor="age">Age:</label>
+                        <Input type="number" id="age" name="age" value={this.user.age} onChange={this.onChange} className="form-control" />
+                    </FormGroup>
+                    <FormGroup className="form-group">
+                        <label htmlFor="list">List (no validation):</label>
+                        <Select name="list" dataSource={[1, 2, 3]} current={this.user.list} onChange={this.onChange} className="form-control" />
+                    </FormGroup>
+                    <FormGroup className="form-group">
+                        <label>Preference:</label>
+                        <RadioGroup name="preference" dataSource={['a', 'b', 'c']} current={this.user.preference} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup className="form-group" validators={this.validators['likes']}>
+                        <label>Like (one or more items):</label>
+                        <CheckboxGroup name="likes" dataSource={['Cakes', 'Milk', 'Nutella']} currents={this.user.likes} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup className="form-group" validators={this.validators['agree']}>
+                        <div className="checkbox">
+                            <label>
+                                <Checkbox name="agree" onChange={this.onChange} />Agree to conditions
+                            </label>
+                        </div>
+                    </FormGroup>
+                    <input className="btn btn-default" type="submit" value="Submit" />
+                </Form>
+            </div>
         );
     }
 }
@@ -208,69 +172,43 @@ export default HomePage;
 Example
 
 ```js
-var FormComponent = ReactFormValidation.FormComponent;
+var Form = ReactFormValidation.Form;
+var FormGroup = ReactFormValidation.FormGroup;
+var Input = ReactFormValidation.Input;
 var Validator = ReactFormValidation.Validator;
 
 var Home = React.createClass({
     getInitialState: function () {
         return {
-            formConfig: {
+            validators: {
                 'firstname': [Validator.required(), Validator.minLength(3)]
             },
             user: {
                 firstname: 'Marie'
-            },
-            formStates: {
-                'firstname': {
-                    hasError: false,
-                    errors: {}
-                }
-            },
-            hasError: false
+            }
         };
     },
-    onChange: function (event) {
-        var name = event.target.name;
-        var value = event.target.value;
+    onChange: function (name, value) {
         var user = this.state.user;
         user[name] = value;
         this.setState({
             user: user
         });
     },
-    onStateChange: function (hasError, formStates) {
-        this.setState({
-            hasError: hasError,
-            formStates: formStates
-        });
-    },
     onSubmit: function (hasError, formStates) {
         if (!hasError) {
             console.log('save', this.state.user);
         }
-        else {
-            this.setState({
-                hasError,
-                formStates
-            });
-        }
     },
     render() {
-        let formGroup = this.state.formStates.firstname.hasError ? 'form-group has-error' : 'form-group';
         return (
-            <FormComponent id="my-form" formConfig={this.state.formConfig} onStateChange={this.onStateChange} onSubmit={this.onSubmit}>
-                <div className={formGroup}>
+            <Form className="form-group" onSubmit={this.onSubmit}>
+                <FormGroup className="form-group" validators={this.state.validators['firstname']}>
                     <label htmlFor="firstname">Firstname:</label>
-                    <input type="text" id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
-                    {this.state.formStates.firstname.errors.required ? (
-                        <span className="help-block">This field is required</span>
-                    ) : null}
-                    {this.state.formStates.firstname.errors.minLength ? (
-                        <span className="help-block">Please enter at least than 3 characters.</span>
-                    ) : null}
-                </div >
+                    <Input id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
+                </FormGroup>
                 <input className="btn btn-default" type="submit" value="Submit" />
-            </FormComponent>
+            </Form>
         );
     }
 });

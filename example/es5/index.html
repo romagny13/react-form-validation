@@ -16,69 +16,43 @@
     <div id="app"></div>
     <script src="../../dist/react-form-validation.min.js"></script>
     <script type="text/babel">
-        var FormComponent = ReactFormValidation.FormComponent; 
+        var Form = ReactFormValidation.Form; 
+        var FormGroup = ReactFormValidation.FormGroup; 
+        var Input = ReactFormValidation.Input; 
         var Validator = ReactFormValidation.Validator;
 
         var Home = React.createClass({ 
             getInitialState: function (){
                 return {
-                    formConfig:{
+                    validators:{
                         'firstname': [Validator.required(), Validator.minLength(3)]
                     },
                     user:{
                         firstname:'Marie'
-                    },
-                    formStates:{
-                        'firstname': {
-                            hasError:false,
-                            errors:{}
-                        }
-                    },
-                    hasError: false
+                    }
                 };
             },
-            onChange: function (event){
-                var name = event.target.name;
-                var value = event.target.value;
+            onChange: function (name, value){
                 var user = this.state.user;
                 user[name] = value;
                 this.setState({
                     user:user
                 });
             },
-            onStateChange:function (hasError, formStates){
-                this.setState({
-                    hasError:hasError,
-                    formStates: formStates
-                });
-            },
             onSubmit: function (hasError, formStates) {
                 if (!hasError) {
                     console.log('save', this.state.user);
                 }
-                else {
-                    this.setState({
-                        hasError,
-                        formStates
-                    });
-                }
              },
             render() {
-                let formGroup = this.state.formStates.firstname.hasError ? 'form-group has-error': 'form-group';
                 return(
-                    <FormComponent id="my-form" formConfig={this.state.formConfig}  onStateChange={this.onStateChange} onSubmit={this.onSubmit}>
-                         <div className={formGroup}>
+                    <Form className="form-group" onSubmit={this.onSubmit}>
+                         <FormGroup className="form-group" validators={this.state.validators['firstname']}>
                             <label htmlFor="firstname">Firstname:</label>
-                            <input type="text" id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
-                            {this.state.formStates.firstname.errors.required ? (
-                                <span className="help-block">This field is required</span>
-                            ) : null}
-                            {this.state.formStates.firstname.errors.minLength ? (
-                                <span className="help-block">Please enter at least than 3 characters.</span>
-                            ) : null}
-                         </div >
+                            <Input id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
+                         </FormGroup>
                          <input className="btn btn-default" type="submit" value="Submit" />
-                    </FormComponent>
+                    </Form>
                 );
             }
         });
