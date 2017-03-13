@@ -29,7 +29,7 @@ export class Input extends React.Component {
     }
     render() {
         return (
-            <input type={this.props.type} id={this.props.id} name={this.props.name} value={this.state.value} onChange={this.onChange} className={this.props.className} />
+            <input type={this.props.type} id={this.props.id} name={this.props.name} value={this.state.value} onChange={this.onChange} className={this.props.className} placeholder={this.props.placeholder} />
         );
     }
 }
@@ -39,7 +39,8 @@ Input.propTypes = {
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
+    placeholder: React.PropTypes.string
 };
 Input.defaultProps = {
     type: 'text'

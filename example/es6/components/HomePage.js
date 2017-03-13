@@ -61,7 +61,7 @@ class HomePage extends React.Component {
         return (
             <div className="container">
                 <h2>Form binding and validation</h2>
-                <Form onSubmit={this.onSubmit}>
+                <Form onSubmit={this.onSubmit} id="myform">
                     <FormGroup className="form-group" validators={this.validators['firstname']}>
                         <label htmlFor="firstname">Firstname:</label>
                         <Input id="firstname" name="firstname" value={this.user.firstname} onChange={this.onChange} className="form-control" />
@@ -72,7 +72,7 @@ class HomePage extends React.Component {
                     </FormGroup>
                     <FormGroup className="form-group" validators={this.validators['email']}>
                         <label htmlFor="email">Email:</label>
-                        <Input id="email" name="email" value={this.user.email} onChange={this.onChange} className="form-control" />
+                        <Input id="email" name="email" value={this.user.email} onChange={this.onChange} className="form-control" placeholder="example@domain.com" />
                     </FormGroup>
                     <FormGroup className="form-group" validators={this.validators['age']}>
                         <label htmlFor="age">Age:</label>
@@ -82,10 +82,13 @@ class HomePage extends React.Component {
                         <label htmlFor="list">List (no validation):</label>
                         <Select name="list" dataSource={[1, 2, 3]} current={this.user.list} onChange={this.onChange} className="form-control" />
                     </FormGroup>
-                    <FormGroup className="form-group">
-                        <label>Preference:</label>
-                        <RadioGroup name="preference" dataSource={['a', 'b', 'c']} current={this.user.preference} onChange={this.onChange} />
-                    </FormGroup>
+                    <fieldset>
+                        <legend>Titre</legend>
+                        <FormGroup className="form-group">
+                            <label>Preference:</label>
+                            <RadioGroup name="preference" dataSource={['a', 'b', 'c']} current={this.user.preference} onChange={this.onChange} />
+                        </FormGroup>
+                    </fieldset>
                     <FormGroup className="form-group" validators={this.validators['likes']}>
                         <label>Like (one or more items):</label>
                         <CheckboxGroup name="likes" dataSource={['Cakes', 'Milk', 'Nutella']} currents={this.user.likes} onChange={this.onChange} />

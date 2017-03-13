@@ -10,7 +10,7 @@ export class TextArea extends React.Component {
         };
 
         this.onChange = this.onChange.bind(this);
-       if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     getName() {
         return this.props.name;
@@ -27,7 +27,7 @@ export class TextArea extends React.Component {
     }
     render() {
         return (
-            <textarea id={this.props.id} name={this.props.name} rows={this.props.rows} cols={this.props.cols} value={this.state.value} onChange={this.onChange} className={this.props.className} />
+            <textarea id={this.props.id} name={this.props.name} rows={this.props.rows} cols={this.props.cols} value={this.state.value} onChange={this.onChange} className={this.props.className} placeholder={this.props.placeholder} />
         );
     }
 }
@@ -37,7 +37,8 @@ TextArea.propTypes = {
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
+    placeholder: React.PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''

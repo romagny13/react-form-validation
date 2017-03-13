@@ -47,15 +47,17 @@ export class Form extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
+            <form id={this.props.id} onSubmit={this.onSubmit} autoComplete={this.autoComplete}>
                 {this.props.children}
             </form>
         );
     }
 }
 Form.propTypes = {
+    id: React.PropTypes.string,
     onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    autoComplete: React.PropTypes.string
 };
 Form.childContextTypes = {
     form: React.PropTypes.any

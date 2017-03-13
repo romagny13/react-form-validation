@@ -1,11 +1,12 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "React form binding and validation",
   "main": "dist/react-form-validation.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev --open --inline --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:rollup": "node build/build.js",
     "lint": "esw src --color",
     "lint:watch": "npm run lint -- --watch",
     "test": "karma start",
@@ -45,6 +46,8 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-webpack": "^2.0.2",
     "mocha": "^3.2.0",
+    "rollup": "^0.41.4",
+    "rollup-plugin-buble": "^0.15.0",
     "style-loader": "^0.13.2",
     "uglify-js": "^2.7.5",
     "url-loader": "^0.5.8",
