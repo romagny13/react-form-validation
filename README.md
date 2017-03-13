@@ -26,10 +26,10 @@ import { Validator, Form, FormGroup, Input } from 'romagny13-react-form-validati
 const validators = {
     'firstname': [Validator.required(), Validator.minLength(3)],
     'lastname': [Validator.maxLength(10)],
-    'email': [Validator.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)],
+    'email': [Validator.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, 'Please enter a valid email.')],
     'age': [Validator.custom((value) => {
         return value > 0 && value < 120;
-    })],
+    }, 'Oops ??')],
     'agree': [Validator.required()],
     'likes': [Validator.custom(() => {
         return this.user.likes.length > 0;
@@ -91,10 +91,10 @@ class HomePage extends React.Component {
         this.validators = {
             'firstname': [Validator.required(), Validator.minLength(3)],
             'lastname': [Validator.maxLength(10)],
-            'email': [Validator.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)],
+            'email': [Validator.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, 'Please enter a valid email.')],
             'age': [Validator.custom((value) => {
                 return value > 0 && value < 120;
-            })],
+            }, 'Oops ??')],
             'agree': [Validator.required()],
             'likes': [Validator.custom(() => {
                 return this.user.likes.length > 0;

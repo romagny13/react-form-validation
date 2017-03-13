@@ -96,6 +96,33 @@ describe('Form', () => {
             let result = validator.validate('a');
             assert.isTrue(result);
         });
+
+        it('Should ignore minLength if no value', () => {
+            let validator = new MinLengthValidator(3, 'Message');
+            let result = validator.validate('');
+            assert.isTrue(result);
+        });
+
+        it('Should ignore maxLength if no value', () => {
+            let validator = new MaxLengthValidator(3, 'Message');
+            let result = validator.validate('');
+            assert.isTrue(result);
+        });
+
+        it('Should ignore pattern if no value', () => {
+            let validator = new PatternValidator(/^[a-z]+$/, 'Message');
+            let result = validator.validate('');
+            assert.isTrue(result);
+        });
+
+        it('Should ignore custom if no value', () => {
+            let validator = new CustomValidator((p) => {
+                return p === 'a'; // ok if p === 'a'
+            }, 'Message');
+            let result = validator.validate('');
+            assert.isTrue(result);
+        });
+
     });
 
     describe('FormElements', () => {
