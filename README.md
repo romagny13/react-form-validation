@@ -55,11 +55,12 @@ const user = {
 
 ### Components
 
-Allow to validate value and show error messages (node: css class "has-error" is added on FormGroup on error):
+Allow to validate value and show error messages (note: css class "has-error" is added on FormGroup on error):
 - Form
 - FormGroup 
 
-Allow to bind value and be notified on value change:
+
+Allow to bind value (and isolate rendering) and be notified on value change:
 - Input
 - Checkbox
 - CheckboxGroup
