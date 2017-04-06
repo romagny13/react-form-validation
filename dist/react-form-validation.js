@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.1.6
+ * romagny13-react-form-validation v0.1.7
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -31,58 +31,9 @@ function isFunction(value) {
 }
 
 
-function getInitialFormState(formConfig) {
-    var formState = {};
-    for (var name in formConfig) {
-        if (formConfig.hasOwnProperty(name)) {
-            formState[name] = { hasError: false, errors: {} };
-        }
-    }
-    return formState;
-}
-
-function getElementValue(element) {
-    var tagName = element.tagName;
-    if (tagName === 'INPUT') {
-        if (element.type === 'checkbox') {
-            return element.value !== 'on' ? element.value : element.checked;
-        } else {
-            return element.value;
-        }
-    } else if (tagName === 'TEXTAREA') {
-        return element.value;
-    } else if (tagName === 'SELECT') {
-        return element.options[element.selectedIndex].value;
-    }
-}
-
-function validateValue(value, validators) {
-    var result = {
-        hasError: false,
-        errors: {}
-    };
-    validators.forEach(function (validator) {
-        if (!validator.validate(value)) {
-            result.hasError = true;
-            result.errors[validator.name] = validator.error;
-        }
-    });
-    return result;
-}
 
 
 
-function firstProp(obj) {
-    return obj[Object.keys(obj)[0]];
-}
-
-function getInputInitialValue(type, value) {
-    if (isDefined(value)) {
-        return value;
-    } else {
-        return '';
-    }
-}
 
 function omit(obj) {
     var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -339,6 +290,69 @@ var Validator = function () {
     return Validator;
 }();
 
+function canValidateOnChange(validators, form, touched) {
+    return validators.length > 0 && (touched === true || form && form.submitted);
+}
+
+function canValidateOnBlur(validators, form, touched) {
+    return !touched && validators.length > 0 && form && form.mode === 'touched';
+}
+
+function getGroupClassName(hasError, className) {
+    return hasError ? className + ' has-error' : className;
+}
+
+function getElementValue(element) {
+    var tagName = element.tagName;
+    if (tagName === 'INPUT') {
+        if (element.type === 'checkbox') {
+            return element.value !== 'on' ? element.value : element.checked;
+        } else {
+            return element.value;
+        }
+    } else if (tagName === 'TEXTAREA') {
+        return element.value;
+    } else if (tagName === 'SELECT') {
+        return element.options[element.selectedIndex].value;
+    }
+}
+
+function validateValue(value, validators) {
+    var hasError = false;
+    var errors = {};
+    var firstError = '';
+
+    validators.forEach(function (validator) {
+        if (!validator.validate(value)) {
+            hasError = true;
+            // example:  errors: { required: 'This field is required.' }
+            errors[validator.name] = validator.error;
+        }
+    });
+
+    if (hasError) {
+        firstError = getFirstError(errors);
+    }
+    return {
+        hasError: hasError,
+        firstError: firstError,
+        errors: errors
+    };
+}
+
+function getFirstError(obj) {
+    return obj[Object.keys(obj)[0]];
+}
+
+function validationStateHasChanged(state, newHasError, newFirstError) {
+    // current
+    var hasError = state.hasError,
+        firstError = state.firstError;
+    // new
+
+    return newHasError !== hasError || newFirstError !== firstError;
+}
+
 var FormGroup = function (_React$Component) {
     inherits(FormGroup, _React$Component);
 
@@ -349,9 +363,14 @@ var FormGroup = function (_React$Component) {
 
         _this.state = {
             hasError: false,
-            firstError: ''
+            firstError: '',
+            errors: {}
         };
+
         _this.onChange = _this.onChange.bind(_this);
+        _this.onBlur = _this.onBlur.bind(_this);
+
+        // register this form group to form for submit event
         if (isDefined(_this.context.form)) {
             _this.context.form.register(_this);
         }
@@ -366,66 +385,95 @@ var FormGroup = function (_React$Component) {
     }, {
         key: 'register',
         value: function register(name, formElement) {
+            // register this form element
             this.formElement = formElement;
         }
     }, {
         key: 'validate',
         value: function validate() {
+            if (!this.formElement) {
+                throw new Error('No form element registered for the group.');
+            }
+
             var name = this.formElement.getName();
             var value = this.formElement.getValue();
-            var validation = validateValue(value, this.props.validators);
-            var hasError = validation.hasError;
-            var firstError = hasError ? firstProp(validation.errors) : '';
+
+            // validate value
+
+            var _validateValue = validateValue(value, this.props.validators),
+                hasError = _validateValue.hasError,
+                firstError = _validateValue.firstError,
+                errors = _validateValue.errors;
 
             // change state
+
+
             this.setState({
                 hasError: hasError,
-                firstError: firstError
+                firstError: firstError,
+                errors: errors
             });
 
             return {
                 name: name,
                 value: value,
                 hasError: hasError,
-                firstError: firstError
+                firstError: firstError,
+                errors: errors
             };
+        }
+    }, {
+        key: '_validateOnChange',
+        value: function _validateOnChange(event) {
+            // get form element value
+            var value = getElementValue(event.target);
+
+            // validate value
+
+            var _validateValue2 = validateValue(value, this.props.validators),
+                hasError = _validateValue2.hasError,
+                firstError = _validateValue2.firstError,
+                errors = _validateValue2.errors;
+
+            // check if validation state has changed
+
+
+            if (validationStateHasChanged(this.state, hasError, firstError)) {
+                // change state
+                this.setState({
+                    hasError: hasError,
+                    firstError: firstError,
+                    errors: errors
+                });
+
+                this.touched = true;
+                // notify validation state change
+                if (isFunction(this.props.onChange)) {
+                    this.props.onChange(event.target.name, value);
+                }
+            }
         }
     }, {
         key: 'onChange',
         value: function onChange(event) {
-            if (this.canValidate) {
-                var oldHasError = this.state.hasError;
-                var oldFirstError = this.state.firstError;
-
-                // validateValue
-                var name = event.target.name;
-                var value = getElementValue(event.target);
-                var validation = validateValue(value, this.props.validators);
-                var hasError = validation.hasError;
-                var firstError = hasError ? firstProp(validation.errors) : '';
-
-                if (hasError !== oldHasError || firstError !== oldFirstError) {
-                    // change state
-                    this.setState({
-                        value: value,
-                        hasError: hasError,
-                        firstError: firstError
-                    });
-
-                    // notify
-                    if (isFunction(this.props.onChange)) {
-                        this.props.onChange(name, value);
-                    }
-                }
+            if (canValidateOnChange(this.props.validators, this.context.form, this.touched)) {
+                this._validateOnChange(event);
+            }
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur(event) {
+            if (canValidateOnBlur(this.props.validators, this.context.form, this.touched)) {
+                this._validateOnChange(event);
             }
         }
     }, {
         key: 'render',
         value: function render() {
-            var groupClassName = this.state.hasError ? this.props.className + ' has-error' : this.props.className;
+            var groupClassName = getGroupClassName(this.state.hasError, this.props.className);
             return React.createElement(
                 'div',
-                { className: groupClassName, onChange: this.onChange },
+                { className: groupClassName, onChange: this.onChange, onBlur: this.onBlur },
                 this.props.children,
                 this.state.hasError ? React.createElement(
                     'span',
@@ -434,19 +482,14 @@ var FormGroup = function (_React$Component) {
                 ) : null
             );
         }
-    }, {
-        key: 'canValidate',
-        get: function get$$1() {
-            return this.context.form ? this.props.validators.length > 0 && this.context.form.canValidate : this.props.validators.length > 0;
-        }
     }]);
     return FormGroup;
 }(React.Component);
 FormGroup.propTypes = {
-    onChange: React.PropTypes.func,
-    className: React.PropTypes.string,
     validators: React.PropTypes.array,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    onChange: React.PropTypes.func,
+    className: React.PropTypes.string
 };
 FormGroup.defaultProps = {
     validators: []
@@ -629,6 +672,32 @@ CheckboxGroup.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
+function validateAll(formGroups) {
+    var formStates = {},
+        formModel = {},
+        hasOneOrMoreErrors = false;
+
+    formGroups.forEach(function (formGroup) {
+        var _formGroup$validate = formGroup.validate(),
+            name = _formGroup$validate.name,
+            hasError = _formGroup$validate.hasError,
+            firstError = _formGroup$validate.firstError,
+            value = _formGroup$validate.value;
+
+        formStates[name] = { hasError: hasError, firstError: firstError };
+        formModel[name] = value;
+        if (hasError) {
+            hasOneOrMoreErrors = true;
+        }
+    });
+
+    return {
+        hasError: hasOneOrMoreErrors,
+        formStates: formStates,
+        formModel: formModel
+    };
+}
+
 var Form = function (_React$Component) {
     inherits(Form, _React$Component);
 
@@ -651,6 +720,7 @@ var Form = function (_React$Component) {
     }, {
         key: 'register',
         value: function register(formGroup) {
+            // register form groups
             this.formGroups.push(formGroup);
         }
     }, {
@@ -658,22 +728,10 @@ var Form = function (_React$Component) {
         value: function onSubmit(event) {
             event.preventDefault();
 
-            var formStates = {};
-            var formModel = {};
-            var hasError = false;
-
-            this.formGroups.forEach(function (formGroup) {
-                var validation = formGroup.validate();
-                var name = validation.name;
-                formStates[name] = {
-                    hasError: validation.hasError,
-                    firstError: validation.firstError
-                };
-                formModel[name] = validation.value;
-                if (validation.hasError) {
-                    hasError = true;
-                }
-            });
+            var _validateAll = validateAll(this.formGroups),
+                hasError = _validateAll.hasError,
+                formStates = _validateAll.formStates,
+                formModel = _validateAll.formModel;
 
             this.submitted = true;
             this.props.onSubmit(hasError, formStates, formModel);
@@ -681,7 +739,7 @@ var Form = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['onSubmit']);
+            var rest = omit(this.props, ['onSubmit', 'mode']);
             return React.createElement(
                 'form',
                 _extends({ onSubmit: this.onSubmit }, rest),
@@ -689,20 +747,28 @@ var Form = function (_React$Component) {
             );
         }
     }, {
-        key: 'canValidate',
+        key: 'mode',
         get: function get$$1() {
-            return this.submitted === true;
+            return this.props.mode;
         }
     }]);
     return Form;
 }(React.Component);
 Form.propTypes = {
+    mode: React.PropTypes.oneOf(['submit', 'touched']),
     onSubmit: React.PropTypes.func.isRequired,
     children: React.PropTypes.node
+};
+Form.defaultProps = {
+    mode: 'submit'
 };
 Form.childContextTypes = {
     form: React.PropTypes.any
 };
+
+function getInputInitialValue(type, value) {
+    return isDefined(value) ? value : '';
+}
 
 var Input = function (_React$Component) {
     inherits(Input, _React$Component);
@@ -992,9 +1058,6 @@ TextArea.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-exports.getElementValue = getElementValue;
-exports.getInitialFormState = getInitialFormState;
-exports.validateValue = validateValue;
 exports.RequiredValidator = RequiredValidator;
 exports.MinLengthValidator = MinLengthValidator;
 exports.MaxLengthValidator = MaxLengthValidator;
@@ -1005,6 +1068,7 @@ exports.Checkbox = Checkbox;
 exports.CheckboxGroup = CheckboxGroup;
 exports.Form = Form;
 exports.FormGroup = FormGroup;
+exports.validateValue = validateValue;
 exports.Input = Input;
 exports.RadioGroup = RadioGroup;
 exports.Select = Select;

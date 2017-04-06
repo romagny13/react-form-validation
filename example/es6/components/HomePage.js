@@ -13,7 +13,7 @@ class HomePage extends React.Component {
                 email: '',
                 age: 20,
                 list: '2',
-                note:'My note',
+                note: 'My note',
                 preference: 'b',
                 likes: ['Milk', 'Cakes']
             },
@@ -34,13 +34,11 @@ class HomePage extends React.Component {
     }
 
     onSubmit(hasError, formStates, formModel) {
-        console.log('submitted', hasError, formStates);
-
-        let { firstname, lastname, email, age, note, likes } = formModel;
-        let user = { firstname, lastname, email, age, note, likes };
-
+        console.log('submitted', hasError, formStates, formModel);
         if (!hasError) {
-            console.log('save user', user);
+            const { firstname, lastname, email, age, note, likes } = formModel;
+            const user = { firstname, lastname, email, age, note, likes };
+            console.log('save user ...', user);
         }
     }
 

@@ -16,11 +16,11 @@ import { Validator, Form, FormGroup, Input } from 'romagny13-react-form-validati
 
 ## Validators
 
-- required
-- minLength
-- maxLength
-- pattern
-- custom
+* required
+* minLength
+* maxLength
+* pattern
+* custom
 
 ```js
 const validators = {
@@ -56,18 +56,22 @@ const user = {
 ### Components
 
 Allow to validate value and show error messages (note: css class "has-error" is added on FormGroup on error):
-- Form
-- FormGroup 
+* Form
+* FormGroup 
 
 
 Allow to bind value (and isolate rendering) and be notified on value change:
-- Input
-- Checkbox
-- CheckboxGroup
-- RadioGroup
-- Select
-- TextArea
+* Input
+* Checkbox
+* CheckboxGroup
+* RadioGroup
+* Select
+* TextArea
 
+### Form Mode
+
+* touched: validate form element on lost focus the first time
+* submit (by default): validate form elements after the first submission
 
 ## Create a form with binding and validation
 
@@ -80,7 +84,7 @@ import { Form, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, Te
 const UserForm = ({ user, validators, onSubmit }) => {
     console.log('render UserForm');
     return (
-        <Form onSubmit={onSubmit} id="myform">
+        <Form onSubmit={onSubmit} id="myform" mode="touched">
             <FormGroup className="form-group" validators={validators['firstname']}>
                 <label htmlFor="firstname">Firstname:</label>
                 <Input id="firstname" name="firstname" value={user.firstname}  className="form-control" />
@@ -178,10 +182,9 @@ class HomePage extends React.Component {
     }
 
     onSubmit(hasError, formStates, formModel) {
-        let { firstname, lastname, email, age, note, likes } = formModel;
-        let user = { firstname, lastname, email, age, note, likes };
-
         if (!hasError) {
+            const { firstname, lastname, email, age, note, likes } = formModel;
+            const user = { firstname, lastname, email, age, note, likes };
             console.log('save user ...', user);
         }
     }

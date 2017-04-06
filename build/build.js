@@ -2,8 +2,8 @@ var fs = require('fs');
 var zlib = require('zlib');
 var rollup = require('rollup');
 var uglify = require('uglify-js');
-var buble = require('rollup-plugin-buble');
 var babel = require('rollup-plugin-babel');
+
 var version = process.env.VERSION || require('../package.json').version;
 var banner =
     '/*!\n' +
