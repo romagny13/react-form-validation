@@ -9,7 +9,7 @@ export class FormGroup extends React.Component {
             firstError: ''
         };
         this.onChange = this.onChange.bind(this);
-       if (isDefined(this.context.form)) { this.context.form.register(this); }
+        if (isDefined(this.context.form)) { this.context.form.register(this); }
     }
 
     getChildContext() {
@@ -21,7 +21,7 @@ export class FormGroup extends React.Component {
     }
 
     get canValidate() {
-        return this.props.validators.length > 0 && this.context.form.canValidate;
+        return this.context.form ? this.props.validators.length > 0 && this.context.form.canValidate : this.props.validators.length > 0;
     }
 
     validate() {
@@ -39,6 +39,7 @@ export class FormGroup extends React.Component {
 
         return {
             name,
+            value,
             hasError,
             firstError
         };
@@ -75,9 +76,7 @@ export class FormGroup extends React.Component {
         return (
             <div className={groupClassName} onChange={this.onChange}>
                 {this.props.children}
-                {this.state.hasError ?
-                    <span className="help-block">{this.state.firstError}</span>
-                : null}
+                {this.state.hasError ? <span className="help-block">{this.state.firstError}</span> : null}
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined } from '../common/util';
+import { isDefined, isFunction } from '../common/util';
 
 export class Checkbox extends React.Component {
     constructor(props, context) {
@@ -10,7 +10,7 @@ export class Checkbox extends React.Component {
         };
 
         this.onChange = this.onChange.bind(this);
-       if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     getName() {
         return this.props.name;
@@ -24,11 +24,17 @@ export class Checkbox extends React.Component {
             checked
         });
         // notify
-        this.props.onChange(this.props.name, checked);
+        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, checked); }
     }
     render() {
         return (
-            <input type="checkbox" id={this.props.id} name={this.props.name} checked={this.state.checked} onChange={this.onChange} className={this.props.className} />
+            <input
+                type="checkbox"
+                id={this.props.id}
+                name={this.props.name}
+                checked={this.state.checked}
+                onChange={this.onChange}
+                className={this.props.className} />
         );
     }
 }

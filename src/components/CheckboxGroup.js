@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined } from '../common/util';
+import { isDefined, isFunction } from '../common/util';
 
 export class CheckboxGroup extends React.Component {
     constructor(props, context) {
@@ -11,12 +11,12 @@ export class CheckboxGroup extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.indexOf = this.indexOf.bind(this);
-      if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
-    getName(){
+    getName() {
         return this.props.name;
     }
-    getValue(){
+    getValue() {
         return this.state.currents;
     }
     indexOf(value) {
@@ -43,14 +43,20 @@ export class CheckboxGroup extends React.Component {
             currents
         });
         // notify
-        this.props.onChange(this.props.name, currents);
+        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, currents); }
     }
     render() {
         return (
             <div>
                 {this.props.dataSource.map((current, i) => {
                     return (<div key={i}>
-                        <input type="checkbox" name={this.props.name} checked={this.indexOf(current) !== -1} value={current} onChange={this.onChange} className={this.props.className} />
+                        <input
+                            type="checkbox"
+                            name={this.props.name}
+                            checked={this.indexOf(current) !== -1}
+                            value={current}
+                            onChange={this.onChange}
+                            className={this.props.className} />
                         {current}
                     </div>);
                 })}
@@ -66,7 +72,7 @@ CheckboxGroup.propTypes = {
     currents: React.PropTypes.array
 };
 CheckboxGroup.defaultProps = {
-    currents:[]
+    currents: []
 };
 CheckboxGroup.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)

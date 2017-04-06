@@ -32,16 +32,12 @@
                     }
                 };
             },
-            onChange: function (name, value){
-                var user = this.state.user;
-                user[name] = value;
-                this.setState({
-                    user:user
-                });
-            },
-            onSubmit: function (hasError, formStates) {
+            onSubmit: function (hasError, formStates, formModel) {
                 if (!hasError) {
-                    console.log('save', this.state.user);
+                    var user = {
+                        firstname:formModel['firstname']
+                    };
+                    console.log('save user', user);
                 }
              },
             render() {
@@ -49,7 +45,7 @@
                     <Form className="form-group" onSubmit={this.onSubmit}>
                          <FormGroup className="form-group" validators={this.state.validators['firstname']}>
                             <label htmlFor="firstname">Firstname:</label>
-                            <Input id="firstname" name="firstname" value={this.state.user.firstname} onChange={this.onChange} className="form-control" />
+                            <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" />
                          </FormGroup>
                          <input className="btn btn-default" type="submit" value="Submit" />
                     </Form>

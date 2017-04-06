@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined } from '../common/util';
+import { isDefined, isFunction } from '../common/util';
 
 export class Select extends React.Component {
     constructor(props, context) {
@@ -24,7 +24,7 @@ export class Select extends React.Component {
             current
         });
         // notify
-        this.props.onChange(this.props.name, current);
+        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, current); }
     }
     render() {
         return (

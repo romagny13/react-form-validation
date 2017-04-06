@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined } from '../common/util';
+import { isDefined, isFunction } from '../common/util';
 
 export class RadioGroup extends React.Component {
     constructor(props, context) {
@@ -24,14 +24,20 @@ export class RadioGroup extends React.Component {
             current
         });
         // notify
-        this.props.onChange(this.props.name, current);
+        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, current); }
     }
     render() {
         return (
             <div>
                 {this.props.dataSource.map((current, i) => {
                     return (<div key={i}>
-                        <input type="radio" name={this.props.name} checked={this.state.current === current} value={current} onChange={this.onChange} className={this.props.className} />
+                        <input
+                            type="radio"
+                            name={this.props.name}
+                            checked={this.state.current === current}
+                            value={current}
+                            onChange={this.onChange}
+                            className={this.props.className} />
                         {current}
                     </div>);
                 })}

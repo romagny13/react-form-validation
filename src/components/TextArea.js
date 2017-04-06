@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined } from '../common/util';
+import { isDefined, isFunction, omit } from '../common/util';
 
 export class TextArea extends React.Component {
     constructor(props, context) {
@@ -23,22 +23,22 @@ export class TextArea extends React.Component {
         this.setState({
             value
         });
-        this.props.onChange(this.props.name, value);
+        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, value); }
     }
     render() {
+        const rest = omit(this.props, ['value', 'onChange']);
         return (
-            <textarea id={this.props.id} name={this.props.name} rows={this.props.rows} cols={this.props.cols} value={this.state.value} onChange={this.onChange} className={this.props.className} placeholder={this.props.placeholder} />
+            <textarea
+                value={this.state.value}
+                onChange={this.onChange}
+                {...rest} />
         );
     }
 }
 TextArea.propTypes = {
-    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    type: React.PropTypes.string,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string
+    value: React.PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''

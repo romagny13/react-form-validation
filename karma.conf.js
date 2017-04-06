@@ -1,6 +1,3 @@
-// Karma configuration
-// Generated on Mon Jan 30 2017 00:55:11 GMT+0100 (Paris, Madrid)
-
 var webpackConfig = require('./webpack.config');
 webpackConfig.entry = {};
 webpackConfig.plugins = [];
@@ -20,7 +17,9 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            './test/unit/index.js'
+            'node_modules/babel-polyfill/browser.js',
+            './test/unit/index.js',
+            './src/**/*.spec.js'
         ],
 
 
@@ -33,8 +32,8 @@ module.exports = function (config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             'test/unit/index.js': ['webpack'],
+            'src/**/*.spec.js': ['webpack']
         },
-
 
         webpack: webpackConfig,
         webpackMiddleware: {

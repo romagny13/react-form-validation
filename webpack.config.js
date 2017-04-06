@@ -1,55 +1,55 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+var path = require("path"),
+    webpack = require("webpack");
 
-var reactExternal = {
-    root: 'React',
-    commonjs2: 'react',
-    commonjs: 'react',
-    amd: 'react'
-};
-var reactDOMExternal = {
-    root: 'ReactDOM',
-    commonjs2: 'react-dom',
-    commonjs: 'react-dom',
-    amd: 'react-dom'
-};
+var entry = process.env.NODE_ENV === "production" ? "./src/index.js" : "./example/es6/index.js";
 
 module.exports = {
-    entry: {
-        'react-form-validation': './src/index.js',
-        'react-form-validation.min': './src/index.js'
+    entry: entry,
+    output: {
+        path: path.resolve(__dirname, "./dist"),
+        publicPath: "/dist/",
+        filename: "build.js"
+    },
+    module: {
+        loaders: [
+            { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" },
+            { test: /\.css$/, loaders: ["style", "css"] },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
+            { test: /\.(woff|woff2)$/, loader: "url?prefix=font/&limit=5000" },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
+            { test: /\.json$/, loader: 'json-loader' }
+        ]
+    },
+    resolve: {
+        extensions: ["", ".js", ".jsx"]
     },
     externals: {
-        'react': reactExternal,
-        'react-dom': reactDOMExternal
+        'cheerio': 'window',
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true
     },
-
-    output: {
-        filename: '[name].js',
-        chunkFilename: '[id].chunk.js',
-        path: 'dist',
-        publicPath: '/',
-        libraryTarget: 'umd',
-        library: 'ReactFormValidation'
+    devServer: {
+        contentBase: './example/es6',
+        historyApiFallback: true,
+        noInfo: true
     },
+    devtool: "#eval-source-map"
+};
 
-    plugins: [
+if (process.env.NODE_ENV === "production") {
+    module.exports.devtool = "#source-map";
+    module.exports.plugins = (module.exports.plugins || []).concat([
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+            "process.env": {
+                NODE_ENV: "production"
+            }
         }),
-        new UglifyJsPlugin({
-            include: /\.min\.js$/,
-            minimize: true,
+        new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
         })
-    ],
-
-    module: {
-        loaders: [
-            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' }
-        ]
-    }
-
-};
+    ]);
+}

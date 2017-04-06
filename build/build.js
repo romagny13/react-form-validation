@@ -3,6 +3,7 @@ var zlib = require('zlib');
 var rollup = require('rollup');
 var uglify = require('uglify-js');
 var buble = require('rollup-plugin-buble');
+var babel = require('rollup-plugin-babel');
 var version = process.env.VERSION || require('../package.json').version;
 var banner =
     '/*!\n' +
@@ -13,7 +14,13 @@ var banner =
 
 rollup.rollup({
     entry: "./src/index.js",
-    plugins: [buble()]
+    external: ['react', 'react-dom'],
+    plugins: [babel({
+        babelrc: false,
+        presets: ['react', 'es2015-rollup'],
+        plugins: ['transform-object-rest-spread'],
+        exclude: 'node_modules/**'
+    })]
 })
     .then(function (bundle) {
         return write('dist/react-form-validation.js', bundle.generate({

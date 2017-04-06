@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined, getInputInitialValue } from '../common/util';
-
+import { isDefined, isFunction, getInputInitialValue } from '../common/util';
 
 export class Input extends React.Component {
     constructor(props, context) {
@@ -25,11 +24,18 @@ export class Input extends React.Component {
         this.setState({
             value
         });
-        this.props.onChange(this.props.name, value);
+        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, value); }
     }
     render() {
         return (
-            <input type={this.props.type} id={this.props.id} name={this.props.name} value={this.state.value} onChange={this.onChange} className={this.props.className} placeholder={this.props.placeholder} />
+            <input
+                type={this.props.type}
+                id={this.props.id}
+                name={this.props.name}
+                value={this.state.value}
+                onChange={this.onChange}
+                className={this.props.className}
+                placeholder={this.props.placeholder} />
         );
     }
 }

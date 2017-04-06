@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.1.5
+ * romagny13-react-form-validation v0.1.6
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -11,12 +11,24 @@
 
 React = 'default' in React ? React['default'] : React;
 
-function isUndefined(value) { return typeof value === 'undefined'; }
-function isDefined(value) { return typeof value !== 'undefined'; }
-function isString(value) { return typeof value === 'string'; }
-function isNumber(value) { return typeof value === 'number'; }
-function isBoolean(value) { return typeof value === 'boolean'; }
-function isFunction(value) { return typeof value === 'function'; }
+function isUndefined(value) {
+    return typeof value === 'undefined';
+}
+function isDefined(value) {
+    return typeof value !== 'undefined';
+}
+function isString(value) {
+    return typeof value === 'string';
+}
+function isNumber(value) {
+    return typeof value === 'number';
+}
+function isBoolean(value) {
+    return typeof value === 'boolean';
+}
+function isFunction(value) {
+    return typeof value === 'function';
+}
 
 
 function getInitialFormState(formConfig) {
@@ -34,15 +46,12 @@ function getElementValue(element) {
     if (tagName === 'INPUT') {
         if (element.type === 'checkbox') {
             return element.value !== 'on' ? element.value : element.checked;
-        }
-        else {
+        } else {
             return element.value;
         }
-    }
-    else if (tagName === 'TEXTAREA') {
+    } else if (tagName === 'TEXTAREA') {
         return element.value;
-    }
-    else if (tagName === 'SELECT') {
+    } else if (tagName === 'SELECT') {
         return element.options[element.selectedIndex].value;
     }
 }
@@ -70,216 +79,371 @@ function firstProp(obj) {
 function getInputInitialValue(type, value) {
     if (isDefined(value)) {
         return value;
-    }
-    else if (type === 'range' || type === 'number') {
+    } else if (type === 'range' || type === 'number') {
         return 0;
-    }
-    else {
+    } else {
         return '';
     }
 }
 
+function omit(obj) {
+    var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    var result = {};
+    for (var name in obj) {
+        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {
+            result[name] = obj[name];
+        }
+    }
+    return result;
+}
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
 function isRequired(value) {
-    return value === null || isUndefined(value) || value === '' || (isBoolean(value) && value === false);
+    return value === null || isUndefined(value) || value === '' || isBoolean(value) && value === false;
 }
 
 function formatMessage(message, searchValue, replaceValue) {
     return message.replace(searchValue, replaceValue);
 }
 
-var RequiredValidator = function RequiredValidator(message) {
-    this.name = 'required';
-    this.message = isString(message) ? message : 'This field is required.';
-};
+var RequiredValidator = function () {
+    function RequiredValidator(message) {
+        classCallCheck(this, RequiredValidator);
 
-RequiredValidator.prototype.validate = function validate (value) {
-    if (isRequired(value)) {
-        this.error = this.message;
-        return false;
+        this.name = 'required';
+        this.message = isString(message) ? message : 'This field is required.';
     }
-    else {
-        this.error = undefined;
-        return true;
-    }
-};
 
-var MinLengthValidator = function MinLengthValidator(minLength, message) {
-    this.name = 'minLength';
-    this.minLength = isNumber(minLength) ? minLength : 3;
-    this.message = isString(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', minLength);
-};
+    createClass(RequiredValidator, [{
+        key: 'validate',
+        value: function validate(value) {
+            if (isRequired(value)) {
+                this.error = this.message;
+                return false;
+            } else {
+                this.error = undefined;
+                return true;
+            }
+        }
+    }]);
+    return RequiredValidator;
+}();
 
-MinLengthValidator.prototype.validate = function validate (value) {
-    if (!isRequired(value) && value.length < this.minLength) {
-        // error
-        this.error = this.message;
-        return false;
-    }
-    else {
-        this.error = undefined;
-        return true;
-    }
-};
+var MinLengthValidator = function () {
+    function MinLengthValidator(minLength, message) {
+        classCallCheck(this, MinLengthValidator);
 
-var MaxLengthValidator = function MaxLengthValidator(maxLength, message) {
-    this.name = 'maxLength';
-    this.maxLength = isNumber(maxLength) ? maxLength : 30;
-    this.message = isString(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', maxLength);
-};
-
-MaxLengthValidator.prototype.validate = function validate (value) {
-    if (!isRequired(value) && value.length > this.maxLength) {
-        // error
-        this.error = this.message;
-        return false;
+        this.name = 'minLength';
+        this.minLength = isNumber(minLength) ? minLength : 3;
+        this.message = isString(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', minLength);
     }
-    else {
-        this.error = undefined;
-        return true;
-    }
-};
 
-var PatternValidator = function PatternValidator(pattern, message) {
-    this.name = isString(name) ? name : 'pattern';
-    this.pattern = pattern;
-    this.message = isString(message) ? message : 'Please fix this field.';
-};
-PatternValidator.prototype.validate = function validate (value) {
-    if (!isRequired(value) && !this.pattern.test(value)) {
-        this.error = this.message;
-        return false;
-    }
-    else {
-        this.error = undefined;
-        return true;
-    }
-};
+    createClass(MinLengthValidator, [{
+        key: 'validate',
+        value: function validate(value) {
+            if (!isRequired(value) && value.length < this.minLength) {
+                // error
+                this.error = this.message;
+                return false;
+            } else {
+                this.error = undefined;
+                return true;
+            }
+        }
+    }]);
+    return MinLengthValidator;
+}();
 
-var CustomValidator = function CustomValidator(fn, message, name) {
-    this.fn = fn;
-    this.name = isString(name) ? name : 'custom';
-    this.message = isString(message) ? message : 'Please fix this field.';
-};
-CustomValidator.prototype.validate = function validate (value) {
-    if (!isRequired(value) && !this.fn(value)) {
-        this.error = this.message;
-        return false;
+var MaxLengthValidator = function () {
+    function MaxLengthValidator(maxLength, message) {
+        classCallCheck(this, MaxLengthValidator);
+
+        this.name = 'maxLength';
+        this.maxLength = isNumber(maxLength) ? maxLength : 30;
+        this.message = isString(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', maxLength);
     }
-    else {
-        this.error = undefined;
-        return true;
+
+    createClass(MaxLengthValidator, [{
+        key: 'validate',
+        value: function validate(value) {
+            if (!isRequired(value) && value.length > this.maxLength) {
+                // error
+                this.error = this.message;
+                return false;
+            } else {
+                this.error = undefined;
+                return true;
+            }
+        }
+    }]);
+    return MaxLengthValidator;
+}();
+
+var PatternValidator = function () {
+    function PatternValidator(pattern, message) {
+        classCallCheck(this, PatternValidator);
+
+        this.name = isString(name) ? name : 'pattern';
+        this.pattern = pattern;
+        this.message = isString(message) ? message : 'Please fix this field.';
     }
-};
 
-var Validator = function Validator () {};
+    createClass(PatternValidator, [{
+        key: 'validate',
+        value: function validate(value) {
+            if (!isRequired(value) && !this.pattern.test(value)) {
+                this.error = this.message;
+                return false;
+            } else {
+                this.error = undefined;
+                return true;
+            }
+        }
+    }]);
+    return PatternValidator;
+}();
 
-Validator.required = function required (message) {
-    return new RequiredValidator(message);
-};
-Validator.minLength = function minLength (minLength$1, message) {
-    return new MinLengthValidator(minLength$1, message);
-};
-Validator.maxLength = function maxLength (maxLength$1, message) {
-    return new MaxLengthValidator(maxLength$1, message);
-};
-Validator.pattern = function pattern (pattern$1, message, name) {
-    return new PatternValidator(pattern$1, message, name);
-};
-Validator.custom = function custom (fn, message, name) {
-    return new CustomValidator(fn, message, name);
-};
+var CustomValidator = function () {
+    function CustomValidator(fn, message, name) {
+        classCallCheck(this, CustomValidator);
 
-var FormGroup = (function (superclass) {
+        this.fn = fn;
+        this.name = isString(name) ? name : 'custom';
+        this.message = isString(message) ? message : 'Please fix this field.';
+    }
+
+    createClass(CustomValidator, [{
+        key: 'validate',
+        value: function validate(value) {
+            if (!isRequired(value) && !this.fn(value)) {
+                this.error = this.message;
+                return false;
+            } else {
+                this.error = undefined;
+                return true;
+            }
+        }
+    }]);
+    return CustomValidator;
+}();
+
+var Validator = function () {
+    function Validator() {
+        classCallCheck(this, Validator);
+    }
+
+    createClass(Validator, null, [{
+        key: 'required',
+        value: function required(message) {
+            return new RequiredValidator(message);
+        }
+    }, {
+        key: 'minLength',
+        value: function minLength(_minLength, message) {
+            return new MinLengthValidator(_minLength, message);
+        }
+    }, {
+        key: 'maxLength',
+        value: function maxLength(_maxLength, message) {
+            return new MaxLengthValidator(_maxLength, message);
+        }
+    }, {
+        key: 'pattern',
+        value: function pattern(_pattern, message, name) {
+            return new PatternValidator(_pattern, message, name);
+        }
+    }, {
+        key: 'custom',
+        value: function custom(fn, message, name) {
+            return new CustomValidator(fn, message, name);
+        }
+    }]);
+    return Validator;
+}();
+
+var FormGroup = function (_React$Component) {
+    inherits(FormGroup, _React$Component);
+
     function FormGroup(props, context) {
-        superclass.call(this, props, context);
-        this.state = {
+        classCallCheck(this, FormGroup);
+
+        var _this = possibleConstructorReturn(this, (FormGroup.__proto__ || Object.getPrototypeOf(FormGroup)).call(this, props, context));
+
+        _this.state = {
             hasError: false,
             firstError: ''
         };
-        this.onChange = this.onChange.bind(this);
-       if (isDefined(this.context.form)) { this.context.form.register(this); }
+        _this.onChange = _this.onChange.bind(_this);
+        if (isDefined(_this.context.form)) {
+            _this.context.form.register(_this);
+        }
+        return _this;
     }
 
-    if ( superclass ) FormGroup.__proto__ = superclass;
-    FormGroup.prototype = Object.create( superclass && superclass.prototype );
-    FormGroup.prototype.constructor = FormGroup;
-
-    var prototypeAccessors = { canValidate: {} };
-
-    FormGroup.prototype.getChildContext = function getChildContext () {
-        return { formGroup: this };
-    };
-
-    FormGroup.prototype.register = function register (name, formElement) {
-        this.formElement = formElement;
-    };
-
-    prototypeAccessors.canValidate.get = function () {
-        return this.props.validators.length > 0 && this.context.form.canValidate;
-    };
-
-    FormGroup.prototype.validate = function validate () {
-        var name = this.formElement.getName();
-        var value = this.formElement.getValue();
-        var validation = validateValue(value, this.props.validators);
-        var hasError = validation.hasError;
-        var firstError = hasError ? firstProp(validation.errors) : '';
-
-        // change state
-        this.setState({
-            hasError: hasError,
-            firstError: firstError
-        });
-
-        return {
-            name: name,
-            hasError: hasError,
-            firstError: firstError
-        };
-    };
-
-    FormGroup.prototype.onChange = function onChange (event) {
-        if (this.canValidate) {
-            var oldHasError = this.state.hasError;
-            var oldFirstError = this.state.firstError;
-
-            // validateValue
-            var name = event.target.name;
-            var value = getElementValue(event.target);
+    createClass(FormGroup, [{
+        key: 'getChildContext',
+        value: function getChildContext() {
+            return { formGroup: this };
+        }
+    }, {
+        key: 'register',
+        value: function register(name, formElement) {
+            this.formElement = formElement;
+        }
+    }, {
+        key: 'validate',
+        value: function validate() {
+            var name = this.formElement.getName();
+            var value = this.formElement.getValue();
             var validation = validateValue(value, this.props.validators);
             var hasError = validation.hasError;
             var firstError = hasError ? firstProp(validation.errors) : '';
 
-            if (hasError !== oldHasError || firstError !== oldFirstError) {
-                // change state
-                this.setState({
-                    value: value,
-                    hasError: hasError,
-                    firstError: firstError
-                });
+            // change state
+            this.setState({
+                hasError: hasError,
+                firstError: firstError
+            });
 
-                // notify
-                if (isFunction(this.props.onChange)) { this.props.onChange(name, value); }
+            return {
+                name: name,
+                value: value,
+                hasError: hasError,
+                firstError: firstError
+            };
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            if (this.canValidate) {
+                var oldHasError = this.state.hasError;
+                var oldFirstError = this.state.firstError;
+
+                // validateValue
+                var name = event.target.name;
+                var value = getElementValue(event.target);
+                var validation = validateValue(value, this.props.validators);
+                var hasError = validation.hasError;
+                var firstError = hasError ? firstProp(validation.errors) : '';
+
+                if (hasError !== oldHasError || firstError !== oldFirstError) {
+                    // change state
+                    this.setState({
+                        value: value,
+                        hasError: hasError,
+                        firstError: firstError
+                    });
+
+                    // notify
+                    if (isFunction(this.props.onChange)) {
+                        this.props.onChange(name, value);
+                    }
+                }
             }
         }
-    };
-
-    FormGroup.prototype.render = function render () {
-        var groupClassName = this.state.hasError ? this.props.className + ' has-error' : this.props.className;
-        return (
-            React.createElement( 'div', { className: groupClassName, onChange: this.onChange }, 
-                this.props.children, 
-                this.state.hasError ?
-                    React.createElement( 'span', { className: "help-block" }, this.state.firstError)
-                : null
-            )
-        );
-    };
-
-    Object.defineProperties( FormGroup.prototype, prototypeAccessors );
-
+    }, {
+        key: 'render',
+        value: function render() {
+            var groupClassName = this.state.hasError ? this.props.className + ' has-error' : this.props.className;
+            return React.createElement(
+                'div',
+                { className: groupClassName, onChange: this.onChange },
+                this.props.children,
+                this.state.hasError ? React.createElement(
+                    'span',
+                    { className: 'help-block' },
+                    this.state.firstError
+                ) : null
+            );
+        }
+    }, {
+        key: 'canValidate',
+        get: function get$$1() {
+            return this.context.form ? this.props.validators.length > 0 && this.context.form.canValidate : this.props.validators.length > 0;
+        }
+    }]);
     return FormGroup;
-}(React.Component));
+}(React.Component);
 FormGroup.propTypes = {
     onChange: React.PropTypes.func,
     className: React.PropTypes.string,
@@ -296,42 +460,61 @@ FormGroup.childContextTypes = {
     formGroup: React.PropTypes.any
 };
 
-var Checkbox = (function (superclass) {
+var Checkbox = function (_React$Component) {
+    inherits(Checkbox, _React$Component);
+
     function Checkbox(props, context) {
-        superclass.call(this, props, context);
-        this.state = {
+        classCallCheck(this, Checkbox);
+
+        var _this = possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call(this, props, context));
+
+        _this.state = {
             checked: props.checked
         };
 
-        this.onChange = this.onChange.bind(this);
-       if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        _this.onChange = _this.onChange.bind(_this);
+        if (isDefined(_this.context.formGroup)) {
+            _this.context.formGroup.register(_this.props.name, _this);
+        }
+        return _this;
     }
 
-    if ( superclass ) Checkbox.__proto__ = superclass;
-    Checkbox.prototype = Object.create( superclass && superclass.prototype );
-    Checkbox.prototype.constructor = Checkbox;
-    Checkbox.prototype.getName = function getName () {
-        return this.props.name;
-    };
-    Checkbox.prototype.getValue = function getValue () {
-        return this.state.checked;
-    };
-    Checkbox.prototype.onChange = function onChange (event) {
-        var checked = event.target.checked;
-        this.setState({
-            checked: checked
-        });
-        // notify
-        this.props.onChange(this.props.name, checked);
-    };
-    Checkbox.prototype.render = function render () {
-        return (
-            React.createElement( 'input', { type: "checkbox", id: this.props.id, name: this.props.name, checked: this.state.checked, onChange: this.onChange, className: this.props.className })
-        );
-    };
-
+    createClass(Checkbox, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.checked;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var checked = event.target.checked;
+            this.setState({
+                checked: checked
+            });
+            // notify
+            if (isFunction(this.props.onChange)) {
+                this.props.onChange(this.props.name, checked);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement('input', {
+                type: 'checkbox',
+                id: this.props.id,
+                name: this.props.name,
+                checked: this.state.checked,
+                onChange: this.onChange,
+                className: this.props.className });
+        }
+    }]);
     return Checkbox;
-}(React.Component));
+}(React.Component);
 Checkbox.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
@@ -346,70 +529,94 @@ Checkbox.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-var CheckboxGroup = (function (superclass) {
+var CheckboxGroup = function (_React$Component) {
+    inherits(CheckboxGroup, _React$Component);
+
     function CheckboxGroup(props, context) {
-        superclass.call(this, props, context);
-        this.state = {
+        classCallCheck(this, CheckboxGroup);
+
+        var _this = possibleConstructorReturn(this, (CheckboxGroup.__proto__ || Object.getPrototypeOf(CheckboxGroup)).call(this, props, context));
+
+        _this.state = {
             currents: props.currents
         };
 
-        this.onChange = this.onChange.bind(this);
-        this.indexOf = this.indexOf.bind(this);
-      if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        _this.onChange = _this.onChange.bind(_this);
+        _this.indexOf = _this.indexOf.bind(_this);
+        if (isDefined(_this.context.formGroup)) {
+            _this.context.formGroup.register(_this.props.name, _this);
+        }
+        return _this;
     }
 
-    if ( superclass ) CheckboxGroup.__proto__ = superclass;
-    CheckboxGroup.prototype = Object.create( superclass && superclass.prototype );
-    CheckboxGroup.prototype.constructor = CheckboxGroup;
-    CheckboxGroup.prototype.getName = function getName (){
-        return this.props.name;
-    };
-    CheckboxGroup.prototype.getValue = function getValue (){
-        return this.state.currents;
-    };
-    CheckboxGroup.prototype.indexOf = function indexOf (value) {
-        var currents = this.props.currents;
-        for (var i = 0; i < currents.length; i++) {
-            if (currents[i] === value) {
-                return i;
+    createClass(CheckboxGroup, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.currents;
+        }
+    }, {
+        key: 'indexOf',
+        value: function indexOf(value) {
+            var currents = this.props.currents;
+            for (var i = 0; i < currents.length; i++) {
+                if (currents[i] === value) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var value = event.target.value;
+            var index = this.indexOf(value);
+            var currents = this.state.currents;
+            if (index !== -1) {
+                currents.splice(index, 1);
+            } else {
+                currents.push(value);
+            }
+
+            this.setState({
+                currents: currents
+            });
+            // notify
+            if (isFunction(this.props.onChange)) {
+                this.props.onChange(this.props.name, currents);
             }
         }
-        return -1;
-    };
-    CheckboxGroup.prototype.onChange = function onChange (event) {
-        var value = event.target.value;
-        var index = this.indexOf(value);
-        var currents = this.state.currents;
-        if (index !== -1) {
-            currents.splice(index, 1);
-        }
-        else {
-            currents.push(value);
-        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
 
-        this.setState({
-            currents: currents
-        });
-        // notify
-        this.props.onChange(this.props.name, currents);
-    };
-    CheckboxGroup.prototype.render = function render () {
-        var this$1 = this;
-
-        return (
-            React.createElement( 'div', null, 
+            return React.createElement(
+                'div',
+                null,
                 this.props.dataSource.map(function (current, i) {
-                    return (React.createElement( 'div', { key: i }, 
-                        React.createElement( 'input', { type: "checkbox", name: this$1.props.name, checked: this$1.indexOf(current) !== -1, value: current, onChange: this$1.onChange, className: this$1.props.className }), 
+                    return React.createElement(
+                        'div',
+                        { key: i },
+                        React.createElement('input', {
+                            type: 'checkbox',
+                            name: _this2.props.name,
+                            checked: _this2.indexOf(current) !== -1,
+                            value: current,
+                            onChange: _this2.onChange,
+                            className: _this2.props.className }),
                         current
-                    ));
+                    );
                 })
-            )
-        );
-    };
-
+            );
+        }
+    }]);
     return CheckboxGroup;
-}(React.Component));
+}(React.Component);
 CheckboxGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
@@ -418,120 +625,143 @@ CheckboxGroup.propTypes = {
     currents: React.PropTypes.array
 };
 CheckboxGroup.defaultProps = {
-    currents:[]
+    currents: []
 };
 CheckboxGroup.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-var Form = (function (superclass) {
-    function Form(props) {
-        superclass.call(this, props);
+var Form = function (_React$Component) {
+    inherits(Form, _React$Component);
 
-        this.formGroups = [];
-        this.submitted = false;
-        this.onSubmit = this.onSubmit.bind(this);
+    function Form(props) {
+        classCallCheck(this, Form);
+
+        var _this = possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+        _this.formGroups = [];
+        _this.submitted = false;
+        _this.onSubmit = _this.onSubmit.bind(_this);
+        return _this;
     }
 
-    if ( superclass ) Form.__proto__ = superclass;
-    Form.prototype = Object.create( superclass && superclass.prototype );
-    Form.prototype.constructor = Form;
+    createClass(Form, [{
+        key: 'getChildContext',
+        value: function getChildContext() {
+            return { form: this };
+        }
+    }, {
+        key: 'register',
+        value: function register(formGroup) {
+            this.formGroups.push(formGroup);
+        }
+    }, {
+        key: 'onSubmit',
+        value: function onSubmit(event) {
+            event.preventDefault();
 
-    var prototypeAccessors = { canValidate: {} };
+            var formStates = {};
+            var formModel = {};
+            var hasError = false;
 
-    Form.prototype.getChildContext = function getChildContext () {
-        return { form: this };
-    };
-
-    prototypeAccessors.canValidate.get = function () {
-        return this.submitted === true;
-    };
-
-    Form.prototype.register = function register (formGroup) {
-        this.formGroups.push(formGroup);
-    };
-
-    Form.prototype.onSubmit = function onSubmit (event) {
-        event.preventDefault();
-
-        var formStates = {};
-        var hasError = false;
-
-        this.formGroups.forEach(function (formGroup) {
-            var validation = formGroup.validate();
-            if (validation) {
+            this.formGroups.forEach(function (formGroup) {
+                var validation = formGroup.validate();
                 var name = validation.name;
-                formStates[name] = {};
-                formStates[name].hasError = validation.hasError;
-                formStates[name].firstError = validation.firstError;
+                formStates[name] = {
+                    hasError: validation.hasError,
+                    firstError: validation.firstError
+                };
+                formModel[name] = validation.value;
                 if (validation.hasError) {
                     hasError = true;
                 }
-            }
-        });
+            });
 
-        this.submitted = true;
-        this.props.onSubmit(hasError, formStates);
-    };
-
-    Form.prototype.render = function render () {
-        return (
-            React.createElement( 'form', { id: this.props.id, onSubmit: this.onSubmit, autoComplete: this.autoComplete }, 
+            this.submitted = true;
+            this.props.onSubmit(hasError, formStates, formModel);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var rest = omit(this.props, ['onSubmit']);
+            return React.createElement(
+                'form',
+                _extends({ onSubmit: this.onSubmit }, rest),
                 this.props.children
-            )
-        );
-    };
-
-    Object.defineProperties( Form.prototype, prototypeAccessors );
-
+            );
+        }
+    }, {
+        key: 'canValidate',
+        get: function get$$1() {
+            return this.submitted === true;
+        }
+    }]);
     return Form;
-}(React.Component));
+}(React.Component);
 Form.propTypes = {
-    id: React.PropTypes.string,
     onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node,
-    autoComplete: React.PropTypes.string
+    children: React.PropTypes.node
 };
 Form.childContextTypes = {
     form: React.PropTypes.any
 };
 
-var Input = (function (superclass) {
+var Input = function (_React$Component) {
+    inherits(Input, _React$Component);
+
     function Input(props, context) {
-        superclass.call(this, props, context);
+        classCallCheck(this, Input);
+
+        var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
+
         var value = getInputInitialValue(props.type, props.value);
-        this.state = {
+        _this.state = {
             value: value
         };
 
-        this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        _this.onChange = _this.onChange.bind(_this);
+        if (isDefined(_this.context.formGroup)) {
+            _this.context.formGroup.register(_this.props.name, _this);
+        }
+        return _this;
     }
 
-    if ( superclass ) Input.__proto__ = superclass;
-    Input.prototype = Object.create( superclass && superclass.prototype );
-    Input.prototype.constructor = Input;
-    Input.prototype.getName = function getName () {
-        return this.props.name;
-    };
-    Input.prototype.getValue = function getValue () {
-        return this.state.value;
-    };
-    Input.prototype.onChange = function onChange (event) {
-        var value = event.target.value;
-        this.setState({
-            value: value
-        });
-        this.props.onChange(this.props.name, value);
-    };
-    Input.prototype.render = function render () {
-        return (
-            React.createElement( 'input', { type: this.props.type, id: this.props.id, name: this.props.name, value: this.state.value, onChange: this.onChange, className: this.props.className, placeholder: this.props.placeholder })
-        );
-    };
-
+    createClass(Input, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.value;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var value = event.target.value;
+            this.setState({
+                value: value
+            });
+            if (isFunction(this.props.onChange)) {
+                this.props.onChange(this.props.name, value);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement('input', {
+                type: this.props.type,
+                id: this.props.id,
+                name: this.props.name,
+                value: this.state.value,
+                onChange: this.onChange,
+                className: this.props.className,
+                placeholder: this.props.placeholder });
+        }
+    }]);
     return Input;
-}(React.Component));
+}(React.Component);
 Input.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
@@ -548,51 +778,74 @@ Input.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-var RadioGroup = (function (superclass) {
+var RadioGroup = function (_React$Component) {
+    inherits(RadioGroup, _React$Component);
+
     function RadioGroup(props, context) {
-        superclass.call(this, props, context);
-        this.state = {
+        classCallCheck(this, RadioGroup);
+
+        var _this = possibleConstructorReturn(this, (RadioGroup.__proto__ || Object.getPrototypeOf(RadioGroup)).call(this, props, context));
+
+        _this.state = {
             current: props.current
         };
 
-        this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        _this.onChange = _this.onChange.bind(_this);
+        if (isDefined(_this.context.formGroup)) {
+            _this.context.formGroup.register(_this.props.name, _this);
+        }
+        return _this;
     }
 
-    if ( superclass ) RadioGroup.__proto__ = superclass;
-    RadioGroup.prototype = Object.create( superclass && superclass.prototype );
-    RadioGroup.prototype.constructor = RadioGroup;
-    RadioGroup.prototype.getName = function getName () {
-        return this.props.name;
-    };
-    RadioGroup.prototype.getValue = function getValue () {
-        return this.state.current;
-    };
-    RadioGroup.prototype.onChange = function onChange (event) {
-        var current = event.target.value;
-        this.setState({
-            current: current
-        });
-        // notify
-        this.props.onChange(this.props.name, current);
-    };
-    RadioGroup.prototype.render = function render () {
-        var this$1 = this;
+    createClass(RadioGroup, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.current;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var current = event.target.value;
+            this.setState({
+                current: current
+            });
+            // notify
+            if (isFunction(this.props.onChange)) {
+                this.props.onChange(this.props.name, current);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
 
-        return (
-            React.createElement( 'div', null, 
+            return React.createElement(
+                'div',
+                null,
                 this.props.dataSource.map(function (current, i) {
-                    return (React.createElement( 'div', { key: i }, 
-                        React.createElement( 'input', { type: "radio", name: this$1.props.name, checked: this$1.state.current === current, value: current, onChange: this$1.onChange, className: this$1.props.className }), 
+                    return React.createElement(
+                        'div',
+                        { key: i },
+                        React.createElement('input', {
+                            type: 'radio',
+                            name: _this2.props.name,
+                            checked: _this2.state.current === current,
+                            value: current,
+                            onChange: _this2.onChange,
+                            className: _this2.props.className }),
                         current
-                    ));
+                    );
                 })
-            )
-        );
-    };
-
+            );
+        }
+    }]);
     return RadioGroup;
-}(React.Component));
+}(React.Component);
 RadioGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
@@ -604,50 +857,67 @@ RadioGroup.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-var Select = (function (superclass) {
+var Select = function (_React$Component) {
+    inherits(Select, _React$Component);
+
     function Select(props, context) {
-        superclass.call(this, props, context);
-        this.state = {
+        classCallCheck(this, Select);
+
+        var _this = possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props, context));
+
+        _this.state = {
             current: props.current
         };
 
-        this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        _this.onChange = _this.onChange.bind(_this);
+        if (isDefined(_this.context.formGroup)) {
+            _this.context.formGroup.register(_this.props.name, _this);
+        }
+        return _this;
     }
 
-    if ( superclass ) Select.__proto__ = superclass;
-    Select.prototype = Object.create( superclass && superclass.prototype );
-    Select.prototype.constructor = Select;
-    Select.prototype.getName = function getName () {
-        return this.props.name;
-    };
-    Select.prototype.getValue = function getValue () {
-        return this.state.current;
-    };
-    Select.prototype.onChange = function onChange (event) {
-        var current = event.target.options[event.target.selectedIndex].value;
-        this.setState({
-            current: current
-        });
-        // notify
-        this.props.onChange(this.props.name, current);
-    };
-    Select.prototype.render = function render () {
-        var this$1 = this;
+    createClass(Select, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.current;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var current = event.target.options[event.target.selectedIndex].value;
+            this.setState({
+                current: current
+            });
+            // notify
+            if (isFunction(this.props.onChange)) {
+                this.props.onChange(this.props.name, current);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
 
-        return (
-            React.createElement( 'select', { id: this.props.id, name: this.props.name, value: this.state.current, onChange: this.onChange, className: this.props.className }, 
+            return React.createElement(
+                'select',
+                { id: this.props.id, name: this.props.name, value: this.state.current, onChange: this.onChange, className: this.props.className },
                 this.props.dataSource.map(function (current, i) {
-                    return (
-                        React.createElement( 'option', { key: i, value: current, onChange: this$1.onChange }, current)
+                    return React.createElement(
+                        'option',
+                        { key: i, value: current, onChange: _this2.onChange },
+                        current
                     );
                 })
-            )
-        );
-    };
-
+            );
+        }
+    }]);
     return Select;
-}(React.Component));
+}(React.Component);
 Select.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
@@ -660,49 +930,62 @@ Select.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-var TextArea = (function (superclass) {
+var TextArea = function (_React$Component) {
+    inherits(TextArea, _React$Component);
+
     function TextArea(props, context) {
-        superclass.call(this, props, context);
-        this.state = {
+        classCallCheck(this, TextArea);
+
+        var _this = possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, props, context));
+
+        _this.state = {
             value: props.value
         };
 
-        this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+        _this.onChange = _this.onChange.bind(_this);
+        if (isDefined(_this.context.formGroup)) {
+            _this.context.formGroup.register(_this.props.name, _this);
+        }
+        return _this;
     }
 
-    if ( superclass ) TextArea.__proto__ = superclass;
-    TextArea.prototype = Object.create( superclass && superclass.prototype );
-    TextArea.prototype.constructor = TextArea;
-    TextArea.prototype.getName = function getName () {
-        return this.props.name;
-    };
-    TextArea.prototype.getValue = function getValue () {
-        return this.state.value;
-    };
-    TextArea.prototype.onChange = function onChange (event) {
-        var value = event.target.value;
-        this.setState({
-            value: value
-        });
-        this.props.onChange(this.props.name, value);
-    };
-    TextArea.prototype.render = function render () {
-        return (
-            React.createElement( 'textarea', { id: this.props.id, name: this.props.name, rows: this.props.rows, cols: this.props.cols, value: this.state.value, onChange: this.onChange, className: this.props.className, placeholder: this.props.placeholder })
-        );
-    };
-
+    createClass(TextArea, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.value;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var value = event.target.value;
+            this.setState({
+                value: value
+            });
+            if (isFunction(this.props.onChange)) {
+                this.props.onChange(this.props.name, value);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var rest = omit(this.props, ['value', 'onChange']);
+            return React.createElement('textarea', _extends({
+                value: this.state.value,
+                onChange: this.onChange
+            }, rest));
+        }
+    }]);
     return TextArea;
-}(React.Component));
+}(React.Component);
 TextArea.propTypes = {
-    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    type: React.PropTypes.string,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string
+    value: React.PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''
