@@ -60,9 +60,6 @@ export function getInputInitialValue(type, value) {
     if (isDefined(value)) {
         return value;
     }
-    else if (type === 'range' || type === 'number') {
-        return 0;
-    }
     else {
         return '';
     }
