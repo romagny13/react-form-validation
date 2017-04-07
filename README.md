@@ -16,13 +16,13 @@ import { Validator, Form, FormGroup, Input } from 'romagny13-react-form-validati
 
 ## Validators
 
-params: message (for personal error message), name (to change name of validator)
-
 * required
 * minLength
 * maxLength
 * pattern
 * custom
+
+params: message (for personal error message), name (to change name of validator)
 
 ... Or create an other validator. Example 'email'
 
@@ -80,8 +80,8 @@ Allow to validate value and show error messages (note: css class "has-error" is 
 
 Form props | Description
 -------- |  --------
-mode | submit (by default, validate form elements after the first submission) or touched (validate form elements on lost focus the first time)
-onSubmit | function to call on form submission (with hasError, form states and form model)
+mode | submit (by default) or touched
+onSubmit | function to call on form submission
 hasErrorClassName | error className ('has-error' by default)
 hasSuccessClassName | success className ('has-success' by default)
 showHasSuccess | (false by default) add has success className on success
@@ -91,7 +91,7 @@ showHasSuccess | (false by default) add has success className on success
 FormGroup props | Description
 -------- |  --------
 validators | validators array
-onChange | function to call on validation state change (with form element name, value, hasError, firstError, errors)
+onChange | function to call on validation state change
 className | base className to add to form group ('form-group' for example)
 
 

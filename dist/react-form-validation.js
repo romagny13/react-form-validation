@@ -1011,8 +1011,6 @@ TextArea.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-/*export { RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator, CustomValidator, Validator } from './common/validators';*/
-
 exports.required = required;
 exports.minLength = minLength;
 exports.maxLength = maxLength;
