@@ -6,11 +6,19 @@ export function canValidateOnChange(validators, form, touched) {
 }
 
 export function canValidateOnBlur(validators, form, touched) {
-    return !touched && validators.length > 0 && form && form.mode === 'touched';
+    return validators.length > 0 && !touched && form && form.mode === 'touched';
 }
 
-export function getGroupClassName(hasError, className) {
-    return hasError ? className + ' has-error' : className;
+export function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName) {
+    if (hasError) {
+        let baseClassName = className && className !== '' ? className + ' ' : '';
+        return baseClassName + hasErrorClassName;
+    }
+    else if (showHasSuccess) {
+        let baseClassName = className && className !== '' ? className + ' ' : '';
+        return baseClassName + hasSuccessClassName;
+    }
+    return className;
 }
 
 export function getElementValue(element) {
@@ -32,15 +40,16 @@ export function getElementValue(element) {
 }
 
 export function validateValue(value, validators) {
-    let hasError = false;
-    let errors = {};
-    let firstError = '';
+    let hasError = false,
+        errors = {},
+        firstError = '';
 
     validators.forEach((validator) => {
-        if (!validator.validate(value)) {
+        let result = validator(value);
+        if (result) {
             hasError = true;
             // example:  errors: { required: 'This field is required.' }
-            errors[validator.name] = validator.error;
+            errors[result.name] = result.error;
         }
     });
 
@@ -65,6 +74,13 @@ export function validationStateHasChanged(state, newHasError, newFirstError) {
     return newHasError !== hasError || newFirstError !== firstError;
 }
 
+export function hasSuccess(form, touched) {
+    if (form && form.showHasSuccess) {
+        return form.mode === 'submit' ? form.submitted : touched;
+    }
+    return false;
+}
+
 export class FormGroup extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -73,6 +89,9 @@ export class FormGroup extends React.Component {
             firstError: '',
             errors: {}
         };
+
+        this.hasErrorClassName = this.context.form && this.context.form.hasErrorClassName || 'has-error';
+        this.hasSuccessClassName = this.context.form && this.context.form.hasSuccessClassName || 'has-success';
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -91,7 +110,8 @@ export class FormGroup extends React.Component {
     }
 
     validate() {
-        if (!this.formElement) { throw new Error('No form element registered for the group.'); }
+        // No form element registered for this group
+        if (!this.formElement) return;
 
         let name = this.formElement.getName();
         let value = this.formElement.getValue();
@@ -120,20 +140,16 @@ export class FormGroup extends React.Component {
         let value = getElementValue(event.target);
 
         // validate value
-        let { hasError, firstError, errors } = validateValue(value, this.props.validators);
+        const { hasError, firstError, errors } = validateValue(value, this.props.validators);
 
         // check if validation state has changed
         if (validationStateHasChanged(this.state, hasError, firstError)) {
             // change state
-            this.setState({
-                hasError,
-                firstError,
-                errors
-            });
+            this.setState({ hasError, firstError, errors });
 
-            this.touched = true;
+            if (!this.touched) { this.touched = true; }
             // notify validation state change
-            if (isFunction(this.props.onChange)) { this.props.onChange(event.target.name, value); }
+            if (isFunction(this.props.onChange)) { this.props.onChange(event.target.name, value, hasError, firstError, errors); }
         }
     }
 
@@ -150,7 +166,8 @@ export class FormGroup extends React.Component {
     }
 
     render() {
-        let groupClassName = getGroupClassName(this.state.hasError, this.props.className);
+        let showHasSuccess = hasSuccess(this.context.form, this.touched);
+        let groupClassName = getGroupClassName(this.state.hasError, showHasSuccess, this.props.className, this.hasErrorClassName, this.hasSuccessClassName);
         return (
             <div className={groupClassName} onChange={this.onChange} onBlur={this.onBlur}>
                 {this.props.children}
@@ -174,3 +191,4 @@ FormGroup.contextTypes = {
 FormGroup.childContextTypes = {
     formGroup: React.PropTypes.any
 };
+

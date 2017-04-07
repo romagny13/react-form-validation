@@ -1,4 +1,5 @@
-export { RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator, CustomValidator, Validator } from './common/validators';
+/*export { RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator, CustomValidator, Validator } from './common/validators';*/
+export { required, minLength, maxLength, pattern, custom, isRequired } from './common/validators';
 export { Checkbox } from './components/Checkbox';
 export { CheckboxGroup } from './components/CheckboxGroup';
 export { Form } from './components/FormComponent';

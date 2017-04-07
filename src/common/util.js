@@ -6,14 +6,6 @@ export function isBoolean(value) { return typeof value === 'boolean'; }
 export function isFunction(value) { return typeof value === 'function'; }
 export let isArray = Array.isArray;
 
-export function objLength(obj) {
-    return Object.keys(obj).length;
-}
-
-export function firstProp(obj) {
-    return obj[Object.keys(obj)[0]];
-}
-
 export function omit(obj, names = []) {
     let result = {};
     for (let name in obj) {

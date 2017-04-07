@@ -2,14 +2,14 @@ import React from 'react';
 import { FormGroup } from './FormGroup';
 import { isDefined, isFunction } from '../common/util';
 
-export function getInputInitialValue(type, value) {
+export function getInputInitialValue(value) {
     return isDefined(value) ? value : '';
 }
 
 export class Input extends React.Component {
     constructor(props, context) {
         super(props, context);
-        let value = getInputInitialValue(props.type, props.value);
+        let value = getInputInitialValue(props.value);
         this.state = {
             value
         };

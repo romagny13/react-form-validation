@@ -19,13 +19,14 @@
         var Form = ReactFormValidation.Form; 
         var FormGroup = ReactFormValidation.FormGroup; 
         var Input = ReactFormValidation.Input; 
-        var Validator = ReactFormValidation.Validator;
+        var required = ReactFormValidation.required;
+        var minLength = ReactFormValidation.minLength;
 
         var Home = React.createClass({ 
             getInitialState: function (){
                 return {
                     validators:{
-                        'firstname': [Validator.required(), Validator.minLength(3)]
+                        'firstname': [required(), minLength(3)]
                     },
                     user:{
                         firstname:'Marie'

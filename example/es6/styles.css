@@ -6,3 +6,12 @@
     border-left-width: 5px;
     border-radius: 3px;
 }
+
+.field-has-success {
+    color:#27ae60;
+}
+
+.field-has-error,
+.field-has-error *{
+    color:#d35400;
+}

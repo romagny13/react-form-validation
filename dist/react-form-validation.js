@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.1.7
+ * romagny13-react-form-validation v0.1.8
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -31,10 +31,6 @@ function isFunction(value) {
 }
 
 
-
-
-
-
 function omit(obj) {
     var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -46,6 +42,86 @@ function omit(obj) {
     }
     return result;
 }
+
+function isRequired(value) {
+    return value === null || isUndefined(value) || value === '' || isBoolean(value) && value === false;
+}
+
+function formatMessage(message, searchValue, replaceValue) {
+    return message.replace(searchValue, replaceValue);
+}
+
+var required = function required(message) {
+    var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'required';
+
+    var error = isString(message) ? message : 'This field is required.';
+    return function (value) {
+        if (isRequired(value)) {
+            return {
+                name: name,
+                error: error
+            };
+        }
+    };
+};
+
+var minLength = function minLength(_minLength2, message) {
+    var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'minLength';
+
+    var _minLength = isNumber(_minLength2) ? _minLength2 : 3;
+    var error = isString(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', _minLength);
+    return function (value) {
+        if (!isRequired(value) && value.length < _minLength) {
+            return {
+                name: name,
+                error: error
+            };
+        }
+    };
+};
+
+var maxLength = function maxLength(_maxLength2, message) {
+    var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'maxLength';
+
+    var _maxLength = isNumber(_maxLength2) ? _maxLength2 : 30;
+    var error = isString(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', _maxLength);
+    return function (value) {
+        if (!isRequired(value) && value.length > _maxLength) {
+            return {
+                name: name,
+                error: error
+            };
+        }
+    };
+};
+
+var pattern = function pattern(_pattern, message) {
+    var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'pattern';
+
+    var error = isString(message) ? message : 'Please fix this field.';
+    return function (value) {
+        if (!isRequired(value) && !_pattern.test(value)) {
+            return {
+                name: name,
+                error: error
+            };
+        }
+    };
+};
+
+var custom = function custom(fn, message) {
+    var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'custom';
+
+    var error = isString(message) ? message : 'Please fix this field.';
+    return function (value) {
+        if (!isRequired(value) && !fn(value)) {
+            return {
+                name: name,
+                error: error
+            };
+        }
+    };
+};
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -127,179 +203,23 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-function isRequired(value) {
-    return value === null || isUndefined(value) || value === '' || isBoolean(value) && value === false;
-}
-
-function formatMessage(message, searchValue, replaceValue) {
-    return message.replace(searchValue, replaceValue);
-}
-
-var RequiredValidator = function () {
-    function RequiredValidator(message) {
-        classCallCheck(this, RequiredValidator);
-
-        this.name = 'required';
-        this.message = isString(message) ? message : 'This field is required.';
-    }
-
-    createClass(RequiredValidator, [{
-        key: 'validate',
-        value: function validate(value) {
-            if (isRequired(value)) {
-                this.error = this.message;
-                return false;
-            } else {
-                this.error = undefined;
-                return true;
-            }
-        }
-    }]);
-    return RequiredValidator;
-}();
-
-var MinLengthValidator = function () {
-    function MinLengthValidator(minLength, message) {
-        classCallCheck(this, MinLengthValidator);
-
-        this.name = 'minLength';
-        this.minLength = isNumber(minLength) ? minLength : 3;
-        this.message = isString(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', minLength);
-    }
-
-    createClass(MinLengthValidator, [{
-        key: 'validate',
-        value: function validate(value) {
-            if (!isRequired(value) && value.length < this.minLength) {
-                // error
-                this.error = this.message;
-                return false;
-            } else {
-                this.error = undefined;
-                return true;
-            }
-        }
-    }]);
-    return MinLengthValidator;
-}();
-
-var MaxLengthValidator = function () {
-    function MaxLengthValidator(maxLength, message) {
-        classCallCheck(this, MaxLengthValidator);
-
-        this.name = 'maxLength';
-        this.maxLength = isNumber(maxLength) ? maxLength : 30;
-        this.message = isString(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', maxLength);
-    }
-
-    createClass(MaxLengthValidator, [{
-        key: 'validate',
-        value: function validate(value) {
-            if (!isRequired(value) && value.length > this.maxLength) {
-                // error
-                this.error = this.message;
-                return false;
-            } else {
-                this.error = undefined;
-                return true;
-            }
-        }
-    }]);
-    return MaxLengthValidator;
-}();
-
-var PatternValidator = function () {
-    function PatternValidator(pattern, message) {
-        classCallCheck(this, PatternValidator);
-
-        this.name = isString(name) ? name : 'pattern';
-        this.pattern = pattern;
-        this.message = isString(message) ? message : 'Please fix this field.';
-    }
-
-    createClass(PatternValidator, [{
-        key: 'validate',
-        value: function validate(value) {
-            if (!isRequired(value) && !this.pattern.test(value)) {
-                this.error = this.message;
-                return false;
-            } else {
-                this.error = undefined;
-                return true;
-            }
-        }
-    }]);
-    return PatternValidator;
-}();
-
-var CustomValidator = function () {
-    function CustomValidator(fn, message, name) {
-        classCallCheck(this, CustomValidator);
-
-        this.fn = fn;
-        this.name = isString(name) ? name : 'custom';
-        this.message = isString(message) ? message : 'Please fix this field.';
-    }
-
-    createClass(CustomValidator, [{
-        key: 'validate',
-        value: function validate(value) {
-            if (!isRequired(value) && !this.fn(value)) {
-                this.error = this.message;
-                return false;
-            } else {
-                this.error = undefined;
-                return true;
-            }
-        }
-    }]);
-    return CustomValidator;
-}();
-
-var Validator = function () {
-    function Validator() {
-        classCallCheck(this, Validator);
-    }
-
-    createClass(Validator, null, [{
-        key: 'required',
-        value: function required(message) {
-            return new RequiredValidator(message);
-        }
-    }, {
-        key: 'minLength',
-        value: function minLength(_minLength, message) {
-            return new MinLengthValidator(_minLength, message);
-        }
-    }, {
-        key: 'maxLength',
-        value: function maxLength(_maxLength, message) {
-            return new MaxLengthValidator(_maxLength, message);
-        }
-    }, {
-        key: 'pattern',
-        value: function pattern(_pattern, message, name) {
-            return new PatternValidator(_pattern, message, name);
-        }
-    }, {
-        key: 'custom',
-        value: function custom(fn, message, name) {
-            return new CustomValidator(fn, message, name);
-        }
-    }]);
-    return Validator;
-}();
-
 function canValidateOnChange(validators, form, touched) {
     return validators.length > 0 && (touched === true || form && form.submitted);
 }
 
 function canValidateOnBlur(validators, form, touched) {
-    return !touched && validators.length > 0 && form && form.mode === 'touched';
+    return validators.length > 0 && !touched && form && form.mode === 'touched';
 }
 
-function getGroupClassName(hasError, className) {
-    return hasError ? className + ' has-error' : className;
+function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName) {
+    if (hasError) {
+        var baseClassName = className && className !== '' ? className + ' ' : '';
+        return baseClassName + hasErrorClassName;
+    } else if (showHasSuccess) {
+        var _baseClassName = className && className !== '' ? className + ' ' : '';
+        return _baseClassName + hasSuccessClassName;
+    }
+    return className;
 }
 
 function getElementValue(element) {
@@ -318,15 +238,16 @@ function getElementValue(element) {
 }
 
 function validateValue(value, validators) {
-    var hasError = false;
-    var errors = {};
-    var firstError = '';
+    var hasError = false,
+        errors = {},
+        firstError = '';
 
     validators.forEach(function (validator) {
-        if (!validator.validate(value)) {
+        var result = validator(value);
+        if (result) {
             hasError = true;
             // example:  errors: { required: 'This field is required.' }
-            errors[validator.name] = validator.error;
+            errors[result.name] = result.error;
         }
     });
 
@@ -353,6 +274,13 @@ function validationStateHasChanged(state, newHasError, newFirstError) {
     return newHasError !== hasError || newFirstError !== firstError;
 }
 
+function hasSuccess(form, touched) {
+    if (form && form.showHasSuccess) {
+        return form.mode === 'submit' ? form.submitted : touched;
+    }
+    return false;
+}
+
 var FormGroup = function (_React$Component) {
     inherits(FormGroup, _React$Component);
 
@@ -366,6 +294,9 @@ var FormGroup = function (_React$Component) {
             firstError: '',
             errors: {}
         };
+
+        _this.hasErrorClassName = _this.context.form && _this.context.form.hasErrorClassName || 'has-error';
+        _this.hasSuccessClassName = _this.context.form && _this.context.form.hasSuccessClassName || 'has-success';
 
         _this.onChange = _this.onChange.bind(_this);
         _this.onBlur = _this.onBlur.bind(_this);
@@ -391,9 +322,8 @@ var FormGroup = function (_React$Component) {
     }, {
         key: 'validate',
         value: function validate() {
-            if (!this.formElement) {
-                throw new Error('No form element registered for the group.');
-            }
+            // No form element registered for this group
+            if (!this.formElement) return;
 
             var name = this.formElement.getName();
             var value = this.formElement.getValue();
@@ -440,16 +370,14 @@ var FormGroup = function (_React$Component) {
 
             if (validationStateHasChanged(this.state, hasError, firstError)) {
                 // change state
-                this.setState({
-                    hasError: hasError,
-                    firstError: firstError,
-                    errors: errors
-                });
+                this.setState({ hasError: hasError, firstError: firstError, errors: errors });
 
-                this.touched = true;
+                if (!this.touched) {
+                    this.touched = true;
+                }
                 // notify validation state change
                 if (isFunction(this.props.onChange)) {
-                    this.props.onChange(event.target.name, value);
+                    this.props.onChange(event.target.name, value, hasError, firstError, errors);
                 }
             }
         }
@@ -470,7 +398,8 @@ var FormGroup = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var groupClassName = getGroupClassName(this.state.hasError, this.props.className);
+            var showHasSuccess = hasSuccess(this.context.form, this.touched);
+            var groupClassName = getGroupClassName(this.state.hasError, showHasSuccess, this.props.className, this.hasErrorClassName, this.hasSuccessClassName);
             return React.createElement(
                 'div',
                 { className: groupClassName, onChange: this.onChange, onBlur: this.onBlur },
@@ -678,16 +607,19 @@ function validateAll(formGroups) {
         hasOneOrMoreErrors = false;
 
     formGroups.forEach(function (formGroup) {
-        var _formGroup$validate = formGroup.validate(),
-            name = _formGroup$validate.name,
-            hasError = _formGroup$validate.hasError,
-            firstError = _formGroup$validate.firstError,
-            value = _formGroup$validate.value;
+        var validation = formGroup.validate();
+        // could be null if FormGroup has no registered form component
+        if (validation) {
+            var name = validation.name,
+                hasError = validation.hasError,
+                firstError = validation.firstError,
+                value = validation.value;
 
-        formStates[name] = { hasError: hasError, firstError: firstError };
-        formModel[name] = value;
-        if (hasError) {
-            hasOneOrMoreErrors = true;
+            formStates[name] = { hasError: hasError, firstError: firstError };
+            formModel[name] = value;
+            if (hasError) {
+                hasOneOrMoreErrors = true;
+            }
         }
     });
 
@@ -739,7 +671,7 @@ var Form = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['onSubmit', 'mode']);
+            var rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName']);
             return React.createElement(
                 'form',
                 _extends({ onSubmit: this.onSubmit }, rest),
@@ -751,22 +683,43 @@ var Form = function (_React$Component) {
         get: function get$$1() {
             return this.props.mode;
         }
+    }, {
+        key: 'showHasSuccess',
+        get: function get$$1() {
+            return this.props.showHasSuccess;
+        }
+    }, {
+        key: 'hasErrorClassName',
+        get: function get$$1() {
+            return this.props.hasErrorClassName;
+        }
+    }, {
+        key: 'hasSuccessClassName',
+        get: function get$$1() {
+            return this.props.hasSuccessClassName;
+        }
     }]);
     return Form;
 }(React.Component);
 Form.propTypes = {
     mode: React.PropTypes.oneOf(['submit', 'touched']),
     onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    showHasSuccess: React.PropTypes.bool,
+    hasErrorClassName: React.PropTypes.string,
+    hasSuccessClassName: React.PropTypes.string
 };
 Form.defaultProps = {
-    mode: 'submit'
+    mode: 'submit',
+    showHasSuccess: false,
+    hasErrorClassName: 'has-error',
+    hasSuccessClassName: 'has-success'
 };
 Form.childContextTypes = {
     form: React.PropTypes.any
 };
 
-function getInputInitialValue(type, value) {
+function getInputInitialValue(value) {
     return isDefined(value) ? value : '';
 }
 
@@ -778,7 +731,7 @@ var Input = function (_React$Component) {
 
         var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
 
-        var value = getInputInitialValue(props.type, props.value);
+        var value = getInputInitialValue(props.value);
         _this.state = {
             value: value
         };
@@ -1058,12 +1011,14 @@ TextArea.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
 };
 
-exports.RequiredValidator = RequiredValidator;
-exports.MinLengthValidator = MinLengthValidator;
-exports.MaxLengthValidator = MaxLengthValidator;
-exports.PatternValidator = PatternValidator;
-exports.CustomValidator = CustomValidator;
-exports.Validator = Validator;
+/*export { RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator, CustomValidator, Validator } from './common/validators';*/
+
+exports.required = required;
+exports.minLength = minLength;
+exports.maxLength = maxLength;
+exports.pattern = pattern;
+exports.custom = custom;
+exports.isRequired = isRequired;
 exports.Checkbox = Checkbox;
 exports.CheckboxGroup = CheckboxGroup;
 exports.Form = Form;

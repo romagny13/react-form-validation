@@ -7,11 +7,15 @@ export function validateAll(formGroups) {
         hasOneOrMoreErrors = false;
 
     formGroups.forEach((formGroup) => {
-        let { name, hasError, firstError, value } = formGroup.validate();
-        formStates[name] = { hasError, firstError };
-        formModel[name] = value;
-        if (hasError) {
-            hasOneOrMoreErrors = true;
+        let validation = formGroup.validate();
+        // could be null if FormGroup has no registered form component
+        if (validation) {
+            const { name, hasError, firstError, value } = validation;
+            formStates[name] = { hasError, firstError };
+            formModel[name] = value;
+            if (hasError) {
+                hasOneOrMoreErrors = true;
+            }
         }
     });
 
@@ -44,6 +48,18 @@ export class Form extends React.Component {
         return this.props.mode;
     }
 
+    get showHasSuccess() {
+        return this.props.showHasSuccess;
+    }
+
+    get hasErrorClassName() {
+        return this.props.hasErrorClassName;
+    }
+
+    get hasSuccessClassName() {
+        return this.props.hasSuccessClassName;
+    }
+
     onSubmit(event) {
         event.preventDefault();
 
@@ -54,7 +70,7 @@ export class Form extends React.Component {
     }
 
     render() {
-        const rest = omit(this.props, ['onSubmit', 'mode']);
+        const rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName']);
         return (
             <form onSubmit={this.onSubmit} {...rest}>
                 {this.props.children}
@@ -65,10 +81,16 @@ export class Form extends React.Component {
 Form.propTypes = {
     mode: React.PropTypes.oneOf(['submit', 'touched']),
     onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    showHasSuccess: React.PropTypes.bool,
+    hasErrorClassName: React.PropTypes.string,
+    hasSuccessClassName: React.PropTypes.string
 };
 Form.defaultProps = {
-    mode: 'submit'
+    mode: 'submit',
+    showHasSuccess: false,
+    hasErrorClassName: 'has-error',
+    hasSuccessClassName: 'has-success'
 };
 Form.childContextTypes = {
     form: React.PropTypes.any
