@@ -47,7 +47,7 @@ const validators = {
     'email': [email()],
     'password': [
         required('Please enter a password.'),
-        pattern(/^(?=.*[A-Z]).{6}$/, '6 characters minimum and one uppercase letter.')
+        pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter.')
     ],
     'confirmPassword': [
         required('Please confirm the password.'),
