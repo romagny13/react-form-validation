@@ -74,8 +74,10 @@ const user = {
     firstname: 'Marie',
     lastname: 'Bellin',
     email: '',
+    password: 'Secret',
     age: 20,
     list: '2',
+    note: 'My note',
     preference: 'b',
     likes: ['Milk', 'Cakes']
 };
