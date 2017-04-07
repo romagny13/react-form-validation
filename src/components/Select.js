@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup } from './FormGroup';
-import { isDefined, isFunction } from '../common/util';
+import { isDefined, isFunction, doFocus } from '../common/util';
 
 export class Select extends React.Component {
     constructor(props, context) {
@@ -11,6 +11,9 @@ export class Select extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
+    }
+    componentDidMount() {
+        doFocus(this.props.focus, this.refs[this.props.name]);
     }
     getName() {
         return this.props.name;
@@ -28,7 +31,13 @@ export class Select extends React.Component {
     }
     render() {
         return (
-            <select id={this.props.id} name={this.props.name} value={this.state.current} onChange={this.onChange} className={this.props.className}>
+            <select
+                ref={this.props.name}
+                id={this.props.id}
+                name={this.props.name}
+                value={this.state.current}
+                onChange={this.onChange}
+                className={this.props.className}>
                 {this.props.dataSource.map((current, i) => {
                     return (
                         <option key={i} value={current} onChange={this.onChange}>{current}</option>
@@ -44,7 +53,8 @@ Select.propTypes = {
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
+    focus: React.PropTypes.bool
 };
 Select.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)

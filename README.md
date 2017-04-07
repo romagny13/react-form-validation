@@ -45,6 +45,16 @@ const validators = {
     'firstname': [required(), minLength(3)],
     'lastname': [maxLength(10)],
     'email': [email()],
+    'password': [
+        required('Please enter a password.'),
+        pattern(/^(?=.*[A-Z]).{6}$/, '6 characters minimum and one uppercase letter.')
+    ],
+    'confirmPassword': [
+        required('Please confirm the password.'),
+        custom((value) => {
+            return this.state.user.password === value;
+        }, 'Password and confirm password do not match.')
+    ],
     'age': [custom((value) => {
         return value > 0 && value < 120;
     }, 'Oops ??')],
@@ -104,7 +114,7 @@ Allow to bind value (and isolate rendering) and be notified on value change:
 * Select
 * TextArea
 
-## Create a form with binding and validation
+## Example: form with binding and validation
 
 UserForm
 
@@ -115,7 +125,7 @@ const UserForm = ({ user, validators, onSubmit, hasError, onValidationStateChang
         <Form onSubmit={onSubmit} mode="touched">
             <FormGroup className="form-group" validators={validators['firstname']} onChange={onValidationStateChange}>
                 <label htmlFor="firstname">Firstname:</label>
-                <Input id="firstname" name="firstname" value={user.firstname} className="form-control" />
+                <Input id="firstname" name="firstname" value={user.firstname} className="form-control" focus/>
             </FormGroup>
             <FormGroup className="form-group" validators={validators['lastname']} onChange={onValidationStateChange}>
                 <label htmlFor="lastname">Lastname:</label>

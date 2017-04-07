@@ -46,7 +46,7 @@
                     <Form className="form-group" onSubmit={this.onSubmit}>
                          <FormGroup className="form-group" validators={this.state.validators['firstname']}>
                             <label htmlFor="firstname">Firstname:</label>
-                            <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" />
+                            <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus/>
                          </FormGroup>
                          <input className="btn btn-default" type="submit" value="Submit" />
                     </Form>

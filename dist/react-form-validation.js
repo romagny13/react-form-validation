@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.1.8
+ * romagny13-react-form-validation v0.1.9
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -30,6 +30,12 @@ function isFunction(value) {
     return typeof value === 'function';
 }
 
+
+function doFocus(focused, element) {
+    if (focused && element) {
+        element.focus();
+    }
+}
 
 function omit(obj) {
     var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -450,6 +456,11 @@ var Checkbox = function (_React$Component) {
     }
 
     createClass(Checkbox, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            doFocus(this.props.focus, this.refs[this.props.name]);
+        }
+    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -475,6 +486,7 @@ var Checkbox = function (_React$Component) {
         key: 'render',
         value: function render() {
             return React.createElement('input', {
+                ref: this.props.name,
                 type: 'checkbox',
                 id: this.props.id,
                 name: this.props.name,
@@ -490,7 +502,8 @@ Checkbox.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    checked: React.PropTypes.bool
+    checked: React.PropTypes.bool,
+    focus: React.PropTypes.bool
 };
 Checkbox.defaultProps = {
     checked: false
@@ -744,6 +757,11 @@ var Input = function (_React$Component) {
     }
 
     createClass(Input, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            doFocus(this.props.focus, this.refs[this.props.name]);
+        }
+    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -768,6 +786,7 @@ var Input = function (_React$Component) {
         key: 'render',
         value: function render() {
             return React.createElement('input', {
+                ref: this.props.name,
                 type: this.props.type,
                 id: this.props.id,
                 name: this.props.name,
@@ -786,7 +805,8 @@ Input.propTypes = {
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    focus: React.PropTypes.bool
 };
 Input.defaultProps = {
     type: 'text'
@@ -894,6 +914,11 @@ var Select = function (_React$Component) {
     }
 
     createClass(Select, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            doFocus(this.props.focus, this.refs[this.props.name]);
+        }
+    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -922,7 +947,13 @@ var Select = function (_React$Component) {
 
             return React.createElement(
                 'select',
-                { id: this.props.id, name: this.props.name, value: this.state.current, onChange: this.onChange, className: this.props.className },
+                {
+                    ref: this.props.name,
+                    id: this.props.id,
+                    name: this.props.name,
+                    value: this.state.current,
+                    onChange: this.onChange,
+                    className: this.props.className },
                 this.props.dataSource.map(function (current, i) {
                     return React.createElement(
                         'option',
@@ -941,7 +972,8 @@ Select.propTypes = {
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
+    focus: React.PropTypes.bool
 };
 Select.contextTypes = {
     formGroup: React.PropTypes.instanceOf(FormGroup)
@@ -967,6 +999,11 @@ var TextArea = function (_React$Component) {
     }
 
     createClass(TextArea, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            doFocus(this.props.focus, this.refs[this.props.name]);
+        }
+    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -992,6 +1029,7 @@ var TextArea = function (_React$Component) {
         value: function render() {
             var rest = omit(this.props, ['value', 'onChange']);
             return React.createElement('textarea', _extends({
+                ref: this.props.name,
                 value: this.state.value,
                 onChange: this.onChange
             }, rest));
@@ -1002,7 +1040,8 @@ var TextArea = function (_React$Component) {
 TextArea.propTypes = {
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
+    focus: React.PropTypes.bool
 };
 TextArea.defaultProps = {
     value: ''

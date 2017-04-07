@@ -6,10 +6,14 @@ export function isBoolean(value) { return typeof value === 'boolean'; }
 export function isFunction(value) { return typeof value === 'function'; }
 export let isArray = Array.isArray;
 
+export function doFocus(focused, element) {
+    if (focused && element) { element.focus(); }
+}
+
 export function omit(obj, names = []) {
     let result = {};
     for (let name in obj) {
-        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1){
+        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {
             result[name] = obj[name];
         }
     }

@@ -22,6 +22,7 @@ class HomePage extends React.Component {
             user: {
                 firstname: 'Marie',
                 lastname: 'Bellin',
+                password: 'Secret',
                 email: '',
                 age: 20,
                 list: '2',
@@ -34,6 +35,16 @@ class HomePage extends React.Component {
                 'firstname': [required(), minLength(3)],
                 'lastname': [maxLength(10)],
                 'email': [email()],
+                'password': [
+                    required('Please enter a password.'),
+                    pattern(/^(?=.*[A-Z]).{6}$/, '6 characters minimum and one uppercase letter')
+                ],
+                'confirmPassword': [
+                    required('Please confirm the password.'),
+                    custom((value) => {
+                        return this.state.user.password === value;
+                    }, 'Password and confirm password do not match.')
+                ],
                 'age': [custom((value) => {
                     return value > 0 && value < 120;
                 }, 'Oops ??')],
@@ -86,4 +97,3 @@ class HomePage extends React.Component {
 }
 
 export default HomePage;
-

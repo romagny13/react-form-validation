@@ -7,11 +7,19 @@ const UserForm = ({ user, validators, onSubmit, hasError, onValidationStateChang
         <Form onSubmit={onSubmit} mode="touched" showHasSuccess>
             <FormGroup className="form-group" validators={validators['firstname']} onChange={onValidationStateChange}>
                 <label htmlFor="firstname">Firstname:</label>
-                <Input id="firstname" name="firstname" value={user.firstname} className="form-control" />
+                <Input id="firstname" name="firstname" value={user.firstname} className="form-control" focus />
             </FormGroup>
             <FormGroup className="form-group" validators={validators['lastname']} onChange={onValidationStateChange}>
                 <label htmlFor="lastname">Lastname:</label>
                 <Input id="lastname" name="lastname" value={user.lastname} className="form-control" />
+            </FormGroup>
+            <FormGroup className="form-group" validators={validators['password']} onChange={onValidationStateChange}>
+                <label htmlFor="password">Password:</label>
+                <Input type="password" id="password" name="password" value={user.password} className="form-control" placeholder="Password" />
+            </FormGroup>
+            <FormGroup className="form-group" validators={validators['confirmPassword']} onChange={onValidationStateChange}>
+                <label htmlFor="confirmPassword">Confirm Password:</label>
+                <Input type="password" id="confirmPassword" name="confirmPassword" className="form-control" placeholder="Confirm password" />
             </FormGroup>
             <FormGroup className="form-group" validators={validators['email']} onChange={onValidationStateChange}>
                 <label htmlFor="email">Email:</label>
