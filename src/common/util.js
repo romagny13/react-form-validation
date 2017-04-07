@@ -10,6 +10,10 @@ export function doFocus(focused, element) {
     if (focused && element) { element.focus(); }
 }
 
+export function objLength(obj) {
+    return Object.keys(obj).length;
+}
+
 export function omit(obj, names = []) {
     let result = {};
     for (let name in obj) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { isDefined, isFunction } from '../common/util';
+import { isDefined, isFunction, objLength } from '../common/util';
 
 export function canValidateOnChange(validators, form, touched) {
     return validators.length > 0 && (touched === true || (form && form.submitted));
@@ -9,14 +9,20 @@ export function canValidateOnBlur(validators, form, touched) {
     return validators.length > 0 && !touched && form && form.mode === 'touched';
 }
 
-export function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName) {
+export function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
     if (hasError) {
-        let baseClassName = className && className !== '' ? className + ' ' : '';
-        return baseClassName + hasErrorClassName;
+        let result = className && className !== '' ? className + ' ' + hasErrorClassName : hasErrorClassName;
+        if (showHasFeedback) {
+            result += ' ' + hasFeedbackClassName;
+        }
+        return result;
     }
     else if (showHasSuccess) {
-        let baseClassName = className && className !== '' ? className + ' ' : '';
-        return baseClassName + hasSuccessClassName;
+        let result = className && className !== '' ? className + ' ' + hasSuccessClassName : hasSuccessClassName;
+        if (showHasFeedback) {
+            result += ' ' + hasFeedbackClassName;
+        }
+        return result;
     }
     return className;
 }
@@ -76,32 +82,64 @@ export function validationStateHasChanged(state, newHasError, newFirstError) {
 
 export function hasSuccess(form, touched) {
     if (form && form.showHasSuccess) {
-        return form.mode === 'submit' ? form.submitted : touched;
+        return form.submitted || touched;
     }
     return false;
+}
+
+export function getInitialErrorFormState(errors) {
+    if (errors && objLength(errors) > 0) {
+        return {
+            hasError: true,
+            hasSuccess: false,
+            firstError: getFirstError(errors),
+            errors
+        };
+    }
+    else {
+        return {
+            hasError: false,
+            hasSuccess: false,
+            firstError: '',
+            errors: {}
+        };
+    }
 }
 
 export class FormGroup extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            hasError: false,
-            firstError: '',
-            errors: {}
-        };
+
+        this.state = getInitialErrorFormState(props.errors);
 
         this.hasErrorClassName = this.context.form && this.context.form.hasErrorClassName || 'has-error';
         this.hasSuccessClassName = this.context.form && this.context.form.hasSuccessClassName || 'has-success';
+        this.showHasFeedback = this.context.form && this.context.form.showHasFeedback;
+        this.hasFeedbackClassName = this.context.form && this.context.form.hasFeedbackClassName || 'has-feedback';
+        this.hasErrorFeedbackClassName = this.context.form && this.context.form.hasErrorFeedbackClassName || 'glyphicon glyphicon-remove form-control-feedback';
+        this.hasSuccessFeedbackClassName = this.context.form && this.context.form.hasSuccessFeedbackClassName || 'glyphicon glyphicon-ok form-control-feedback';
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
-
         // register this form group to form for submit event
         if (isDefined(this.context.form)) { this.context.form.register(this); }
     }
 
     getChildContext() {
         return { formGroup: this };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            let errors = nextProps.errors,
+                hasError = objLength(errors) > 0,
+                firstError = hasError ? getFirstError(errors) : '';
+            this.setState({
+                hasError,
+                firstError,
+                errors
+            });
+        }
     }
 
     register(name, formElement) {
@@ -122,6 +160,7 @@ export class FormGroup extends React.Component {
         // change state
         this.setState({
             hasError,
+            hasSuccess: !hasError,
             firstError,
             errors
         });
@@ -145,7 +184,7 @@ export class FormGroup extends React.Component {
         // check if validation state has changed
         if (validationStateHasChanged(this.state, hasError, firstError)) {
             // change state
-            this.setState({ hasError, firstError, errors });
+            this.setState({ hasError, hasSuccess: !hasError, firstError, errors });
 
             if (!this.touched) { this.touched = true; }
             // notify validation state change
@@ -167,10 +206,12 @@ export class FormGroup extends React.Component {
 
     render() {
         let showHasSuccess = hasSuccess(this.context.form, this.touched);
-        let groupClassName = getGroupClassName(this.state.hasError, showHasSuccess, this.props.className, this.hasErrorClassName, this.hasSuccessClassName);
+        let groupClassName = getGroupClassName(this.state.hasError, showHasSuccess, this.props.className, this.hasErrorClassName, this.hasSuccessClassName, this.showHasFeedback, this.hasFeedbackClassName);
         return (
             <div className={groupClassName} onChange={this.onChange} onBlur={this.onBlur}>
                 {this.props.children}
+                {this.showHasFeedback && this.state.hasError && <span className={this.hasErrorFeedbackClassName} aria-hidden="true" />}
+                {this.showHasFeedback && showHasSuccess && this.state.hasSuccess && <span className={this.hasSuccessFeedbackClassName} aria-hidden="true" />}
                 {this.state.hasError ? <span className="help-block">{this.state.firstError}</span> : null}
             </div>
         );
@@ -180,7 +221,8 @@ FormGroup.propTypes = {
     validators: React.PropTypes.array,
     children: React.PropTypes.node,
     onChange: React.PropTypes.func,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    errors: React.PropTypes.object
 };
 FormGroup.defaultProps = {
     validators: []

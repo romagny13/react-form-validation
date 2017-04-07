@@ -31,13 +31,14 @@ class HomePage extends React.Component {
                 likes: ['Milk', 'Cakes']
             },
             hasError: false,
+            errors: {},
             validators: {
                 'firstname': [required(), minLength(3)],
                 'lastname': [maxLength(10)],
                 'email': [email()],
                 'password': [
                     required('Please enter a password.'),
-                    pattern(/^(?=.*[A-Z]).{6}$/, '6 characters minimum and one uppercase letter')
+                    pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter')
                 ],
                 'confirmPassword': [
                     required('Please confirm the password.'),
@@ -58,19 +59,35 @@ class HomePage extends React.Component {
         this.onValidationStateChange = this.onValidationStateChange.bind(this);
     }
 
-    onValidationStateChange(name, value, hasError, firstError, errors) {
-        console.log('validation state changed', name, value, hasError, firstError, errors);
+    onValidationStateChange(name, value, hasError, firstError, groupErrors) {
+        console.log('validation state changed', name, value, hasError, firstError, groupErrors);
+        let errors = this.state.errors;
+        errors[name] = groupErrors;
         this.setState({
-            hasError
+            hasError,
+            errors
         });
     }
 
     onSubmit(hasError, formStates, formModel) {
-        console.log('submitted', hasError, formStates, formModel);
         if (!hasError) {
             const { firstname, lastname, email, age, note, preference, likes } = formModel;
             const user = { firstname, lastname, email, age, note, preference, likes };
             console.log('save user ...', user);
+
+            // simulate response error from server (example user exists error)
+            setTimeout(() => {
+                if (user.firstname === 'Marie') {
+                    this.setState({
+                        hasError: true,
+                        errors: {
+                            firstname: {
+                                custom: 'A user with this name is already registered.'
+                            }
+                        }
+                    });
+                }
+            });
         }
         else {
             this.setState({
@@ -90,6 +107,7 @@ class HomePage extends React.Component {
                     onSubmit={this.onSubmit}
                     hasError={this.state.hasError}
                     onValidationStateChange={this.onValidationStateChange}
+                    errors={this.state.errors}
                 />
             </div>
         );

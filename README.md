@@ -97,13 +97,18 @@ onSubmit | function to call on form submission
 hasErrorClassName | error className ('has-error' by default)
 hasSuccessClassName | success className ('has-success' by default)
 showHasSuccess | (false by default) add has success className on success
+showHasFeedback | (false by default) add has feedback className
+hasFeedbackClassName | 'has-feedback' by default
+hasErrorFeedbackClassName | className for error feedback
+hasSuccessFeedbackClassName | className for success feedback
 
 ... And more (autoComplete for example)
 
 FormGroup props | Description
 -------- |  --------
 validators | validators array
-onChange | function to call on validation state change
+onChange | notifcation on validation state change (name, value, hasError, firstError, groupErrors)
+errors | allow to set errors (object) for example after server validation
 className | base className to add to form group ('form-group' for example)
 
 

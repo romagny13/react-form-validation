@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.1.9
+ * romagny13-react-form-validation v0.1.10
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -35,6 +35,10 @@ function doFocus(focused, element) {
     if (focused && element) {
         element.focus();
     }
+}
+
+function objLength(obj) {
+    return Object.keys(obj).length;
 }
 
 function omit(obj) {
@@ -217,13 +221,19 @@ function canValidateOnBlur(validators, form, touched) {
     return validators.length > 0 && !touched && form && form.mode === 'touched';
 }
 
-function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName) {
+function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
     if (hasError) {
-        var baseClassName = className && className !== '' ? className + ' ' : '';
-        return baseClassName + hasErrorClassName;
+        var result = className && className !== '' ? className + ' ' + hasErrorClassName : hasErrorClassName;
+        if (showHasFeedback) {
+            result += ' ' + hasFeedbackClassName;
+        }
+        return result;
     } else if (showHasSuccess) {
-        var _baseClassName = className && className !== '' ? className + ' ' : '';
-        return _baseClassName + hasSuccessClassName;
+        var _result = className && className !== '' ? className + ' ' + hasSuccessClassName : hasSuccessClassName;
+        if (showHasFeedback) {
+            _result += ' ' + hasFeedbackClassName;
+        }
+        return _result;
     }
     return className;
 }
@@ -282,9 +292,27 @@ function validationStateHasChanged(state, newHasError, newFirstError) {
 
 function hasSuccess(form, touched) {
     if (form && form.showHasSuccess) {
-        return form.mode === 'submit' ? form.submitted : touched;
+        return form.submitted || touched;
     }
     return false;
+}
+
+function getInitialErrorFormState(errors) {
+    if (errors && objLength(errors) > 0) {
+        return {
+            hasError: true,
+            hasSuccess: false,
+            firstError: getFirstError(errors),
+            errors: errors
+        };
+    } else {
+        return {
+            hasError: false,
+            hasSuccess: false,
+            firstError: '',
+            errors: {}
+        };
+    }
 }
 
 var FormGroup = function (_React$Component) {
@@ -295,18 +323,17 @@ var FormGroup = function (_React$Component) {
 
         var _this = possibleConstructorReturn(this, (FormGroup.__proto__ || Object.getPrototypeOf(FormGroup)).call(this, props, context));
 
-        _this.state = {
-            hasError: false,
-            firstError: '',
-            errors: {}
-        };
+        _this.state = getInitialErrorFormState(props.errors);
 
         _this.hasErrorClassName = _this.context.form && _this.context.form.hasErrorClassName || 'has-error';
         _this.hasSuccessClassName = _this.context.form && _this.context.form.hasSuccessClassName || 'has-success';
+        _this.showHasFeedback = _this.context.form && _this.context.form.showHasFeedback;
+        _this.hasFeedbackClassName = _this.context.form && _this.context.form.hasFeedbackClassName || 'has-feedback';
+        _this.hasErrorFeedbackClassName = _this.context.form && _this.context.form.hasErrorFeedbackClassName || 'glyphicon glyphicon-remove form-control-feedback';
+        _this.hasSuccessFeedbackClassName = _this.context.form && _this.context.form.hasSuccessFeedbackClassName || 'glyphicon glyphicon-ok form-control-feedback';
 
         _this.onChange = _this.onChange.bind(_this);
         _this.onBlur = _this.onBlur.bind(_this);
-
         // register this form group to form for submit event
         if (isDefined(_this.context.form)) {
             _this.context.form.register(_this);
@@ -318,6 +345,20 @@ var FormGroup = function (_React$Component) {
         key: 'getChildContext',
         value: function getChildContext() {
             return { formGroup: this };
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (nextProps.errors) {
+                var errors = nextProps.errors,
+                    hasError = objLength(errors) > 0,
+                    firstError = hasError ? getFirstError(errors) : '';
+                this.setState({
+                    hasError: hasError,
+                    firstError: firstError,
+                    errors: errors
+                });
+            }
         }
     }, {
         key: 'register',
@@ -346,6 +387,7 @@ var FormGroup = function (_React$Component) {
 
             this.setState({
                 hasError: hasError,
+                hasSuccess: !hasError,
                 firstError: firstError,
                 errors: errors
             });
@@ -376,7 +418,7 @@ var FormGroup = function (_React$Component) {
 
             if (validationStateHasChanged(this.state, hasError, firstError)) {
                 // change state
-                this.setState({ hasError: hasError, firstError: firstError, errors: errors });
+                this.setState({ hasError: hasError, hasSuccess: !hasError, firstError: firstError, errors: errors });
 
                 if (!this.touched) {
                     this.touched = true;
@@ -405,11 +447,13 @@ var FormGroup = function (_React$Component) {
         key: 'render',
         value: function render() {
             var showHasSuccess = hasSuccess(this.context.form, this.touched);
-            var groupClassName = getGroupClassName(this.state.hasError, showHasSuccess, this.props.className, this.hasErrorClassName, this.hasSuccessClassName);
+            var groupClassName = getGroupClassName(this.state.hasError, showHasSuccess, this.props.className, this.hasErrorClassName, this.hasSuccessClassName, this.showHasFeedback, this.hasFeedbackClassName);
             return React.createElement(
                 'div',
                 { className: groupClassName, onChange: this.onChange, onBlur: this.onBlur },
                 this.props.children,
+                this.showHasFeedback && this.state.hasError && React.createElement('span', { className: this.hasErrorFeedbackClassName, 'aria-hidden': 'true' }),
+                this.showHasFeedback && showHasSuccess && this.state.hasSuccess && React.createElement('span', { className: this.hasSuccessFeedbackClassName, 'aria-hidden': 'true' }),
                 this.state.hasError ? React.createElement(
                     'span',
                     { className: 'help-block' },
@@ -424,7 +468,8 @@ FormGroup.propTypes = {
     validators: React.PropTypes.array,
     children: React.PropTypes.node,
     onChange: React.PropTypes.func,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    errors: React.PropTypes.object
 };
 FormGroup.defaultProps = {
     validators: []
@@ -684,7 +729,7 @@ var Form = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName']);
+            var rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName', 'showHasFeedback', 'hasFeedbackClassName', 'hasErrorFeedbackClassName', 'hasSuccessFeedbackClassName']);
             return React.createElement(
                 'form',
                 _extends({ onSubmit: this.onSubmit }, rest),
@@ -702,6 +747,16 @@ var Form = function (_React$Component) {
             return this.props.showHasSuccess;
         }
     }, {
+        key: 'showHasFeedback',
+        get: function get$$1() {
+            return this.props.showHasFeedback;
+        }
+    }, {
+        key: 'hasFeedbackClassName',
+        get: function get$$1() {
+            return this.props.hasFeedbackClassName;
+        }
+    }, {
         key: 'hasErrorClassName',
         get: function get$$1() {
             return this.props.hasErrorClassName;
@@ -711,6 +766,16 @@ var Form = function (_React$Component) {
         get: function get$$1() {
             return this.props.hasSuccessClassName;
         }
+    }, {
+        key: 'hasErrorFeedbackClassName',
+        get: function get$$1() {
+            return this.props.hasErrorFeedbackClassName;
+        }
+    }, {
+        key: 'hasSuccessFeedbackClassName',
+        get: function get$$1() {
+            return this.props.hasSuccessFeedbackClassName;
+        }
     }]);
     return Form;
 }(React.Component);
@@ -719,14 +784,22 @@ Form.propTypes = {
     onSubmit: React.PropTypes.func.isRequired,
     children: React.PropTypes.node,
     showHasSuccess: React.PropTypes.bool,
+    showHasFeedback: React.PropTypes.bool,
     hasErrorClassName: React.PropTypes.string,
-    hasSuccessClassName: React.PropTypes.string
+    hasSuccessClassName: React.PropTypes.string,
+    hasFeedbackClassName: React.PropTypes.string,
+    hasErrorFeedbackClassName: React.PropTypes.string,
+    hasSuccessFeedbackClassName: React.PropTypes.string
 };
 Form.defaultProps = {
     mode: 'submit',
     showHasSuccess: false,
+    showHasFeedback: false,
     hasErrorClassName: 'has-error',
-    hasSuccessClassName: 'has-success'
+    hasSuccessClassName: 'has-success',
+    hasFeedbackClassName: 'has-feedback',
+    hasErrorFeedbackClassName: 'glyphicon glyphicon-remove form-control-feedback',
+    hasSuccessFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback'
 };
 Form.childContextTypes = {
     form: React.PropTypes.any
@@ -1027,7 +1100,7 @@ var TextArea = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['value', 'onChange']);
+            var rest = omit(this.props, ['value', 'onChange', 'focus']);
             return React.createElement('textarea', _extends({
                 ref: this.props.name,
                 value: this.state.value,

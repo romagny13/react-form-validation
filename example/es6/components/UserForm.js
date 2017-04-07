@@ -1,11 +1,11 @@
 import React from 'react';
 import { Form, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, TextArea } from '../../../src/index';
 
-const UserForm = ({ user, validators, onSubmit, hasError, onValidationStateChange }) => {
+const UserForm = ({ user, validators, onSubmit, hasError, errors, onValidationStateChange }) => {
     console.log('render UserForm');
     return (
         <Form onSubmit={onSubmit} mode="touched" showHasSuccess>
-            <FormGroup className="form-group" validators={validators['firstname']} onChange={onValidationStateChange}>
+            <FormGroup className="form-group" validators={validators['firstname']} errors={errors['firstname']} onChange={onValidationStateChange}>
                 <label htmlFor="firstname">Firstname:</label>
                 <Input id="firstname" name="firstname" value={user.firstname} className="form-control" focus />
             </FormGroup>
@@ -64,7 +64,8 @@ UserForm.propTypes = {
     validators: React.PropTypes.object,
     hasError: React.PropTypes.bool,
     onValidationStateChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
+    onSubmit: React.PropTypes.func,
+    errors: React.PropTypes.object
 };
 UserForm.defaultProps = {
     validators: []

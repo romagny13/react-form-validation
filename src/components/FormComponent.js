@@ -52,12 +52,28 @@ export class Form extends React.Component {
         return this.props.showHasSuccess;
     }
 
+    get showHasFeedback() {
+        return this.props.showHasFeedback;
+    }
+
+    get hasFeedbackClassName() {
+        return this.props.hasFeedbackClassName;
+    }
+
     get hasErrorClassName() {
         return this.props.hasErrorClassName;
     }
 
     get hasSuccessClassName() {
         return this.props.hasSuccessClassName;
+    }
+
+    get hasErrorFeedbackClassName() {
+        return this.props.hasErrorFeedbackClassName;
+    }
+
+    get hasSuccessFeedbackClassName() {
+        return this.props.hasSuccessFeedbackClassName;
     }
 
     onSubmit(event) {
@@ -70,7 +86,7 @@ export class Form extends React.Component {
     }
 
     render() {
-        const rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName']);
+        const rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName', 'showHasFeedback', 'hasFeedbackClassName', 'hasErrorFeedbackClassName', 'hasSuccessFeedbackClassName']);
         return (
             <form onSubmit={this.onSubmit} {...rest}>
                 {this.props.children}
@@ -83,14 +99,22 @@ Form.propTypes = {
     onSubmit: React.PropTypes.func.isRequired,
     children: React.PropTypes.node,
     showHasSuccess: React.PropTypes.bool,
+    showHasFeedback: React.PropTypes.bool,
     hasErrorClassName: React.PropTypes.string,
-    hasSuccessClassName: React.PropTypes.string
+    hasSuccessClassName: React.PropTypes.string,
+    hasFeedbackClassName: React.PropTypes.string,
+    hasErrorFeedbackClassName: React.PropTypes.string,
+    hasSuccessFeedbackClassName: React.PropTypes.string
 };
 Form.defaultProps = {
     mode: 'submit',
     showHasSuccess: false,
+    showHasFeedback: false,
     hasErrorClassName: 'has-error',
-    hasSuccessClassName: 'has-success'
+    hasSuccessClassName: 'has-success',
+    hasFeedbackClassName: 'has-feedback',
+    hasErrorFeedbackClassName: 'glyphicon glyphicon-remove form-control-feedback',
+    hasSuccessFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback'
 };
 Form.childContextTypes = {
     form: React.PropTypes.any

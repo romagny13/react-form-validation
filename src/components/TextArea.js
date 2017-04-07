@@ -29,7 +29,7 @@ export class TextArea extends React.Component {
         if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, value); }
     }
     render() {
-        const rest = omit(this.props, ['value', 'onChange']);
+        const rest = omit(this.props, ['value', 'onChange', 'focus']);
         return (
             <textarea
                 ref={this.props.name}
