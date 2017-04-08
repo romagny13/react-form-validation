@@ -134,7 +134,7 @@ Example:
 ```js
 // the component receive the validation states
 const MyFormGroup = ({ hasError, hasSuccess, firstError, errors, children }) => {
-    var groupClassName = hasError ? 'form-group has-error' : 'form-group';
+    let groupClassName = hasError ? 'form-group has-error' : 'form-group';
     return (
         <div className={groupClassName}>
             {children}
@@ -249,6 +249,7 @@ export default UserForm;
 ```
 
 Page with form, validators and model
+
 ```js
 import React from 'react';
 import { required, minLength, maxLength, pattern, custom, isRequired } from 'romagny13-react-form-validation';
@@ -363,7 +364,7 @@ var required = ReactFormValidation.required;
 var minLength = ReactFormValidation.minLength;
 
 var MyFormGroup = function (props) {
-    let groupClassName = props.hasError ? 'form-group has-error' : 'form-group';
+    var groupClassName = props.hasError ? 'form-group has-error' : 'form-group';
     return (
         <div className={groupClassName}>
             {props.children}
@@ -405,4 +406,3 @@ var Home = React.createClass({
 
 ReactDOM.render(<div className="container"><h2>Form validation with es5</h2><Home /></div>, document.getElementById('app'));
 ```
-

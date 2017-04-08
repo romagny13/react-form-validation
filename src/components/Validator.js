@@ -36,7 +36,6 @@ export function validateValue(value, validators) {
         let result = validator(value);
         if (result) {
             hasError = true;
-            // example:  errors: { required: 'This FormGroup is required.' }
             errors[result.name] = result.error;
         }
     });
@@ -111,10 +110,11 @@ export class Validator extends React.Component {
 
             this.setState({ hasError, hasSuccess, firstError, errors });
 
-            if (this.formElement) {
-                let name = this.formElement.getName(),
-                    value = this.formElement.getValue();
-                this.raise({ name, value, hasError, hasSuccess, firstError, errors });
+            let name = this.name;
+            let element = findElementByName(this.refs.root, name);
+            if (element) {
+                let value = getElementValue(element);
+                this.raiseValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors });
             }
         }
     }
@@ -189,17 +189,21 @@ export class Validator extends React.Component {
                 }
             }
         };
-        let type = this.props.children.type;
-        if (typeof type === 'function') {
+        let root = this.props.children;
+        if (Array.isArray(root)) { throw new Error('Validator do not support array of elements.'); }
+
+        if (typeof root.type === 'function') {
             // component
-            const args = Object.assign({}, this.state, this.props.children.props);
-            const root = new this.props.children.type(args);
-            const props = Object.assign({}, root.props, handles);
-            return <root.type ref="root" {...props}>{root.props.children}</root.type>;
+            // validation states + root element props
+            const params = Object.assign({}, this.state, root.props);
+            // create component
+            const component = new this.props.children.type(params);
+            const props = Object.assign({}, component.props, handles);
+            return <component.type ref="root" {...props}>{component.props.children}</component.type>;
         }
         else {
-            let root = this.props.children;
-            return <root ref="root" {...handles}>{root.props.children}</root>;
+            // render content with no validation
+            return <root.type ref="root" {...root.props}>{root.props.children}</root.type>;
         }
     }
 }

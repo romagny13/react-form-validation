@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.3.0
+ * romagny13-react-form-validation v0.3.1
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -603,7 +603,6 @@ function validateValue(value, validators) {
         var result = validator(value);
         if (result) {
             hasError = true;
-            // example:  errors: { required: 'This FormGroup is required.' }
             errors[result.name] = result.error;
         }
     });
@@ -691,10 +690,11 @@ var Validator = function (_React$Component) {
 
                 this.setState({ hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
 
-                if (this.formElement) {
-                    var name = this.formElement.getName(),
-                        value = this.formElement.getValue();
-                    this.raise({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
+                var name = this.name;
+                var element = findElementByName(this.refs.root, name);
+                if (element) {
+                    var value = getElementValue(element);
+                    this.raiseValidationStateChange({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
                 }
             }
         }
@@ -790,23 +790,29 @@ var Validator = function (_React$Component) {
                     }
                 }
             };
-            var type = this.props.children.type;
-            if (typeof type === 'function') {
+            var root = this.props.children;
+            if (Array.isArray(root)) {
+                throw new Error('Validator do not support array of elements.');
+            }
+
+            if (typeof root.type === 'function') {
                 // component
-                var args = Object.assign({}, this.state, this.props.children.props);
-                var root = new this.props.children.type(args);
-                var props = Object.assign({}, root.props, handles);
+                // validation states + root element props
+                var params = Object.assign({}, this.state, root.props);
+                // create component
+                var component = new this.props.children.type(params);
+                var props = Object.assign({}, component.props, handles);
                 return React.createElement(
-                    root.type,
+                    component.type,
                     _extends({ ref: 'root' }, props),
-                    root.props.children
+                    component.props.children
                 );
             } else {
-                var _root = this.props.children;
+                // render content with no validation
                 return React.createElement(
-                    'root',
-                    _extends({ ref: 'root' }, handles),
-                    _root.props.children
+                    root.type,
+                    _extends({ ref: 'root' }, root.props),
+                    root.props.children
                 );
             }
         }
