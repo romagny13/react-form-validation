@@ -30,8 +30,6 @@ class HomePage extends React.Component {
                 preference: 'b',
                 likes: ['Milk', 'Cakes']
             },
-            hasError: false,
-            errors: {},
             validators: {
                 'firstname': [required(), minLength(3)],
                 'lastname': [maxLength(10)],
@@ -53,23 +51,18 @@ class HomePage extends React.Component {
                 'likes': [custom(() => {
                     return this.state.user.likes.length > 0;
                 }, 'Please select one or more items.')]
-            }
+            },
+            errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onValidationStateChange = this.onValidationStateChange.bind(this);
     }
 
-    onValidationStateChange(name, value, hasError, firstError, groupErrors) {
-        console.log('validation state changed', name, value, hasError, firstError, groupErrors);
-        let errors = this.state.errors;
-        errors[name] = groupErrors;
-        this.setState({
-            hasError,
-            errors
-        });
+    onValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors }) {
+        console.log('validation state changed', name, value, hasError, firstError, errors);
     }
 
-    onSubmit(hasError, formStates, formModel) {
+    onSubmit({ hasError, formStates, formModel }) {
         if (!hasError) {
             const { firstname, lastname, email, age, note, preference, likes } = formModel;
             const user = { firstname, lastname, email, age, note, preference, likes };
@@ -79,7 +72,6 @@ class HomePage extends React.Component {
             setTimeout(() => {
                 if (user.firstname === 'Marie') {
                     this.setState({
-                        hasError: true,
                         errors: {
                             firstname: {
                                 custom: 'A user with this name is already registered.'
@@ -87,11 +79,6 @@ class HomePage extends React.Component {
                         }
                     });
                 }
-            });
-        }
-        else {
-            this.setState({
-                hasError
             });
         }
     }
@@ -102,12 +89,11 @@ class HomePage extends React.Component {
             <div className="container">
                 <h2>Form binding and validation</h2>
                 <UserForm
-                    user={this.state.user}
                     validators={this.state.validators}
-                    onSubmit={this.onSubmit}
-                    hasError={this.state.hasError}
-                    onValidationStateChange={this.onValidationStateChange}
                     errors={this.state.errors}
+                    user={this.state.user}
+                    onSubmit={this.onSubmit}
+                    onValidationStateChange={this.onValidationStateChange}
                 />
             </div>
         );

@@ -10,9 +10,6 @@ describe('Form', () => {
             id: 'formid',
             className: 'form-horizontal',
             mode: 'touched',
-            showHasSuccess: true,
-            hasErrorClassName: 'field-has-error',
-            hasSuccessClassName: 'field-has-success',
             onSubmit: () => { }
         };
         const wrapper = mount(<Form  {...props} />);
@@ -23,9 +20,6 @@ describe('Form', () => {
 
         let instance = wrapper.instance();
         assert.equal(instance.mode, 'touched');
-        assert.equal(instance.hasErrorClassName, props.hasErrorClassName);
-        assert.equal(instance.hasSuccessClassName, props.hasSuccessClassName);
-        assert.isTrue(instance.showHasSuccess);
     });
 
 });

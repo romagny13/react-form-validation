@@ -1,4 +1,4 @@
-# React Form Validation
+# React Form Validation v2
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
@@ -11,7 +11,7 @@ npm i romagny13-react-form-validation -S
 Example 
 
 ```js
-import { Validator, Form, FormGroup, Input } from 'romagny13-react-form-validation';
+import { Form, FormGroup, Input } from 'romagny13-react-form-validation';
 ```
 
 ## Validators
@@ -65,7 +65,7 @@ const validators = {
 };
 ```
 
-### Model
+### Model (for binding)
 
 Example
 
@@ -94,23 +94,15 @@ Form props | Description
 -------- |  --------
 mode | submit (by default) or touched
 onSubmit | function to call on form submission
-hasErrorClassName | error className ('has-error' by default)
-hasSuccessClassName | success className ('has-success' by default)
-showHasSuccess | (false by default) add has success className on success
-showHasFeedback | (false by default) add has feedback className
-hasFeedbackClassName | 'has-feedback' by default
-hasErrorFeedbackClassName | className for error feedback
-hasSuccessFeedbackClassName | className for success feedback
 
 ... And more (autoComplete for example)
 
 FormGroup props | Description
 -------- |  --------
 validators | validators array
-onChange | notifcation on validation state change (name, value, hasError, firstError, groupErrors)
-errors | allow to set errors (object) for example after server validation
-className | base className to add to form group ('form-group' for example)
-
+render | function called to render field
+onValidationStateChange | notifcation on validation state change
+errors | allow to set errors (object) for example after form submission and server validation error
 
 Allow to bind value (and isolate rendering) and be notified on value change:
 
@@ -120,68 +112,102 @@ Allow to bind value (and isolate rendering) and be notified on value change:
 * RadioGroup
 * Select
 * TextArea
+* Submit (disabled if form has errors) 
 
 ## Example: form with binding and validation
 
 UserForm
 
 ```js
-const UserForm = ({ user, validators, onSubmit, hasError, onValidationStateChange }) => {
+import React from 'react';
+import { Form, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, TextArea, Submit } from 'romagny13-react-form-validation';
+import { renderField } from './renderField';
+
+const UserForm = ({ user, validators, onSubmit, errors, onValidationStateChange }) => {
     console.log('render UserForm');
     return (
-        <Form onSubmit={onSubmit} mode="touched">
-            <FormGroup className="form-group" validators={validators['firstname']} onChange={onValidationStateChange}>
-                <label htmlFor="firstname">Firstname:</label>
-                <Input id="firstname" name="firstname" value={user.firstname} className="form-control" focus/>
-            </FormGroup>
-            <FormGroup className="form-group" validators={validators['lastname']} onChange={onValidationStateChange}>
-                <label htmlFor="lastname">Lastname:</label>
-                <Input id="lastname" name="lastname" value={user.lastname} className="form-control" />
-            </FormGroup>
-            <FormGroup className="form-group" validators={validators['email']} onChange={onValidationStateChange}>
-                <label htmlFor="email">Email:</label>
-                <Input id="email" name="email" value={user.email} className="form-control" placeholder="example@domain.com" />
-            </FormGroup>
-            <FormGroup className="form-group" validators={validators['age']} onChange={onValidationStateChange}>
-                <label htmlFor="age">Age:</label>
-                <Input type="number" id="age" name="age" value={user.age} className="form-control" />
-            </FormGroup>
-            <FormGroup className="form-group">
-                <label htmlFor="list">List (no validation):</label>
-                <Select name="list" dataSource={[1, 2, 3]} current={user.list} className="form-control" />
-            </FormGroup>
-            <fieldset>
-                <legend>Titre</legend>
-                <FormGroup className="form-group">
-                    <label>Preference:</label>
-                    <RadioGroup name="preference" dataSource={['a', 'b', 'c']} current={user.preference} />
-                </FormGroup>
-            </fieldset>
-            <FormGroup className="form-group" validators={validators['likes']} onChange={onValidationStateChange}>
-                <label>Like (one or more items):</label>
-                <CheckboxGroup name="likes" dataSource={['Cakes', 'Milk', 'Nutella']} currents={user.likes} />
-            </FormGroup>
-            <FormGroup className="form-group">
-                <label>Note:</label>
-                <TextArea name="note" value={user.note} className="form-control" rows="5" />
-            </FormGroup>
-            <FormGroup className="form-group" validators={validators['agree']} onChange={onValidationStateChange}>
-                <div className="checkbox">
-                    <label>
-                        <Checkbox name="agree" />Agree to conditions
-                            </label>
-                </div>
-            </FormGroup>
-            <input className="btn btn-default" disabled={hasError} type="submit" value="Submit" />
+        <Form onSubmit={onSubmit} mode="submit">
+            <FormGroup
+                validators={validators['firstname']}
+                errors={errors['firstname']}
+                render={renderField}
+                component={<Input id="firstname" name="firstname" value={user.firstname} className="form-control" focus />}
+                label={<label htmlFor="firstname" className="control-label">Firstname:</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                validators={validators['lastname']}
+                render={renderField}
+                component={<Input id="lastname" name="lastname" value={user.lastname} className="form-control" />}
+                label={<label htmlFor="lastname" className="control-label">Lastname:</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                validators={validators['password']}
+                render={renderField}
+                component={<Input type="password" id="password" name="password" value={user.password} className="form-control" placeholder="Password" />}
+                label={<label htmlFor="password" className="control-label">Password:</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                validators={validators['confirmPassword']}
+                render={renderField}
+                component={<Input type="password" id="confirmPassword" name="confirmPassword" value={user.confirmPassword} className="form-control" placeholder="Confirm password" />}
+                label={<label htmlFor="confirmPassword" className="control-label">Password:</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                validators={validators['email']}
+                render={renderField}
+                component={<Input id="email" name="email" value={user.email} className="form-control" placeholder="example@domain.com" />}
+                label={<label htmlFor="email" className="control-label">Email:</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                validators={validators['age']}
+                render={renderField}
+                component={<Input type="number" id="age" name="age" value={user.age} className="form-control" />}
+                label={<label htmlFor="age" className="control-label">Age:</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                render={renderField}
+                component={<Select name="list" dataSource={[1, 2, 3]} current={user.list} className="form-control" />}
+                label={<label htmlFor="list" className="control-label">List (no validation):</label>}
+            />
+            <FormGroup
+                render={renderField}
+                component={<RadioGroup name="preference" dataSource={['a', 'b', 'c']} current={user.preference} />}
+                label={<label>Preference:</label>}
+            />
+            <FormGroup
+                validators={validators['likes']}
+                render={renderField}
+                component={<CheckboxGroup name="likes" dataSource={['Cakes', 'Milk', 'Nutella']} currents={user.likes} />}
+                label={<label>Like (one or more items):</label>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <FormGroup
+                render={renderField}
+                component={<TextArea name="note" value={user.note} className="form-control" rows="5" />}
+                label={<label>Note:</label>}
+            />
+            <FormGroup
+                validators={validators['agree']}
+                render={renderField}
+                component={<div className="checkbox"><label><Checkbox name="agree" />Agree to conditions</label></div>}
+                onValidationStateChange={onValidationStateChange}
+            />
+            <Submit className="btn btn-default" value="Submit" />
         </Form>
     );
 };
 UserForm.propTypes = {
     user: React.PropTypes.object.isRequired,
     validators: React.PropTypes.object,
-    hasError: React.PropTypes.bool,
     onValidationStateChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
+    onSubmit: React.PropTypes.func,
+    errors: React.PropTypes.object
 };
 UserForm.defaultProps = {
     validators: []
@@ -189,6 +215,35 @@ UserForm.defaultProps = {
 
 export default UserForm;
 ```
+
+render field function example with success and error feedbacks
+```js
+import React from 'react';
+
+function getGroupClassName(hasError, hasSuccess, className, hasFeedbackClassName, hasErrorClassName, hasSuccessClassName) {
+    if (hasError) {
+        return className + ' ' + hasFeedbackClassName + ' ' + hasErrorClassName;
+    }
+    else if (hasSuccess) {
+        return className + ' ' + hasFeedbackClassName + ' ' + hasSuccessClassName;
+    }
+    return className;
+}
+
+export const renderField = ({ component, label, hasError, hasSuccess, firstError }) => {
+    let groupClassName = getGroupClassName(hasError, hasSuccess, 'form-group', 'has-feedback', 'has-error', 'has-success');
+    return (
+        <div className={groupClassName}>
+            {label}
+            {component}
+            {hasError && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" />}
+            {hasSuccess && <span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" />}
+            {hasError && <span className="help-block">{firstError}</span>}
+        </div>
+    );
+};
+```
+
 
 Page with form, validators and model
 ```js
@@ -215,6 +270,7 @@ class HomePage extends React.Component {
             user: {
                 firstname: 'Marie',
                 lastname: 'Bellin',
+                password: 'Secret',
                 email: '',
                 age: 20,
                 list: '2',
@@ -226,6 +282,16 @@ class HomePage extends React.Component {
                 'firstname': [required(), minLength(3)],
                 'lastname': [maxLength(10)],
                 'email': [email()],
+                'password': [
+                    required('Please enter a password.'),
+                    pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter')
+                ],
+                'confirmPassword': [
+                    required('Please confirm the password.'),
+                    custom((value) => {
+                        return this.state.user.password === value;
+                    }, 'Password and confirm password do not match.')
+                ],
                 'age': [custom((value) => {
                     return value > 0 && value < 120;
                 }, 'Oops ??')],
@@ -233,20 +299,35 @@ class HomePage extends React.Component {
                 'likes': [custom(() => {
                     return this.state.user.likes.length > 0;
                 }, 'Please select one or more items.')]
-            }
+            },
+            errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
+        this.onValidationStateChange = this.onValidationStateChange.bind(this);
     }
 
-    onValidationStateChange(name, value, hasError, firstError, errors) {
+    onValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors }) {
         console.log('validation state changed', name, value, hasError, firstError, errors);
     }
 
-    onSubmit(hasError, formStates, formModel) {
+    onSubmit({ hasError, formStates, formModel }) {
         if (!hasError) {
             const { firstname, lastname, email, age, note, preference, likes } = formModel;
             const user = { firstname, lastname, email, age, note, preference, likes };
             console.log('save user ...', user);
+
+            // simulate response error from server (example user exists error)
+            setTimeout(() => {
+                if (user.firstname === 'Marie') {
+                    this.setState({
+                        errors: {
+                            firstname: {
+                                custom: 'A user with this name is already registered.'
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -256,10 +337,10 @@ class HomePage extends React.Component {
             <div className="container">
                 <h2>Form binding and validation</h2>
                 <UserForm
-                    user={this.state.user}
                     validators={this.state.validators}
+                    errors={this.state.errors}
+                    user={this.state.user}
                     onSubmit={this.onSubmit}
-                    hasError={this.state.hasError}
                     onValidationStateChange={this.onValidationStateChange}
                 />
             </div>
@@ -292,21 +373,29 @@ var Home = React.createClass({
             }
         };
     },
+    renderField: function (infos) {
+        var hasError = infos.hasError;
+        var groupClassName = hasError ? 'form-group has-error' : 'form-group';
+        return (
+            <div id="group" className={groupClassName}>
+                <label htmlFor="firstname">Firstname:</label>
+                <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus />
+                {hasError && <span className="help-block">{infos.firstError}</span>}
+            </div>
+        );
+    },
     onSubmit: function (hasError, formStates, formModel) {
-          if (!hasError) {
-              var user = {
-                  firstname:formModel['firstname']
-              };
-              console.log('save user ...', user);
-          }
+        if (!hasError) {
+            var user = {
+                firstname: formModel['firstname']
+            };
+            console.log('save user', user);
+        }
     },
     render() {
         return (
-            <Form className="form-group" onSubmit={this.onSubmit}>
-                <FormGroup className="form-group" validators={this.state.validators['firstname']}>
-                    <label htmlFor="firstname">Firstname:</label>
-                    <Input id="firstname" name="firstname" value={this.state.user.firstname}  className="form-control" />
-                </FormGroup>
+            <Form onSubmit={this.onSubmit}>
+                <FormGroup validators={this.state.validators['firstname']} render={this.renderField} />
                 <input className="btn btn-default" type="submit" value="Submit" />
             </Form>
         );

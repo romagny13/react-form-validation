@@ -53,5 +53,5 @@ RadioGroup.propTypes = {
     current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
 };
 RadioGroup.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup)
+    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };

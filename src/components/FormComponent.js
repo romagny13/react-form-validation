@@ -7,7 +7,7 @@ export function validateAll(formGroups) {
         hasOneOrMoreErrors = false;
 
     formGroups.forEach((formGroup) => {
-        let validation = formGroup.validate();
+        let validation = formGroup.validateOnSubmit();
         // could be null if FormGroup has no registered form component
         if (validation) {
             const { name, hasError, firstError, value } = validation;
@@ -26,12 +26,28 @@ export function validateAll(formGroups) {
     };
 }
 
+export function isValid(formStates) {
+    for (let name in formStates) {
+        if (formStates.hasOwnProperty(name)) {
+            let formState = formStates[name];
+            if (formState.hasError) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 export class Form extends React.Component {
     constructor(props) {
         super(props);
+        this._subscribers = [];
 
         this.formGroups = [];
+        this.hasError = false;
+        this.formStates = {};
         this.submitted = false;
+
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -40,40 +56,29 @@ export class Form extends React.Component {
     }
 
     register(formGroup) {
-        // register form groups
+        // subscribe to group validation state change { name, value, hasError, hasSuccess, firstError, errors }
+        formGroup.subscribe(({ name, hasError, hasSuccess, firstError, errors }) => {
+            this.formStates[name] = { hasError, firstError };
+            this.hasError = !isValid(this.formStates);
+            // notify all subscribers that validation state changed
+            this.raise({ hasError: this.hasError });
+        });
+        // allow to validate each form group on submit
         this.formGroups.push(formGroup);
+    }
+
+    subscribe(subscriber) {
+        this._subscribers.push(subscriber);
+    }
+
+    raise(event) {
+        this._subscribers.forEach((subscriber) => {
+            subscriber(event);
+        });
     }
 
     get mode() {
         return this.props.mode;
-    }
-
-    get showHasSuccess() {
-        return this.props.showHasSuccess;
-    }
-
-    get showHasFeedback() {
-        return this.props.showHasFeedback;
-    }
-
-    get hasFeedbackClassName() {
-        return this.props.hasFeedbackClassName;
-    }
-
-    get hasErrorClassName() {
-        return this.props.hasErrorClassName;
-    }
-
-    get hasSuccessClassName() {
-        return this.props.hasSuccessClassName;
-    }
-
-    get hasErrorFeedbackClassName() {
-        return this.props.hasErrorFeedbackClassName;
-    }
-
-    get hasSuccessFeedbackClassName() {
-        return this.props.hasSuccessFeedbackClassName;
     }
 
     onSubmit(event) {
@@ -81,12 +86,16 @@ export class Form extends React.Component {
 
         const { hasError, formStates, formModel } = validateAll(this.formGroups);
 
+        this.hasError = hasError;
+        this.formStates = formStates;
         this.submitted = true;
-        this.props.onSubmit(hasError, formStates, formModel);
+
+        this.props.onSubmit({ hasError, formStates, formModel });
+        this.raise({ hasError });
     }
 
     render() {
-        const rest = omit(this.props, ['onSubmit', 'mode', 'showHasSuccess', 'hasErrorClassName', 'hasSuccessClassName', 'showHasFeedback', 'hasFeedbackClassName', 'hasErrorFeedbackClassName', 'hasSuccessFeedbackClassName']);
+        const rest = omit(this.props, ['onSubmit', 'mode']);
         return (
             <form onSubmit={this.onSubmit} {...rest}>
                 {this.props.children}
@@ -97,24 +106,10 @@ export class Form extends React.Component {
 Form.propTypes = {
     mode: React.PropTypes.oneOf(['submit', 'touched']),
     onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node,
-    showHasSuccess: React.PropTypes.bool,
-    showHasFeedback: React.PropTypes.bool,
-    hasErrorClassName: React.PropTypes.string,
-    hasSuccessClassName: React.PropTypes.string,
-    hasFeedbackClassName: React.PropTypes.string,
-    hasErrorFeedbackClassName: React.PropTypes.string,
-    hasSuccessFeedbackClassName: React.PropTypes.string
+    children: React.PropTypes.node
 };
 Form.defaultProps = {
-    mode: 'submit',
-    showHasSuccess: false,
-    showHasFeedback: false,
-    hasErrorClassName: 'has-error',
-    hasSuccessClassName: 'has-success',
-    hasFeedbackClassName: 'has-feedback',
-    hasErrorFeedbackClassName: 'glyphicon glyphicon-remove form-control-feedback',
-    hasSuccessFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback'
+    mode: 'submit'
 };
 Form.childContextTypes = {
     form: React.PropTypes.any

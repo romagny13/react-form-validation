@@ -33,6 +33,17 @@
                     }
                 };
             },
+            renderField : function (infos) {
+                var hasError = infos.hasError;
+                var groupClassName = hasError ? 'form-group has-error' : 'form-group';
+                return (
+                    <div id="group" className={groupClassName}>
+                        <label htmlFor="firstname">Firstname:</label>
+                        <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus/>
+                        {hasError && <span className="help-block">{infos.firstError}</span>}
+                    </div>
+                );
+            },
             onSubmit: function (hasError, formStates, formModel) {
                 if (!hasError) {
                     var user = {
@@ -43,11 +54,8 @@
              },
             render() {
                 return(
-                    <Form className="form-group" onSubmit={this.onSubmit}>
-                         <FormGroup className="form-group" validators={this.state.validators['firstname']}>
-                            <label htmlFor="firstname">Firstname:</label>
-                            <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus/>
-                         </FormGroup>
+                    <Form onSubmit={this.onSubmit}>
+                         <FormGroup validators={this.state.validators['firstname']} render={this.renderField} />
                          <input className="btn btn-default" type="submit" value="Submit" />
                     </Form>
                 );

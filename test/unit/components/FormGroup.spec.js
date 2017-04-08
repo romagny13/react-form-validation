@@ -7,12 +7,21 @@ import {
     FormGroup,
     canValidateOnChange,
     canValidateOnBlur,
-    getGroupClassName,
     validationStateHasChanged,
     getFirstError,
-    hasSuccess,
     getElementValue
 } from '../../../src/components/FormGroup';
+
+
+const renderField = ({ hasError, firstError }) => {
+    let groupClassName = hasError ? 'form-group has-error' : 'form-group';
+    return (
+        <div id="group" className={groupClassName}>
+            <Input id="firstname" name="firstname" value="" />
+            {hasError && <span className="help-block">{firstError}</span>}
+        </div>
+    );
+};
 
 describe('FormGroup', () => {
 
@@ -20,13 +29,11 @@ describe('FormGroup', () => {
 
     it('Should validate', () => {
 
-        const formGroup = mount(<FormGroup className="form-group" validators={validators}>
-            <Input id="firstname" name="firstname" value="" />
-        </FormGroup>);
+        const formGroup = mount(<FormGroup validators={validators} render={renderField} />);
 
-        formGroup.instance().validate();
+        formGroup.instance().validateOnSubmit();
 
-        let div = formGroup.find('div');
+        let div = formGroup.find('#group');
         let span = formGroup.find('span');
         assert.equal(div.hasClass('has-error'), true);
         assert.equal(span.text(), 'This field is required.');
@@ -64,36 +71,6 @@ describe('FormGroup', () => {
 
     it('Should can validate on change with mode touched if touched', () => {
         assert.isTrue(canValidateOnChange(validators, { mode: 'touched', submitted: true }, true));
-    });
-
-    it('Should get group className', () => {
-        let result = getGroupClassName(false, false, 'form-group', 'has-error', 'has-success');
-        assert.equal(result, 'form-group');
-    });
-
-    it('Should get group className empty', () => {
-        let result = getGroupClassName(false, false, undefined, 'has-error', 'has-success');
-        assert.equal(result, undefined);
-    });
-
-    it('Should get group className + has error', () => {
-        let result = getGroupClassName(true, false, 'form-group', 'has-error', 'has-success');
-        assert.equal(result, 'form-group has-error');
-    });
-
-    it('Should get group className empty + has error', () => {
-        let result = getGroupClassName(true, false, undefined, 'has-error', 'has-success');
-        assert.equal(result, 'has-error');
-    });
-
-    it('Should get group className + has success', () => {
-        let result = getGroupClassName(false, true, 'form-group', 'has-error', 'has-success');
-        assert.equal(result, 'form-group has-success');
-    });
-
-    it('Should get group className empty + has success', () => {
-        let result = getGroupClassName(false, true, undefined, 'has-error', 'has-success');
-        assert.equal(result, 'has-success');
     });
 
     it('Should detect if validation state has changed with old no error and new error', () => {
@@ -134,37 +111,6 @@ describe('FormGroup', () => {
             b: 'b'
         });
         assert.equal(result, 'a');
-    });
-
-
-    it('Should have no success with mode submit and form not submitted', () => {
-        let result = hasSuccess({ mode: 'submit', showHasSuccess: true, submitted: false }, false);
-        assert.isFalse(result);
-    });
-
-    it('Should have success with mode submit and form submitted', () => {
-        let result = hasSuccess({ mode: 'submit', showHasSuccess: true, submitted: true }, false);
-        assert.isTrue(result);
-    });
-
-    it('Should have no success with mode touched and not touched', () => {
-        let result = hasSuccess({ mode: 'touched', showHasSuccess: true, submitted: false }, false);
-        assert.isFalse(result);
-    });
-
-    it('Should have success with mode touched and touched', () => {
-        let result = hasSuccess({ mode: 'touched', showHasSuccess: true, submitted: false }, true);
-        assert.isTrue(result);
-    });
-
-    it('Should have no success with no form', () => {
-        let result = hasSuccess(undefined, true);
-        assert.isFalse(result);
-    });
-
-    it('Should have no success with not showHasSuccess ', () => {
-        assert.isFalse(hasSuccess({ mode: 'touched', showHasSuccess: false, submitted: false }, true));
-        assert.isFalse(hasSuccess({ mode: 'submit', showHasSuccess: false, submitted: true }, false));
     });
 
     it('Should get value for checkbox', () => {

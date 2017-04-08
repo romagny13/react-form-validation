@@ -49,5 +49,5 @@ TextArea.defaultProps = {
     value: ''
 };
 TextArea.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup)
+    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };

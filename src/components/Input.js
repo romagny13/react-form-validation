@@ -66,5 +66,5 @@ Input.defaultProps = {
     type: 'text'
 };
 Input.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup)
+    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };

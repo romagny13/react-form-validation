@@ -75,5 +75,5 @@ CheckboxGroup.defaultProps = {
     currents: []
 };
 CheckboxGroup.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup)
+    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };

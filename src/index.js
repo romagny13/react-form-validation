@@ -7,3 +7,4 @@ export { Input } from './components/Input';
 export { RadioGroup } from './components/RadioGroup';
 export { Select } from './components/Select';
 export { TextArea } from './components/TextArea'; 
+export { Submit } from './components/Submit'; 

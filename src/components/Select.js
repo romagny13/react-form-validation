@@ -57,5 +57,5 @@ Select.propTypes = {
     focus: React.PropTypes.bool
 };
 Select.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup)
+    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };
