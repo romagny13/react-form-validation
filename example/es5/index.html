@@ -23,7 +23,7 @@
         var minLength = ReactFormValidation.minLength;
 
         var MyFormGroup = function (props) {
-            let groupClassName = props.hasError ? 'form-group has-error' : 'form-group';
+            var groupClassName = props.hasError ? 'form-group has-error' : 'form-group';
             return (
                 <div className={groupClassName}>
                     {props.children}
