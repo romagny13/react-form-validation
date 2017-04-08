@@ -189,7 +189,7 @@ export class FormGroup extends React.Component {
     }
 
     render() {
-        const rest = omit(this.props, ['validators', 'errors', 'onChange', 'render']),
+        const rest = omit(this.props, ['validators', 'errors', 'onValidationStateChange', 'render']),
             props = Object.assign({}, rest, this.state);
         const component = React.createElement(this.props.render, props);
         return (

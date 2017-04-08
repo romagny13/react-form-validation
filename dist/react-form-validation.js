@@ -434,7 +434,7 @@ var FormGroup = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['validators', 'errors', 'onChange', 'render']),
+            var rest = omit(this.props, ['validators', 'errors', 'onValidationStateChange', 'render']),
                 props = Object.assign({}, rest, this.state);
             var component = React.createElement(this.props.render, props);
             return React.createElement(
