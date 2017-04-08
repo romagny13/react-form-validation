@@ -92,7 +92,7 @@ Allow to validate value and show error messages (note: css class "has-error" is 
 
 Form props | Description
 -------- |  --------
-mode | submit (by default) or touched
+mode | `submit` (by default) or `touched`
 onSubmit | function to call on form submission
 
 ... And more (autoComplete for example)
@@ -119,14 +119,14 @@ And
 
 FormGroup props | Description
 -------- |  --------
-className | 'form-group' by default
-hasErrorClassName | 'has-error' by default
-hasSuccessClassName | 'has-success' by default
-showHasFeedback | true by default
-showHasSuccess | true by default
-hasFeedbackClassName | 'has-feedback'
-hasErrorFeedbackClassName | 'glyphicon glyphicon-remove form-control-feedback'
-hasSuccessFeedbackClassName | 'glyphicon glyphicon-ok form-control-feedback'
+className | `form-group` by default
+hasErrorClassName | `has-error` by default
+hasSuccessClassName | `has-success` by default
+showHasFeedback | `true` by default
+showHasSuccess | `true` by default
+hasFeedbackClassName | `has-feedback`
+hasErrorFeedbackClassName | `glyphicon glyphicon-remove form-control-feedback`
+hasSuccessFeedbackClassName | `glyphicon glyphicon-ok form-control-feedback`
 
 We could create our own `FormGroup` or component that receive validation states and display controls
 
