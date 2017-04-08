@@ -126,7 +126,7 @@ import { renderField } from './renderField';
 const UserForm = ({ user, validators, onSubmit, errors, onValidationStateChange }) => {
     console.log('render UserForm');
     return (
-        <Form onSubmit={onSubmit} mode="submit">
+        <Form onSubmit={onSubmit} mode="touched">
             <FormGroup
                 validators={validators['firstname']}
                 errors={errors['firstname']}
