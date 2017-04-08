@@ -32,7 +32,7 @@ const UserForm = ({ user, validators, onSubmit, errors, onValidationStateChange 
                 validators={validators['confirmPassword']}
                 render={renderField}
                 component={<Input type="password" id="confirmPassword" name="confirmPassword" value={user.confirmPassword} className="form-control" placeholder="Confirm password" />}
-                label={<label htmlFor="confirmPassword" className="control-label">Password:</label>}
+                label={<label htmlFor="confirmPassword" className="control-label">Confirm password:</label>}
                 onValidationStateChange={onValidationStateChange}
             />
             <FormGroup
