@@ -134,7 +134,7 @@ Example:
 ```js
 // the component receive the validation states
 const MyFormGroup = ({ hasError, hasSuccess, firstError, errors, children }) => {
-    let groupClassName = hasError ? 'form-group has-error' : 'form-group';
+    var groupClassName = hasError ? 'form-group has-error' : 'form-group';
     return (
         <div className={groupClassName}>
             {children}
