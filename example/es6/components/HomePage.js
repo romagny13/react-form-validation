@@ -1,9 +1,8 @@
 import React from 'react';
-import { required, minLength, maxLength, pattern, custom, isRequired } from '../../../src/index';
+import { required, minLength, maxLength, pattern, custom, isRequired } from '../../../src/common/validators';
 import UserForm from './UserForm';
 
-
-export const email = () => {
+const email = () => {
     return (value) => {
         if (!isRequired(value) && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
             return {

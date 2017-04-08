@@ -8,3 +8,4 @@ require('./components/Select.spec');
 require('./components/TextArea.spec');
 require('./components/FormGroup.spec');
 require('./components/Form.spec');
+require('./components/Validator.spec');

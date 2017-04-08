@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormGroup } from './FormGroup';
 import { isDefined, isFunction, doFocus } from '../common/util';
 
 export function getInputInitialValue(value) {
@@ -7,27 +6,17 @@ export function getInputInitialValue(value) {
 }
 
 export class Input extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         let value = getInputInitialValue(props.value);
         this.state = {
             value
         };
-
         this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
 
     componentDidMount() {
         doFocus(this.props.focus, this.refs[this.props.name]);
-    }
-
-    getName() {
-        return this.props.name;
-    }
-
-    getValue() {
-        return this.state.value;
     }
 
     onChange(event) {
@@ -53,18 +42,15 @@ export class Input extends React.Component {
     }
 }
 Input.propTypes = {
-    id: React.PropTypes.string,
+    focus: React.PropTypes.bool,
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
     name: React.PropTypes.string.isRequired,
+    id: React.PropTypes.string,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
     placeholder: React.PropTypes.string,
-    focus: React.PropTypes.bool
 };
 Input.defaultProps = {
     type: 'text'
-};
-Input.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };

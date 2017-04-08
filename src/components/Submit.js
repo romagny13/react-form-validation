@@ -1,16 +1,15 @@
 import React from 'react';
-import { FormGroup } from './FormGroup';
 import { isDefined, isFunction, omit } from '../common/util';
 
 export class Submit extends React.Component {
     constructor(props, context) {
-        super(props, context); 
+        super(props, context);
         this.state = {
             disabled: false
         };
 
         if (this.props.shouldDisable && isDefined(this.context.form)) {
-            this.context.form.subscribe(({ hasError }) => {
+            this.context.form.onFormErrorStateChange((hasError) => {
                 this.setState({
                     disabled: hasError
                 });

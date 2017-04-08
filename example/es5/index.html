@@ -14,49 +14,50 @@
 
 <body>
     <div id="app"></div>
-    <script src="../../dist/react-form-validation.min.js"></script>
-    <script type="text/babel">
-        var Form = ReactFormValidation.Form; 
-        var FormGroup = ReactFormValidation.FormGroup; 
-        var Input = ReactFormValidation.Input; 
+    <script src="../../dist/react-form-validation.js"></script>
+    <script type="text/babel">   
+        var Form = ReactFormValidation.Form;
+        var Validator = ReactFormValidation.Validator;
+        var Input = ReactFormValidation.Input;
         var required = ReactFormValidation.required;
         var minLength = ReactFormValidation.minLength;
 
-        var Home = React.createClass({ 
-            getInitialState: function (){
+        var MyFormGroup = function (props) {
+            let groupClassName = props.hasError ? 'form-group has-error' : 'form-group';
+            return (
+                <div className={groupClassName}>
+                    {props.children}
+                    {props.hasError && <span className="help-block">{props.firstError}</span>}
+                </div>
+            );
+        };
+
+        var Home = React.createClass({
+            getInitialState: function () {
                 return {
-                    validators:{
-                        'firstname': [required(), minLength(3)]
-                    },
-                    user:{
-                        firstname:'Marie'
+                    user: {
+                        firstname: 'Marie'
                     }
                 };
-            },
-            renderField : function (infos) {
-                var hasError = infos.hasError;
-                var groupClassName = hasError ? 'form-group has-error' : 'form-group';
-                return (
-                    <div id="group" className={groupClassName}>
-                        <label htmlFor="firstname">Firstname:</label>
-                        <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus/>
-                        {hasError && <span className="help-block">{infos.firstError}</span>}
-                    </div>
-                );
             },
             onSubmit: function (hasError, formStates, formModel) {
                 if (!hasError) {
                     var user = {
-                        firstname:formModel['firstname']
+                        firstname: formModel['firstname']
                     };
                     console.log('save user', user);
                 }
-             },
+            },
             render() {
-                return(
-                    <Form onSubmit={this.onSubmit}>
-                         <FormGroup validators={this.state.validators['firstname']} render={this.renderField} />
-                         <input className="btn btn-default" type="submit" value="Submit" />
+                return (
+                    <Form onSubmit={this.onSubmit} mode="touched">
+                        <Validator name="firstname" validators={[required(), minLength(3)]}>
+                            <MyFormGroup>
+                                <label htmlFor="firstname">Firstname:</label>
+                                <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus />
+                            </MyFormGroup>
+                        </Validator>
+                        <input className="btn btn-default" type="submit" value="Submit" />
                     </Form>
                 );
             }

@@ -1,16 +1,14 @@
 import React from 'react';
-import { FormGroup } from './FormGroup';
 import { isDefined, isFunction, omit, doFocus } from '../common/util';
 
 export class TextArea extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
             value: props.value
         };
 
         this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     componentDidMount() {
         doFocus(this.props.focus, this.refs[this.props.name]);
@@ -48,6 +46,4 @@ TextArea.propTypes = {
 TextArea.defaultProps = {
     value: ''
 };
-TextArea.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup) 
-};
+

@@ -1,13 +1,13 @@
 import React from 'react';
 import { isDefined, omit } from '../common/util';
 
-export function validateAll(formGroups) {
+export function validateAll(validators) {
     let formStates = {},
         formModel = {},
         hasOneOrMoreErrors = false;
 
-    formGroups.forEach((formGroup) => {
-        let validation = formGroup.validateOnSubmit();
+    validators.forEach((validator) => {
+        let validation = validator.validateOnSubmit();
         // could be null if FormGroup has no registered form component
         if (validation) {
             const { name, hasError, firstError, value } = validation;
@@ -26,7 +26,7 @@ export function validateAll(formGroups) {
     };
 }
 
-export function isValid(formStates) {
+export function isFormValid(formStates) {
     for (let name in formStates) {
         if (formStates.hasOwnProperty(name)) {
             let formState = formStates[name];
@@ -42,8 +42,8 @@ export class Form extends React.Component {
     constructor(props) {
         super(props);
         this._subscribers = [];
+        this._validators = [];
 
-        this.formGroups = [];
         this.hasError = false;
         this.formStates = {};
         this.submitted = false;
@@ -55,23 +55,23 @@ export class Form extends React.Component {
         return { form: this };
     }
 
-    register(formGroup) {
-        // subscribe to group validation state change { name, value, hasError, hasSuccess, firstError, errors }
-        formGroup.subscribe(({ name, hasError, hasSuccess, firstError, errors }) => {
+    register(validator) {
+        // subscribe to validation state change
+        validator.onValidationStateChange(({ name, hasError, firstError }) => {
             this.formStates[name] = { hasError, firstError };
-            this.hasError = !isValid(this.formStates);
+            this.hasError = !isFormValid(this.formStates);
             // notify all subscribers that validation state changed
-            this.raise({ hasError: this.hasError });
+            this.raiseHasErrorChange(hasError);
         });
         // allow to validate each form group on submit
-        this.formGroups.push(formGroup);
+        this._validators.push(validator);
     }
 
-    subscribe(subscriber) {
+    onFormErrorStateChange(subscriber) {
         this._subscribers.push(subscriber);
     }
 
-    raise(event) {
+    raiseHasErrorChange(event) {
         this._subscribers.forEach((subscriber) => {
             subscriber(event);
         });
@@ -84,14 +84,14 @@ export class Form extends React.Component {
     onSubmit(event) {
         event.preventDefault();
 
-        const { hasError, formStates, formModel } = validateAll(this.formGroups);
+        const { hasError, formStates, formModel } = validateAll(this._validators);
 
         this.hasError = hasError;
         this.formStates = formStates;
         this.submitted = true;
 
         this.props.onSubmit({ hasError, formStates, formModel });
-        this.raise({ hasError });
+        this.raiseHasErrorChange(hasError);
     }
 
     render() {

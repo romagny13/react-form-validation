@@ -1,23 +1,15 @@
 import React from 'react';
-import { FormGroup } from './FormGroup';
 import { isDefined, isFunction } from '../common/util';
 
 export class CheckboxGroup extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
             currents: props.currents
         };
 
         this.onChange = this.onChange.bind(this);
         this.indexOf = this.indexOf.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
-    }
-    getName() {
-        return this.props.name;
-    }
-    getValue() {
-        return this.state.currents;
     }
     indexOf(value) {
         let currents = this.props.currents;
@@ -73,7 +65,4 @@ CheckboxGroup.propTypes = {
 };
 CheckboxGroup.defaultProps = {
     currents: []
-};
-CheckboxGroup.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };

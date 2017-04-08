@@ -1,25 +1,16 @@
 import React from 'react';
-import { FormGroup } from './FormGroup';
 import { isDefined, isFunction, doFocus } from '../common/util';
 
 export class Checkbox extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
             checked: props.checked
         };
-
         this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     componentDidMount() {
         doFocus(this.props.focus, this.refs[this.props.name]);
-    }
-    getName() {
-        return this.props.name;
-    }
-    getValue() {
-        return this.state.checked;
     }
     onChange(event) {
         let checked = event.target.checked;
@@ -52,7 +43,4 @@ Checkbox.propTypes = {
 };
 Checkbox.defaultProps = {
     checked: false
-};
-Checkbox.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup)
 };

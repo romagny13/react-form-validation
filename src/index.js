@@ -2,9 +2,12 @@ export { required, minLength, maxLength, pattern, custom, isRequired } from './c
 export { Checkbox } from './components/Checkbox';
 export { CheckboxGroup } from './components/CheckboxGroup';
 export { Form } from './components/FormComponent';
-export { FormGroup, validateValue } from './components/FormGroup';
+export { FormGroup } from './components/FormGroup';
+export { Validator, validateValue } from './components/Validator';
 export { Input } from './components/Input';
 export { RadioGroup } from './components/RadioGroup';
 export { Select } from './components/Select';
-export { TextArea } from './components/TextArea'; 
-export { Submit } from './components/Submit'; 
+export { TextArea } from './components/TextArea';
+export { Submit } from './components/Submit';
+
+

@@ -1,25 +1,17 @@
 import React from 'react';
-import { FormGroup } from './FormGroup';
 import { isDefined, isFunction, doFocus } from '../common/util';
 
 export class Select extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
             current: props.current
         };
 
         this.onChange = this.onChange.bind(this);
-        if (isDefined(this.context.formGroup)) { this.context.formGroup.register(this.props.name, this); }
     }
     componentDidMount() {
         doFocus(this.props.focus, this.refs[this.props.name]);
-    }
-    getName() {
-        return this.props.name;
-    }
-    getValue() {
-        return this.state.current;
     }
     onChange(event) {
         let current = event.target.options[event.target.selectedIndex].value;
@@ -55,7 +47,4 @@ Select.propTypes = {
     dataSource: React.PropTypes.array.isRequired,
     current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
     focus: React.PropTypes.bool
-};
-Select.contextTypes = {
-    formGroup: React.PropTypes.instanceOf(FormGroup) 
 };
