@@ -128,7 +128,7 @@ hasFeedbackClassName | `has-feedback`
 hasErrorFeedbackClassName | `glyphicon glyphicon-remove form-control-feedback`
 hasSuccessFeedbackClassName | `glyphicon glyphicon-ok form-control-feedback`
 
-We could create our own `FormGroup` or component that receive validation states and display controls
+We could create our own `FormGroup` or component
 
 Example:
 ```js
