@@ -169,6 +169,8 @@ export class FormGroup extends React.Component {
             let hasSuccess = !hasError;
             this.setState({ hasError, hasSuccess, firstError, errors });
 
+            if (!this.touched) { this.touched = true; }
+
             // notify validation state change
             this.raise({ name, value, hasError, hasSuccess, firstError, errors });
         }
@@ -182,7 +184,6 @@ export class FormGroup extends React.Component {
 
     onBlur(event) {
         if (canValidateOnBlur(this.props.validators, this.context.form, this.touched)) {
-            this.touched = true;
             this.validateOnChange(event);
         }
     }

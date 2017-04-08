@@ -409,6 +409,10 @@ var FormGroup = function (_React$Component) {
                 var hasSuccess = !hasError;
                 this.setState({ hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
 
+                if (!this.touched) {
+                    this.touched = true;
+                }
+
                 // notify validation state change
                 this.raise({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
             }
@@ -424,7 +428,6 @@ var FormGroup = function (_React$Component) {
         key: 'onBlur',
         value: function onBlur(event) {
             if (canValidateOnBlur(this.props.validators, this.context.form, this.touched)) {
-                this.touched = true;
                 this.validateOnChange(event);
             }
         }
