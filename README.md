@@ -94,7 +94,7 @@ Allow to validate value values:
 
 Form props | Description
 -------- |  --------
-model | from model (required)
+model | form model (required)
 mode | `submit` (by default) or `touched`
 onSubmit | function to call on form submission
 
@@ -148,10 +148,10 @@ const MyFormGroup = ({ hasError, hasSuccess, error, children }) => {
 
 And render a simple form
 ```js
-const MyForm = () => {
+const MyForm = ({ model, onSubmit }) => {
     return (
-        <Form model={model}>
-            <Validator name="firstname" validators={[required()]}>
+        <Form onSubmit={onSubmit} model={model}>
+            <Validator validators={[required()]}>
                 <MyFormGroup>
                     <Input name="firstname" value={model.firstname} />
                 </MyFormGroup>
