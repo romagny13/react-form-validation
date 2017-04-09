@@ -3,14 +3,13 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { required } from '../../../src/common/validators';
 import { Input } from '../../../src/components/Input';
+import { Form } from '../../../src/components/FormComponent';
 import { FormGroup } from '../../../src/components/FormGroup';
 import {
     Validator,
     canValidateOnChange,
     canValidateOnBlur,
-    validationStateHasChanged,
-    getFirstError,
-    getElementValue
+    validationStateHasChanged
 } from '../../../src/components/Validator';
 
 const MyFormGroup = ({ hasError, hasSuccess, firstError, errors }) => {
@@ -27,58 +26,36 @@ describe('Validator', () => {
 
     let validators = [required()];
 
-    it('Should validate', () => {
-
-        const v = mount(<Validator name="firstname" validators={validators}>
-            <MyFormGroup id="firstname" name="firstname" value="" />
-        </Validator>);
-
-        v.instance().validateOnSubmit();
-
-        let div = v.find('#group');
-        let span = v.find('span');
-        assert.equal(div.hasClass('has-error'), true);
-        assert.equal(span.text(), 'This field is required.');
-    });
-
     it('Should cannot validate on change with no validators', () => {
-        assert.isFalse(canValidateOnChange([], { mode: 'submit', submitted: false }));
-        assert.isFalse(canValidateOnChange([], { mode: 'submit', submitted: true }));
-        assert.isFalse(canValidateOnChange([], { mode: 'touched', submitted: true }, true));
+        assert.isFalse(canValidateOnChange([], false ));
+        assert.isFalse(canValidateOnChange([],  true ));
+        assert.isFalse(canValidateOnChange([], true , true));
     });
 
     it('Should cannot validate on blur with no validators', () => {
-        assert.isFalse(canValidateOnBlur([], { mode: 'touched', submitted: false }, false));
+        assert.isFalse(canValidateOnBlur([], 'touched', false));
     });
 
     it('Should cannot validate with mode submit and form not submitted', () => {
-        assert.isFalse(canValidateOnChange(validators, { mode: 'submit', submitted: false }));
+        assert.isFalse(canValidateOnChange(validators, false ));
     });
 
     it('Should can validate with mode submit and form submitted', () => {
-        assert.isTrue(canValidateOnChange(validators, { mode: 'submit', submitted: true }));
+        assert.isTrue(canValidateOnChange(validators,  true ));
     });
 
     it('Should cannot validate on blur with mode touched if touched', () => {
-        assert.isFalse(canValidateOnBlur(validators, { mode: 'touched', submitted: false }, true));
+        assert.isFalse(canValidateOnBlur(validators, 'touched', true));
     });
 
     it('Should can validate on blur with mode touched if not already touched (first time)', () => {
-        assert.isTrue(canValidateOnBlur(validators, { mode: 'touched', submitted: false }, false));
-    });
-
-    it('Should cannot validate on blur with mode touched if submitted', () => {
-        assert.isFalse(canValidateOnBlur(validators, { mode: 'touched', submitted: true }, true));
-    });
-
-    it('Should can validate on change with mode touched if touched', () => {
-        assert.isTrue(canValidateOnChange(validators, { mode: 'touched', submitted: true }, true));
+        assert.isTrue(canValidateOnBlur(validators, 'touched',  false));
     });
 
     it('Should detect if validation state has changed with old no error and new error', () => {
         let result = validationStateHasChanged({
             hasError: false,
-            firstError: ''
+            error: ''
         }, true, 'new error');
         assert.isTrue(result);
     });
@@ -86,7 +63,7 @@ describe('Validator', () => {
     it('Should detect if validation state has changed with old error and new no error', () => {
         let result = validationStateHasChanged({
             hasError: true,
-            firstError: 'first error'
+            error: 'first error'
         }, false);
         assert.isTrue(result);
     });
@@ -94,7 +71,7 @@ describe('Validator', () => {
     it('Should not detect if validation state has changed with old no error and new no error', () => {
         let result = validationStateHasChanged({
             hasError: false,
-            firstError: ''
+            error: ''
         }, false, '');
         assert.isFalse(result);
     });
@@ -102,48 +79,10 @@ describe('Validator', () => {
     it('Should not detect if validation state has changed with old error and new error are same', () => {
         let result = validationStateHasChanged({
             hasError: true,
-            firstError: 'first error'
+            error: 'first error'
         }, true, 'first error');
         assert.isFalse(result);
     });
 
-    it('Should get first error', () => {
-        let result = getFirstError({
-            a: 'a',
-            b: 'b'
-        });
-        assert.equal(result, 'a');
-    });
-
-    it('Should get value for checkbox', () => {
-        let valueTrue = getElementValue({ tagName: 'INPUT', type: 'checkbox', value: 'on', checked: true });
-        let valueFalse = getElementValue({ tagName: 'INPUT', type: 'checkbox', value: 'on', checked: false });
-        // check box group
-        let value = getElementValue({ tagName: 'INPUT', type: 'checkbox', value: 'a' });
-        assert.isTrue(valueTrue);
-        assert.isFalse(valueFalse);
-        assert.equal(value, 'a');
-    });
-
-    it('Should get value for input', () => {
-        let value = getElementValue({ tagName: 'INPUT', type: 'text', value: 'a' });
-        assert.equal(value, 'a');
-    });
-
-    it('Should get value for textarea', () => {
-        let value = getElementValue({ tagName: 'TEXTAREA', value: 'a' });
-        assert.equal(value, 'a');
-    });
-
-    it('Should get value for select', () => {
-        let value = getElementValue({
-            tagName: 'SELECT', selectedIndex: 1, options: [
-                { value: 'a' },
-                { value: 'b' },
-                { value: 'c' }
-            ]
-        });
-        assert.equal(value, 'b');
-    });
 });
 

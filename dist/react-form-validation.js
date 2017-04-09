@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.3.1
+ * romagny13-react-form-validation v0.4.0
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -9,52 +9,10 @@
 	(factory((global.ReactFormValidation = global.ReactFormValidation || {}),global.React));
 }(this, (function (exports,React) { 'use strict';
 
-React = 'default' in React ? React['default'] : React;
-
-function isUndefined(value) {
-    return typeof value === 'undefined';
-}
-function isDefined(value) {
-    return typeof value !== 'undefined';
-}
-function isString(value) {
-    return typeof value === 'string';
-}
-function isNumber(value) {
-    return typeof value === 'number';
-}
-function isBoolean(value) {
-    return typeof value === 'boolean';
-}
-function isFunction(value) {
-    return typeof value === 'function';
-}
-
-
-function doFocus(focused, element) {
-    if (focused && element) {
-        element.focus();
-    }
-}
-
-function objLength(obj) {
-    return Object.keys(obj).length;
-}
-
-function omit(obj) {
-    var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    var result = {};
-    for (var name in obj) {
-        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {
-            result[name] = obj[name];
-        }
-    }
-    return result;
-}
+var React__default = 'default' in React ? React['default'] : React;
 
 function isRequired(value) {
-    return value === null || isUndefined(value) || value === '' || isBoolean(value) && value === false;
+    return value === null || typeof value === 'undefined' || value === '' || typeof value === 'boolean' && value === false;
 }
 
 function formatMessage(message, searchValue, replaceValue) {
@@ -64,7 +22,7 @@ function formatMessage(message, searchValue, replaceValue) {
 var required = function required(message) {
     var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'required';
 
-    var error = isString(message) ? message : 'This field is required.';
+    var error = typeof message === 'string' ? message : 'This field is required.';
     return function (value) {
         if (isRequired(value)) {
             return {
@@ -78,8 +36,8 @@ var required = function required(message) {
 var minLength = function minLength(_minLength2, message) {
     var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'minLength';
 
-    var _minLength = isNumber(_minLength2) ? _minLength2 : 3;
-    var error = isString(message) ? message : formatMessage('Please enter at least than {0} characters.', '{0}', _minLength);
+    var _minLength = typeof _minLength2 === 'number' ? _minLength2 : 3;
+    var error = typeof message === 'string' ? message : formatMessage('Please enter at least than {0} characters.', '{0}', _minLength);
     return function (value) {
         if (!isRequired(value) && value.length < _minLength) {
             return {
@@ -93,8 +51,8 @@ var minLength = function minLength(_minLength2, message) {
 var maxLength = function maxLength(_maxLength2, message) {
     var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'maxLength';
 
-    var _maxLength = isNumber(_maxLength2) ? _maxLength2 : 30;
-    var error = isString(message) ? message : formatMessage('Please enter no more than {0} characters.', '{0}', _maxLength);
+    var _maxLength = typeof _maxLength2 === 'number' ? _maxLength2 : 30;
+    var error = typeof message === 'string' ? message : formatMessage('Please enter no more than {0} characters.', '{0}', _maxLength);
     return function (value) {
         if (!isRequired(value) && value.length > _maxLength) {
             return {
@@ -108,7 +66,7 @@ var maxLength = function maxLength(_maxLength2, message) {
 var pattern = function pattern(_pattern, message) {
     var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'pattern';
 
-    var error = isString(message) ? message : 'Please fix this field.';
+    var error = typeof message === 'string' ? message : 'Please fix this field.';
     return function (value) {
         if (!isRequired(value) && !_pattern.test(value)) {
             return {
@@ -122,9 +80,9 @@ var pattern = function pattern(_pattern, message) {
 var custom = function custom(fn, message) {
     var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'custom';
 
-    var error = isString(message) ? message : 'Please fix this field.';
-    return function (value) {
-        if (!isRequired(value) && !fn(value)) {
+    var error = typeof message === 'string' ? message : 'Please fix this field.';
+    return function (value, model) {
+        if (!isRequired(value) && !fn(value, model)) {
             return {
                 name: name,
                 error: error
@@ -132,6 +90,24 @@ var custom = function custom(fn, message) {
         }
     };
 };
+
+function doFocus(focused, element) {
+    if (focused && element) {
+        element.focus();
+    }
+}
+
+function omit(obj) {
+    var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    var result = {};
+    for (var name in obj) {
+        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {
+            result[name] = obj[name];
+        }
+    }
+    return result;
+}
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -213,154 +189,8 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-var Checkbox = function (_React$Component) {
-    inherits(Checkbox, _React$Component);
-
-    function Checkbox(props) {
-        classCallCheck(this, Checkbox);
-
-        var _this = possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call(this, props));
-
-        _this.state = {
-            checked: props.checked
-        };
-        _this.onChange = _this.onChange.bind(_this);
-        return _this;
-    }
-
-    createClass(Checkbox, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            doFocus(this.props.focus, this.refs[this.props.name]);
-        }
-    }, {
-        key: 'onChange',
-        value: function onChange(event) {
-            var checked = event.target.checked;
-            this.setState({
-                checked: checked
-            });
-            // notify
-            if (isFunction(this.props.onChange)) {
-                this.props.onChange(this.props.name, checked);
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement('input', {
-                ref: this.props.name,
-                type: 'checkbox',
-                id: this.props.id,
-                name: this.props.name,
-                checked: this.state.checked,
-                onChange: this.onChange,
-                className: this.props.className });
-        }
-    }]);
-    return Checkbox;
-}(React.Component);
-Checkbox.propTypes = {
-    id: React.PropTypes.string,
-    name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    checked: React.PropTypes.bool,
-    focus: React.PropTypes.bool
-};
-Checkbox.defaultProps = {
-    checked: false
-};
-
-var CheckboxGroup = function (_React$Component) {
-    inherits(CheckboxGroup, _React$Component);
-
-    function CheckboxGroup(props) {
-        classCallCheck(this, CheckboxGroup);
-
-        var _this = possibleConstructorReturn(this, (CheckboxGroup.__proto__ || Object.getPrototypeOf(CheckboxGroup)).call(this, props));
-
-        _this.state = {
-            currents: props.currents
-        };
-
-        _this.onChange = _this.onChange.bind(_this);
-        _this.indexOf = _this.indexOf.bind(_this);
-        return _this;
-    }
-
-    createClass(CheckboxGroup, [{
-        key: 'indexOf',
-        value: function indexOf(value) {
-            var currents = this.props.currents;
-            for (var i = 0; i < currents.length; i++) {
-                if (currents[i] === value) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-    }, {
-        key: 'onChange',
-        value: function onChange(event) {
-            var value = event.target.value;
-            var index = this.indexOf(value);
-            var currents = this.state.currents;
-            if (index !== -1) {
-                currents.splice(index, 1);
-            } else {
-                currents.push(value);
-            }
-
-            this.setState({
-                currents: currents
-            });
-            // notify
-            if (isFunction(this.props.onChange)) {
-                this.props.onChange(this.props.name, currents);
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            return React.createElement(
-                'div',
-                null,
-                this.props.dataSource.map(function (current, i) {
-                    return React.createElement(
-                        'div',
-                        { key: i },
-                        React.createElement('input', {
-                            type: 'checkbox',
-                            name: _this2.props.name,
-                            checked: _this2.indexOf(current) !== -1,
-                            value: current,
-                            onChange: _this2.onChange,
-                            className: _this2.props.className }),
-                        current
-                    );
-                })
-            );
-        }
-    }]);
-    return CheckboxGroup;
-}(React.Component);
-CheckboxGroup.propTypes = {
-    name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    dataSource: React.PropTypes.array.isRequired,
-    currents: React.PropTypes.array
-};
-CheckboxGroup.defaultProps = {
-    currents: []
-};
-
 function validateAll(validators) {
-    var formStates = {},
-        formModel = {},
+    var errors = {},
         hasOneOrMoreErrors = false;
 
     validators.forEach(function (validator) {
@@ -368,13 +198,12 @@ function validateAll(validators) {
         // could be null if FormGroup has no registered form component
         if (validation) {
             var name = validation.name,
+                value = validation.value,
                 hasError = validation.hasError,
-                firstError = validation.firstError,
-                value = validation.value;
+                error = validation.error;
 
-            formStates[name] = { hasError: hasError, firstError: firstError };
-            formModel[name] = value;
             if (hasError) {
+                errors[name] = error;
                 hasOneOrMoreErrors = true;
             }
         }
@@ -382,25 +211,20 @@ function validateAll(validators) {
 
     return {
         hasError: hasOneOrMoreErrors,
-        formStates: formStates,
-        formModel: formModel
+        errors: errors
     };
 }
 
-function isFormValid(formStates) {
-    for (var name in formStates) {
-        if (formStates.hasOwnProperty(name)) {
-            var formState = formStates[name];
-            if (formState.hasError) {
-                return false;
-            }
-        }
-    }
-    return true;
+function formHasErrors(errors) {
+    return Object.keys(errors).length > 0;
 }
 
-var Form = function (_React$Component) {
-    inherits(Form, _React$Component);
+function cloneModel(model) {
+    return Object.assign({}, model);
+}
+
+var Form = function (_Component) {
+    inherits(Form, _Component);
 
     function Form(props) {
         classCallCheck(this, Form);
@@ -410,8 +234,10 @@ var Form = function (_React$Component) {
         _this._subscribers = [];
         _this._validators = [];
 
+        _this.mode = _this.props.mode;
+        _this.model = cloneModel(props.model);
         _this.hasError = false;
-        _this.formStates = {};
+        _this.errors = {};
         _this.submitted = false;
 
         _this.onSubmit = _this.onSubmit.bind(_this);
@@ -426,30 +252,33 @@ var Form = function (_React$Component) {
     }, {
         key: 'register',
         value: function register(validator) {
-            var _this2 = this;
-
-            // subscribe to validation state change
-            validator.onValidationStateChange(function (_ref) {
-                var name = _ref.name,
-                    hasError = _ref.hasError,
-                    firstError = _ref.firstError;
-
-                _this2.formStates[name] = { hasError: hasError, firstError: firstError };
-                _this2.hasError = !isFormValid(_this2.formStates);
-                // notify all subscribers that validation state changed
-                _this2.raiseHasErrorChange(hasError);
-            });
-            // allow to validate each form group on submit
             this._validators.push(validator);
         }
     }, {
-        key: 'onFormErrorStateChange',
-        value: function onFormErrorStateChange(subscriber) {
+        key: 'onValidationStateChange',
+        value: function onValidationStateChange(_ref) {
+            var name = _ref.name,
+                hasError = _ref.hasError,
+                error = _ref.error;
+
+            if (hasError) {
+                this.errors[name] = error;
+            } else if (this.errors.hasOwnProperty(name)) {
+                delete this.errors[name];
+            }
+
+            this.hasError = formHasErrors(this.errors);
+
+            this.raiseFormStateChange({ hasError: this.hasError, errors: this.errors });
+        }
+    }, {
+        key: 'onFormStateChange',
+        value: function onFormStateChange(subscriber) {
             this._subscribers.push(subscriber);
         }
     }, {
-        key: 'raiseHasErrorChange',
-        value: function raiseHasErrorChange(event) {
+        key: 'raiseFormStateChange',
+        value: function raiseFormStateChange(event) {
             this._subscribers.forEach(function (subscriber) {
                 subscriber(event);
             });
@@ -461,44 +290,484 @@ var Form = function (_React$Component) {
 
             var _validateAll = validateAll(this._validators),
                 hasError = _validateAll.hasError,
-                formStates = _validateAll.formStates,
-                formModel = _validateAll.formModel;
+                errors = _validateAll.errors;
 
             this.hasError = hasError;
-            this.formStates = formStates;
+            this.errors = errors;
             this.submitted = true;
 
-            this.props.onSubmit({ hasError: hasError, formStates: formStates, formModel: formModel });
-            this.raiseHasErrorChange(hasError);
+            this.props.onSubmit({ hasError: hasError, errors: errors, model: this.model });
+            this.raiseFormStateChange({ hasError: hasError, errors: errors });
         }
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['onSubmit', 'mode']);
-            return React.createElement(
+            var rest = omit(this.props, ['onSubmit', 'mode', 'model']);
+            return React__default.createElement(
                 'form',
                 _extends({ onSubmit: this.onSubmit }, rest),
                 this.props.children
             );
-        }
-    }, {
-        key: 'mode',
-        get: function get$$1() {
-            return this.props.mode;
         }
     }]);
     return Form;
 }(React.Component);
 Form.propTypes = {
     mode: React.PropTypes.oneOf(['submit', 'touched']),
+    model: React.PropTypes.object,
     onSubmit: React.PropTypes.func.isRequired,
     children: React.PropTypes.node
 };
 Form.defaultProps = {
-    mode: 'submit'
+    mode: 'submit',
+    model: {}
 };
 Form.childContextTypes = {
     form: React.PropTypes.any
+};
+
+function canValidateOnChange(validators, submitted, touched) {
+    return validators.length > 0 && (touched === true || submitted === true);
+}
+
+function canValidateOnBlur(validators, mode, touched) {
+    return validators.length > 0 && !touched && mode === 'touched';
+}
+
+function validateValue(value, validators, model) {
+    for (var i = 0; i < validators.length; i++) {
+        var validator = validators[i];
+        var result = validator(value, model);
+        if (result) {
+            return {
+                hasError: true,
+                error: result.error
+            };
+        }
+    }
+    return {
+        hasError: false,
+        error: ''
+    };
+}
+function validationStateHasChanged(state, newHasError, newError) {
+    // current
+    var hasError = state.hasError,
+        error = state.error;
+    // new
+
+    return newHasError !== hasError || newError !== error;
+}
+
+function getInitialErrorFormState(error) {
+    if (typeof error !== 'undefined') {
+        return {
+            hasError: true,
+            hasSuccess: false,
+            error: error
+        };
+    } else {
+        return {
+            hasError: false,
+            hasSuccess: false,
+            error: ''
+        };
+    }
+}
+
+var Validator = function (_Component) {
+    inherits(Validator, _Component);
+
+    function Validator(props, context) {
+        classCallCheck(this, Validator);
+
+        var _this = possibleConstructorReturn(this, (Validator.__proto__ || Object.getPrototypeOf(Validator)).call(this, props, context));
+
+        _this.state = getInitialErrorFormState(_this.props.errors);
+        // register this form group to form for submit event
+        if (typeof _this.context.form !== 'undefined') {
+            _this.context.form.register(_this);
+            _this.form = _this.context.form;
+        }
+        return _this;
+    }
+
+    createClass(Validator, [{
+        key: 'getChildContext',
+        value: function getChildContext() {
+            return { validator: this };
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (nextProps.error) {
+                var error = nextProps.error,
+                    hasError = error && error !== '',
+                    hasSuccess = !hasError;
+
+                this.setState({ hasError: hasError, hasSuccess: hasSuccess, error: error });
+
+                if (this.formElement) {
+                    // get name and value
+                    var name = this.formElement.getName();
+                    var value = this.formElement.getValue();
+                    this.notify({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, error: error });
+                }
+            }
+        }
+    }, {
+        key: 'register',
+        value: function register(formElement) {
+            if (this.formElement) {
+                throw new Error('A form element is already registered');
+            }
+            this.formElement = formElement;
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur(name, value) {
+            var form = this.form;
+            if (this.touched || !form) return;
+
+            var model = form.model;
+            if (model.hasOwnProperty(name) && canValidateOnBlur(this.props.validators, form.mode, this.touched)) {
+                this.validateOnChange(name, value, model);
+            }
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(name, value) {
+            var form = this.form;
+            if (!form) return;
+
+            var model = form.model;
+            if (model.hasOwnProperty(name)) {
+                model[name] = value;
+                // validate
+                if (canValidateOnChange(this.props.validators, form.submitted, this.touched)) {
+                    this.validateOnChange(name, value, model);
+                }
+            }
+        }
+    }, {
+        key: 'notify',
+        value: function notify(event) {
+            if (typeof this.props.onValidationStateChange === 'function') {
+                this.props.onValidationStateChange(event);
+            }
+            if (this.form) {
+                this.form.onValidationStateChange(event);
+            }
+        }
+    }, {
+        key: 'validateOnChange',
+        value: function validateOnChange(name, value, model) {
+            // validate value
+            var _validateValue = validateValue(value, this.props.validators, model),
+                hasError = _validateValue.hasError,
+                error = _validateValue.error;
+
+            // check if validation state has changed
+
+
+            if (validationStateHasChanged(this.state, hasError, error)) {
+                // change state
+                var hasSuccess = !hasError;
+                this.setState({ hasError: hasError, hasSuccess: hasSuccess, error: error });
+
+                if (!this.touched) {
+                    this.touched = true;
+                }
+
+                // notify validation state change
+                this.notify({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, error: error });
+            }
+        }
+    }, {
+        key: 'validateOnSubmit',
+        value: function validateOnSubmit() {
+            if (!this.formElement) return;
+
+            // get name and value
+            var name = this.formElement.getName();
+            var value = this.formElement.getValue();
+
+            // validate value
+            var model = this.form.model;
+            var validators = this.props.validators;
+
+            var _validateValue2 = validateValue(value, validators, model),
+                hasError = _validateValue2.hasError,
+                error = _validateValue2.error;
+
+            if (!this.touched) {
+                this.touched = true;
+            }
+
+            // change state
+            this.setState({ hasError: hasError, hasSuccess: !hasError, error: error });
+
+            return {
+                name: name,
+                value: value,
+                hasError: hasError,
+                error: error
+            };
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var root = this.props.children;
+            if (typeof root.type === 'function') {
+                // component
+                // validation states + root element props
+                var params = Object.assign({}, this.state, root.props);
+                // create component
+                var component = new this.props.children.type(params);
+                return React__default.createElement(
+                    component.type,
+                    component.props,
+                    component.props.children
+                );
+            } else {
+                // render content with no validation
+                return React__default.createElement(
+                    root.type,
+                    root.props,
+                    root.props.children
+                );
+            }
+        }
+    }]);
+    return Validator;
+}(React.Component);
+Validator.contextTypes = {
+    form: React.PropTypes.instanceOf(Form)
+};
+Validator.childContextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
+};
+Validator.propTypes = {
+    validators: React.PropTypes.array.isRequired,
+    onValidationStateChange: React.PropTypes.func,
+    error: React.PropTypes.string
+};
+Validator.defaultProps = {
+    validators: []
+};
+
+var Checkbox = function (_Component) {
+    inherits(Checkbox, _Component);
+
+    function Checkbox(props, context) {
+        classCallCheck(this, Checkbox);
+
+        var _this = possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call(this, props, context));
+
+        _this.state = {
+            checked: props.checked
+        };
+        if (typeof _this.context.validator !== 'undefined') {
+            _this.context.validator.register(_this);
+            _this.validator = _this.context.validator;
+        }
+        _this.onBlur = _this.onBlur.bind(_this);
+        _this.onChange = _this.onChange.bind(_this);
+        return _this;
+    }
+
+    createClass(Checkbox, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            doFocus(this.props.focus, this.refs[this.props.name]);
+        }
+    }, {
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.checked;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var checked = event.target.checked;
+            this.setState({
+                checked: checked
+            });
+            this.notify('onChange', checked);
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.notify('onBlur', this.state.checked);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React__default.createElement('input', {
+                ref: this.props.name,
+                type: 'checkbox',
+                id: this.props.id,
+                name: this.props.name,
+                checked: this.state.checked,
+                onChange: this.onChange,
+                onBlur: this.onBlur,
+                className: this.props.className });
+        }
+    }]);
+    return Checkbox;
+}(React.Component);
+Checkbox.propTypes = {
+    id: React.PropTypes.string,
+    name: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    checked: React.PropTypes.bool,
+    focus: React.PropTypes.bool
+};
+Checkbox.defaultProps = {
+    checked: false
+};
+Checkbox.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
+};
+
+function _indexOf(array, value) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+var CheckboxGroup = function (_Component) {
+    inherits(CheckboxGroup, _Component);
+
+    function CheckboxGroup(props, context) {
+        classCallCheck(this, CheckboxGroup);
+
+        var _this = possibleConstructorReturn(this, (CheckboxGroup.__proto__ || Object.getPrototypeOf(CheckboxGroup)).call(this, props, context));
+
+        _this.state = {
+            currents: props.currents
+        };
+        if (typeof _this.context.validator !== 'undefined') {
+            _this.context.validator.register(_this);
+            _this.validator = _this.context.validator;
+        }
+        _this.onBlur = _this.onBlur.bind(_this);
+        _this.onChange = _this.onChange.bind(_this);
+        _this.indexOf = _this.indexOf.bind(_this);
+        return _this;
+    }
+
+    createClass(CheckboxGroup, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.currents;
+        }
+    }, {
+        key: 'indexOf',
+        value: function indexOf(value) {
+            return _indexOf(this.props.currents, value);
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            var value = event.target.value;
+            var index = this.indexOf(value);
+            var currents = this.state.currents;
+            // update array
+            if (index !== -1) {
+                currents.splice(index, 1);
+            } else {
+                currents.push(value);
+            }
+
+            this.setState({
+                currents: currents
+            });
+            this.notify('onChange', currents);
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.notify('onBlur', this.state.currents);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return React__default.createElement(
+                'div',
+                null,
+                this.props.dataSource.map(function (current, i) {
+                    return React__default.createElement(
+                        'div',
+                        { key: i },
+                        React__default.createElement('input', {
+                            type: 'checkbox',
+                            name: _this2.props.name,
+                            checked: _this2.indexOf(current) !== -1,
+                            value: current,
+                            onChange: _this2.onChange,
+                            onBlur: _this2.onBlur,
+                            className: _this2.props.className }),
+                        current
+                    );
+                })
+            );
+        }
+    }]);
+    return CheckboxGroup;
+}(React.Component);
+CheckboxGroup.propTypes = {
+    name: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    dataSource: React.PropTypes.array.isRequired,
+    currents: React.PropTypes.array
+};
+CheckboxGroup.defaultProps = {
+    currents: []
+};
+CheckboxGroup.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
 };
 
 function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
@@ -531,20 +800,20 @@ var FormGroup = function FormGroup(_ref) {
         children = _ref.children,
         hasError = _ref.hasError,
         hasSuccess = _ref.hasSuccess,
-        firstError = _ref.firstError;
+        error = _ref.error;
 
     var canShowHasSuccess = hasSuccess && showHasSuccess;
     var groupClassName = getGroupClassName(hasError, canShowHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName);
-    return React.createElement(
+    return React__default.createElement(
         'div',
         { className: groupClassName, id: id },
         children,
-        showHasFeedback && hasError && React.createElement('span', { className: hasErrorFeedbackClassName, 'aria-hidden': 'true' }),
-        showHasFeedback && showHasSuccess && hasSuccess && React.createElement('span', { className: hasSuccessFeedbackClassName, 'aria-hidden': 'true' }),
-        hasError ? React.createElement(
+        showHasFeedback && hasError && React__default.createElement('span', { className: hasErrorFeedbackClassName, 'aria-hidden': 'true' }),
+        showHasFeedback && showHasSuccess && hasSuccess && React__default.createElement('span', { className: hasSuccessFeedbackClassName, 'aria-hidden': 'true' }),
+        hasError ? React__default.createElement(
             'span',
             { className: 'help-block' },
-            firstError
+            error
         ) : null
     );
 };
@@ -571,283 +840,27 @@ FormGroup.defaultProps = {
     hasSuccessFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback'
 };
 
-function canValidateOnChange(validators, form, touched) {
-    return validators.length > 0 && (touched === true || form && form.submitted);
-}
-
-function canValidateOnBlur(validators, form, touched) {
-    return validators.length > 0 && !touched && form && form.mode === 'touched';
-}
-
-function getElementValue(element) {
-    var tagName = element.tagName;
-    if (tagName === 'INPUT') {
-        if (element.type === 'checkbox') {
-            return element.value !== 'on' ? element.value : element.checked;
-        } else {
-            return element.value;
-        }
-    } else if (tagName === 'TEXTAREA') {
-        return element.value;
-    } else if (tagName === 'SELECT') {
-        return element.options[element.selectedIndex].value;
-    }
-}
-
-function validateValue(value, validators) {
-    var hasError = false,
-        errors = {},
-        firstError = '';
-
-    validators.forEach(function (validator) {
-        var result = validator(value);
-        if (result) {
-            hasError = true;
-            errors[result.name] = result.error;
-        }
-    });
-
-    if (hasError) {
-        firstError = getFirstError(errors);
-    }
-    return {
-        hasError: hasError,
-        firstError: firstError,
-        errors: errors
-    };
-}
-
-function getFirstError(obj) {
-    return obj[Object.keys(obj)[0]];
-}
-
-function validationStateHasChanged(state, newHasError, newFirstError) {
-    // current
-    var hasError = state.hasError,
-        firstError = state.firstError;
-    // new
-
-    return newHasError !== hasError || newFirstError !== firstError;
-}
-
-function getInitialErrorFormState(errors) {
-    if (errors && objLength(errors) > 0) {
-        return {
-            hasError: true,
-            hasSuccess: false,
-            firstError: getFirstError(errors),
-            errors: errors
-        };
-    } else {
-        return {
-            hasError: false,
-            hasSuccess: false,
-            firstError: '',
-            errors: {}
-        };
-    }
-}
-
-function findElementByName(element, name) {
-    if (element && name) {
-        return element.querySelector('[name=\'' + name + '\']');
-    }
-}
-
-var Validator = function (_React$Component) {
-    inherits(Validator, _React$Component);
-
-    function Validator(props, context) {
-        classCallCheck(this, Validator);
-
-        var _this = possibleConstructorReturn(this, (Validator.__proto__ || Object.getPrototypeOf(Validator)).call(this, props, context));
-
-        _this._subscribers = [];
-
-        _this.state = getInitialErrorFormState(_this.props.errors);
-
-        // name of form element(s) to validate
-        _this.name = props.name;
-
-        if (isFunction(_this.props.onValidationStateChange)) {
-            _this.onValidationStateChange(_this.props.onValidationStateChange);
-        }
-        // register this form group to form for submit event
-        if (isDefined(_this.context.form)) {
-            _this.context.form.register(_this);
-        }
-        return _this;
-    }
-
-    createClass(Validator, [{
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            if (nextProps.errors) {
-                var errors = nextProps.errors,
-                    hasError = objLength(errors) > 0,
-                    hasSuccess = !hasError,
-                    firstError = hasError ? getFirstError(errors) : '';
-
-                this.setState({ hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
-
-                var name = this.name;
-                var element = findElementByName(this.refs.root, name);
-                if (element) {
-                    var value = getElementValue(element);
-                    this.raiseValidationStateChange({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
-                }
-            }
-        }
-    }, {
-        key: 'onValidationStateChange',
-        value: function onValidationStateChange(subscriber) {
-            this._subscribers.push(subscriber);
-        }
-    }, {
-        key: 'raiseValidationStateChange',
-        value: function raiseValidationStateChange(event) {
-            this._subscribers.forEach(function (subscriber) {
-                subscriber(event);
-            });
-        }
-    }, {
-        key: 'validateOnSubmit',
-        value: function validateOnSubmit() {
-            // get name and value
-            var name = this.name;
-            var element = findElementByName(this.refs.root, name);
-            if (!element) return;
-            var value = getElementValue(element);
-
-            // validate value
-
-            var _validateValue = validateValue(value, this.props.validators),
-                hasError = _validateValue.hasError,
-                firstError = _validateValue.firstError,
-                errors = _validateValue.errors;
-
-            // change state
-
-
-            this.setState({ hasError: hasError, hasSuccess: !hasError, firstError: firstError, errors: errors });
-
-            this.submitted = true;
-
-            return {
-                name: name,
-                value: value,
-                hasError: hasError,
-                firstError: firstError,
-                errors: errors
-            };
-        }
-    }, {
-        key: 'validateOnChange',
-        value: function validateOnChange(event) {
-            if (event.target.name !== this.name) return;
-
-            // get name and value
-            var name = event.target.name,
-                value = getElementValue(event.target);
-
-            // validate value
-
-            var _validateValue2 = validateValue(value, this.props.validators),
-                hasError = _validateValue2.hasError,
-                firstError = _validateValue2.firstError,
-                errors = _validateValue2.errors;
-
-            // check if validation state has changed
-
-
-            if (validationStateHasChanged(this.state, hasError, firstError)) {
-                // change state
-                var hasSuccess = !hasError;
-                this.setState({ hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
-
-                if (!this.touched) {
-                    this.touched = true;
-                }
-
-                // notify validation state change
-                this.raiseValidationStateChange({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, firstError: firstError, errors: errors });
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            var handles = {
-                onBlur: function onBlur(event) {
-                    if (canValidateOnBlur(_this2.props.validators, _this2.context.form, _this2.touched)) {
-                        _this2.validateOnChange(event);
-                    }
-                },
-                onChange: function onChange(event) {
-                    if (canValidateOnChange(_this2.props.validators, _this2.context.form, _this2.touched)) {
-                        _this2.validateOnChange(event);
-                    }
-                }
-            };
-            var root = this.props.children;
-            if (Array.isArray(root)) {
-                throw new Error('Validator do not support array of elements.');
-            }
-
-            if (typeof root.type === 'function') {
-                // component
-                // validation states + root element props
-                var params = Object.assign({}, this.state, root.props);
-                // create component
-                var component = new this.props.children.type(params);
-                var props = Object.assign({}, component.props, handles);
-                return React.createElement(
-                    component.type,
-                    _extends({ ref: 'root' }, props),
-                    component.props.children
-                );
-            } else {
-                // render content with no validation
-                return React.createElement(
-                    root.type,
-                    _extends({ ref: 'root' }, root.props),
-                    root.props.children
-                );
-            }
-        }
-    }]);
-    return Validator;
-}(React.Component);
-Validator.contextTypes = {
-    form: React.PropTypes.any
-};
-Validator.propTypes = {
-    name: React.PropTypes.string.isRequired,
-    validators: React.PropTypes.array.isRequired,
-    onValidationStateChange: React.PropTypes.func,
-    errors: React.PropTypes.object
-};
-Validator.defaultProps = {
-    validators: []
-};
-
 function getInputInitialValue(value) {
-    return isDefined(value) ? value : '';
+    return typeof value !== 'undefined' ? value : '';
 }
 
-var Input = function (_React$Component) {
-    inherits(Input, _React$Component);
+var Input = function (_Component) {
+    inherits(Input, _Component);
 
-    function Input(props) {
+    function Input(props, context) {
         classCallCheck(this, Input);
 
-        var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
+        var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
 
         var value = getInputInitialValue(props.value);
         _this.state = {
             value: value
         };
+        if (typeof _this.context.validator !== 'undefined') {
+            _this.context.validator.register(_this);
+            _this.validator = _this.context.validator;
+        }
+        _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
         return _this;
     }
@@ -858,26 +871,51 @@ var Input = function (_React$Component) {
             doFocus(this.props.focus, this.refs[this.props.name]);
         }
     }, {
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.value;
+        }
+    }, {
         key: 'onChange',
         value: function onChange(event) {
             var value = event.target.value;
             this.setState({
                 value: value
             });
-            if (isFunction(this.props.onChange)) {
-                this.props.onChange(this.props.name, value);
+            this.notify('onChange', value);
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.notify('onBlur', this.state.value);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
             }
         }
     }, {
         key: 'render',
         value: function render() {
-            return React.createElement('input', {
+            return React__default.createElement('input', {
                 ref: this.props.name,
                 type: this.props.type,
                 id: this.props.id,
                 name: this.props.name,
                 value: this.state.value,
                 onChange: this.onChange,
+                onBlur: this.onBlur,
                 className: this.props.className,
                 placeholder: this.props.placeholder });
         }
@@ -890,6 +928,7 @@ Input.propTypes = {
     name: React.PropTypes.string.isRequired,
     id: React.PropTypes.string,
     className: React.PropTypes.string,
+    onBlur: React.PropTypes.func,
     onChange: React.PropTypes.func,
     type: React.PropTypes.string,
     placeholder: React.PropTypes.string
@@ -897,33 +936,63 @@ Input.propTypes = {
 Input.defaultProps = {
     type: 'text'
 };
+Input.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
+};
 
-var RadioGroup = function (_React$Component) {
-    inherits(RadioGroup, _React$Component);
+var RadioGroup = function (_Component) {
+    inherits(RadioGroup, _Component);
 
-    function RadioGroup(props) {
+    function RadioGroup(props, context) {
         classCallCheck(this, RadioGroup);
 
-        var _this = possibleConstructorReturn(this, (RadioGroup.__proto__ || Object.getPrototypeOf(RadioGroup)).call(this, props));
+        var _this = possibleConstructorReturn(this, (RadioGroup.__proto__ || Object.getPrototypeOf(RadioGroup)).call(this, props, context));
 
         _this.state = {
             current: props.current
         };
-
+        if (typeof _this.context.validator !== 'undefined') {
+            _this.context.validator.register(_this);
+            _this.validator = _this.context.validator;
+        }
+        _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
         return _this;
     }
 
     createClass(RadioGroup, [{
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.current;
+        }
+    }, {
         key: 'onChange',
         value: function onChange(event) {
             var current = event.target.value;
             this.setState({
                 current: current
             });
-            // notify
-            if (isFunction(this.props.onChange)) {
-                this.props.onChange(this.props.name, current);
+            this.notify('onChange', current);
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.notify('onBlur', this.state.current);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
             }
         }
     }, {
@@ -931,19 +1000,20 @@ var RadioGroup = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            return React.createElement(
+            return React__default.createElement(
                 'div',
                 null,
                 this.props.dataSource.map(function (current, i) {
-                    return React.createElement(
+                    return React__default.createElement(
                         'div',
                         { key: i },
-                        React.createElement('input', {
+                        React__default.createElement('input', {
                             type: 'radio',
                             name: _this2.props.name,
                             checked: _this2.state.current === current,
                             value: current,
                             onChange: _this2.onChange,
+                            onBlur: _this2.onBlur,
                             className: _this2.props.className }),
                         current
                     );
@@ -957,22 +1027,30 @@ RadioGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
     current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
 };
+RadioGroup.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
+};
 
-var Select = function (_React$Component) {
-    inherits(Select, _React$Component);
+var Select = function (_Component) {
+    inherits(Select, _Component);
 
-    function Select(props) {
+    function Select(props, context) {
         classCallCheck(this, Select);
 
-        var _this = possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
+        var _this = possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props, context));
 
         _this.state = {
             current: props.current
         };
-
+        if (typeof _this.context.validator !== 'undefined') {
+            _this.context.validator.register(_this);
+            _this.validator = _this.context.validator;
+        }
+        _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
         return _this;
     }
@@ -983,15 +1061,38 @@ var Select = function (_React$Component) {
             doFocus(this.props.focus, this.refs[this.props.name]);
         }
     }, {
+        key: 'getName',
+        value: function getName() {
+            return this.props.name;
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.state.current;
+        }
+    }, {
         key: 'onChange',
         value: function onChange(event) {
             var current = event.target.options[event.target.selectedIndex].value;
             this.setState({
                 current: current
             });
-            // notify
-            if (isFunction(this.props.onChange)) {
-                this.props.onChange(this.props.name, current);
+            this.notify('onChange', current);
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.notify('onBlur', this.state.current);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
             }
         }
     }, {
@@ -999,7 +1100,7 @@ var Select = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            return React.createElement(
+            return React__default.createElement(
                 'select',
                 {
                     ref: this.props.name,
@@ -1007,9 +1108,10 @@ var Select = function (_React$Component) {
                     name: this.props.name,
                     value: this.state.current,
                     onChange: this.onChange,
+                    onBlur: this.onBlur,
                     className: this.props.className },
                 this.props.dataSource.map(function (current, i) {
-                    return React.createElement(
+                    return React__default.createElement(
                         'option',
                         { key: i, value: current, onChange: _this2.onChange },
                         current
@@ -1025,23 +1127,31 @@ Select.propTypes = {
     name: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
     current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
     focus: React.PropTypes.bool
 };
+Select.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
+};
 
-var TextArea = function (_React$Component) {
-    inherits(TextArea, _React$Component);
+var TextArea = function (_Component) {
+    inherits(TextArea, _Component);
 
-    function TextArea(props) {
+    function TextArea(props, context) {
         classCallCheck(this, TextArea);
 
-        var _this = possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, props));
+        var _this = possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, props, context));
 
         _this.state = {
             value: props.value
         };
-
+        if (typeof _this.context.validator !== 'undefined') {
+            _this.context.validator.register(_this);
+            _this.validator = _this.context.validator;
+        }
+        _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
         return _this;
     }
@@ -1068,18 +1178,33 @@ var TextArea = function (_React$Component) {
             this.setState({
                 value: value
             });
-            if (isFunction(this.props.onChange)) {
-                this.props.onChange(this.props.name, value);
+            this.notify('onChange', value);
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.notify('onBlur', this.state.value);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
             }
         }
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['value', 'onChange', 'focus']);
-            return React.createElement('textarea', _extends({
+            var rest = omit(this.props, ['value', 'onChange', 'onBlur', 'focus']);
+            return React__default.createElement('textarea', _extends({
                 ref: this.props.name,
                 value: this.state.value,
-                onChange: this.onChange
+                onChange: this.onChange,
+                onBlur: this.onBlur
             }, rest));
         }
     }]);
@@ -1088,15 +1213,19 @@ var TextArea = function (_React$Component) {
 TextArea.propTypes = {
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     value: React.PropTypes.string,
     focus: React.PropTypes.bool
 };
 TextArea.defaultProps = {
     value: ''
 };
+TextArea.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator)
+};
 
-var Submit = function (_React$Component) {
-    inherits(Submit, _React$Component);
+var Submit = function (_Component) {
+    inherits(Submit, _Component);
 
     function Submit(props, context) {
         classCallCheck(this, Submit);
@@ -1104,11 +1233,13 @@ var Submit = function (_React$Component) {
         var _this = possibleConstructorReturn(this, (Submit.__proto__ || Object.getPrototypeOf(Submit)).call(this, props, context));
 
         _this.state = {
-            disabled: false
+            disabled: props.disabled
         };
 
-        if (_this.props.shouldDisable && isDefined(_this.context.form)) {
-            _this.context.form.onFormErrorStateChange(function (hasError) {
+        if (_this.props.shouldDisable && typeof _this.context.form !== 'undefined') {
+            _this.context.form.onFormStateChange(function (_ref) {
+                var hasError = _ref.hasError;
+
                 _this.setState({
                     disabled: hasError
                 });
@@ -1121,19 +1252,21 @@ var Submit = function (_React$Component) {
         key: 'render',
         value: function render() {
             var rest = omit(this.props, ['shouldDisable', 'disabled', 'type']);
-            return React.createElement('input', _extends({ type: 'submit', disabled: this.state.disabled }, rest));
+            return React__default.createElement('input', _extends({ type: 'submit', disabled: this.state.disabled }, rest));
         }
     }]);
     return Submit;
 }(React.Component);
 Submit.propTypes = {
-    shouldDisable: React.PropTypes.bool
+    shouldDisable: React.PropTypes.bool,
+    disabled: React.PropTypes.bool
 };
 Submit.defaultProps = {
-    shouldDisable: true
+    shouldDisable: true,
+    disabled: false
 };
 Submit.contextTypes = {
-    form: React.PropTypes.any
+    form: React.PropTypes.instanceOf(Form)
 };
 
 exports.required = required;

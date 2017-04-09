@@ -1,32 +1,49 @@
-import React from 'react';
-import { isDefined, isFunction, doFocus } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { Validator } from './Validator';
+import { doFocus } from '../common/util';
 
 export function getInputInitialValue(value) {
-    return isDefined(value) ? value : '';
+    return typeof value !== 'undefined' ? value : '';
 }
 
-export class Input extends React.Component {
-    constructor(props) {
-        super(props);
+export class Input extends Component {
+    constructor(props, context) {
+        super(props, context);
         let value = getInputInitialValue(props.value);
         this.state = {
             value
         };
+        if (typeof this.context.validator !== 'undefined') {
+            this.context.validator.register(this);
+            this.validator = this.context.validator;
+        }
+        this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
     }
-
     componentDidMount() {
         doFocus(this.props.focus, this.refs[this.props.name]);
     }
-
+    getName() {
+        return this.props.name;
+    }
+    getValue() {
+        return this.state.value;
+    }
     onChange(event) {
         let value = event.target.value;
         this.setState({
             value
         });
-        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, value); }
+        this.notify('onChange', value);
     }
-
+    onBlur() {
+        this.notify('onBlur', this.state.value);
+    }
+    notify(type, value) {
+        let name = this.props.name;
+        if (this.validator) { this.validator[type](name, value); }
+        if (this.props[type]) { this.props[type](name, value); }
+    }
     render() {
         return (
             <input
@@ -36,21 +53,26 @@ export class Input extends React.Component {
                 name={this.props.name}
                 value={this.state.value}
                 onChange={this.onChange}
+                onBlur={this.onBlur}
                 className={this.props.className}
                 placeholder={this.props.placeholder} />
         );
     }
 }
 Input.propTypes = {
-    focus: React.PropTypes.bool,
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
-    name: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    type: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
+    focus: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    type: PropTypes.string,
+    placeholder: PropTypes.string,
 };
 Input.defaultProps = {
     type: 'text'
+};
+Input.contextTypes = {
+    validator: PropTypes.instanceOf(Validator)
 };

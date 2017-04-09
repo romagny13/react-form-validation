@@ -1,22 +1,39 @@
-import React from 'react';
-import { isDefined, isFunction } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { Validator } from './Validator';
 
-export class RadioGroup extends React.Component {
-    constructor(props) {
-        super(props);
+export class RadioGroup extends Component {
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             current: props.current
         };
-
+        if (typeof this.context.validator !== 'undefined') {
+            this.context.validator.register(this);
+            this.validator = this.context.validator;
+        }
+        this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
+    }
+    getName() {
+        return this.props.name;
+    }
+    getValue() {
+        return this.state.current;
     }
     onChange(event) {
         let current = event.target.value;
         this.setState({
             current
         });
-        // notify
-        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, current); }
+        this.notify('onChange', current);
+    }
+    onBlur() {
+        this.notify('onBlur', this.state.current);
+    }
+    notify(type, value) {
+        let name = this.props.name;
+        if (this.validator) { this.validator[type](name, value); }
+        if (this.props[type]) { this.props[type](name, value); }
     }
     render() {
         return (
@@ -29,6 +46,7 @@ export class RadioGroup extends React.Component {
                             checked={this.state.current === current}
                             value={current}
                             onChange={this.onChange}
+                            onBlur={this.onBlur}
                             className={this.props.className} />
                         {current}
                     </div>);
@@ -38,9 +56,13 @@ export class RadioGroup extends React.Component {
     }
 }
 RadioGroup.propTypes = {
-    name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+    name: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    dataSource: PropTypes.array.isRequired,
+    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+};
+RadioGroup.contextTypes = {
+    validator: PropTypes.instanceOf(Validator)
 };

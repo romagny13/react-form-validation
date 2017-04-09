@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { mount, shallow } from 'enzyme';
 import { TextArea } from '../../../src/components/TextArea';
 

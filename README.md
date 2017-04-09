@@ -1,4 +1,4 @@
-# React Form Validation v0.3
+# React Form Validation v0.4
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
@@ -14,6 +14,26 @@ Example
 import { Form, FormGroup, Validator, Input } from 'romagny13-react-form-validation';
 ```
 
+### Form Model
+
+Create a model with all fields to validate or bind
+
+```js
+const model = {
+    firstname: 'Marie',
+    lastname: 'Bellin',
+    password: 'Secret',
+    confirmPassword: '',
+    email: '',
+    age: 20,
+    list: '2',
+    note: 'My note',
+    preference: 'b',
+    agree: false,
+    likes: ['Milk', 'Cakes']
+};
+```
+
 ## Validators
 
 * required
@@ -24,7 +44,7 @@ import { Form, FormGroup, Validator, Input } from 'romagny13-react-form-validati
 
 `params`: message (for personal error message), name (to change name of validator)
 
-... Or create an other validator. Example 'email'
+... We could create our validators. Example 'email'
 
 ```js
 // isRequired is an utility function
@@ -47,51 +67,34 @@ const validators = {
     'email': [email()],
     'password': [
         required('Please enter a password.'),
-        pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter.')
+        pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter')
     ],
     'confirmPassword': [
         required('Please confirm the password.'),
-        custom((value) => {
-            return this.state.user.password === value;
+        custom((value, model) => {
+            return model.password === value;
         }, 'Password and confirm password do not match.')
     ],
     'age': [custom((value) => {
         return value > 0 && value < 120;
     }, 'Oops ??')],
     'agree': [required()],
-    'likes': [custom(() => {
-        return this.state.user.likes.length > 0;
+    'likes': [custom((value, model) => {
+        return model.likes.length > 0;
     }, 'Please select one or more items.')]
-};
-```
-
-### Model (for binding)
-
-Example
-
-```js
-const user = {
-    firstname: 'Marie',
-    lastname: 'Bellin',
-    email: '',
-    password: 'Secret',
-    age: 20,
-    list: '2',
-    note: 'My note',
-    preference: 'b',
-    likes: ['Milk', 'Cakes']
 };
 ```
 
 ### Components
 
-Allow to validate value and show error messages (note: css class "has-error" is added on FormGroup on error):
+Allow to validate value values:
 
 * Form
 * Validator
 
 Form props | Description
 -------- |  --------
+model | from model (required)
 mode | `submit` (by default) or `touched`
 onSubmit | function to call on form submission
 
@@ -99,12 +102,11 @@ onSubmit | function to call on form submission
 
 Validator props | Description
 -------- |  --------
-name | the form element's name to validate (required)
 validators | validators array (required)
 onValidationStateChange | notifcation on validation state change
-errors | allow to set errors (object) after server validation error for example
+error | allow to set error (after server validation error for example)
 
-Allow to bind value (and isolate rendering) and be notified on value change:
+Allow to bind value (and isolate rendering):
 
 * Input
 * Checkbox
@@ -112,9 +114,9 @@ Allow to bind value (and isolate rendering) and be notified on value change:
 * RadioGroup
 * Select
 * TextArea
-* Submit (disabled if form has errors) 
 
 And
+* Submit (disabled if form has errors) 
 * FormGroup a component that append label and feedbacks on error /success
 
 FormGroup props | Description
@@ -133,12 +135,12 @@ We could create our own `FormGroup` or component
 Example:
 ```js
 // the component receive the validation states
-const MyFormGroup = ({ hasError, hasSuccess, firstError, errors, children }) => {
+const MyFormGroup = ({ hasError, hasSuccess, error, children }) => {
     let groupClassName = hasError ? 'form-group has-error' : 'form-group';
     return (
         <div className={groupClassName}>
             {children}
-            {hasError && <span className="help-block">{firstError}</span>}
+            {hasError && <span className="help-block">{error}</span>}
         </div>
     );
 };
@@ -148,10 +150,10 @@ And render a simple form
 ```js
 const MyForm = () => {
     return (
-        <Form>
+        <Form model={model}>
             <Validator name="firstname" validators={[required()]}>
                 <MyFormGroup>
-                    <Input name="firstname" value="" />
+                    <Input name="firstname" value={model.firstname} />
                 </MyFormGroup>
             </Validator>
             <Submit value="Submit" />
@@ -164,68 +166,68 @@ const MyForm = () => {
 
 Create a form
 ```js
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Validator, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, TextArea, Submit } from 'romagny13-react-form-validation';
 
-const UserForm = ({ user, validators, onSubmit, errors, onValidationStateChange }) => {
+const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, onSubmit, errors, onValidationStateChange }) => {
     return (
-        <Form onSubmit={onSubmit} mode="touched">
-            <Validator name="firstname" validators={validators['firstname']} errors={errors['firstname']} onValidationStateChange={onValidationStateChange}>
+        <Form onSubmit={onSubmit} mode="touched" model={model} autoComplete="off">
+            <Validator validators={validators['firstname']} error={errors['firstname']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
-                    <label htmlFor="firstname" className="control-label" > Firstname:</label>
-                    <Input id="firstname" name="firstname" value={user.firstname} className="form-control" focus />
+                    <label htmlFor="firstname" className="control-label">Firstname:</label>
+                    <Input id="firstname" name="firstname" value={model.firstname} className="form-control" focus />
                 </FormGroup>
             </Validator>
-            <Validator name="lastname" validators={validators['lastname']} onValidationStateChange={onValidationStateChange}>
+            <Validator validators={validators['lastname']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label htmlFor="lastname" className="control-label">Lastname:</label>
-                    <Input id="lastname" name="lastname" value={user.lastname} className="form-control" />
+                    <Input id="lastname" name="lastname" value={model.lastname} className="form-control" />
                 </FormGroup>
             </Validator>
-            <Validator name="password" validators={validators['password']} onValidationStateChange={onValidationStateChange} >
+            <Validator validators={validators['password']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label htmlFor="password" className="control-label">Password:</label>
-                    <Input type="password" id="password" name="password" value={user.password} className="form-control" placeholder="Password" />
+                    <Input type="password" id="password" name="password" value={model.password} className="form-control" placeholder="Password" />
                 </FormGroup>
             </Validator>
-            <Validator name="confirmPassword" validators={validators['confirmPassword']} onValidationStateChange={onValidationStateChange}>
+            <Validator validators={validators['confirmPassword']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label htmlFor="confirmPassword" className="control-label">Confirm password:</label>
-                    <Input type="password" id="confirmPassword" name="confirmPassword" value={user.confirmPassword} className="form-control" placeholder="Confirm password" />
+                    <Input type="password" id="confirmPassword" name="confirmPassword" value={model.confirmPassword} className="form-control" placeholder="Confirm password" />
                 </FormGroup>
             </Validator>
-            <Validator name="email" validators={validators['email']} onValidationStateChange={onValidationStateChange}>
+            <Validator validators={validators['email']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label htmlFor="email" className="control-label">Email:</label>
-                    <Input id="email" name="email" value={user.email} className="form-control" placeholder="example@domain.com" />
+                    <Input id="email" name="email" value={model.email} className="form-control" placeholder="example@domain.com" />
                 </FormGroup>
             </Validator>
-            <Validator name="age" validators={validators['age']} onValidationStateChange={onValidationStateChange}>
+            <Validator validators={validators['age']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label htmlFor="age" className="control-label">Age:</label>
-                    <Input type="number" id="age" name="age" value={user.age} className="form-control" />
+                    <Input type="number" id="age" name="age" value={model.age} className="form-control" />
                 </FormGroup>
             </Validator>
             <div className="form-group">
                 <label htmlFor="list" className="control-label">List (no validation):</label>
-                <Select name="list" dataSource={[1, 2, 3]} current={user.list} className="form-control" />
+                <Select name="list" dataSource={[1, 2, 3]} current={model.list} className="form-control" />
             </div>
             <div className="form-group">
                 <label>Preference:</label>
-                <RadioGroup name="preference" dataSource={['a', 'b', 'c']} current={user.preference} />
+                <RadioGroup name="preference" dataSource={dataSourcePreferences} current={model.preference} />
             </div>
-            <Validator name="likes" validators={validators['likes']} onValidationStateChange={onValidationStateChange}>
+            <Validator validators={validators['likes']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label>Like (one or more items):</label>
-                    <CheckboxGroup name="likes" dataSource={['Cakes', 'Milk', 'Nutella']} currents={user.likes} />
+                    <CheckboxGroup name="likes" dataSource={dataSourceLikes} currents={model.likes} />
                 </FormGroup>
             </Validator>
             <div className="form-group">
                 <label>Note:</label>
-                <TextArea name="note" value={user.note} className="form-control" rows="5" />
+                <TextArea name="note" value={model.note} className="form-control" rows="5" />
             </div>
-            <Validator name="agree" validators={validators['agree']} onValidationStateChange={onValidationStateChange}>
+            <Validator validators={validators['agree']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <div className="checkbox"><label><Checkbox name="agree" />Agree to conditions</label></div>
                 </FormGroup>
@@ -235,11 +237,13 @@ const UserForm = ({ user, validators, onSubmit, errors, onValidationStateChange 
     );
 };
 UserForm.propTypes = {
-    user: React.PropTypes.object.isRequired,
-    validators: React.PropTypes.object,
-    onValidationStateChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func,
-    errors: React.PropTypes.object
+    model: PropTypes.object.isRequired,
+    dataSourcePreferences: PropTypes.array.isRequired,
+    dataSourceLikes: PropTypes.array.isRequired,
+    validators: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onValidationStateChange: PropTypes.func,
+    errors: PropTypes.object
 };
 UserForm.defaultProps = {
     validators: []
@@ -251,7 +255,7 @@ export default UserForm;
 Page with form, validators and model
 
 ```js
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { required, minLength, maxLength, pattern, custom, isRequired } from 'romagny13-react-form-validation';
 import UserForm from './UserForm';
 
@@ -266,22 +270,26 @@ const email = () => {
     };
 };
 
-class HomePage extends React.Component {
+class HomePage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user: {
+            model: {
                 firstname: 'Marie',
                 lastname: 'Bellin',
                 password: 'Secret',
+                confirmPassword: '',
                 email: '',
                 age: 20,
                 list: '2',
                 note: 'My note',
                 preference: 'b',
+                agree: false,
                 likes: ['Milk', 'Cakes']
             },
+            dataSourcePreferences: ['a', 'b', 'c'],
+            dataSourceLikes: ['Milk', 'Cakes', 'Nutella'],
             validators: {
                 'firstname': [required(), minLength(3)],
                 'lastname': [maxLength(10)],
@@ -292,16 +300,16 @@ class HomePage extends React.Component {
                 ],
                 'confirmPassword': [
                     required('Please confirm the password.'),
-                    custom((value) => {
-                        return this.state.user.password === value;
+                    custom((value, model) => {
+                        return model.password === value;
                     }, 'Password and confirm password do not match.')
                 ],
                 'age': [custom((value) => {
                     return value > 0 && value < 120;
                 }, 'Oops ??')],
                 'agree': [required()],
-                'likes': [custom(() => {
-                    return this.state.user.likes.length > 0;
+                'likes': [custom((value, model) => {
+                    return model.likes.length > 0;
                 }, 'Please select one or more items.')]
             },
             errors: {}
@@ -310,24 +318,22 @@ class HomePage extends React.Component {
         this.onValidationStateChange = this.onValidationStateChange.bind(this);
     }
 
-    onValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors }) {
-        console.log('validation state changed', name, value, hasError, firstError, errors);
+    onValidationStateChange({ name, value, hasError, hasSuccess, error }) {
+        console.log('validation state changed', name, value, hasError, error);
     }
 
-    onSubmit({ hasError, formStates, formModel }) {
+    onSubmit({ hasError, errors, model }) {
         if (!hasError) {
-            const { firstname, lastname, email, age, note, preference, likes } = formModel;
+            // simulate a server request
+            const { firstname, lastname, email, age, note, preference, likes } = model;
             const user = { firstname, lastname, email, age, note, preference, likes };
             console.log('save user ...', user);
 
-            // simulate response error from server (example user exists error)
             setTimeout(() => {
                 if (user.firstname === 'Marie') {
                     this.setState({
                         errors: {
-                            firstname: {
-                                custom: 'A user with this name is already registered.'
-                            }
+                            firstname: 'A user with this name is already registered.'
                         }
                     });
                 }
@@ -337,12 +343,14 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <h2>Form binding and validation</h2>
+            <div>
+                <h1>Form binding and validation</h1>
                 <UserForm
+                    model={this.state.model}
                     validators={this.state.validators}
+                    dataSourcePreferences={this.state.dataSourcePreferences}
+                    dataSourceLikes={this.state.dataSourceLikes}
                     errors={this.state.errors}
-                    user={this.state.user}
                     onSubmit={this.onSubmit}
                     onValidationStateChange={this.onValidationStateChange}
                 />
@@ -357,6 +365,7 @@ export default HomePage;
 ## Es5 example
 
 ```js
+
 var Form = ReactFormValidation.Form;
 var Validator = ReactFormValidation.Validator;
 var Input = ReactFormValidation.Input;
@@ -368,7 +377,7 @@ var MyFormGroup = function (props) {
     return (
         <div className={groupClassName}>
             {props.children}
-            {props.hasError && <span className="help-block">{props.firstError}</span>}
+            {props.hasError && <span className="help-block">{props.error}</span>}
         </div>
     );
 };
@@ -376,26 +385,27 @@ var MyFormGroup = function (props) {
 var Home = React.createClass({
     getInitialState: function () {
         return {
-            user: {
+            model: {
                 firstname: 'Marie'
             }
         };
     },
-    onSubmit: function (hasError, formStates, formModel) {
-        if (!hasError) {
+    onSubmit: function (result) {
+        console.log(result)
+        if (!result.hasError) {
             var user = {
-                firstname: formModel['firstname']
+                firstname: result.model['firstname']
             };
             console.log('save user', user);
         }
     },
     render() {
         return (
-            <Form onSubmit={this.onSubmit}>
-                <Validator name="firstname" validators={[required(), minLength(3)]}>
+            <Form onSubmit={this.onSubmit} mode="touched" model={this.state.model}>
+                <Validator validators={[required(), minLength(3)]}>
                     <MyFormGroup>
                         <label htmlFor="firstname">Firstname:</label>
-                        <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus />
+                        <Input id="firstname" name="firstname" value={this.state.model.firstname} className="form-control" focus />
                     </MyFormGroup>
                 </Validator>
                 <input className="btn btn-default" type="submit" value="Submit" />

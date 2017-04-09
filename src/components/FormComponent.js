@@ -1,19 +1,17 @@
-import React from 'react';
-import { isDefined, omit } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { omit } from '../common/util';
 
 export function validateAll(validators) {
-    let formStates = {},
-        formModel = {},
+    let errors = {},
         hasOneOrMoreErrors = false;
 
     validators.forEach((validator) => {
         let validation = validator.validateOnSubmit();
         // could be null if FormGroup has no registered form component
         if (validation) {
-            const { name, hasError, firstError, value } = validation;
-            formStates[name] = { hasError, firstError };
-            formModel[name] = value;
+            const { name, value, hasError, error } = validation;
             if (hasError) {
+                errors[name] = error;
                 hasOneOrMoreErrors = true;
             }
         }
@@ -21,81 +19,68 @@ export function validateAll(validators) {
 
     return {
         hasError: hasOneOrMoreErrors,
-        formStates,
-        formModel
+        errors
     };
 }
 
-export function isFormValid(formStates) {
-    for (let name in formStates) {
-        if (formStates.hasOwnProperty(name)) {
-            let formState = formStates[name];
-            if (formState.hasError) {
-                return false;
-            }
-        }
-    }
-    return true;
+export function formHasErrors(errors) {
+    return Object.keys(errors).length > 0;
 }
 
-export class Form extends React.Component {
+export function cloneModel(model) {
+    return Object.assign({}, model);
+}
+
+export class Form extends Component {
     constructor(props) {
         super(props);
         this._subscribers = [];
         this._validators = [];
 
+        this.mode = this.props.mode;
+        this.model = cloneModel(props.model);
         this.hasError = false;
-        this.formStates = {};
+        this.errors = {};
         this.submitted = false;
 
         this.onSubmit = this.onSubmit.bind(this);
     }
-
     getChildContext() {
         return { form: this };
     }
-
     register(validator) {
-        // subscribe to validation state change
-        validator.onValidationStateChange(({ name, hasError, firstError }) => {
-            this.formStates[name] = { hasError, firstError };
-            this.hasError = !isFormValid(this.formStates);
-            // notify all subscribers that validation state changed
-            this.raiseHasErrorChange(hasError);
-        });
-        // allow to validate each form group on submit
         this._validators.push(validator);
     }
+    onValidationStateChange({ name, hasError, error }) {
+        if (hasError) { this.errors[name] = error; }
+        else if (this.errors.hasOwnProperty(name)) { delete this.errors[name]; }
 
-    onFormErrorStateChange(subscriber) {
+        this.hasError = formHasErrors(this.errors);
+
+        this.raiseFormStateChange({ hasError: this.hasError, errors: this.errors });
+    }
+    onFormStateChange(subscriber) {
         this._subscribers.push(subscriber);
     }
-
-    raiseHasErrorChange(event) {
+    raiseFormStateChange(event) {
         this._subscribers.forEach((subscriber) => {
             subscriber(event);
         });
     }
-
-    get mode() {
-        return this.props.mode;
-    }
-
     onSubmit(event) {
         event.preventDefault();
 
-        const { hasError, formStates, formModel } = validateAll(this._validators);
+        const { hasError, errors } = validateAll(this._validators);
 
         this.hasError = hasError;
-        this.formStates = formStates;
+        this.errors = errors;
         this.submitted = true;
 
-        this.props.onSubmit({ hasError, formStates, formModel });
-        this.raiseHasErrorChange(hasError);
+        this.props.onSubmit({ hasError, errors, model: this.model });
+        this.raiseFormStateChange({ hasError, errors });
     }
-
     render() {
-        const rest = omit(this.props, ['onSubmit', 'mode']);
+        const rest = omit(this.props, ['onSubmit', 'mode', 'model']);
         return (
             <form onSubmit={this.onSubmit} {...rest}>
                 {this.props.children}
@@ -104,13 +89,15 @@ export class Form extends React.Component {
     }
 }
 Form.propTypes = {
-    mode: React.PropTypes.oneOf(['submit', 'touched']),
-    onSubmit: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node
+    mode: PropTypes.oneOf(['submit', 'touched']),
+    model: PropTypes.object,
+    onSubmit: PropTypes.func.isRequired,
+    children: PropTypes.node
 };
 Form.defaultProps = {
-    mode: 'submit'
+    mode: 'submit',
+    model: {}
 };
 Form.childContextTypes = {
-    form: React.PropTypes.any
+    form: PropTypes.any
 };

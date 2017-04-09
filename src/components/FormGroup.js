@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 export function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
     if (hasError) {
@@ -31,7 +31,7 @@ export const FormGroup = ({
     children,
     hasError,
     hasSuccess,
-    firstError
+    error
 }) => {
     let canShowHasSuccess = hasSuccess && showHasSuccess;
     let groupClassName = getGroupClassName(hasError, canShowHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName);
@@ -40,21 +40,21 @@ export const FormGroup = ({
             {children}
             {showHasFeedback && hasError && <span className={hasErrorFeedbackClassName} aria-hidden="true" />}
             {showHasFeedback && showHasSuccess && hasSuccess && <span className={hasSuccessFeedbackClassName} aria-hidden="true" />}
-            {hasError ? <span className="help-block">{firstError}</span> : null}
+            {hasError ? <span className="help-block">{error}</span> : null}
         </div>
     );
 };
 FormGroup.propTypes = {
-    id: React.PropTypes.string,
-    children: React.PropTypes.node,
-    className: React.PropTypes.string,
-    hasErrorClassName: React.PropTypes.string,
-    hasSuccessClassName: React.PropTypes.string,
-    showHasFeedback: React.PropTypes.bool,
-    showHasSuccess: React.PropTypes.bool,
-    hasFeedbackClassName: React.PropTypes.string,
-    hasErrorFeedbackClassName: React.PropTypes.string,
-    hasSuccessFeedbackClassName: React.PropTypes.string
+    id: PropTypes.string,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    hasErrorClassName: PropTypes.string,
+    hasSuccessClassName: PropTypes.string,
+    showHasFeedback: PropTypes.bool,
+    showHasSuccess: PropTypes.bool,
+    hasFeedbackClassName: PropTypes.string,
+    hasErrorFeedbackClassName: PropTypes.string,
+    hasSuccessFeedbackClassName: PropTypes.string
 };
 FormGroup.defaultProps = {
     className: 'form-group',

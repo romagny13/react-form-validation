@@ -1,15 +1,16 @@
-import React from 'react';
-import { isDefined, isFunction, omit } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { Form } from './FormComponent';
+import { omit } from '../common/util';
 
-export class Submit extends React.Component {
+export class Submit extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            disabled: false
+            disabled: props.disabled
         };
 
-        if (this.props.shouldDisable && isDefined(this.context.form)) {
-            this.context.form.onFormErrorStateChange((hasError) => {
+        if (this.props.shouldDisable && typeof this.context.form !== 'undefined') {
+            this.context.form.onFormStateChange(({ hasError }) => {
                 this.setState({
                     disabled: hasError
                 });
@@ -24,11 +25,13 @@ export class Submit extends React.Component {
     }
 }
 Submit.propTypes = {
-    shouldDisable: React.PropTypes.bool
+    shouldDisable: PropTypes.bool,
+    disabled: PropTypes.bool
 };
 Submit.defaultProps = {
-    shouldDisable: true
+    shouldDisable: true,
+    disabled: false
 };
 Submit.contextTypes = {
-    form: React.PropTypes.any
+    form: PropTypes.instanceOf(Form)
 };

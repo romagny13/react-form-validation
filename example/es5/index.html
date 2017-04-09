@@ -27,7 +27,7 @@
             return (
                 <div className={groupClassName}>
                     {props.children}
-                    {props.hasError && <span className="help-block">{props.firstError}</span>}
+                    {props.hasError && <span className="help-block">{props.error}</span>}
                 </div>
             );
         };
@@ -35,26 +35,27 @@
         var Home = React.createClass({
             getInitialState: function () {
                 return {
-                    user: {
+                    model: {
                         firstname: 'Marie'
                     }
                 };
             },
-            onSubmit: function (hasError, formStates, formModel) {
-                if (!hasError) {
+            onSubmit: function (result) {
+                console.log(result)
+                if (!result.hasError) {
                     var user = {
-                        firstname: formModel['firstname']
+                        firstname: result.model['firstname']
                     };
                     console.log('save user', user);
                 }
             },
             render() {
                 return (
-                    <Form onSubmit={this.onSubmit} mode="touched">
-                        <Validator name="firstname" validators={[required(), minLength(3)]}>
+                    <Form onSubmit={this.onSubmit} mode="touched" model={this.state.model}>
+                        <Validator validators={[required(), minLength(3)]}>
                             <MyFormGroup>
                                 <label htmlFor="firstname">Firstname:</label>
-                                <Input id="firstname" name="firstname" value={this.state.user.firstname} className="form-control" focus />
+                                <Input id="firstname" name="firstname" value={this.state.model.firstname} className="form-control" focus />
                             </MyFormGroup>
                         </Validator>
                         <input className="btn btn-default" type="submit" value="Submit" />

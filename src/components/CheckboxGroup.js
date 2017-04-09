@@ -1,29 +1,43 @@
-import React from 'react';
-import { isDefined, isFunction } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { Validator } from './Validator';
 
-export class CheckboxGroup extends React.Component {
-    constructor(props) {
-        super(props);
+export function indexOf(array, value) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+export class CheckboxGroup extends Component {
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             currents: props.currents
         };
-
+        if (typeof this.context.validator !== 'undefined') {
+            this.context.validator.register(this);
+            this.validator = this.context.validator;
+        }
+        this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
         this.indexOf = this.indexOf.bind(this);
     }
+    getName() {
+        return this.props.name;
+    }
+    getValue() {
+        return this.state.currents;
+    }
     indexOf(value) {
-        let currents = this.props.currents;
-        for (let i = 0; i < currents.length; i++) {
-            if (currents[i] === value) {
-                return i;
-            }
-        }
-        return -1;
+        return indexOf(this.props.currents, value);
     }
     onChange(event) {
         let value = event.target.value;
         let index = this.indexOf(value);
         let currents = this.state.currents;
+        // update array
         if (index !== -1) {
             currents.splice(index, 1);
         }
@@ -34,8 +48,15 @@ export class CheckboxGroup extends React.Component {
         this.setState({
             currents
         });
-        // notify
-        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, currents); }
+        this.notify('onChange', currents);
+    }
+    onBlur() {
+        this.notify('onBlur', this.state.currents);
+    }
+    notify(type, value) {
+        let name = this.props.name;
+        if (this.validator) { this.validator[type](name, value); }
+        if (this.props[type]) { this.props[type](name, value); }
     }
     render() {
         return (
@@ -48,6 +69,7 @@ export class CheckboxGroup extends React.Component {
                             checked={this.indexOf(current) !== -1}
                             value={current}
                             onChange={this.onChange}
+                            onBlur={this.onBlur}
                             className={this.props.className} />
                         {current}
                     </div>);
@@ -57,12 +79,16 @@ export class CheckboxGroup extends React.Component {
     }
 }
 CheckboxGroup.propTypes = {
-    name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    dataSource: React.PropTypes.array.isRequired,
-    currents: React.PropTypes.array
+    name: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    dataSource: PropTypes.array.isRequired,
+    currents: PropTypes.array
 };
 CheckboxGroup.defaultProps = {
     currents: []
+};
+CheckboxGroup.contextTypes = {
+    validator: PropTypes.instanceOf(Validator)
 };

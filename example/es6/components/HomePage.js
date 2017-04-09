@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { required, minLength, maxLength, pattern, custom, isRequired } from '../../../src/common/validators';
 import UserForm from './UserForm';
+
+const Sumary = ({ errors }) => {
+    return (
+        <div className="sumary">
+            {Object.keys(errors).map(function (name) {
+                return <p key={name}>{name}: {errors[name]} </p>;
+            })}
+        </div>
+    );
+};
 
 const email = () => {
     return (value) => {
@@ -13,22 +23,27 @@ const email = () => {
     };
 };
 
-class HomePage extends React.Component {
+class HomePage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user: {
+            // form model, each form element to validate/bind is required
+            model: {
                 firstname: 'Marie',
                 lastname: 'Bellin',
                 password: 'Secret',
+                confirmPassword: '',
                 email: '',
                 age: 20,
                 list: '2',
                 note: 'My note',
                 preference: 'b',
+                agree: false,
                 likes: ['Milk', 'Cakes']
             },
+            dataSourcePreferences: ['a', 'b', 'c'],
+            dataSourceLikes: ['Milk', 'Cakes', 'Nutella'],
             validators: {
                 'firstname': [required(), minLength(3)],
                 'lastname': [maxLength(10)],
@@ -39,64 +54,84 @@ class HomePage extends React.Component {
                 ],
                 'confirmPassword': [
                     required('Please confirm the password.'),
-                    custom((value) => {
-                        return this.state.user.password === value;
+                    custom((value, model) => {
+                        return model.password === value;
                     }, 'Password and confirm password do not match.')
                 ],
                 'age': [custom((value) => {
                     return value > 0 && value < 120;
                 }, 'Oops ??')],
                 'agree': [required()],
-                'likes': [custom(() => {
-                    return this.state.user.likes.length > 0;
+                'likes': [custom((value, model) => {
+                    return model.likes.length > 0;
                 }, 'Please select one or more items.')]
             },
+            showSumary: false,
             errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onValidationStateChange = this.onValidationStateChange.bind(this);
     }
 
-    onValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors }) {
-        console.log('validation state changed', name, value, hasError, firstError, errors);
+    onValidationStateChange({ name, value, hasError, hasSuccess, error }) {
+        console.log('validation state changed', name, value, hasError, error);
     }
 
-    onSubmit({ hasError, formStates, formModel }) {
-        if (!hasError) {
-            const { firstname, lastname, email, age, note, preference, likes } = formModel;
+    onSubmit({ hasError, errors, model }) {
+        console.log('submitted', hasError, errors, model);
+
+        if (hasError) {
+            // show sumary
+            this.setState({
+                showSumary: true,
+                errors
+            });
+        }
+        else {
+            // simulate a server request
+            const { firstname, lastname, email, age, note, preference, likes } = model;
             const user = { firstname, lastname, email, age, note, preference, likes };
             console.log('save user ...', user);
 
-            // simulate response error from server (example user exists error)
             setTimeout(() => {
                 if (user.firstname === 'Marie') {
                     this.setState({
+                        showSumary: true,
                         errors: {
-                            firstname: {
-                                custom: 'A user with this name is already registered.'
-                            }
+                            firstname: 'A user with this name is already registered.'
                         }
                     });
                 }
+                else {
+                    this.setState({
+                        showSumary: false,
+                        errors: {}
+                    });
+                }
             });
+
         }
     }
 
     render() {
         console.log('render HomePage');
         return (
-            <div className="container">
-                <h2>Form binding and validation</h2>
+            <div style={{ padding: 24, border: "solid #f7f7f9" }}>
+                <h1 style={{ margin: "0 0 24px" }}>Form binding and validation</h1>
                 <UserForm
+                    model={this.state.model}
                     validators={this.state.validators}
+                    dataSourcePreferences={this.state.dataSourcePreferences}
+                    dataSourceLikes={this.state.dataSourceLikes}
                     errors={this.state.errors}
-                    user={this.state.user}
                     onSubmit={this.onSubmit}
                     onValidationStateChange={this.onValidationStateChange}
                 />
+                {this.state.showSumary && <Sumary errors={this.state.errors} />}
             </div>
         );
     }
 }
 
 export default HomePage;
+

@@ -141,60 +141,58 @@ describe('Validators', () => {
             let validators = [required(), minLength(3), maxLength(10)];
             let result = validateValue(undefined, validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'This field is required.');
+            assert.equal(result.error, 'This field is required.');
         });
 
         it('Should required null', () => {
             let validators = [required(), minLength(3), maxLength(10)];
             let result = validateValue(null, validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'This field is required.');
+            assert.equal(result.error, 'This field is required.');
         });
 
         it('Should required string empty', () => {
             let validators = [required(), minLength(3), maxLength(10)];
             let result = validateValue('', validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'This field is required.');
+            assert.equal(result.error, 'This field is required.');
         });
 
         it('Should required boolean false', () => {
             let validators = [required(), minLength(3), maxLength(10)];
             let result = validateValue(false, validators);
             assert.isTrue(result.hasError);
-            assert.equal(firstError(result.errors), 'This field is required.');
+            assert.equal(result.error, 'This field is required.');
         });
 
         it('Should minlength', () => {
             let validators = [required(), minLength(3), maxLength(10)];
             let result = validateValue('ab', validators);
-            assert.equal(objLength(result.errors), 1);
-            assert.equal(firstError(result.errors), 'Please enter at least than 3 characters.');
+            assert.equal(result.error, 'Please enter at least than 3 characters.');
         });
 
         it('Should pass without required if string empty', () => {
             let validators = [maxLength(30), maxLength(10)];
             let result = validateValue('', validators);
-            assert.equal(objLength(result.errors), 0);
+            assert.isFalse(result.hasError);
         });
 
         it('Should pass validation', () => {
             let validators = [required(), minLength(3), maxLength(10)];
             let result = validateValue('its ok', validators);
-            assert.equal(objLength(result.errors), 0);
+            assert.isFalse(result.hasError);
         });
 
         it('Should pattern', () => {
             let validators = [required(), pattern(/^[a-z]+$/)];
             let result = validateValue(120, validators);
-            assert.equal(objLength(result.errors), 1);
-            assert.equal(firstError(result.errors), 'Please fix this field.');
+            assert.equal(result.error, 'Please fix this field.');
         });
 
         it('Should pass pattern', () => {
             let validators = [required(), pattern(/^[a-z]+$/)];
             let result = validateValue('thisgood', validators);
-            assert.equal(objLength(result.errors), 0);
+            assert.isFalse(result.hasError);
         });
 
     });

@@ -1,220 +1,189 @@
-import React from 'react';
-import { isDefined, isFunction, objLength, omit } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { Form } from './FormComponent';
+import { omit } from '../common/util';
 
-export function canValidateOnChange(validators, form, touched) {
-    return validators.length > 0 && (touched === true || (form && form.submitted));
+export function canValidateOnChange(validators, submitted, touched) {
+    return validators.length > 0 && (touched === true || submitted === true);
 }
 
-export function canValidateOnBlur(validators, form, touched) {
-    return validators.length > 0 && !touched && form && form.mode === 'touched';
+export function canValidateOnBlur(validators, mode, touched) {
+    return validators.length > 0 && !touched && mode === 'touched';
 }
 
-export function getElementValue(element) {
-    let tagName = element.tagName;
-    if (tagName === 'INPUT') {
-        if (element.type === 'checkbox') {
-            return element.value !== 'on' ? element.value : element.checked;
-        }
-        else {
-            return element.value;
-        }
-    }
-    else if (tagName === 'TEXTAREA') {
-        return element.value;
-    }
-    else if (tagName === 'SELECT') {
-        return element.options[element.selectedIndex].value;
-    }
-}
-
-export function validateValue(value, validators) {
-    let hasError = false,
-        errors = {},
-        firstError = '';
-
-    validators.forEach((validator) => {
-        let result = validator(value);
+export function validateValue(value, validators, model) {
+    for (let i = 0; i < validators.length; i++) {
+        let validator = validators[i];
+        let result = validator(value, model);
         if (result) {
-            hasError = true;
-            errors[result.name] = result.error;
+            return {
+                hasError: true,
+                error: result.error
+            };
         }
-    });
-
-    if (hasError) {
-        firstError = getFirstError(errors);
     }
     return {
-        hasError,
-        firstError,
-        errors
+        hasError: false,
+        error: ''
     };
 }
-
-export function getFirstError(obj) {
-    return obj[Object.keys(obj)[0]];
-}
-
-export function validationStateHasChanged(state, newHasError, newFirstError) {
+export function validationStateHasChanged(state, newHasError, newError) {
     // current
-    const { hasError, firstError } = state;
+    const { hasError, error } = state;
     // new
-    return newHasError !== hasError || newFirstError !== firstError;
+    return newHasError !== hasError || newError !== error;
 }
 
-export function getInitialErrorFormState(errors) {
-    if (errors && objLength(errors) > 0) {
+export function getInitialErrorFormState(error) {
+    if (typeof error !== 'undefined') {
         return {
             hasError: true,
             hasSuccess: false,
-            firstError: getFirstError(errors),
-            errors,
+            error
         };
     }
     else {
         return {
             hasError: false,
             hasSuccess: false,
-            firstError: '',
-            errors: {}
+            error: ''
         };
     }
 }
 
-export function findElementByName(element, name) {
-    if (element && name) {
-        return element.querySelector('[name=\'' + name + '\']');
-    }
-}
-
-export class Validator extends React.Component {
+export class Validator extends Component {
     constructor(props, context) {
         super(props, context);
-        this._subscribers = [];
-
         this.state = getInitialErrorFormState(this.props.errors);
-
-        // name of form element(s) to validate
-        this.name = props.name;
-
-        if (isFunction(this.props.onValidationStateChange)) { this.onValidationStateChange(this.props.onValidationStateChange); }
         // register this form group to form for submit event
-        if (isDefined(this.context.form)) { this.context.form.register(this); }
+        if (typeof this.context.form !== 'undefined') {
+            this.context.form.register(this);
+            this.form = this.context.form;
+        }
+    }
+
+    getChildContext() {
+        return { validator: this };
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.errors) {
-            let errors = nextProps.errors,
-                hasError = objLength(errors) > 0,
-                hasSuccess = !hasError,
-                firstError = hasError ? getFirstError(errors) : '';
+        if (nextProps.error) {
+            let error = nextProps.error,
+                hasError = error && error !== '',
+                hasSuccess = !hasError;
 
-            this.setState({ hasError, hasSuccess, firstError, errors });
+            this.setState({ hasError, hasSuccess, error });
 
-            let name = this.name;
-            let element = findElementByName(this.refs.root, name);
-            if (element) {
-                let value = getElementValue(element);
-                this.raiseValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors });
+            if (this.formElement) {
+                // get name and value
+                let name = this.formElement.getName();
+                let value = this.formElement.getValue();
+                this.notify({ name, value, hasError, hasSuccess, error });
             }
         }
     }
 
-    onValidationStateChange(subscriber) {
-        this._subscribers.push(subscriber);
+    register(formElement) {
+        if (this.formElement) { throw new Error('A form element is already registered'); }
+        this.formElement = formElement;
     }
 
-    raiseValidationStateChange(event) {
-        this._subscribers.forEach((subscriber) => {
-            subscriber(event);
-        });
+    onBlur(name, value) {
+        let form = this.form;
+        if (this.touched || !form) return;
+
+        let model = form.model;
+        if (model.hasOwnProperty(name) && canValidateOnBlur(this.props.validators, form.mode, this.touched)) {
+            this.validateOnChange(name, value, model);
+        }
+    }
+
+    onChange(name, value) {
+        let form = this.form;
+        if (!form) return;
+
+        let model = form.model;
+        if (model.hasOwnProperty(name)) {
+            model[name] = value;
+            // validate
+            if (canValidateOnChange(this.props.validators, form.submitted, this.touched)) {
+                this.validateOnChange(name, value, model);
+            }
+        }
+    }
+
+    notify(event) {
+        if (typeof this.props.onValidationStateChange === 'function') { this.props.onValidationStateChange(event); }
+        if (this.form) { this.form.onValidationStateChange(event); }
+    }
+
+    validateOnChange(name, value, model) {
+        // validate value
+        const { hasError, error } = validateValue(value, this.props.validators, model);
+
+        // check if validation state has changed
+        if (validationStateHasChanged(this.state, hasError, error)) {
+            // change state
+            let hasSuccess = !hasError;
+            this.setState({ hasError, hasSuccess, error });
+
+            if (!this.touched) { this.touched = true; }
+
+            // notify validation state change
+            this.notify({ name, value, hasError, hasSuccess, error });
+        }
     }
 
     validateOnSubmit() {
+        if (!this.formElement) return;
+
         // get name and value
-        let name = this.name;
-        let element = findElementByName(this.refs.root, name);
-        if (!element) return;
-        let value = getElementValue(element);
+        let name = this.formElement.getName();
+        let value = this.formElement.getValue();
 
         // validate value
-        const { hasError, firstError, errors } = validateValue(value, this.props.validators);
+        let model = this.form.model;
+        let validators = this.props.validators;
+        const { hasError, error } = validateValue(value, validators, model);
+
+        if (!this.touched) { this.touched = true; }
 
         // change state
-        this.setState({ hasError, hasSuccess: !hasError, firstError, errors });
-
-        this.submitted = true;
+        this.setState({ hasError, hasSuccess: !hasError, error });
 
         return {
             name,
             value,
             hasError,
-            firstError,
-            errors
+            error
         };
-    }
-
-    validateOnChange(event) {
-        if (event.target.name !== this.name) return;
-
-        // get name and value
-        let name = event.target.name,
-            value = getElementValue(event.target);
-
-        // validate value
-        const { hasError, firstError, errors } = validateValue(value, this.props.validators);
-
-        // check if validation state has changed
-        if (validationStateHasChanged(this.state, hasError, firstError)) {
-            // change state
-            let hasSuccess = !hasError;
-            this.setState({ hasError, hasSuccess, firstError, errors });
-
-            if (!this.touched) { this.touched = true; }
-
-            // notify validation state change
-            this.raiseValidationStateChange({ name, value, hasError, hasSuccess, firstError, errors });
-        }
     }
 
     render() {
-        const handles = {
-            onBlur: (event) => {
-                if (canValidateOnBlur(this.props.validators, this.context.form, this.touched)) {
-                    this.validateOnChange(event);
-                }
-            },
-            onChange: (event) => {
-                if (canValidateOnChange(this.props.validators, this.context.form, this.touched)) {
-                    this.validateOnChange(event);
-                }
-            }
-        };
         let root = this.props.children;
-        if (Array.isArray(root)) { throw new Error('Validator do not support array of elements.'); }
-
         if (typeof root.type === 'function') {
             // component
             // validation states + root element props
             const params = Object.assign({}, this.state, root.props);
             // create component
             const component = new this.props.children.type(params);
-            const props = Object.assign({}, component.props, handles);
-            return <component.type ref="root" {...props}>{component.props.children}</component.type>;
+            return <component.type {...component.props}>{component.props.children}</component.type>;
         }
         else {
             // render content with no validation
-            return <root.type ref="root" {...root.props}>{root.props.children}</root.type>;
+            return <root.type {...root.props}>{root.props.children}</root.type>;
         }
     }
 }
 Validator.contextTypes = {
-    form: React.PropTypes.any
+    form: PropTypes.instanceOf(Form)
+};
+Validator.childContextTypes = {
+    validator: PropTypes.instanceOf(Validator)
 };
 Validator.propTypes = {
-    name: React.PropTypes.string.isRequired,
-    validators: React.PropTypes.array.isRequired,
-    onValidationStateChange: React.PropTypes.func,
-    errors: React.PropTypes.object
+    validators: PropTypes.array.isRequired,
+    onValidationStateChange: PropTypes.func,
+    error: PropTypes.string
 };
 Validator.defaultProps = {
     validators: []

@@ -1,25 +1,43 @@
-import React from 'react';
-import { isDefined, isFunction, doFocus } from '../common/util';
+import React, { Component, PropTypes } from 'react';
+import { Validator } from './Validator';
+import { doFocus } from '../common/util';
 
-export class Select extends React.Component {
-    constructor(props) {
-        super(props);
+export class Select extends Component {
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             current: props.current
         };
-
+        if (typeof this.context.validator !== 'undefined') {
+            this.context.validator.register(this);
+            this.validator = this.context.validator;
+        }
+        this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
     }
     componentDidMount() {
         doFocus(this.props.focus, this.refs[this.props.name]);
+    }
+    getName() {
+        return this.props.name;
+    }
+    getValue() {
+        return this.state.current;
     }
     onChange(event) {
         let current = event.target.options[event.target.selectedIndex].value;
         this.setState({
             current
         });
-        // notify
-        if (isFunction(this.props.onChange)) { this.props.onChange(this.props.name, current); }
+        this.notify('onChange', current);
+    }
+    onBlur() {
+        this.notify('onBlur', this.state.current);
+    }
+    notify(type, value) {
+        let name = this.props.name;
+        if (this.validator) { this.validator[type](name, value); }
+        if (this.props[type]) { this.props[type](name, value); }
     }
     render() {
         return (
@@ -29,6 +47,7 @@ export class Select extends React.Component {
                 name={this.props.name}
                 value={this.state.current}
                 onChange={this.onChange}
+                onBlur={this.onBlur}
                 className={this.props.className}>
                 {this.props.dataSource.map((current, i) => {
                     return (
@@ -40,11 +59,15 @@ export class Select extends React.Component {
     }
 }
 Select.propTypes = {
-    id: React.PropTypes.string,
-    name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
-    focus: React.PropTypes.bool
+    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    dataSource: PropTypes.array.isRequired,
+    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    focus: PropTypes.bool
+};
+Select.contextTypes = {
+    validator: PropTypes.instanceOf(Validator)
 };
