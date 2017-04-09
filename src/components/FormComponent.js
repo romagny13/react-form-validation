@@ -7,7 +7,7 @@ export function validateAll(validators) {
 
     validators.forEach((validator) => {
         let validation = validator.validateOnSubmit();
-        // could be null if FormGroup has no registered form component
+        // could be null with no registered form element
         if (validation) {
             const { name, value, hasError, error } = validation;
             if (hasError) {
@@ -16,7 +16,6 @@ export function validateAll(validators) {
             }
         }
     });
-
     return {
         hasError: hasOneOrMoreErrors,
         errors
@@ -27,10 +26,6 @@ export function formHasErrors(errors) {
     return Object.keys(errors).length > 0;
 }
 
-export function cloneModel(model) {
-    return Object.assign({}, model);
-}
-
 export class Form extends Component {
     constructor(props) {
         super(props);
@@ -38,12 +33,16 @@ export class Form extends Component {
         this._validators = [];
 
         this.mode = this.props.mode;
-        this.model = cloneModel(props.model);
+        this.model = Object.assign({}, props.model);
         this.hasError = false;
         this.errors = {};
         this.submitted = false;
 
         this.onSubmit = this.onSubmit.bind(this);
+        let rest = omit(props, ['onSubmit', 'mode', 'model']);
+        this.config = Object.assign({}, rest, {
+            onSubmit: this.onSubmit
+        });
     }
     getChildContext() {
         return { form: this };
@@ -80,12 +79,7 @@ export class Form extends Component {
         this.raiseFormStateChange({ hasError, errors });
     }
     render() {
-        const rest = omit(this.props, ['onSubmit', 'mode', 'model']);
-        return (
-            <form onSubmit={this.onSubmit} {...rest}>
-                {this.props.children}
-            </form>
-        );
+        return React.createElement('form', this.config, this.props.children);
     }
 }
 Form.propTypes = {

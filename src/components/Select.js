@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Validator } from './Validator';
-import { doFocus } from '../common/util';
+import { omit } from '../common/util';
 
 export class Select extends Component {
     constructor(props, context) {
@@ -14,9 +14,11 @@ export class Select extends Component {
         }
         this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
-    }
-    componentDidMount() {
-        doFocus(this.props.focus, this.refs[this.props.name]);
+        let rest = omit(this.props, ['onChange', 'onBlur', 'current', 'value', 'dataSource']);
+        this.config = Object.assign({}, rest, {
+            onChange: this.onChange,
+            onBlur: this.onBlur
+        });
     }
     getName() {
         return this.props.name;
@@ -40,33 +42,25 @@ export class Select extends Component {
         if (this.props[type]) { this.props[type](name, value); }
     }
     render() {
-        return (
-            <select
-                ref={this.props.name}
-                id={this.props.id}
-                name={this.props.name}
-                value={this.state.current}
-                onChange={this.onChange}
-                onBlur={this.onBlur}
-                className={this.props.className}>
-                {this.props.dataSource.map((current, i) => {
-                    return (
-                        <option key={i} value={current} onChange={this.onChange}>{current}</option>
-                    );
-                })}
-            </select>
+        let config = Object.assign({}, this.config, { value: this.state.current });
+        return React.createElement(
+            "select", config,
+            this.props.dataSource.map((current, i) => {
+                return React.createElement(
+                    "option",
+                    { key: i, value: current, onChange: this.onChange },
+                    current
+                );
+            })
         );
     }
 }
 Select.propTypes = {
-    id: PropTypes.string,
     name: PropTypes.string.isRequired,
-    className: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     dataSource: PropTypes.array.isRequired,
-    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    focus: PropTypes.bool
+    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
 };
 Select.contextTypes = {
     validator: PropTypes.instanceOf(Validator)

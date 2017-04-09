@@ -2,6 +2,33 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Validator, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, TextArea, Submit, custom } from '../../../src/index';
 
+/*
+export const MyFormGroup = ({ hasError, hasSuccess, error, label, children }) => {
+    let groupClassName = getGroupClassName(hasError, hasSuccess, 'form-group', 'has-feedback', 'has-error', 'has-success');
+    return (
+        <div className={groupClassName}>
+            <label className="col-sm-3 control-label">{label}</label>
+            <div className="col-sm-9">
+                {children}
+                {hasError && <span className="help-block">{error}</span>}
+            </div>
+        </div>
+    );
+};
+*/
+
+/*class FormGroup extends Component {
+    render() {
+        let groupClassName = this.props.hasError ? 'form-group has-error' : 'form-group';
+        return (
+            <div className={groupClassName}>
+                {this.props.children}
+                {this.props.hasError && <span className="help-block">{this.props.error}</span>}
+            </div>
+        );
+    }
+}*/
+
 const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, onSubmit, errors, onValidationStateChange }) => {
     console.log('render UserForm');
     return (
@@ -9,7 +36,7 @@ const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, o
             <Validator validators={validators['firstname']} error={errors['firstname']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label htmlFor="firstname" className="control-label">Firstname:</label>
-                    <Input id="firstname" name="firstname" value={model.firstname} className="form-control" focus />
+                    <Input id="firstname" name="firstname" value={model.firstname} className="form-control" autoFocus />
                 </FormGroup>
             </Validator>
             <Validator validators={validators['lastname']} onValidationStateChange={onValidationStateChange}>
@@ -60,6 +87,11 @@ const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, o
                 <label>Note:</label>
                 <TextArea name="note" value={model.note} className="form-control" rows="5" />
             </div>
+            <Validator validators={validators['file']} onValidationStateChange={onValidationStateChange}>
+                <FormGroup>
+                    <Input type="file" id="file" name="file" value={model.file} accept="image/*" />
+                </FormGroup>
+            </Validator>
             <Validator validators={validators['agree']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <div className="checkbox"><label><Checkbox name="agree" />Agree to conditions</label></div>

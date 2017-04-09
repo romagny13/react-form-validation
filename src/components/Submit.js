@@ -16,12 +16,12 @@ export class Submit extends Component {
                 });
             });
         }
+        let rest = omit(this.props, ['shouldDisable', 'disabled', 'type']);
+        this.config = Object.assign({}, rest, { type: 'submit' });
     }
     render() {
-        const rest = omit(this.props, ['shouldDisable', 'disabled', 'type']);
-        return (
-            <input type="submit" disabled={this.state.disabled} {...rest} />
-        );
+        let config = Object.assign({}, this.config, { disabled: this.state.disabled });
+        return React.createElement('input', config);
     }
 }
 Submit.propTypes = {

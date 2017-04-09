@@ -164,14 +164,22 @@ export class Validator extends Component {
             // component
             // validation states + root element props
             const params = Object.assign({}, this.state, root.props);
-            // create component
             const component = new this.props.children.type(params);
-            return <component.type {...component.props}>{component.props.children}</component.type>;
+            if (typeof component.type === 'string') {
+                // stateless component
+                return React.createElement(component.type, component.props, component.props.children);
+            }
+            else if (!component.type) {
+                // extends react component
+                let resolve = component.render();
+                return React.createElement(resolve.type, resolve.props, resolve.props.children);
+            }
         }
-        else {
-            // render content with no validation
-            return <root.type {...root.props}>{root.props.children}</root.type>;
+        else if (typeof root.type === 'string') {
+            // render with no validation
+            return React.createElement(root.type, root.props, root.props.children);
         }
+        throw new Error('Cannot resolve the component');
     }
 }
 Validator.contextTypes = {

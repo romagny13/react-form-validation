@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.4.0
+ * romagny13-react-form-validation v0.4.1
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -91,12 +91,6 @@ var custom = function custom(fn, message) {
     };
 };
 
-function doFocus(focused, element) {
-    if (focused && element) {
-        element.focus();
-    }
-}
-
 function omit(obj) {
     var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -138,20 +132,6 @@ var createClass = function () {
 
 
 
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
 
 
 
@@ -195,7 +175,7 @@ function validateAll(validators) {
 
     validators.forEach(function (validator) {
         var validation = validator.validateOnSubmit();
-        // could be null if FormGroup has no registered form component
+        // could be null with no registered form element
         if (validation) {
             var name = validation.name,
                 value = validation.value,
@@ -208,7 +188,6 @@ function validateAll(validators) {
             }
         }
     });
-
     return {
         hasError: hasOneOrMoreErrors,
         errors: errors
@@ -217,10 +196,6 @@ function validateAll(validators) {
 
 function formHasErrors(errors) {
     return Object.keys(errors).length > 0;
-}
-
-function cloneModel(model) {
-    return Object.assign({}, model);
 }
 
 var Form = function (_Component) {
@@ -235,12 +210,16 @@ var Form = function (_Component) {
         _this._validators = [];
 
         _this.mode = _this.props.mode;
-        _this.model = cloneModel(props.model);
+        _this.model = Object.assign({}, props.model);
         _this.hasError = false;
         _this.errors = {};
         _this.submitted = false;
 
         _this.onSubmit = _this.onSubmit.bind(_this);
+        var rest = omit(props, ['onSubmit', 'mode', 'model']);
+        _this.config = Object.assign({}, rest, {
+            onSubmit: _this.onSubmit
+        });
         return _this;
     }
 
@@ -302,12 +281,7 @@ var Form = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['onSubmit', 'mode', 'model']);
-            return React__default.createElement(
-                'form',
-                _extends({ onSubmit: this.onSubmit }, rest),
-                this.props.children
-            );
+            return React__default.createElement('form', this.config, this.props.children);
         }
     }]);
     return Form;
@@ -522,21 +496,20 @@ var Validator = function (_Component) {
                 // component
                 // validation states + root element props
                 var params = Object.assign({}, this.state, root.props);
-                // create component
                 var component = new this.props.children.type(params);
-                return React__default.createElement(
-                    component.type,
-                    component.props,
-                    component.props.children
-                );
-            } else {
-                // render content with no validation
-                return React__default.createElement(
-                    root.type,
-                    root.props,
-                    root.props.children
-                );
+                if (typeof component.type === 'string') {
+                    // stateless component
+                    return React__default.createElement(component.type, component.props, component.props.children);
+                } else if (!component.type) {
+                    // extends react component
+                    var resolve = component.render();
+                    return React__default.createElement(resolve.type, resolve.props, resolve.props.children);
+                }
+            } else if (typeof root.type === 'string') {
+                // render with no validation
+                return React__default.createElement(root.type, root.props, root.props.children);
             }
+            throw new Error('Cannot resolve the component');
         }
     }]);
     return Validator;
@@ -573,15 +546,17 @@ var Checkbox = function (_Component) {
         }
         _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
+
+        var rest = omit(_this.props, ['onChange', 'onBlur', 'checked']);
+        _this.config = Object.assign({}, rest, {
+            type: 'checkbox',
+            onChange: _this.onChange,
+            onBlur: _this.onBlur
+        });
         return _this;
     }
 
     createClass(Checkbox, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            doFocus(this.props.focus, this.refs[this.props.name]);
-        }
-    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -619,27 +594,17 @@ var Checkbox = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return React__default.createElement('input', {
-                ref: this.props.name,
-                type: 'checkbox',
-                id: this.props.id,
-                name: this.props.name,
-                checked: this.state.checked,
-                onChange: this.onChange,
-                onBlur: this.onBlur,
-                className: this.props.className });
+            var config = Object.assign({}, this.config, { checked: this.state.checked });
+            return React__default.createElement('input', config);
         }
     }]);
     return Checkbox;
 }(React.Component);
 Checkbox.propTypes = {
-    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
-    checked: React.PropTypes.bool,
-    focus: React.PropTypes.bool
+    checked: React.PropTypes.bool
 };
 Checkbox.defaultProps = {
     checked: false
@@ -852,9 +817,8 @@ var Input = function (_Component) {
 
         var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
 
-        var value = getInputInitialValue(props.value);
         _this.state = {
-            value: value
+            value: getInputInitialValue(props.value)
         };
         if (typeof _this.context.validator !== 'undefined') {
             _this.context.validator.register(_this);
@@ -862,15 +826,16 @@ var Input = function (_Component) {
         }
         _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
+
+        var rest = omit(_this.props, ['onChange', 'onBlur', 'value']);
+        _this.config = Object.assign({}, rest, {
+            onChange: _this.onChange,
+            onBlur: _this.onBlur
+        });
         return _this;
     }
 
     createClass(Input, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            doFocus(this.props.focus, this.refs[this.props.name]);
-        }
-    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -908,30 +873,16 @@ var Input = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return React__default.createElement('input', {
-                ref: this.props.name,
-                type: this.props.type,
-                id: this.props.id,
-                name: this.props.name,
-                value: this.state.value,
-                onChange: this.onChange,
-                onBlur: this.onBlur,
-                className: this.props.className,
-                placeholder: this.props.placeholder });
+            var config = Object.assign({}, this.config, { value: this.state.value });
+            return React__default.createElement('input', config);
         }
     }]);
     return Input;
 }(React.Component);
 Input.propTypes = {
-    focus: React.PropTypes.bool,
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
     name: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string,
-    className: React.PropTypes.string,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    type: React.PropTypes.string,
-    placeholder: React.PropTypes.string
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
+    type: React.PropTypes.string
 };
 Input.defaultProps = {
     type: 'text'
@@ -1052,15 +1003,15 @@ var Select = function (_Component) {
         }
         _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
+        var rest = omit(_this.props, ['onChange', 'onBlur', 'current', 'value', 'dataSource']);
+        _this.config = Object.assign({}, rest, {
+            onChange: _this.onChange,
+            onBlur: _this.onBlur
+        });
         return _this;
     }
 
     createClass(Select, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            doFocus(this.props.focus, this.refs[this.props.name]);
-        }
-    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -1100,37 +1051,20 @@ var Select = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            return React__default.createElement(
-                'select',
-                {
-                    ref: this.props.name,
-                    id: this.props.id,
-                    name: this.props.name,
-                    value: this.state.current,
-                    onChange: this.onChange,
-                    onBlur: this.onBlur,
-                    className: this.props.className },
-                this.props.dataSource.map(function (current, i) {
-                    return React__default.createElement(
-                        'option',
-                        { key: i, value: current, onChange: _this2.onChange },
-                        current
-                    );
-                })
-            );
+            var config = Object.assign({}, this.config, { value: this.state.current });
+            return React__default.createElement("select", config, this.props.dataSource.map(function (current, i) {
+                return React__default.createElement("option", { key: i, value: current, onChange: _this2.onChange }, current);
+            }));
         }
     }]);
     return Select;
 }(React.Component);
 Select.propTypes = {
-    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
-    focus: React.PropTypes.bool
+    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
 };
 Select.contextTypes = {
     validator: React.PropTypes.instanceOf(Validator)
@@ -1153,15 +1087,15 @@ var TextArea = function (_Component) {
         }
         _this.onBlur = _this.onBlur.bind(_this);
         _this.onChange = _this.onChange.bind(_this);
+        var rest = omit(props, ['value', 'onChange', 'onBlur']);
+        _this.config = Object.assign({}, rest, {
+            onChange: _this.onChange,
+            onBlur: _this.onBlur
+        });
         return _this;
     }
 
     createClass(TextArea, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            doFocus(this.props.focus, this.refs[this.props.name]);
-        }
-    }, {
         key: 'getName',
         value: function getName() {
             return this.props.name;
@@ -1199,13 +1133,8 @@ var TextArea = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['value', 'onChange', 'onBlur', 'focus']);
-            return React__default.createElement('textarea', _extends({
-                ref: this.props.name,
-                value: this.state.value,
-                onChange: this.onChange,
-                onBlur: this.onBlur
-            }, rest));
+            var config = Object.assign({}, this.config, { value: this.state.value });
+            return React__default.createElement('textarea', config);
         }
     }]);
     return TextArea;
@@ -1214,8 +1143,7 @@ TextArea.propTypes = {
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
-    value: React.PropTypes.string,
-    focus: React.PropTypes.bool
+    value: React.PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''
@@ -1245,14 +1173,16 @@ var Submit = function (_Component) {
                 });
             });
         }
+        var rest = omit(_this.props, ['shouldDisable', 'disabled', 'type']);
+        _this.config = Object.assign({}, rest, { type: 'submit' });
         return _this;
     }
 
     createClass(Submit, [{
         key: 'render',
         value: function render() {
-            var rest = omit(this.props, ['shouldDisable', 'disabled', 'type']);
-            return React__default.createElement('input', _extends({ type: 'submit', disabled: this.state.disabled }, rest));
+            var config = Object.assign({}, this.config, { disabled: this.state.disabled });
+            return React__default.createElement('input', config);
         }
     }]);
     return Submit;

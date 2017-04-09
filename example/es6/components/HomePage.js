@@ -38,6 +38,7 @@ class HomePage extends Component {
                 age: 20,
                 list: '2',
                 note: 'My note',
+                file: '',
                 preference: 'b',
                 agree: false,
                 likes: ['Milk', 'Cakes']
@@ -61,6 +62,7 @@ class HomePage extends Component {
                 'age': [custom((value) => {
                     return value > 0 && value < 120;
                 }, 'Oops ??')],
+                'file': [required('Please select a file')],
                 'agree': [required()],
                 'likes': [custom((value, model) => {
                     return model.likes.length > 0;
@@ -118,6 +120,7 @@ class HomePage extends Component {
         return (
             <div style={{ padding: 24, border: "solid #f7f7f9" }}>
                 <h1 style={{ margin: "0 0 24px" }}>Form binding and validation</h1>
+                <hr />
                 <UserForm
                     model={this.state.model}
                     validators={this.state.validators}
