@@ -1,94 +1,49 @@
 import React, { Component, PropTypes } from 'react';
-import { Validator } from './Validator';
+import { FormElement } from './FormElement';
+import { getConfig, indexOf } from '../common/util';
+import { renderCheckboxGroup } from './renderFunctions';
 
-export function indexOf(array, value) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === value) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-export class CheckboxGroup extends Component {
+export class CheckboxGroup extends FormElement {
     constructor(props, context) {
         super(props, context);
         this.state = {
             currents: props.currents
         };
-        if (typeof this.context.validator !== 'undefined') {
-            this.context.validator.register(this);
-            this.validator = this.context.validator;
-        }
-        this.onBlur = this.onBlur.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.indexOf = this.indexOf.bind(this);
-    }
-    getName() {
-        return this.props.name;
+        this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'currents'], this.onChange, this.onBlur);
+        this.isInCurrentArray = this.isInCurrentArray.bind(this);
+        this.dataSource = this.props.dataSource;
     }
     getValue() {
         return this.state.currents;
     }
-    indexOf(value) {
+    isInCurrentArray(value) {
         return indexOf(this.props.currents, value);
     }
     onChange(event) {
         let value = event.target.value;
-        let index = this.indexOf(value);
+        let index = this.isInCurrentArray(value);
         let currents = this.state.currents;
         // update array
-        if (index !== -1) {
-            currents.splice(index, 1);
-        }
-        else {
-            currents.push(value);
-        }
-
+        if (index !== -1) { currents.splice(index, 1); }
+        else { currents.push(value); }
         this.setState({
             currents
         });
+        this.tryUpdateFormModel(currents);
         this.notify('onChange', currents);
     }
     onBlur() {
         this.notify('onBlur', this.state.currents);
     }
-    notify(type, value) {
-        let name = this.props.name;
-        if (this.validator) { this.validator[type](name, value); }
-        if (this.props[type]) { this.props[type](name, value); }
-    }
     render() {
-        return (
-            <div>
-                {this.props.dataSource.map((current, i) => {
-                    return (<div key={i}>
-                        <input
-                            type="checkbox"
-                            name={this.props.name}
-                            checked={this.indexOf(current) !== -1}
-                            value={current}
-                            onChange={this.onChange}
-                            onBlur={this.onBlur}
-                            className={this.props.className} />
-                        {current}
-                    </div>);
-                })}
-            </div>
-        );
+        return renderCheckboxGroup(this.config, this.dataSource, this.isInCurrentArray, this.onChange, this.onBlur);
     }
 }
 CheckboxGroup.propTypes = {
     name: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
     dataSource: PropTypes.array.isRequired,
     currents: PropTypes.array
 };
 CheckboxGroup.defaultProps = {
     currents: []
-};
-CheckboxGroup.contextTypes = {
-    validator: PropTypes.instanceOf(Validator)
 };

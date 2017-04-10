@@ -1,27 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { Validator } from './Validator';
-import { omit } from '../common/util';
+import { FormElement } from './FormElement';
+import { getConfig } from '../common/util';
+import { renderTextArea } from './renderFunctions';
 
-export class TextArea extends Component {
+export class TextArea extends FormElement {
     constructor(props, context) {
         super(props, context);
         this.state = {
             value: props.value
         };
-        if (typeof this.context.validator !== 'undefined') {
-            this.context.validator.register(this);
-            this.validator = this.context.validator;
-        }
-        this.onBlur = this.onBlur.bind(this);
-        this.onChange = this.onChange.bind(this);
-        let rest = omit(props, ['value', 'onChange', 'onBlur']);
-        this.config = Object.assign({}, rest, {
-            onChange: this.onChange,
-            onBlur: this.onBlur
-        });
-    }
-    getName() {
-        return this.props.name;
+        this.config = getConfig(props, ['onChange', 'onBlur', 'value'], this.onChange, this.onBlur);
     }
     getValue() {
         return this.state.value;
@@ -31,31 +19,27 @@ export class TextArea extends Component {
         this.setState({
             value
         });
+        this.tryUpdateFormModel(value);
         this.notify('onChange', value);
     }
     onBlur() {
         this.notify('onBlur', this.state.value);
     }
-    notify(type, value) {
-        let name = this.props.name;
-        if (this.validator) { this.validator[type](name, value); }
-        if (this.props[type]) { this.props[type](name, value); }
-    }
     render() {
-        let config = Object.assign({}, this.config, { value: this.state.value });
-        return React.createElement('textarea', config);
+        let props = Object.assign({}, this.config, { value: this.state.value });
+        return renderTextArea(props);
     }
 }
 TextArea.propTypes = {
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
     value: PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''
 };
-TextArea.contextTypes = {
-    validator: PropTypes.instanceOf(Validator)
-};
+
+
+
+
+
 

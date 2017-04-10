@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Form } from './FormComponent';
 import { omit } from '../common/util';
+import { renderValidator } from './renderFunctions';
 
 export function canValidateOnChange(validators, submitted, touched) {
     return validators.length > 0 && (touched === true || submitted === true);
@@ -75,7 +76,7 @@ export class Validator extends Component {
 
             if (this.formElement) {
                 // get name and value
-                let name = this.formElement.getName();
+                let name = this.formElement.name;
                 let value = this.formElement.getValue();
                 this.notify({ name, value, hasError, hasSuccess, error });
             }
@@ -98,16 +99,13 @@ export class Validator extends Component {
     }
 
     onChange(name, value) {
+        // validate
         let form = this.form;
         if (!form) return;
 
         let model = form.model;
-        if (model.hasOwnProperty(name)) {
-            model[name] = value;
-            // validate
-            if (canValidateOnChange(this.props.validators, form.submitted, this.touched)) {
-                this.validateOnChange(name, value, model);
-            }
+        if (model.hasOwnProperty(name) && canValidateOnChange(this.props.validators, form.submitted, this.touched)) {
+            this.validateOnChange(name, value, model);
         }
     }
 
@@ -137,7 +135,7 @@ export class Validator extends Component {
         if (!this.formElement) return;
 
         // get name and value
-        let name = this.formElement.getName();
+        let name = this.formElement.name;
         let value = this.formElement.getValue();
 
         // validate value
@@ -159,27 +157,7 @@ export class Validator extends Component {
     }
 
     render() {
-        let root = this.props.children;
-        if (typeof root.type === 'function') {
-            // component
-            // validation states + root element props
-            const params = Object.assign({}, this.state, root.props);
-            const component = new this.props.children.type(params);
-            if (typeof component.type === 'string') {
-                // stateless component
-                return React.createElement(component.type, component.props, component.props.children);
-            }
-            else if (!component.type) {
-                // extends react component
-                let resolve = component.render();
-                return React.createElement(resolve.type, resolve.props, resolve.props.children);
-            }
-        }
-        else if (typeof root.type === 'string') {
-            // render with no validation
-            return React.createElement(root.type, root.props, root.props.children);
-        }
-        throw new Error('Cannot resolve the component');
+        return renderValidator(this.props.children, this.state);
     }
 }
 Validator.contextTypes = {

@@ -6,7 +6,7 @@ const Sumary = ({ errors }) => {
     return (
         <div className="sumary">
             {Object.keys(errors).map(function (name) {
-                return <p key={name}>{name}: {errors[name]} </p>;
+                return <p key={name}>{name}: {errors[name]}</p>;
             })}
         </div>
     );
@@ -51,7 +51,7 @@ class HomePage extends Component {
                 'email': [email()],
                 'password': [
                     required('Please enter a password.'),
-                    pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter')
+                    pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter.')
                 ],
                 'confirmPassword': [
                     required('Please confirm the password.'),
@@ -62,7 +62,7 @@ class HomePage extends Component {
                 'age': [custom((value) => {
                     return value > 0 && value < 120;
                 }, 'Oops ??')],
-                'file': [required('Please select a file')],
+                'file': [required('Please select a file.')],
                 'agree': [required()],
                 'likes': [custom((value, model) => {
                     return model.likes.length > 0;

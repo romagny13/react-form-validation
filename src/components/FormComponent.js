@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { omit } from '../common/util';
+import { renderForm } from './renderFunctions';
 
 export function validateAll(validators) {
     let errors = {},
@@ -40,9 +41,7 @@ export class Form extends Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         let rest = omit(props, ['onSubmit', 'mode', 'model']);
-        this.config = Object.assign({}, rest, {
-            onSubmit: this.onSubmit
-        });
+        this.config = Object.assign({}, rest, { onSubmit: this.onSubmit });
     }
     getChildContext() {
         return { form: this };
@@ -79,12 +78,12 @@ export class Form extends Component {
         this.raiseFormStateChange({ hasError, errors });
     }
     render() {
-        return React.createElement('form', this.config, this.props.children);
+        return renderForm(this.config, this.props.children);
     }
 }
 Form.propTypes = {
     mode: PropTypes.oneOf(['submit', 'touched']),
-    model: PropTypes.object,
+    model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     children: PropTypes.node
 };

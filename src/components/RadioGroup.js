@@ -1,21 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { Validator } from './Validator';
+import { FormElement } from './FormElement';
+import { getConfig } from '../common/util';
+import { renderRadioGroup } from './renderFunctions';
 
-export class RadioGroup extends Component {
+export class RadioGroup extends FormElement {
     constructor(props, context) {
         super(props, context);
         this.state = {
             current: props.current
         };
-        if (typeof this.context.validator !== 'undefined') {
-            this.context.validator.register(this);
-            this.validator = this.context.validator;
-        }
-        this.onBlur = this.onBlur.bind(this);
-        this.onChange = this.onChange.bind(this);
-    }
-    getName() {
-        return this.props.name;
+        this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked'], this.onChange, this.onBlur);
     }
     getValue() {
         return this.state.current;
@@ -25,44 +19,18 @@ export class RadioGroup extends Component {
         this.setState({
             current
         });
+        this.tryUpdateFormModel(current);
         this.notify('onChange', current);
     }
     onBlur() {
         this.notify('onBlur', this.state.current);
     }
-    notify(type, value) {
-        let name = this.props.name;
-        if (this.validator) { this.validator[type](name, value); }
-        if (this.props[type]) { this.props[type](name, value); }
-    }
     render() {
-        return (
-            <div>
-                {this.props.dataSource.map((current, i) => {
-                    return (<div key={i}>
-                        <input
-                            type="radio"
-                            name={this.props.name}
-                            checked={this.state.current === current}
-                            value={current}
-                            onChange={this.onChange}
-                            onBlur={this.onBlur}
-                            className={this.props.className} />
-                        {current}
-                    </div>);
-                })}
-            </div>
-        );
+        return renderRadioGroup(this.config, this.props.dataSource, this.state.current, this.onChange, this.onBlur);
     }
 }
 RadioGroup.propTypes = {
     name: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
     dataSource: PropTypes.array.isRequired,
     current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-};
-RadioGroup.contextTypes = {
-    validator: PropTypes.instanceOf(Validator)
 };

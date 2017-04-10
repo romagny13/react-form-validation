@@ -7,3 +7,20 @@ export function omit(obj, names = []) {
     }
     return result;
 }
+
+export function getConfig(props, names, onChange, onBlur) {
+    let rest = omit(props, names);
+    return Object.assign({}, rest, {
+        onChange,
+        onBlur
+    });
+}
+
+export function indexOf(array, value) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return i;
+        }
+    }
+    return -1;
+}

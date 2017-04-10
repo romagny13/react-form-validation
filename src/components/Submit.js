@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Form } from './FormComponent';
 import { omit } from '../common/util';
+import { renderSubmit } from './renderFunctions';
 
 export class Submit extends Component {
     constructor(props, context) {
@@ -9,19 +10,17 @@ export class Submit extends Component {
             disabled: props.disabled
         };
 
-        if (this.props.shouldDisable && typeof this.context.form !== 'undefined') {
-            this.context.form.onFormStateChange(({ hasError }) => {
+        if (props.shouldDisable && typeof context.form !== 'undefined') {
+            context.form.onFormStateChange(({ hasError }) => {
                 this.setState({
                     disabled: hasError
                 });
             });
         }
-        let rest = omit(this.props, ['shouldDisable', 'disabled', 'type']);
-        this.config = Object.assign({}, rest, { type: 'submit' });
+        this.config = omit(props, ['shouldDisable', 'disabled', 'type']);
     }
     render() {
-        let config = Object.assign({}, this.config, { disabled: this.state.disabled });
-        return React.createElement('input', config);
+        return renderSubmit(this.config, this.state.disabled);
     }
 }
 Submit.propTypes = {

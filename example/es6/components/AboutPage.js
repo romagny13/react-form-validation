@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { PropTypes, Component } from 'react';
 
-const AboutPage = () => {
-    return (
-        <div>
-            <h1>About</h1>
-        </div>
-    );
-};
-
+class AboutPage extends React.Component {
+    render() {
+        return (<div><h1>About</h1></div>);
+    }
+}
 export default AboutPage;
