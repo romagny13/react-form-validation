@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.4.1
+ * romagny13-react-form-validation v0.4.2
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -103,6 +103,23 @@ function omit(obj) {
     return result;
 }
 
+function getConfig(props, names, onChange, onBlur) {
+    var rest = omit(props, names);
+    return Object.assign({}, rest, {
+        onChange: onChange,
+        onBlur: onBlur
+    });
+}
+
+function indexOf(array, value) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -132,6 +149,20 @@ var createClass = function () {
 
 
 
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
 
 
 
@@ -167,6 +198,95 @@ var possibleConstructorReturn = function (self, call) {
   }
 
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+var renderForm = function renderForm(props, children) {
+    return React__default.createElement('form', props, children);
+};
+var renderValidator = function renderValidator(root, validationStates) {
+    if (typeof root.type === 'function') {
+        // component
+        // validation states + root element props
+        var params = Object.assign({}, validationStates, root.props);
+        var component = new root.type(params);
+        if (typeof component.type === 'string') {
+            // stateless component
+            return React__default.createElement(component.type, component.props, component.props.children);
+        } else if (!component.type) {
+            // extends react component
+            var resolve = component.render();
+            return React__default.createElement(resolve.type, resolve.props, resolve.props.children);
+        }
+    } else if (typeof root.type === 'string') {
+        // render with no validation
+        return React__default.createElement(root.type, root.props, root.props.children);
+    }
+    throw new Error('Cannot resolve the component');
+};
+var renderInput = function renderInput(props) {
+    return React__default.createElement('input', props);
+};
+var renderCheckbox = function renderCheckbox(props) {
+    return React__default.createElement('input', _extends({ type: 'checkbox' }, props));
+};
+var renderCheckboxGroup = function renderCheckboxGroup(props, dataSource, indexOf, onChange, onBlur) {
+    return React__default.createElement(
+        'div',
+        null,
+        dataSource.map(function (current, i) {
+            return React__default.createElement(
+                'div',
+                { key: i },
+                React__default.createElement('input', _extends({
+                    type: 'checkbox',
+                    checked: indexOf(current) !== -1,
+                    value: current,
+                    onChange: onChange,
+                    onBlur: onBlur
+                }, props)),
+                current
+            );
+        })
+    );
+};
+var renderRadioGroup = function renderRadioGroup(props, dataSource, current, onChange, onBlur) {
+    return React__default.createElement(
+        'div',
+        null,
+        dataSource.map(function (dataItem, i) {
+            return React__default.createElement(
+                'div',
+                { key: i },
+                React__default.createElement('input', _extends({
+                    type: 'radio',
+                    value: dataItem,
+                    checked: current === dataItem,
+                    onChange: onChange,
+                    onBlur: onBlur
+                }, props)),
+                dataItem
+            );
+        })
+    );
+};
+var renderSelect = function renderSelect(props, dataSource, onChange) {
+    return React__default.createElement(
+        'select',
+        props,
+        dataSource.map(function (current, i) {
+            return React__default.createElement(
+                'option',
+                { key: i, value: current, onChange: onChange },
+                current
+            );
+        })
+    );
+};
+var renderTextArea = function renderTextArea(props) {
+    return React__default.createElement('textarea', props);
+};
+var renderSubmit = function renderSubmit(props, disabled) {
+    return React__default.createElement('input', _extends({ type: 'submit', disabled: disabled }, props));
 };
 
 function validateAll(validators) {
@@ -217,9 +337,7 @@ var Form = function (_Component) {
 
         _this.onSubmit = _this.onSubmit.bind(_this);
         var rest = omit(props, ['onSubmit', 'mode', 'model']);
-        _this.config = Object.assign({}, rest, {
-            onSubmit: _this.onSubmit
-        });
+        _this.config = Object.assign({}, rest, { onSubmit: _this.onSubmit });
         return _this;
     }
 
@@ -281,14 +399,14 @@ var Form = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return React__default.createElement('form', this.config, this.props.children);
+            return renderForm(this.config, this.props.children);
         }
     }]);
     return Form;
 }(React.Component);
 Form.propTypes = {
     mode: React.PropTypes.oneOf(['submit', 'touched']),
-    model: React.PropTypes.object,
+    model: React.PropTypes.object.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
     children: React.PropTypes.node
 };
@@ -383,7 +501,7 @@ var Validator = function (_Component) {
 
                 if (this.formElement) {
                     // get name and value
-                    var name = this.formElement.getName();
+                    var name = this.formElement.name;
                     var value = this.formElement.getValue();
                     this.notify({ name: name, value: value, hasError: hasError, hasSuccess: hasSuccess, error: error });
                 }
@@ -411,16 +529,13 @@ var Validator = function (_Component) {
     }, {
         key: 'onChange',
         value: function onChange(name, value) {
+            // validate
             var form = this.form;
             if (!form) return;
 
             var model = form.model;
-            if (model.hasOwnProperty(name)) {
-                model[name] = value;
-                // validate
-                if (canValidateOnChange(this.props.validators, form.submitted, this.touched)) {
-                    this.validateOnChange(name, value, model);
-                }
+            if (model.hasOwnProperty(name) && canValidateOnChange(this.props.validators, form.submitted, this.touched)) {
+                this.validateOnChange(name, value, model);
             }
         }
     }, {
@@ -463,7 +578,7 @@ var Validator = function (_Component) {
             if (!this.formElement) return;
 
             // get name and value
-            var name = this.formElement.getName();
+            var name = this.formElement.name;
             var value = this.formElement.getValue();
 
             // validate value
@@ -491,25 +606,7 @@ var Validator = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var root = this.props.children;
-            if (typeof root.type === 'function') {
-                // component
-                // validation states + root element props
-                var params = Object.assign({}, this.state, root.props);
-                var component = new this.props.children.type(params);
-                if (typeof component.type === 'string') {
-                    // stateless component
-                    return React__default.createElement(component.type, component.props, component.props.children);
-                } else if (!component.type) {
-                    // extends react component
-                    var resolve = component.render();
-                    return React__default.createElement(resolve.type, resolve.props, resolve.props.children);
-                }
-            } else if (typeof root.type === 'string') {
-                // render with no validation
-                return React__default.createElement(root.type, root.props, root.props.children);
-            }
-            throw new Error('Cannot resolve the component');
+            return renderValidator(this.props.children, this.state);
         }
     }]);
     return Validator;
@@ -529,8 +626,64 @@ Validator.defaultProps = {
     validators: []
 };
 
-var Checkbox = function (_Component) {
-    inherits(Checkbox, _Component);
+function _tryUpdateFormModel(form, name, value) {
+    if (form) {
+        var model = form.model;
+        if (model.hasOwnProperty(name)) {
+            model[name] = value;
+            return true;
+        }
+    }
+    return false;
+}
+
+var FormElement = function (_Component) {
+    inherits(FormElement, _Component);
+
+    function FormElement(props, context) {
+        classCallCheck(this, FormElement);
+
+        // context
+        var _this = possibleConstructorReturn(this, (FormElement.__proto__ || Object.getPrototypeOf(FormElement)).call(this, props, context));
+
+        if (typeof context.validator !== 'undefined') {
+            context.validator.register(_this);
+            _this.validator = context.validator;
+        }
+        _this.name = _this.props.name;
+        _this.form = context.form;
+        // bind
+        _this.onBlur = _this.onBlur.bind(_this);
+        _this.onChange = _this.onChange.bind(_this);
+        return _this;
+    }
+
+    createClass(FormElement, [{
+        key: 'tryUpdateFormModel',
+        value: function tryUpdateFormModel(value) {
+            _tryUpdateFormModel(this.form, this.name, value);
+        }
+    }, {
+        key: 'notify',
+        value: function notify(type, value) {
+            var name = this.props.name;
+            if (this.validator) {
+                this.validator[type](name, value);
+            }
+            if (this.props[type]) {
+                this.props[type](name, value);
+            }
+        }
+    }]);
+    return FormElement;
+}(React.Component);
+FormElement.contextTypes = {
+    validator: React.PropTypes.instanceOf(Validator),
+    form: React.PropTypes.instanceOf(Form)
+};
+
+var Checkbox = function (_FormElement) {
+    inherits(Checkbox, _FormElement);
 
     function Checkbox(props, context) {
         classCallCheck(this, Checkbox);
@@ -540,28 +693,11 @@ var Checkbox = function (_Component) {
         _this.state = {
             checked: props.checked
         };
-        if (typeof _this.context.validator !== 'undefined') {
-            _this.context.validator.register(_this);
-            _this.validator = _this.context.validator;
-        }
-        _this.onBlur = _this.onBlur.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
-
-        var rest = omit(_this.props, ['onChange', 'onBlur', 'checked']);
-        _this.config = Object.assign({}, rest, {
-            type: 'checkbox',
-            onChange: _this.onChange,
-            onBlur: _this.onBlur
-        });
+        _this.config = getConfig(props, ['onChange', 'onBlur', 'checked'], _this.onChange, _this.onBlur);
         return _this;
     }
 
     createClass(Checkbox, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.name;
-        }
-    }, {
         key: 'getValue',
         value: function getValue() {
             return this.state.checked;
@@ -573,6 +709,8 @@ var Checkbox = function (_Component) {
             this.setState({
                 checked: checked
             });
+
+            this.tryUpdateFormModel(checked);
             this.notify('onChange', checked);
         }
     }, {
@@ -581,49 +719,24 @@ var Checkbox = function (_Component) {
             this.notify('onBlur', this.state.checked);
         }
     }, {
-        key: 'notify',
-        value: function notify(type, value) {
-            var name = this.props.name;
-            if (this.validator) {
-                this.validator[type](name, value);
-            }
-            if (this.props[type]) {
-                this.props[type](name, value);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var config = Object.assign({}, this.config, { checked: this.state.checked });
-            return React__default.createElement('input', config);
+            var props = Object.assign({}, this.config, { checked: this.state.checked });
+            return renderCheckbox(props);
         }
     }]);
     return Checkbox;
-}(React.Component);
+}(FormElement);
 Checkbox.propTypes = {
     name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
     checked: React.PropTypes.bool
 };
 Checkbox.defaultProps = {
     checked: false
 };
-Checkbox.contextTypes = {
-    validator: React.PropTypes.instanceOf(Validator)
-};
 
-function _indexOf(array, value) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] === value) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-var CheckboxGroup = function (_Component) {
-    inherits(CheckboxGroup, _Component);
+var CheckboxGroup = function (_FormElement) {
+    inherits(CheckboxGroup, _FormElement);
 
     function CheckboxGroup(props, context) {
         classCallCheck(this, CheckboxGroup);
@@ -633,36 +746,27 @@ var CheckboxGroup = function (_Component) {
         _this.state = {
             currents: props.currents
         };
-        if (typeof _this.context.validator !== 'undefined') {
-            _this.context.validator.register(_this);
-            _this.validator = _this.context.validator;
-        }
-        _this.onBlur = _this.onBlur.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
-        _this.indexOf = _this.indexOf.bind(_this);
+        _this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'currents'], _this.onChange, _this.onBlur);
+        _this.isInCurrentArray = _this.isInCurrentArray.bind(_this);
+        _this.dataSource = _this.props.dataSource;
         return _this;
     }
 
     createClass(CheckboxGroup, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.name;
-        }
-    }, {
         key: 'getValue',
         value: function getValue() {
             return this.state.currents;
         }
     }, {
-        key: 'indexOf',
-        value: function indexOf(value) {
-            return _indexOf(this.props.currents, value);
+        key: 'isInCurrentArray',
+        value: function isInCurrentArray(value) {
+            return indexOf(this.props.currents, value);
         }
     }, {
         key: 'onChange',
         value: function onChange(event) {
             var value = event.target.value;
-            var index = this.indexOf(value);
+            var index = this.isInCurrentArray(value);
             var currents = this.state.currents;
             // update array
             if (index !== -1) {
@@ -670,10 +774,10 @@ var CheckboxGroup = function (_Component) {
             } else {
                 currents.push(value);
             }
-
             this.setState({
                 currents: currents
             });
+            this.tryUpdateFormModel(currents);
             this.notify('onChange', currents);
         }
     }, {
@@ -682,57 +786,20 @@ var CheckboxGroup = function (_Component) {
             this.notify('onBlur', this.state.currents);
         }
     }, {
-        key: 'notify',
-        value: function notify(type, value) {
-            var name = this.props.name;
-            if (this.validator) {
-                this.validator[type](name, value);
-            }
-            if (this.props[type]) {
-                this.props[type](name, value);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            return React__default.createElement(
-                'div',
-                null,
-                this.props.dataSource.map(function (current, i) {
-                    return React__default.createElement(
-                        'div',
-                        { key: i },
-                        React__default.createElement('input', {
-                            type: 'checkbox',
-                            name: _this2.props.name,
-                            checked: _this2.indexOf(current) !== -1,
-                            value: current,
-                            onChange: _this2.onChange,
-                            onBlur: _this2.onBlur,
-                            className: _this2.props.className }),
-                        current
-                    );
-                })
-            );
+            return renderCheckboxGroup(this.config, this.dataSource, this.isInCurrentArray, this.onChange, this.onBlur);
         }
     }]);
     return CheckboxGroup;
-}(React.Component);
+}(FormElement);
 CheckboxGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
     currents: React.PropTypes.array
 };
 CheckboxGroup.defaultProps = {
     currents: []
-};
-CheckboxGroup.contextTypes = {
-    validator: React.PropTypes.instanceOf(Validator)
 };
 
 function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
@@ -805,12 +872,8 @@ FormGroup.defaultProps = {
     hasSuccessFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback'
 };
 
-function getInputInitialValue(value) {
-    return typeof value !== 'undefined' ? value : '';
-}
-
-var Input = function (_Component) {
-    inherits(Input, _Component);
+var Input = function (_FormElement) {
+    inherits(Input, _FormElement);
 
     function Input(props, context) {
         classCallCheck(this, Input);
@@ -818,29 +881,13 @@ var Input = function (_Component) {
         var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props, context));
 
         _this.state = {
-            value: getInputInitialValue(props.value)
+            value: props.value
         };
-        if (typeof _this.context.validator !== 'undefined') {
-            _this.context.validator.register(_this);
-            _this.validator = _this.context.validator;
-        }
-        _this.onBlur = _this.onBlur.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
-
-        var rest = omit(_this.props, ['onChange', 'onBlur', 'value']);
-        _this.config = Object.assign({}, rest, {
-            onChange: _this.onChange,
-            onBlur: _this.onBlur
-        });
+        _this.config = getConfig(props, ['onChange', 'onBlur', 'value'], _this.onChange, _this.onBlur);
         return _this;
     }
 
     createClass(Input, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.name;
-        }
-    }, {
         key: 'getValue',
         value: function getValue() {
             return this.state.value;
@@ -852,6 +899,7 @@ var Input = function (_Component) {
             this.setState({
                 value: value
             });
+            this.tryUpdateFormModel(value);
             this.notify('onChange', value);
         }
     }, {
@@ -860,39 +908,26 @@ var Input = function (_Component) {
             this.notify('onBlur', this.state.value);
         }
     }, {
-        key: 'notify',
-        value: function notify(type, value) {
-            var name = this.props.name;
-            if (this.validator) {
-                this.validator[type](name, value);
-            }
-            if (this.props[type]) {
-                this.props[type](name, value);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var config = Object.assign({}, this.config, { value: this.state.value });
-            return React__default.createElement('input', config);
+            var props = Object.assign({}, this.config, { value: this.state.value });
+            return renderInput(props);
         }
     }]);
     return Input;
-}(React.Component);
+}(FormElement);
 Input.propTypes = {
     name: React.PropTypes.string.isRequired,
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
-    type: React.PropTypes.string
+    type: React.PropTypes.oneOf(['text', 'email', 'password', 'search', 'number', 'range', 'file', 'tel', 'url'])
 };
 Input.defaultProps = {
-    type: 'text'
-};
-Input.contextTypes = {
-    validator: React.PropTypes.instanceOf(Validator)
+    type: 'text',
+    value: ''
 };
 
-var RadioGroup = function (_Component) {
-    inherits(RadioGroup, _Component);
+var RadioGroup = function (_FormElement) {
+    inherits(RadioGroup, _FormElement);
 
     function RadioGroup(props, context) {
         classCallCheck(this, RadioGroup);
@@ -902,21 +937,11 @@ var RadioGroup = function (_Component) {
         _this.state = {
             current: props.current
         };
-        if (typeof _this.context.validator !== 'undefined') {
-            _this.context.validator.register(_this);
-            _this.validator = _this.context.validator;
-        }
-        _this.onBlur = _this.onBlur.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
+        _this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked'], _this.onChange, _this.onBlur);
         return _this;
     }
 
     createClass(RadioGroup, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.name;
-        }
-    }, {
         key: 'getValue',
         value: function getValue() {
             return this.state.current;
@@ -928,6 +953,7 @@ var RadioGroup = function (_Component) {
             this.setState({
                 current: current
             });
+            this.tryUpdateFormModel(current);
             this.notify('onChange', current);
         }
     }, {
@@ -936,58 +962,21 @@ var RadioGroup = function (_Component) {
             this.notify('onBlur', this.state.current);
         }
     }, {
-        key: 'notify',
-        value: function notify(type, value) {
-            var name = this.props.name;
-            if (this.validator) {
-                this.validator[type](name, value);
-            }
-            if (this.props[type]) {
-                this.props[type](name, value);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            return React__default.createElement(
-                'div',
-                null,
-                this.props.dataSource.map(function (current, i) {
-                    return React__default.createElement(
-                        'div',
-                        { key: i },
-                        React__default.createElement('input', {
-                            type: 'radio',
-                            name: _this2.props.name,
-                            checked: _this2.state.current === current,
-                            value: current,
-                            onChange: _this2.onChange,
-                            onBlur: _this2.onBlur,
-                            className: _this2.props.className }),
-                        current
-                    );
-                })
-            );
+            return renderRadioGroup(this.config, this.props.dataSource, this.state.current, this.onChange, this.onBlur);
         }
     }]);
     return RadioGroup;
-}(React.Component);
+}(FormElement);
 RadioGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
     current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
 };
-RadioGroup.contextTypes = {
-    validator: React.PropTypes.instanceOf(Validator)
-};
 
-var Select = function (_Component) {
-    inherits(Select, _Component);
+var Select = function (_FormElement) {
+    inherits(Select, _FormElement);
 
     function Select(props, context) {
         classCallCheck(this, Select);
@@ -997,26 +986,12 @@ var Select = function (_Component) {
         _this.state = {
             current: props.current
         };
-        if (typeof _this.context.validator !== 'undefined') {
-            _this.context.validator.register(_this);
-            _this.validator = _this.context.validator;
-        }
-        _this.onBlur = _this.onBlur.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
-        var rest = omit(_this.props, ['onChange', 'onBlur', 'current', 'value', 'dataSource']);
-        _this.config = Object.assign({}, rest, {
-            onChange: _this.onChange,
-            onBlur: _this.onBlur
-        });
+        _this.dataSource = _this.props.dataSource;
+        _this.config = getConfig(props, ['onChange', 'onBlur', 'current', 'value', 'dataSource'], _this.onChange, _this.onBlur);
         return _this;
     }
 
     createClass(Select, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.name;
-        }
-    }, {
         key: 'getValue',
         value: function getValue() {
             return this.state.current;
@@ -1028,6 +1003,7 @@ var Select = function (_Component) {
             this.setState({
                 current: current
             });
+            this.tryUpdateFormModel(current);
             this.notify('onChange', current);
         }
     }, {
@@ -1036,42 +1012,22 @@ var Select = function (_Component) {
             this.notify('onBlur', this.state.current);
         }
     }, {
-        key: 'notify',
-        value: function notify(type, value) {
-            var name = this.props.name;
-            if (this.validator) {
-                this.validator[type](name, value);
-            }
-            if (this.props[type]) {
-                this.props[type](name, value);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            var config = Object.assign({}, this.config, { value: this.state.current });
-            return React__default.createElement("select", config, this.props.dataSource.map(function (current, i) {
-                return React__default.createElement("option", { key: i, value: current, onChange: _this2.onChange }, current);
-            }));
+            var props = Object.assign({}, this.config, { value: this.state.current });
+            return renderSelect(props, this.dataSource, this.onChange);
         }
     }]);
     return Select;
-}(React.Component);
+}(FormElement);
 Select.propTypes = {
     name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
     dataSource: React.PropTypes.array.isRequired,
     current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
 };
-Select.contextTypes = {
-    validator: React.PropTypes.instanceOf(Validator)
-};
 
-var TextArea = function (_Component) {
-    inherits(TextArea, _Component);
+var TextArea = function (_FormElement) {
+    inherits(TextArea, _FormElement);
 
     function TextArea(props, context) {
         classCallCheck(this, TextArea);
@@ -1081,26 +1037,11 @@ var TextArea = function (_Component) {
         _this.state = {
             value: props.value
         };
-        if (typeof _this.context.validator !== 'undefined') {
-            _this.context.validator.register(_this);
-            _this.validator = _this.context.validator;
-        }
-        _this.onBlur = _this.onBlur.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
-        var rest = omit(props, ['value', 'onChange', 'onBlur']);
-        _this.config = Object.assign({}, rest, {
-            onChange: _this.onChange,
-            onBlur: _this.onBlur
-        });
+        _this.config = getConfig(props, ['onChange', 'onBlur', 'value'], _this.onChange, _this.onBlur);
         return _this;
     }
 
     createClass(TextArea, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.name;
-        }
-    }, {
         key: 'getValue',
         value: function getValue() {
             return this.state.value;
@@ -1112,6 +1053,7 @@ var TextArea = function (_Component) {
             this.setState({
                 value: value
             });
+            this.tryUpdateFormModel(value);
             this.notify('onChange', value);
         }
     }, {
@@ -1120,36 +1062,20 @@ var TextArea = function (_Component) {
             this.notify('onBlur', this.state.value);
         }
     }, {
-        key: 'notify',
-        value: function notify(type, value) {
-            var name = this.props.name;
-            if (this.validator) {
-                this.validator[type](name, value);
-            }
-            if (this.props[type]) {
-                this.props[type](name, value);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var config = Object.assign({}, this.config, { value: this.state.value });
-            return React__default.createElement('textarea', config);
+            var props = Object.assign({}, this.config, { value: this.state.value });
+            return renderTextArea(props);
         }
     }]);
     return TextArea;
-}(React.Component);
+}(FormElement);
 TextArea.propTypes = {
     name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
     value: React.PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''
-};
-TextArea.contextTypes = {
-    validator: React.PropTypes.instanceOf(Validator)
 };
 
 var Submit = function (_Component) {
@@ -1164,8 +1090,8 @@ var Submit = function (_Component) {
             disabled: props.disabled
         };
 
-        if (_this.props.shouldDisable && typeof _this.context.form !== 'undefined') {
-            _this.context.form.onFormStateChange(function (_ref) {
+        if (props.shouldDisable && typeof context.form !== 'undefined') {
+            context.form.onFormStateChange(function (_ref) {
                 var hasError = _ref.hasError;
 
                 _this.setState({
@@ -1173,16 +1099,14 @@ var Submit = function (_Component) {
                 });
             });
         }
-        var rest = omit(_this.props, ['shouldDisable', 'disabled', 'type']);
-        _this.config = Object.assign({}, rest, { type: 'submit' });
+        _this.config = omit(props, ['shouldDisable', 'disabled', 'type']);
         return _this;
     }
 
     createClass(Submit, [{
         key: 'render',
         value: function render() {
-            var config = Object.assign({}, this.config, { disabled: this.state.disabled });
-            return React__default.createElement('input', config);
+            return renderSubmit(this.config, this.state.disabled);
         }
     }]);
     return Submit;
