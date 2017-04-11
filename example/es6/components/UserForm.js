@@ -2,22 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Validator, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, TextArea, Submit, custom } from '../../../src/index';
 
-/*
-export const MyFormGroup = ({ hasError, hasSuccess, error, label, children }) => {
-    let groupClassName = getGroupClassName(hasError, hasSuccess, 'form-group', 'has-feedback', 'has-error', 'has-success');
-    return (
-        <div className={groupClassName}>
-            <label className="col-sm-3 control-label">{label}</label>
-            <div className="col-sm-9">
-                {children}
-                {hasError && <span className="help-block">{error}</span>}
-            </div>
-        </div>
-    );
-};
-*/
-
-/*class FormGroup extends Component {
+/*class MyFormGroup extends Component {
     render() {
         let groupClassName = this.props.hasError ? 'form-group has-error' : 'form-group';
         return (
@@ -27,8 +12,16 @@ export const MyFormGroup = ({ hasError, hasSuccess, error, label, children }) =>
             </div>
         );
     }
+}
+const MyStatelessFormGroup = ({ hasError, error, children }) => {
+    let groupClassName = hasError ? 'form-group has-error' : 'form-group';
+    return (
+        <div className={groupClassName}>
+            {children}
+            {hasError && <span className="help-block">{error}</span>}
+        </div>
+    );
 }*/
-
 
 const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, onSubmit, errors, onValidationStateChange }) => {
     console.log('render UserForm');

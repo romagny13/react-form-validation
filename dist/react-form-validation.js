@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.4.2
+ * romagny13-react-form-validation v0.4.3
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -91,6 +91,10 @@ var custom = function custom(fn, message) {
     };
 };
 
+function clone(obj) {
+    return Object.assign({}, obj);
+}
+
 function omit(obj) {
     var names = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -111,14 +115,10 @@ function getConfig(props, names, onChange, onBlur) {
     });
 }
 
-function indexOf(array, value) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] === value) {
-            return i;
-        }
-    }
-    return -1;
-}
+var warn = function warn(message) {
+    /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
+    console.warn(message);
+};
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -200,8 +200,12 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-var renderForm = function renderForm(props, children) {
-    return React__default.createElement('form', props, children);
+var renderForm = function renderForm(props, onSubmit, children) {
+    return React__default.createElement(
+        'form',
+        _extends({ onSubmit: onSubmit }, props),
+        children
+    );
 };
 var renderValidator = function renderValidator(root, validationStates) {
     if (typeof root.type === 'function') {
@@ -218,18 +222,18 @@ var renderValidator = function renderValidator(root, validationStates) {
             return React__default.createElement(resolve.type, resolve.props, resolve.props.children);
         }
     } else if (typeof root.type === 'string') {
-        // render with no validation
+        warn('Validator: Cannot inject validation states (hasError, hasSuccess, error) to props with string content (rendering with no validation). Use a component.');
         return React__default.createElement(root.type, root.props, root.props.children);
     }
     throw new Error('Cannot resolve the component');
 };
-var renderInput = function renderInput(props) {
-    return React__default.createElement('input', props);
+var renderInput = function renderInput(props, value) {
+    return React__default.createElement('input', _extends({ value: value }, props));
 };
-var renderCheckbox = function renderCheckbox(props) {
-    return React__default.createElement('input', _extends({ type: 'checkbox' }, props));
+var renderCheckbox = function renderCheckbox(props, checked) {
+    return React__default.createElement('input', _extends({ type: 'checkbox', checked: checked }, props));
 };
-var renderCheckboxGroup = function renderCheckboxGroup(props, dataSource, indexOf, onChange, onBlur) {
+var renderCheckboxGroup = function renderCheckboxGroup(props, dataSource, currents, onChange, onBlur) {
     return React__default.createElement(
         'div',
         null,
@@ -239,7 +243,7 @@ var renderCheckboxGroup = function renderCheckboxGroup(props, dataSource, indexO
                 { key: i },
                 React__default.createElement('input', _extends({
                     type: 'checkbox',
-                    checked: indexOf(current) !== -1,
+                    checked: currents.indexOf(current) !== -1,
                     value: current,
                     onChange: onChange,
                     onBlur: onBlur
@@ -269,21 +273,21 @@ var renderRadioGroup = function renderRadioGroup(props, dataSource, current, onC
         })
     );
 };
-var renderSelect = function renderSelect(props, dataSource, onChange) {
+var renderSelect = function renderSelect(props, dataSource, current, onChange, onBlur) {
     return React__default.createElement(
         'select',
-        props,
-        dataSource.map(function (current, i) {
+        _extends({ value: current }, props),
+        dataSource.map(function (dataItem, i) {
             return React__default.createElement(
                 'option',
-                { key: i, value: current, onChange: onChange },
-                current
+                { key: i, value: dataItem, onChange: onChange, onBlur: onBlur },
+                dataItem
             );
         })
     );
 };
-var renderTextArea = function renderTextArea(props) {
-    return React__default.createElement('textarea', props);
+var renderTextArea = function renderTextArea(props, value) {
+    return React__default.createElement('textarea', _extends({ value: value }, props));
 };
 var renderSubmit = function renderSubmit(props, disabled) {
     return React__default.createElement('input', _extends({ type: 'submit', disabled: disabled }, props));
@@ -330,14 +334,14 @@ var Form = function (_Component) {
         _this._validators = [];
 
         _this.mode = _this.props.mode;
-        _this.model = Object.assign({}, props.model);
+        // clone model
+        _this.model = clone(props.model);
         _this.hasError = false;
         _this.errors = {};
         _this.submitted = false;
 
         _this.onSubmit = _this.onSubmit.bind(_this);
-        var rest = omit(props, ['onSubmit', 'mode', 'model']);
-        _this.config = Object.assign({}, rest, { onSubmit: _this.onSubmit });
+        _this.config = omit(props, ['onSubmit', 'mode', 'model']);
         return _this;
     }
 
@@ -399,7 +403,7 @@ var Form = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return renderForm(this.config, this.props.children);
+            return renderForm(this.config, this.onSubmit, this.props.children);
         }
     }]);
     return Form;
@@ -721,8 +725,7 @@ var Checkbox = function (_FormElement) {
     }, {
         key: 'render',
         value: function render() {
-            var props = Object.assign({}, this.config, { checked: this.state.checked });
-            return renderCheckbox(props);
+            return renderCheckbox(this.config, this.state.checked);
         }
     }]);
     return Checkbox;
@@ -747,7 +750,6 @@ var CheckboxGroup = function (_FormElement) {
             currents: props.currents
         };
         _this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'currents'], _this.onChange, _this.onBlur);
-        _this.isInCurrentArray = _this.isInCurrentArray.bind(_this);
         _this.dataSource = _this.props.dataSource;
         return _this;
     }
@@ -758,16 +760,11 @@ var CheckboxGroup = function (_FormElement) {
             return this.state.currents;
         }
     }, {
-        key: 'isInCurrentArray',
-        value: function isInCurrentArray(value) {
-            return indexOf(this.props.currents, value);
-        }
-    }, {
         key: 'onChange',
         value: function onChange(event) {
             var value = event.target.value;
-            var index = this.isInCurrentArray(value);
             var currents = this.state.currents;
+            var index = currents.indexOf(value);
             // update array
             if (index !== -1) {
                 currents.splice(index, 1);
@@ -788,7 +785,7 @@ var CheckboxGroup = function (_FormElement) {
     }, {
         key: 'render',
         value: function render() {
-            return renderCheckboxGroup(this.config, this.dataSource, this.isInCurrentArray, this.onChange, this.onBlur);
+            return renderCheckboxGroup(this.config, this.dataSource, this.state.currents, this.onChange, this.onBlur);
         }
     }]);
     return CheckboxGroup;
@@ -910,8 +907,7 @@ var Input = function (_FormElement) {
     }, {
         key: 'render',
         value: function render() {
-            var props = Object.assign({}, this.config, { value: this.state.value });
-            return renderInput(props);
+            return renderInput(this.config, this.state.value);
         }
     }]);
     return Input;
@@ -1014,8 +1010,7 @@ var Select = function (_FormElement) {
     }, {
         key: 'render',
         value: function render() {
-            var props = Object.assign({}, this.config, { value: this.state.current });
-            return renderSelect(props, this.dataSource, this.onChange);
+            return renderSelect(this.config, this.dataSource, this.state.current, this.onChange, this.onBlur);
         }
     }]);
     return Select;
@@ -1133,13 +1128,12 @@ exports.Checkbox = Checkbox;
 exports.CheckboxGroup = CheckboxGroup;
 exports.Form = Form;
 exports.FormGroup = FormGroup;
-exports.Validator = Validator;
-exports.validateValue = validateValue;
 exports.Input = Input;
 exports.RadioGroup = RadioGroup;
 exports.Select = Select;
-exports.TextArea = TextArea;
 exports.Submit = Submit;
+exports.TextArea = TextArea;
+exports.Validator = Validator;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

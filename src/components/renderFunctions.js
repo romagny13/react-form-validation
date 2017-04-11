@@ -1,6 +1,7 @@
 import React from 'react';
+import { warn } from '../common/warn';
 
-export const renderForm = (props, children) => React.createElement('form', props, children);
+export const renderForm = (props, onSubmit, children) => <form onSubmit={onSubmit} {...props}>{children}</form>;
 export const renderValidator = (root, validationStates) => {
     if (typeof root.type === 'function') {
         // component
@@ -18,21 +19,21 @@ export const renderValidator = (root, validationStates) => {
         }
     }
     else if (typeof root.type === 'string') {
-        // render with no validation
+        warn('Validator: Cannot inject validation states (hasError, hasSuccess, error) to props with string content (rendering with no validation). Use a component.');
         return React.createElement(root.type, root.props, root.props.children);
     }
     throw new Error('Cannot resolve the component');
 };
-export const renderInput = (props) => React.createElement('input', props);
-export const renderCheckbox = (props) => <input type="checkbox" {...props} />;
-export const renderCheckboxGroup = (props, dataSource, indexOf, onChange, onBlur) => {
+export const renderInput = (props, value) => <input value={value} {...props} />;
+export const renderCheckbox = (props, checked) => <input type="checkbox" checked={checked} {...props} />;
+export const renderCheckboxGroup = (props, dataSource, currents, onChange, onBlur) => {
     return (
         <div>
             {dataSource.map((current, i) => {
                 return (<div key={i}>
                     <input
                         type="checkbox"
-                        checked={indexOf(current) !== -1}
+                        checked={currents.indexOf(current) !== -1}
                         value={current}
                         onChange={onChange}
                         onBlur={onBlur}
@@ -61,14 +62,14 @@ export const renderRadioGroup = (props, dataSource, current, onChange, onBlur) =
         </div>
     );
 };
-export const renderSelect = (props, dataSource, onChange) => {
+export const renderSelect = (props, dataSource, current, onChange, onBlur) => {
     return (
-        <select {...props}>
-            {dataSource.map((current, i) => {
-                return <option key={i} value={current} onChange={onChange}>{current}</option>;
+        <select value={current} {...props}>
+            {dataSource.map((dataItem, i) => {
+                return <option key={i} value={dataItem} onChange={onChange} onBlur={onBlur}>{dataItem}</option>;
             })}
         </select>
     );
 };
-export const renderTextArea = (props) => React.createElement('textarea', props);
+export const renderTextArea = (props, value) => <textarea value={value} {...props} />;
 export const renderSubmit = (props, disabled) => <input type="submit" disabled={disabled} {...props} />;

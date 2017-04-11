@@ -27,8 +27,7 @@ export class Select extends FormElement {
         this.notify('onBlur', this.state.current);
     }
     render() {
-        let props = Object.assign({}, this.config, { value: this.state.current });
-        return renderSelect(props, this.dataSource, this.onChange);
+        return renderSelect(this.config, this.dataSource, this.state.current, this.onChange, this.onBlur);
     }
 }
 Select.propTypes = {

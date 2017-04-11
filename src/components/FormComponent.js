@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { omit } from '../common/util';
+import { clone, omit } from '../common/util';
 import { renderForm } from './renderFunctions';
 
 export function validateAll(validators) {
@@ -34,14 +34,14 @@ export class Form extends Component {
         this._validators = [];
 
         this.mode = this.props.mode;
-        this.model = Object.assign({}, props.model);
+        // clone model
+        this.model = clone(props.model);
         this.hasError = false;
         this.errors = {};
         this.submitted = false;
 
         this.onSubmit = this.onSubmit.bind(this);
-        let rest = omit(props, ['onSubmit', 'mode', 'model']);
-        this.config = Object.assign({}, rest, { onSubmit: this.onSubmit });
+        this.config = omit(props, ['onSubmit', 'mode', 'model']);
     }
     getChildContext() {
         return { form: this };
@@ -78,7 +78,7 @@ export class Form extends Component {
         this.raiseFormStateChange({ hasError, errors });
     }
     render() {
-        return renderForm(this.config, this.props.children);
+        return renderForm(this.config, this.onSubmit, this.props.children);
     }
 }
 Form.propTypes = {

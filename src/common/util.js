@@ -1,3 +1,7 @@
+export function clone(obj) {
+    return Object.assign({}, obj);
+}
+
 export function omit(obj, names = []) {
     let result = {};
     for (let name in obj) {

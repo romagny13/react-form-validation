@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import { validateValue, required, minLength, maxLength, pattern, custom } from '../../../src/index';
+import { validateValue } from '../../../src/components';
+import { required, minLength, maxLength, pattern, custom } from '../../../src/common/validators';
 
 function objLength(obj) {
     return Object.keys(obj).length;

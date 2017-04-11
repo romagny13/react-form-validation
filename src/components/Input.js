@@ -26,8 +26,7 @@ export class Input extends FormElement {
         this.notify('onBlur', this.state.value);
     }
     render() {
-        let props = Object.assign({}, this.config, { value: this.state.value });
-        return renderInput(props);
+        return renderInput(this.config, this.state.value);
     }
 }
 Input.propTypes = {

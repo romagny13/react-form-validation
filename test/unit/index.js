@@ -9,3 +9,5 @@ require('./components/TextArea.spec');
 require('./components/FormGroup.spec');
 require('./components/Form.spec');
 require('./components/Validator.spec');
+require('./components/renderFunctions.spec');
+require('./components/FormElement.spec');

@@ -27,8 +27,7 @@ export class Checkbox extends FormElement {
         this.notify('onBlur', this.state.checked);
     }
     render() {
-        let props = Object.assign({}, this.config, { checked: this.state.checked });
-        return renderCheckbox(props);
+        return renderCheckbox(this.config, this.state.checked);
     }
 }
 Checkbox.propTypes = {
