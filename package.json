@@ -1,8 +1,14 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.4.5",
+  "version": "0.4.7",
   "description": "React form binding and validation",
   "main": "dist/react-form-validation.js",
+  "files": [
+    "dist/react-form-validation.js",
+    "dist/react-form-validation.min.js",
+    "dist/react-form-validation.min.gz",
+    "src"
+  ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
     "build:webpack": "cross-env NODE_ENV=production webpack --progress --hide-modules",
