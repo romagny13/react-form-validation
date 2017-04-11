@@ -74,7 +74,7 @@ class AboutPage extends React.Component {
                     </MyFormGroup>
                 </Validator>
                 <div className="form-group">
-                    <div className="col-sm-offset-3">
+                    <div className="col-sm-offset-3 col-sm-9">
                         <input type="submit" value="Submit" className="btn btn-primary btn-block" />
                     </div>
                 </div>
