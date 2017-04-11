@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { FormElement } from './FormElement';
-import { getConfig, indexOf } from '../common/util';
+import { getConfig } from '../common/util';
 import { renderCheckboxGroup } from './renderFunctions';
 
 export class CheckboxGroup extends FormElement {

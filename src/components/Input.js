@@ -32,7 +32,7 @@ export class Input extends FormElement {
 Input.propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    type: PropTypes.oneOf(['text', 'email', 'password', 'search', 'number', 'range', 'file', 'tel', 'url'])
+    type: PropTypes.oneOf(['text', 'email', 'password', 'search', 'number', 'range', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url'])
 };
 Input.defaultProps = {
     type: 'text',

@@ -22,6 +22,9 @@ export const renderValidator = (root, validationStates) => {
         warn('Validator: Cannot inject validation states (hasError, hasSuccess, error) to props with string content (rendering with no validation). Use a component.');
         return React.createElement(root.type, root.props, root.props.children);
     }
+    else if (Array.isArray(root)) {
+        throw new Error('Validator require a single root node');
+    }
     throw new Error('Cannot resolve the component');
 };
 export const renderInput = (props, value) => <input value={value} {...props} />;

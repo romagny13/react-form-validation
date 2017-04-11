@@ -22,7 +22,7 @@ export class FormElement extends Component {
             context.validator.register(this);
             this.validator = context.validator;
         }
-        this.name = this.props.name;
+        this.name = props.name;
         this.form = context.form;
         // bind
         this.onBlur = this.onBlur.bind(this);

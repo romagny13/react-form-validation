@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.4.3
+ * romagny13-react-form-validation v0.4.4
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -224,6 +224,8 @@ var renderValidator = function renderValidator(root, validationStates) {
     } else if (typeof root.type === 'string') {
         warn('Validator: Cannot inject validation states (hasError, hasSuccess, error) to props with string content (rendering with no validation). Use a component.');
         return React__default.createElement(root.type, root.props, root.props.children);
+    } else if (Array.isArray(root)) {
+        throw new Error('Validator require a single root node');
     }
     throw new Error('Cannot resolve the component');
 };
@@ -654,7 +656,7 @@ var FormElement = function (_Component) {
             context.validator.register(_this);
             _this.validator = context.validator;
         }
-        _this.name = _this.props.name;
+        _this.name = props.name;
         _this.form = context.form;
         // bind
         _this.onBlur = _this.onBlur.bind(_this);
@@ -915,7 +917,7 @@ var Input = function (_FormElement) {
 Input.propTypes = {
     name: React.PropTypes.string.isRequired,
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
-    type: React.PropTypes.oneOf(['text', 'email', 'password', 'search', 'number', 'range', 'file', 'tel', 'url'])
+    type: React.PropTypes.oneOf(['text', 'email', 'password', 'search', 'number', 'range', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url'])
 };
 Input.defaultProps = {
     type: 'text',

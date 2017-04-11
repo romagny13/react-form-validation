@@ -5,7 +5,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
 import Home from './components/HomePage';
-import About from './components/AboutPage';
+import Other from './components/OtherPage';
 
 class App extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class App extends Component {
             active: 'Home'
         };
         this.goHome = this.goHome.bind(this);
-        this.goAbout = this.goAbout.bind(this);
+        this.goOther = this.goOther.bind(this);
     }
     goHome(event) {
         event.preventDefault();
@@ -25,11 +25,11 @@ class App extends Component {
         });
     }
 
-    goAbout(event) {
+    goOther(event) {
         event.preventDefault();
         this.setState({
-            page: <About />,
-            active: 'About'
+            page: <Other />,
+            active: 'Other'
         });
     }
 
@@ -50,7 +50,7 @@ class App extends Component {
                         <div id="navbar" className="navbar-collapse collapse">
                             <ul className="nav navbar-nav">
                                 <li className={this.state.active === "Home" && "active"}><a href="#" onClick={this.goHome}>Home</a></li>
-                                <li className={this.state.active === "About" && "active"}><a href="#" onClick={this.goAbout}>About</a></li>
+                                <li className={this.state.active === "Other" && "active"}><a href="#" onClick={this.goOther}>Other</a></li>
                             </ul>
                         </div>
                     </div>
