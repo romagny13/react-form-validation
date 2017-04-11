@@ -31,7 +31,7 @@ class AboutPage extends React.Component {
     }
     render() {
         return (<div style={{ padding: 24, border: "solid #f7f7f9" }}>
-            <Form model={model} mode="touched" onSubmit={this.onSubmit} className="form-horizontal" stye={{ maxWidth: 530 }}>
+            <Form model={model} mode="touched" onSubmit={this.onSubmit} className="form-horizontal">
                 <h2 style={{ margin: "20px 0 30px 150px" }}>Input types</h2>
                 <Validator validators={[required()]}>
                     <MyFormGroup label="Date">
