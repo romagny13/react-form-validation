@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { FormElement } from './FormElement';
-import { getConfig } from '../common/util';
+import { omit } from '../common/util';
 import { renderRadioGroup } from './renderFunctions';
 
 export class RadioGroup extends FormElement {
@@ -9,7 +9,8 @@ export class RadioGroup extends FormElement {
         this.state = {
             current: props.current
         };
-        this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked'], this.onChange, this.onBlur);
+        this.renderFunction = props.renderFunction;
+        this.config = omit(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked', 'renderFunction']);
     }
     getValue() {
         return this.state.current;
@@ -26,11 +27,15 @@ export class RadioGroup extends FormElement {
         this.notify('onBlur', this.state.current);
     }
     render() {
-        return renderRadioGroup(this.config, this.props.dataSource, this.state.current, this.onChange, this.onBlur);
+        return this.renderFunction({ props: this.config, dataSource: this.props.dataSource, current: this.state.current, onChange: this.onChange, onBlur: this.onBlur });
     }
 }
 RadioGroup.propTypes = {
     name: PropTypes.string.isRequired,
     dataSource: PropTypes.array.isRequired,
-    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    renderFunction: PropTypes.func
+};
+RadioGroup.defaultProps = {
+    renderFunction: renderRadioGroup
 };

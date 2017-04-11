@@ -1,5 +1,5 @@
 /*!
- * romagny13-react-form-validation v0.4.4
+ * romagny13-react-form-validation v0.4.5
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -117,7 +117,7 @@ function getConfig(props, names, onChange, onBlur) {
 
 var warn = function warn(message) {
     /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
-    console.warn(message);
+    console.warn('Warning: ' + message);
 };
 
 var classCallCheck = function (instance, Constructor) {
@@ -235,33 +235,50 @@ var renderInput = function renderInput(props, value) {
 var renderCheckbox = function renderCheckbox(props, checked) {
     return React__default.createElement('input', _extends({ type: 'checkbox', checked: checked }, props));
 };
-var renderCheckboxGroup = function renderCheckboxGroup(props, dataSource, currents, onChange, onBlur) {
+var renderCheckboxGroup = function renderCheckboxGroup(_ref) {
+    var props = _ref.props,
+        dataSource = _ref.dataSource,
+        currents = _ref.currents,
+        onChange = _ref.onChange,
+        onBlur = _ref.onBlur;
+
     return React__default.createElement(
-        'div',
-        null,
-        dataSource.map(function (current, i) {
+        'ul',
+        { style: { listStyle: "none", margin: 0, padding: 0 } },
+        dataSource.map(function (dataItem, i) {
             return React__default.createElement(
-                'div',
+                'li',
                 { key: i },
                 React__default.createElement('input', _extends({
                     type: 'checkbox',
-                    checked: currents.indexOf(current) !== -1,
-                    value: current,
+                    checked: currents.indexOf(dataItem) !== -1,
+                    value: dataItem,
                     onChange: onChange,
                     onBlur: onBlur
                 }, props)),
-                current
+                React__default.createElement(
+                    'label',
+                    null,
+                    ' ',
+                    dataItem
+                )
             );
         })
     );
 };
-var renderRadioGroup = function renderRadioGroup(props, dataSource, current, onChange, onBlur) {
+var renderRadioGroup = function renderRadioGroup(_ref2) {
+    var props = _ref2.props,
+        dataSource = _ref2.dataSource,
+        current = _ref2.current,
+        onChange = _ref2.onChange,
+        onBlur = _ref2.onBlur;
+
     return React__default.createElement(
-        'div',
-        null,
+        'ul',
+        { style: { listStyle: "none", margin: 0, padding: 0 } },
         dataSource.map(function (dataItem, i) {
             return React__default.createElement(
-                'div',
+                'li',
                 { key: i },
                 React__default.createElement('input', _extends({
                     type: 'radio',
@@ -270,7 +287,11 @@ var renderRadioGroup = function renderRadioGroup(props, dataSource, current, onC
                     onChange: onChange,
                     onBlur: onBlur
                 }, props)),
-                dataItem
+                React__default.createElement(
+                    'label',
+                    null,
+                    dataItem
+                )
             );
         })
     );
@@ -751,8 +772,8 @@ var CheckboxGroup = function (_FormElement) {
         _this.state = {
             currents: props.currents
         };
-        _this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'currents'], _this.onChange, _this.onBlur);
-        _this.dataSource = _this.props.dataSource;
+        _this.renderFunction = props.renderFunction;
+        _this.config = omit(props, ['onChange', 'onBlur', 'dataSource', 'currents', 'renderFunction']);
         return _this;
     }
 
@@ -787,7 +808,7 @@ var CheckboxGroup = function (_FormElement) {
     }, {
         key: 'render',
         value: function render() {
-            return renderCheckboxGroup(this.config, this.dataSource, this.state.currents, this.onChange, this.onBlur);
+            return this.renderFunction({ props: this.config, dataSource: this.props.dataSource, currents: this.state.currents, onChange: this.onChange, onBlur: this.onBlur });
         }
     }]);
     return CheckboxGroup;
@@ -795,10 +816,12 @@ var CheckboxGroup = function (_FormElement) {
 CheckboxGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     dataSource: React.PropTypes.array.isRequired,
-    currents: React.PropTypes.array
+    currents: React.PropTypes.array,
+    renderFunction: React.PropTypes.func
 };
 CheckboxGroup.defaultProps = {
-    currents: []
+    currents: [],
+    renderFunction: renderCheckboxGroup
 };
 
 function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
@@ -935,7 +958,8 @@ var RadioGroup = function (_FormElement) {
         _this.state = {
             current: props.current
         };
-        _this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked'], _this.onChange, _this.onBlur);
+        _this.renderFunction = props.renderFunction;
+        _this.config = omit(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked', 'renderFunction']);
         return _this;
     }
 
@@ -962,7 +986,7 @@ var RadioGroup = function (_FormElement) {
     }, {
         key: 'render',
         value: function render() {
-            return renderRadioGroup(this.config, this.props.dataSource, this.state.current, this.onChange, this.onBlur);
+            return this.renderFunction({ props: this.config, dataSource: this.props.dataSource, current: this.state.current, onChange: this.onChange, onBlur: this.onBlur });
         }
     }]);
     return RadioGroup;
@@ -970,7 +994,11 @@ var RadioGroup = function (_FormElement) {
 RadioGroup.propTypes = {
     name: React.PropTypes.string.isRequired,
     dataSource: React.PropTypes.array.isRequired,
-    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool])
+    current: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.bool]),
+    renderFunction: React.PropTypes.func
+};
+RadioGroup.defaultProps = {
+    renderFunction: renderRadioGroup
 };
 
 var Select = function (_FormElement) {

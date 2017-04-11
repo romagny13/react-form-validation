@@ -22,7 +22,6 @@ import {
     renderSubmit,
     renderTextArea
 } from '../../../src/components';
-import { indexOf } from '../../../src/common/util';
 import { required } from '../../../src/common/validators';
 
 describe('render functions', () => {
@@ -94,10 +93,12 @@ describe('render functions', () => {
         let currents = ['a', 'b'];
 
 
-        const wrapper = shallow(renderCheckboxGroup(props, dataSource, currents, () => {
-            // on change
-        }, () => {
-            // on blur
+        const wrapper = shallow(renderCheckboxGroup({
+            props, dataSource, currents, onChange: () => {
+                // on change
+            }, onBlur: () => {
+                // on blur
+            }
         }));
 
         let input0 = wrapper.find('input').at(0);
@@ -121,10 +122,12 @@ describe('render functions', () => {
         let dataSource = ['a', 'b', 'c'];
         let current = 'b';
 
-        const wrapper = shallow(renderRadioGroup(props, dataSource, current, () => {
-            // on change
-        }, () => {
-            // on blur
+        const wrapper = shallow(renderRadioGroup({
+            props, dataSource, current, onChange: () => {
+                // on change
+            }, onBlur: () => {
+                // on blur
+            }
         }));
 
         let input0 = wrapper.find('input').at(0);

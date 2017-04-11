@@ -29,40 +29,43 @@ export const renderValidator = (root, validationStates) => {
 };
 export const renderInput = (props, value) => <input value={value} {...props} />;
 export const renderCheckbox = (props, checked) => <input type="checkbox" checked={checked} {...props} />;
-export const renderCheckboxGroup = (props, dataSource, currents, onChange, onBlur) => {
+export const renderCheckboxGroup = ({ props, dataSource, currents, onChange, onBlur }) => {
     return (
-        <div>
-            {dataSource.map((current, i) => {
-                return (<div key={i}>
-                    <input
-                        type="checkbox"
-                        checked={currents.indexOf(current) !== -1}
-                        value={current}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        {...props} />
-                    {current}
-                </div>);
+        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+            {dataSource.map((dataItem, i) => {
+                return (
+                    <li key={i}>
+                        <input
+                            type="checkbox"
+                            checked={currents.indexOf(dataItem) !== -1}
+                            value={dataItem}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            {...props} />
+                        <label> {dataItem}</label>
+                    </li>
+                );
             })}
-        </div>
+        </ul>
     );
 };
-export const renderRadioGroup = (props, dataSource, current, onChange, onBlur) => {
+export const renderRadioGroup = ({ props, dataSource, current, onChange, onBlur }) => {
     return (
-        <div>
+        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {dataSource.map((dataItem, i) => {
-                return (<div key={i}>
-                    <input
-                        type="radio"
-                        value={dataItem}
-                        checked={current === dataItem}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        {...props} />
-                    {dataItem}
-                </div>);
+                return (
+                    <li key={i}>
+                        <input
+                            type="radio"
+                            value={dataItem}
+                            checked={current === dataItem}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            {...props} />
+                        <label>{dataItem}</label>
+                    </li>);
             })}
-        </div>
+        </ul>
     );
 };
 export const renderSelect = (props, dataSource, current, onChange, onBlur) => {

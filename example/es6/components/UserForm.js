@@ -2,26 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Validator, FormGroup, Checkbox, CheckboxGroup, Input, RadioGroup, Select, TextArea, Submit, custom } from '../../../src/index';
 
-/*class MyFormGroup extends Component {
-    render() {
-        let groupClassName = this.props.hasError ? 'form-group has-error' : 'form-group';
-        return (
-            <div className={groupClassName}>
-                {this.props.children}
-                {this.props.hasError && <span className="help-block">{this.props.error}</span>}
-            </div>
-        );
-    }
-}
-const MyStatelessFormGroup = ({ hasError, error, children }) => {
-    let groupClassName = hasError ? 'form-group has-error' : 'form-group';
+// custom render function (available for CheckboxGroup and RadioGroup)
+const renderLikes = ({ props, dataSource, currents, onChange, onBlur }) => {
     return (
-        <div className={groupClassName}>
-            {children}
-            {hasError && <span className="help-block">{error}</span>}
+        <div>
+            {dataSource.map((dataItem, i) => {
+                return (
+                    <label key={i} className="checkbox-inline">
+                        <input
+                            type="checkbox"
+                            checked={currents.indexOf(dataItem) !== -1}
+                            value={dataItem}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            {...props} />
+                        {dataItem}
+                    </label>
+                );
+            })}
         </div>
     );
-}*/
+};
 
 const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, onSubmit, errors, onValidationStateChange }) => {
     console.log('render UserForm');
@@ -74,7 +75,7 @@ const UserForm = ({ model, dataSourcePreferences, dataSourceLikes, validators, o
             <Validator validators={validators['likes']} onValidationStateChange={onValidationStateChange}>
                 <FormGroup>
                     <label>Like (one or more items):</label>
-                    <CheckboxGroup name="likes" dataSource={dataSourceLikes} currents={model.likes} />
+                    <CheckboxGroup name="likes" dataSource={dataSourceLikes} currents={model.likes} renderFunction={renderLikes} />
                 </FormGroup>
             </Validator>
             <div className="form-group">

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { FormElement } from './FormElement';
-import { getConfig } from '../common/util';
+import { omit } from '../common/util';
 import { renderCheckboxGroup } from './renderFunctions';
 
 export class CheckboxGroup extends FormElement {
@@ -9,8 +9,8 @@ export class CheckboxGroup extends FormElement {
         this.state = {
             currents: props.currents
         };
-        this.config = getConfig(props, ['onChange', 'onBlur', 'dataSource', 'currents'], this.onChange, this.onBlur);
-        this.dataSource = this.props.dataSource;
+        this.renderFunction = props.renderFunction;
+        this.config = omit(props, ['onChange', 'onBlur', 'dataSource', 'currents', 'renderFunction']);
     }
     getValue() {
         return this.state.currents;
@@ -32,14 +32,16 @@ export class CheckboxGroup extends FormElement {
         this.notify('onBlur', this.state.currents);
     }
     render() {
-        return renderCheckboxGroup(this.config, this.dataSource, this.state.currents, this.onChange, this.onBlur);
+        return this.renderFunction({ props: this.config, dataSource: this.props.dataSource, currents: this.state.currents, onChange: this.onChange, onBlur: this.onBlur });
     }
 }
 CheckboxGroup.propTypes = {
     name: PropTypes.string.isRequired,
     dataSource: PropTypes.array.isRequired,
-    currents: PropTypes.array
+    currents: PropTypes.array,
+    renderFunction: PropTypes.func
 };
 CheckboxGroup.defaultProps = {
-    currents: []
+    currents: [],
+    renderFunction: renderCheckboxGroup
 };
