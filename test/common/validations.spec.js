@@ -1,7 +1,6 @@
 import { assert } from 'chai';
 
-import { ValidationHelper } from '../../src/common/ValidationHelper';
-import { required, minlength, maxlength, pattern, email, custom } from '../../src/common/validations';
+import { ValidationHelper, required, minlength, maxlength, pattern, email, custom } from '../../src/index';
 
 function objLength(obj) {
     return Object.keys(obj).length;

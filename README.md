@@ -6,14 +6,30 @@
 npm i romagny13-react-form-validation -S
 ```
 
-Helpers: 
-* **Validations**: required, minlength, maxlength, email, pattern, custom
+Helpers: allow to validate simple form (without components or with other component framework )
+* **Validations**: 
+    * _required_: default or custom message
+    * _minlength_: value (by default 3) + default or custom message
+    * _maxlength_: value (by default 30) + default or custom message
+    * _email_: default or custom message
+    * _pattern_: regex pattern (required)  + default or custom message
+    * _custom_: function to call (pass value and model)  + default or custom message
+    * ( + isNullOrEmpty function )
 * **ValidationHelper**: allow to validate value, property and form model
+    * _validateValue_: model, value, validations array ( example for firstname: [required()] )
+    * _validateProperty_: model, property name, validations array
+    * _validateAll_: model, validations object ( example: {firstname:[required()], lastname:[required()]} )
+    * ( + hasErrors, countErrors functions )
 * **FormHelper**: allow to resolve element value
-* **Util**: omit, clone, extend, etc.
+    * _getElementValue_: return value for form element (input, select, radio, etc.)
+    * ( + hasClassName, addClassName, removeClassName functions )
+* **Util**: 
+    * _omit_: allow to omit props for example
+    * _clone_: clone an object
+    * _extend_: extend a source object with another object
 
-Components:
-* **Input**
+Components: allow to bind value and notify on value change (onValueChange) and on touch / blur (onTouch)
+* **Input** value + type ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range') and shortcuts:
     * _Text_
     * _Email_
     * _Search_
@@ -22,20 +38,21 @@ Components:
     * _Number_
     * _Range_
     * _Color_
-* **Checkbox**
-* **CheckboxGroup**: dataSource + values
-* **RadioGroup**: dataSource + value
-* **Select**: dataSource + value
-* **TextArea**
-* **FormGroup**: allow to show error, success, feedback (classNames based on Bootstrap: has-error, has-feedback, etc.) if **canChangeValidationState** is true
+* **Checkbox**: _checked_
+* **CheckboxGroup**: _dataSource_ + _values_. Its possible to use a custom **renderFunction**
+* **RadioGroup**: _dataSource_ + _value_. Its possible to use a custom **renderFunction**
+* **Select**: _dataSource_ + _value_
+* **TextArea**: _value_
+* **FormGroup**: allow to show error, success, feedback (classNames based on Bootstrap: has-error, has-feedback, etc.) if **canChangeValidationState** is true and customize all class names
 * **Form**: Form with noValidate by default
-* **Submit**: can be disabled if has errors
-* **Reset**: _clone and notify with initial state_ (form model, errors, etc.) **onReset**
+* **Submit**: can be disabled if has errors (pass _errors_)
+* **Reset**: clone _initialState_ (form model, errors, etc.) and pass inital state **onReset**
 
+## Lib examples
 
-## Example
+To run examples `npm i` then `npm run dev`
 
-Note: to run examples `npm i` then `npm run dev`
+## es6 Example
 
 Imports 
 
@@ -221,4 +238,123 @@ MyForm.propTypes = {
 };
 
 export default MyForm;
+```
+
+## es5 Example
+
+```xml
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Example es5</title>
+    <script src="https://unpkg.com/react@15.6.1/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="../../dist/react-form-validation.min.js"></script>
+    <script type="text/babel">
+        var Form = ReactFormValidation.Form;
+        var FormGroup = ReactFormValidation.FormGroup;
+        var Input = ReactFormValidation.Input;
+        var required = ReactFormValidation.required;
+        var minlength = ReactFormValidation.minlength;
+        var ValidationHelper = ReactFormValidation.ValidationHelper;
+
+        var Home = React.createClass({
+            getInitialState: function () {
+                return {
+                    model: {
+                        firstname: 'Marie'
+                    },
+                    submitted: false,
+                    validations:{
+                        firstname:[required(), minlength()]
+                    },
+                    errors:{},
+                    touched: {}
+                };
+            },
+            onValueChange: function(name, value) {
+                console.log('value changed', name, value);
+
+                var model = this.state.model;
+                model[name] = value;
+
+                // with touch
+                if (this.state.touched[name]) {
+                    var errors = ValidationHelper.validateAll(model, this.state.validations);
+
+                    this.setState({
+                        model,
+                        errors
+                    });
+                }
+                else {
+                    this.setState({
+                        model
+                    });
+                }
+
+                // with submitted
+                /*if (this.state.submitted) {
+                    var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+
+                    this.setState({
+                        model,
+                        errors
+                    });
+                }
+                else {
+                    this.setState({
+                        model
+                    });
+                }*/
+            },
+            onTouch : function (name){
+                console.log('touched', name);
+
+                var touched = this.state.touched;
+                touched[name] = 'touched';
+
+                var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+
+                this.setState({
+                    touched,
+                    errors
+                });
+
+            },
+            onSubmit: function (event) {
+                event.preventDefault();
+
+                var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+                console.log('submitted', errors);
+                this.setState({
+                    submitted: true,
+                    errors: errors
+                });
+            },
+            render: function() {
+                return (
+                    <Form onSubmit={this.onSubmit.bind(this)}>
+                            <FormGroup error={this.state.errors["firstname"]} canChangeValidationState={this.state.touched["firstname"]} renderSuccess renderFeedback>
+                                <label htmlFor="firstname">Firstname:</label>
+                                <Input id="firstname" name="firstname" value={this.state.model.firstname} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
+                            </FormGroup>
+                        <input className="btn btn-default" type="submit" value="Submit" />
+                    </Form>
+                );
+            }
+        });
+
+        ReactDOM.render(<div className="container"><h2>React Form Validation with es5</h2><Home /></div>, document.getElementById('app'));
+    </script>
+</body>
+
+</html>
 ```

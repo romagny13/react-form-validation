@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { Checkbox } from '../../src/components/Checkbox';
+import { Checkbox } from '../../src/index';
 
 describe('Checkbox', () => {
 

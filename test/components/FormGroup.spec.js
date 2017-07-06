@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { FormGroup } from '../../src/components/FormGroup';
+import { FormGroup } from '../../src/index';
 
 describe('FormGroup', () => {
 

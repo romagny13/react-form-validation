@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { Form } from '../../src/components/FormComponent';
+import { Form } from '../../src/index';
 
 describe('Form', () => {
 

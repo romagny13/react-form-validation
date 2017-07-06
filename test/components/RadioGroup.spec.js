@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { RadioGroup } from '../../src/components/RadioGroup';
+import { RadioGroup } from '../../src/index';
 
 describe('RadioGroup', () => {
 

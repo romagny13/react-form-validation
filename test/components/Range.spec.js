@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { Range } from '../../src/components/Range';
+import { Range } from '../../src/index';
 
 describe('Range', () => {
 
