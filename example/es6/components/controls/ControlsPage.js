@@ -20,7 +20,6 @@ class ControlsPage extends Component {
                 likes: ['Milk', 'Cakes'],
                 list: 'b',
                 file: '',
-                age: 'abc',
                 agree: false
             },
             submitted: false,
@@ -30,7 +29,7 @@ class ControlsPage extends Component {
 
         this.validators = {
             // input
-            firstname: [required(), minlength(3)],
+            firstname: [required(), minlength()],
             lastname: [maxlength(10)],
             email: [email()],
             password: [

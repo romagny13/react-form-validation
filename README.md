@@ -45,8 +45,379 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 * **TextArea**: _value_
 * **FormGroup**: allow to show error, success, feedback (classNames based on Bootstrap: has-error, has-feedback, etc.) if **canChangeValidationState** is true and customize all class names
 * **Form**: Form with noValidate by default
+* **Label**: allow to display _asterisk_ for required field
 * **Submit**: can be disabled if has errors (pass _errors_)
 * **Reset**: clone _initialState_ (form model, errors, etc.) and pass inital state **onReset**
+
+## Helpers
+
+### ValidationHelper
+
+validateValue
+
+_Example:_
+
+```js
+let model = {
+    firstname: '',
+    lastname: ''
+};
+
+let validations = {
+ firstname: [required('Firstname required')],
+ lastname: [required('Lastname required')]
+};
+
+let value = model['lastname'];
+
+let error = ValidationHelper.validateValue(model,value,validations);
+// error => 'Lastname required'
+```
+
+validateProperty
+
+_Example:_
+
+```js
+let model = {
+    firstname: '',
+    lastname: ''
+};
+
+let validations = {
+ firstname: [required('Firstname required')],
+ lastname: [required('Lastname required')]
+};
+
+let error = ValidationHelper.validateProperty(model, 'lastname', validations);
+// error => 'Lastname required'
+```
+
+validateAll
+
+_Example:_
+
+```js
+let model = {
+    firstname: '',
+    lastname: ''
+};
+
+let validations = {
+ firstname: [required('Firstname required')],
+ lastname: [required('Lastname required')]
+};
+
+let value = model['lastname'];
+
+let errors = ValidationHelper.validateAll(model,validations);
+// errors => {firstname: 'Firstname required', lastname: 'Lastname required'}
+```
+
+### FormHelper
+
+getElementValue
+
+_Example:_
+
+```xml
+<input name="firstname" value={model["firstname"]} onChange={this.onValueChange} />
+```
+
+```js
+ onValueChange(event) {
+    let name = event.target.name;
+    let value = FormHelper.getElementValue(event.target);
+
+    let model = this.state.model;
+    model[name] = value;
+
+    this.setState({
+        model
+    });
+}
+```
+
+## Components
+
+### Form
+
+Form with noValidate by default
+
+_Examples_
+
+```xml
+ <Form onSubmit={onSubmit}>
+
+    <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+        <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
+        <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
+    </FormGroup>
+
+    <Submit value="Submit" errors={errors} />
+    <Reset value="Reset" initialState={initialState} onReset={onReset} />
+
+</Form >
+```
+
+### FormGroup
+
+* The error is displayed in a `span` if canChangeValidationState is `true` and error is `defined`
+* If renderFeedback is `true` (false by default) a span with a glyphicon remove is displayed
+* If renderSuccess is `true` (false by default) and canChangeValidationState is `true` with no error, a span with a glyphicon ok is displayed
+
+2 states with no renderSuccess: "normal" and "error"
+3 states with renderSuccess: "start", "error" and "success"
+
+Props | Description
+-------- |  -------- 
+error | the error message
+canChangeValidationState | `boolean` (false by default) 
+renderFeedback | `boolean` (false by default) 
+renderSuccess | `boolean` (false by default) 
+className | `form-group` by default
+errorClassName: `has-error` by default
+successClassName | `has-success` by default
+feedbackClassName | `has-feedback` by default
+errorFeedbackClassName | `glyphicon glyphicon-remove form-control-feedback` by default
+successFeedbackClassName | `glyphicon glyphicon-ok form-control-feedback` by default
+errorSpanClassName | `help-block` by default
+
+_Examples:_
+
+```xml
+ <FormGroup error={errors["firstname"]} canChangeValidationState={submitted}>
+    <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
+    <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
+</FormGroup>
+```
+
+With feedback and success
+
+```xml
+ <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+    <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
+    <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
+</FormGroup>
+```
+
+With no error displayed
+
+```xml
+<FormGroup>
+    <Label>Note</Label>
+    <TextArea name="note" value={model["note"]} onValueChange={onValueChange} className="form-control" rows="5" />
+</FormGroup>
+```
+
+### Label
+
+Allow to display an asterisk (*) for require field if `asterisk` is `true` 
+
+Props | Description
+-------- |  -------- 
+asterisk | display asterisk (`false` by default)
+asteriskColor | `red` by default
+
+_Example:_
+
+```xml
+<FormGroup>
+    <Label htmlFor="firstname" className="control-label">Firstname</Label>
+    <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange}  />
+</FormGroup>
+```
+
+With asterisk
+
+```xml
+<FormGroup>
+    <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
+    <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange}  />
+</FormGroup>
+```
+
+### Input
+
+Props | Description
+-------- |  -------- 
+value | `string` or `number` (for input type number and range)
+type | `text` (by default), `email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`
+onValueChange | notifcation with with form element `name` and current `value`
+onTouch | notification on touch / blur with form element `name`
+
+Shortcuts:
+* _Text_
+* _Email_
+* _Search_
+* _Password_
+* _File_
+* _Number_
+* _Range_
+* _Color_
+
+_Examples:_
+
+Input type text:
+
+```xml
+<Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
+```
+Or
+```xml
+<Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
+```
+
+Number:
+
+```xml
+ <Input type="number" id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
+```
+Or
+```xml
+ <Number id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
+```
+
+Date:
+
+```html
+<Input type="date" id="date" name="date" value={model["date"]} onValueChange={onValueChange} className="form-control" />
+```
+
+### Checkbox
+
+Props | Description
+-------- |  -------- 
+checked | `false` by default
+onValueChange | notifcation with with form element `name` and `checked`
+onTouch | notification on touch / blur with form element `name`
+
+_Example:_
+
+```xml
+<div className="checkbox"><Label asterisk><Checkbox name="agree" checked={model['agree']} onValueChange={onValueChange} />Agree to conditions</Label></div>
+```
+
+### CheckboxGroup
+
+Props | Description
+-------- |  -------- 
+dataSource | `array` (example: ['a','b','c'])
+values | values checked (example: ['a','c'])
+renderFunction | allow to `customize rendering`
+onValueChange | notifcation with with form element `name` and current `values` array 
+onTouch | notification on touch / blur with form element `name`
+
+_Example:_
+
+```xml
+<CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={onValueChange} />
+```
+
+### RadioGroup
+
+Props | Description
+-------- |  -------- 
+dataSource | `array` (example: ['a','b','c'])
+value | value checked (example: 'a')
+renderFunction | allow to `customize rendering`
+onValueChange | notifcation with with form element `name` and current `value`
+onTouch | notification on touch / blur with form element `name`
+
+_Example:_
+
+```xml
+<RadioGroup name="preference" dataSource={["a", "b", "c"]} value={model["preference"]} onValueChange={onValueChange} />
+```
+
+### Select
+
+Props | Description
+-------- |  -------- 
+dataSource | `array` (example: ['a','b','c'])
+value | value selected (example: 'a')
+onValueChange | notifcation with with form element `name` and current `value`
+onTouch | notification on touch / blur with form element `name`
+
+_Example:_
+
+```xml
+<Select name="list" dataSource={[1, 2, 3]} value={model['list']} onValueChange={onValueChange} className="form-control" />
+```
+
+
+### TextArea
+
+Props | Description
+-------- |  -------- 
+value | `string`
+onValueChange | notifcation with with form element `name` and current `value`
+onTouch | notification on touch / blur with form element `name`
+
+_Example:_
+
+```xml
+ <TextArea name="note" value={model["note"]} onValueChange={onValueChange} className="form-control" rows="5" />
+```
+
+### Submit
+
+The submit button is disabled (+ className added `disabled`) if have errors
+
+Props | Description
+-------- |  -------- 
+errors | the errors `object` (example: {} or undefined with no error and {firstname:'This field is required'})
+className | `btn btn-default` by default
+
+_Example:_
+
+```xml
+<Submit value="Submit" errors={errors} />
+```
+
+### Reset
+
+The submit button is disabled (+ className added `disabled`) if have errors
+
+Props | Description
+-------- |  -------- 
+initialState | the initial state (`object`) of the form (with model, errors, etc.)
+className | `btn btn-warning` by default
+
+_Example:_
+
+Initial State:
+
+```js
+ this.state = {
+    // form model
+    model: {
+        firstname: 'Marie',
+        lastname: 'Bellin',
+        email: '',
+        password: 'Secret',
+        confirmPassword: '',
+        likes: ['Milk', 'Cakes'],
+        list: 'b',
+        file: '',
+        agree: false
+    },
+    submitted: false,
+    errors: {},
+    touched: {}
+};
+```
+
+```xml
+<Reset value="Reset" initialState={initialState} onReset={onReset} />
+```
+handle on reset
+
+```js
+ onReset(initialState) {
+    this.setState(initialState);
+}
+```
 
 ## Lib examples
 
@@ -83,7 +454,7 @@ Define form model and validations
 
 this.validators = {
     // input
-    firstname: [required(), minlength(3)],
+    firstname: [required(), minlength()],
     lastname: [maxlength(10)],
     email: [email()],
     password: [

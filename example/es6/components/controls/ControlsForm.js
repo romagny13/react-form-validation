@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Form, FormGroup, Checkbox, Text, Email, Password, File, Number, RadioGroup, CheckboxGroup, TextArea, Select, Submit, Reset } from '../../../../src/index';
+import {
+    Form,
+    FormGroup,
+    Label,
+    Text,
+    Checkbox,
+    Email,
+    Password,
+    File,
+    Number,
+    RadioGroup,
+    CheckboxGroup,
+    TextArea,
+    Select,
+    Submit,
+    Reset
+} from '../../../../src/index';
 
 const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitted, initialState }) => {
     console.log('render form', model);
@@ -9,61 +25,62 @@ const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitt
         <Form onSubmit={onSubmit}>
 
             <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="firstname" className="control-label">Firstname:</label>
+                <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
                 <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
             </FormGroup>
 
             <FormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="lastname" className="control-label">Lastname:</label>
+                <Label htmlFor="lastname" className="control-label">Lastname</Label>
                 <Text id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} className="form-control" />
             </FormGroup>
 
             <FormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="password" className="control-label">Password:</label>
+                <Label htmlFor="password" className="control-label" asterisk>Password</Label>
                 <Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" />
             </FormGroup>
 
             <FormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="confirmPassword" className="control-label">Confirm password:</label>
+                <Label htmlFor="confirmPassword" className="control-label" asterisk>Confirm password</Label>
                 <Password id="confirmPassword" name="confirmPassword" value={model["confirmPassword"]} onValueChange={onValueChange} className="form-control" placeholder="Confirm password" />
             </FormGroup>
 
             <FormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="email" className="control-label">Email:</label>
+                <Label htmlFor="email" className="control-label">Email</Label>
                 <Email name="email" value={model["email"]} onValueChange={onValueChange} className="form-control" placeholder="example@domain.com" />
             </FormGroup>
 
             <FormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="age" className="control-label">Age:</label>
+                <Label htmlFor="age" className="control-label" asterisk>Age</Label>
                 <Number id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
             </FormGroup>
 
             <FormGroup error={errors["file"]} canChangeValidationState={submitted}>
+                <Label htmlFor="file" className="control-label" asterisk>File</Label>
                 <File name="file" value={model["file"]} onValueChange={onValueChange} accept="image/*" />
             </FormGroup>
 
             <FormGroup>
-                <label htmlFor="list" className="control-label">List (no validation):</label>
+                <Label htmlFor="list" className="control-label">List (no validation)</Label>
                 <Select name="list" dataSource={[1, 2, 3]} value={model['list']} onValueChange={onValueChange} className="form-control" />
             </FormGroup>
 
             <FormGroup error={errors["preference"]} canChangeValidationState={submitted}>
-                <label>Preference:</label>
+                <Label>Preference</Label>
                 <RadioGroup name="preference" dataSource={["a", "b", "c"]} value={model["preference"]} onValueChange={onValueChange} />
             </FormGroup>
 
             <FormGroup error={errors["likes"]} canChangeValidationState={submitted}>
-                <label>Like (multiple choice):</label>
+                <Label asterisk>Like (multiple choice)</Label>
                 <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={onValueChange} />
             </FormGroup>
 
             <FormGroup>
-                <label>Note:</label>
+                <Label>Note</Label>
                 <TextArea name="note" value={model["note"]} onValueChange={onValueChange} className="form-control" rows="5" />
             </FormGroup>
 
             <FormGroup error={errors["agree"]} canChangeValidationState={submitted}>
-                <div className="checkbox"><label><Checkbox name="agree" checked={model['agree']} onValueChange={onValueChange} />Agree to conditions</label></div>
+                <div className="checkbox"><Label asterisk><Checkbox name="agree" checked={model['agree']} onValueChange={onValueChange} />Agree to conditions</Label></div>
             </FormGroup>
 
             <Submit value="Submit" errors={errors} />
