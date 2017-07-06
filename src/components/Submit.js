@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, isFunction, isUndefined } from '../common/Util';
+import { omit, isFunction, isUndefined } from '../common/util';
 import { FormHelper } from '../common/FormHelper';
 
 export class Submit extends Component {

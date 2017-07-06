@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { omit } from '../common/Util';
+import { omit } from '../common/util';
 
 export const Form = (props) => {
     let rest = omit(props, ['noValidate']);

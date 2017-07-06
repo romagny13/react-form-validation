@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormElement } from './FormElement';
 
-import { omit } from '../common/Util';
+import { omit } from '../common/util';
 
 export class TextArea extends FormElement {
     constructor(props) {

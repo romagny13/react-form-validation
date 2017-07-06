@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormElement } from './FormElement';
 
-import { omit, isBoolean } from '../common/Util';
+import { omit, isBoolean } from '../common/util';
 
 export class Checkbox extends FormElement {
     constructor(props) {

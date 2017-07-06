@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormElement } from './FormElement';
 
-import { omit, isUndefined } from '../common/Util';
+import { omit, isUndefined } from '../common/util';
 
 export class Input extends FormElement {
     constructor(props) {

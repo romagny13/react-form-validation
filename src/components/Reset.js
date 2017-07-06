@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, clone } from '../common/Util';
+import { omit, clone } from '../common/util';
 
 export class Reset extends Component {
     constructor(props) {

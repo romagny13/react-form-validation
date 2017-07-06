@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { isUndefined, isFunction } from '../common/Util';
+import { isUndefined, isFunction } from '../common/util';
 
 export class FormElement extends Component {
     constructor(props) {
