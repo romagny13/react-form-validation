@@ -3,6 +3,7 @@ var zlib = require('zlib');
 var rollup = require('rollup');
 var uglify = require('uglify-js');
 var babel = require('rollup-plugin-babel');
+var commonJS = require('rollup-plugin-commonjs');
 
 var version = process.env.VERSION || require('../package.json').version;
 var banner =
@@ -15,12 +16,19 @@ var banner =
 rollup.rollup({
     entry: "./src/index.js",
     external: ['react', 'react-dom'],
-    plugins: [babel({
-        babelrc: false,
-        presets: ['react', 'es2015-rollup'],
-        plugins: ['transform-object-rest-spread'],
-        exclude: 'node_modules/**'
-    })]
+    plugins: [
+        babel({
+            babelrc: false,
+            presets: ['react', 'es2015-rollup'],
+            plugins: ['transform-object-rest-spread'],
+            exclude: 'node_modules/**'
+        }),
+        commonJS({
+            namedExports: {
+                'node_modules/react/react.js': ['Component', 'PureComponent'],
+                'node_modules/react-dom/index.js': ['render']
+            }
+        })]
 })
     .then(function (bundle) {
         return write('dist/react-form-validation.js', bundle.generate({

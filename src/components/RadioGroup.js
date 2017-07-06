@@ -1,41 +1,46 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormElement } from './FormElement';
-import { omit } from '../common/util';
-import { renderRadioGroup } from './renderFunctions';
+
+import { omit } from '../common/Util';
 
 export class RadioGroup extends FormElement {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            current: props.current
-        };
-        this.renderFunction = props.renderFunction;
-        this.config = omit(props, ['onChange', 'onBlur', 'dataSource', 'current', 'checked', 'renderFunction']);
+    constructor(props) {
+        super(props);
+
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value', 'dataSource', 'renderFunction']);
+
+        this.onChange = this.onChange.bind(this);
     }
-    getValue() {
-        return this.state.current;
-    }
+
     onChange(event) {
-        let current = event.target.value;
-        this.setState({
-            current
-        });
-        this.tryUpdateFormModel(current);
-        this.notify('onChange', current);
+        if (this.hasOnValueChangeSubscriber()) {
+            this.raiseValueChanged(event.target.value);
+        }
     }
-    onBlur() {
-        this.notify('onBlur', this.state.current);
-    }
+
     render() {
-        return this.renderFunction({ props: this.config, dataSource: this.props.dataSource, current: this.state.current, onChange: this.onChange, onBlur: this.onBlur });
+        const { dataSource, value } = this.props;
+        if (this.props.renderFunction) {
+            return this.props.renderFunction({ props: this.config, dataSource, value, onValueChange: this.onChange, onTouch: this.checkAndRaiseTouched });
+        }
+        else {
+            return (
+                <div>
+                    {dataSource.map((dataItem, i) => {
+                        return (
+                            <label key={i} className="radio-inline">
+                                <input type="radio" name="title" value={dataItem} checked={dataItem === value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />
+                                {dataItem}
+                            </label>);
+                    })}
+                </div>);
+        }
     }
 }
 RadioGroup.propTypes = {
-    name: PropTypes.string.isRequired,
     dataSource: PropTypes.array.isRequired,
-    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     renderFunction: PropTypes.func
-};
-RadioGroup.defaultProps = {
-    renderFunction: renderRadioGroup
 };

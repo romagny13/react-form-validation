@@ -1,37 +1,38 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormElement } from './FormElement';
-import { getConfig } from '../common/util';
-import { renderSelect } from './renderFunctions';
+
+import { omit } from '../common/Util';
 
 export class Select extends FormElement {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            current: props.current
-        };
-        this.dataSource = this.props.dataSource;
-        this.config = getConfig(props, ['onChange', 'onBlur', 'current', 'value', 'dataSource'], this.onChange, this.onBlur);
+    constructor(props) {
+        super(props);
+
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value', 'dataSource']);
+
+        this.onChange = this.onChange.bind(this);
     }
-    getValue() {
-        return this.state.current;
-    }
+
     onChange(event) {
-        let current = event.target.options[event.target.selectedIndex].value;
-        this.setState({
-            current
-        });
-        this.tryUpdateFormModel(current);
-        this.notify('onChange', current);
+        if (this.hasOnValueChangeSubscriber()) {
+            let value = event.target.options[event.target.selectedIndex].value;
+            this.raiseValueChanged(value);
+        }
     }
-    onBlur() {
-        this.notify('onBlur', this.state.current);
-    }
+
     render() {
-        return renderSelect(this.config, this.dataSource, this.state.current, this.onChange, this.onBlur);
+        const { dataSource, value } = this.props;
+        return (
+            <select value={value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest}>
+                {dataSource.map((dataItem, i) => {
+                    return <option key={i} value={dataItem}>{dataItem}</option>;
+                })}
+            </select>
+        );
     }
 }
 Select.propTypes = {
-    name: PropTypes.string.isRequired,
     dataSource: PropTypes.array.isRequired,
-    current: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
 };

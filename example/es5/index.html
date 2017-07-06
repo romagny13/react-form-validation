@@ -3,13 +3,10 @@
 
 <head>
     <title>React Form Validation</title>
-    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
-    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://unpkg.com/react@15.6.1/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
-    <style>
-
-    </style>
 </head>
 
 <body>
@@ -17,54 +14,100 @@
     <script src="../../dist/react-form-validation.js"></script>
     <script type="text/babel">   
         var Form = ReactFormValidation.Form;
-        var Validator = ReactFormValidation.Validator;
+        var FormGroup = ReactFormValidation.FormGroup;
         var Input = ReactFormValidation.Input;
         var required = ReactFormValidation.required;
-        var minLength = ReactFormValidation.minLength;
-
-        var MyFormGroup = function (props) {
-            var groupClassName = props.hasError ? 'form-group has-error' : 'form-group';
-            return (
-                <div className={groupClassName}>
-                    {props.children}
-                    {props.hasError && <span className="help-block">{props.error}</span>}
-                </div>
-            );
-        };
+        var minlength = ReactFormValidation.minlength;
+        var ValidationHelper = ReactFormValidation.ValidationHelper;
 
         var Home = React.createClass({
             getInitialState: function () {
                 return {
                     model: {
                         firstname: 'Marie'
-                    }
+                    },
+                    submitted: false,
+                    validations:{
+                        firstname:[required(), minlength()]
+                    },
+                    errors:{},
+                    touched: {}
                 };
             },
-            onSubmit: function (result) {
-                console.log(result)
-                if (!result.hasError) {
-                    var user = {
-                        firstname: result.model['firstname']
-                    };
-                    console.log('save user', user);
+            onValueChange: function(name, value) {
+                console.log('value changed', name, value);
+
+                var model = this.state.model;
+                model[name] = value;
+
+                // with touch
+                if (this.state.touched[name]) {
+                    var errors = ValidationHelper.validateAll(model, this.state.validations);
+
+                    this.setState({
+                        model,
+                        errors
+                    });
                 }
+                else {
+                    this.setState({
+                        model
+                    });
+                }
+
+                // with submitted
+                /*if (this.state.submitted) {
+                    var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+
+                    this.setState({
+                        model,
+                        errors
+                    });
+                }
+                else {
+                    this.setState({
+                        model
+                    });
+                }*/
             },
-            render() {
+            onTouch : function (name){
+                console.log('touched', name);
+
+                var touched = this.state.touched;
+                touched[name] = 'touched';
+
+                var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+
+                this.setState({
+                    touched,
+                    errors
+                });
+
+            },
+            onSubmit: function (event) {
+                event.preventDefault();
+
+                var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+                console.log('submitted', errors);
+                this.setState({
+                    submitted: true,
+                    errors: errors
+                });
+            },
+            render: function() {
                 return (
-                    <Form onSubmit={this.onSubmit} mode="touched" model={this.state.model}>
-                        <Validator validators={[required(), minLength(3)]}>
-                            <MyFormGroup>
+                    <Form onSubmit={this.onSubmit.bind(this)}>
+                            <FormGroup error={this.state.errors["firstname"]} canChangeValidationState={this.state.touched["firstname"]} renderSuccess renderFeedback>
                                 <label htmlFor="firstname">Firstname:</label>
-                                <Input id="firstname" name="firstname" value={this.state.model.firstname} className="form-control" focus />
-                            </MyFormGroup>
-                        </Validator>
+                                <Input id="firstname" name="firstname" value={this.state.model.firstname} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
+                            </FormGroup>
                         <input className="btn btn-default" type="submit" value="Submit" />
                     </Form>
                 );
             }
         });
 
-        ReactDOM.render(<div className="container"><h2>Form validation with es5</h2><Home /></div>, document.getElementById('app'));
+        ReactDOM.render(<div className="container"><h2>React Form Validation with es5</h2><Home /></div>, document.getElementById('app'));
     </script>
 </body>
 

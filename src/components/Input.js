@@ -1,38 +1,38 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormElement } from './FormElement';
-import { getConfig } from '../common/util';
-import { renderInput } from './renderFunctions';
+
+import { omit, isUndefined } from '../common/Util';
 
 export class Input extends FormElement {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            value: props.value
-        };
-        this.config = getConfig(props, ['onChange', 'onBlur', 'value'], this.onChange, this.onBlur);
+    constructor(props) {
+        super(props);
+
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value']);
+
+        this.onChange = this.onChange.bind(this);
     }
-    getValue() {
-        return this.state.value;
+
+    isNumberElement() {
+        return this.props.type === 'number' || this.props.type === 'number';
     }
+
     onChange(event) {
-        let value = event.target.value;
-        this.setState({
-            value
-        });
-        this.tryUpdateFormModel(value);
-        this.notify('onChange', value);
+        if (this.hasOnValueChangeSubscriber()) {
+            let value = this.isNumberElement() ? Number(event.target.value) : event.target.value;
+            this.raiseValueChanged(value);
+        }
     }
-    onBlur() {
-        this.notify('onBlur', this.state.value);
-    }
+
     render() {
-        return renderInput(this.config, this.state.value);
+        let value = isUndefined(this.props.value) ? '' : this.props.value;
+        return <input value={value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />;
     }
 }
 Input.propTypes = {
-    name: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    type: PropTypes.oneOf(['text', 'email', 'password', 'search', 'number', 'range', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url'])
+    type: PropTypes.oneOf(['text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range'])
 };
 Input.defaultProps = {
     type: 'text',

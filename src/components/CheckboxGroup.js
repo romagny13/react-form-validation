@@ -1,47 +1,56 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormElement } from './FormElement';
-import { omit } from '../common/util';
-import { renderCheckboxGroup } from './renderFunctions';
+
+import { omit } from '../common/Util';
 
 export class CheckboxGroup extends FormElement {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            currents: props.currents
-        };
-        this.renderFunction = props.renderFunction;
-        this.config = omit(props, ['onChange', 'onBlur', 'dataSource', 'currents', 'renderFunction']);
+    constructor(props) {
+        super(props);
+
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'dataSource', 'values', 'renderFunction']);
+
+        this.onChange = this.onChange.bind(this);
     }
-    getValue() {
-        return this.state.currents;
-    }
+
     onChange(event) {
-        let value = event.target.value;
-        let currents = this.state.currents;
-        let index = currents.indexOf(value);
-        // update array
-        if (index !== -1) { currents.splice(index, 1); }
-        else { currents.push(value); }
-        this.setState({
-            currents
-        });
-        this.tryUpdateFormModel(currents);
-        this.notify('onChange', currents);
+        if (this.hasOnValueChangeSubscriber()) {
+
+            let value = event.target.value;
+            let values = this.props.values;
+            let index = values.indexOf(value);
+
+            if (index !== -1) { values.splice(index, 1); }
+            else { values.push(value); }
+
+            this.raiseValueChanged(values);
+        }
     }
-    onBlur() {
-        this.notify('onBlur', this.state.currents);
-    }
+
     render() {
-        return this.renderFunction({ props: this.config, dataSource: this.props.dataSource, currents: this.state.currents, onChange: this.onChange, onBlur: this.onBlur });
+        const { dataSource, values } = this.props;
+        if (this.props.renderFunction) {
+            return this.props.renderFunction({ props: this.config, dataSource, values, onValueChange: this.onChange, onTouch: this.checkAndRaiseTouched });
+        }
+        else {
+            return (
+                <div>
+                    {dataSource.map((dataItem, i) => {
+                        return (
+                            <div key={i} className="checkbox">
+                                <label>
+                                    <input type="checkbox" value={dataItem} checked={values.indexOf(dataItem) !== -1} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />
+                                    {dataItem}
+                                </label>
+                            </div>);
+                    })}
+                </div>);
+        }
     }
 }
 CheckboxGroup.propTypes = {
-    name: PropTypes.string.isRequired,
     dataSource: PropTypes.array.isRequired,
-    currents: PropTypes.array,
+    values: PropTypes.array,
     renderFunction: PropTypes.func
-};
-CheckboxGroup.defaultProps = {
-    currents: [],
-    renderFunction: renderCheckboxGroup
 };

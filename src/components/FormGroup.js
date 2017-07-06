@@ -1,69 +1,70 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export function getGroupClassName(hasError, showHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName) {
-    if (hasError) {
-        let result = className && className !== '' ? className + ' ' + hasErrorClassName : hasErrorClassName;
-        if (showHasFeedback) {
-            result += ' ' + hasFeedbackClassName;
-        }
-        return result;
-    }
-    else if (showHasSuccess) {
-        let result = className && className !== '' ? className + ' ' + hasSuccessClassName : hasSuccessClassName;
-        if (showHasFeedback) {
-            result += ' ' + hasFeedbackClassName;
-        }
-        return result;
-    }
-    return className;
-}
+import { FormGroupHelper } from '../common/FormGroupHelper';
 
 export const FormGroup = ({
-    id,
-    hasErrorClassName,
-    hasSuccessClassName,
-    showHasFeedback,
-    showHasSuccess,
-    hasFeedbackClassName,
-    hasErrorFeedbackClassName,
-    hasSuccessFeedbackClassName,
-    className,
     children,
-    hasError,
-    hasSuccess,
-    error
+    error,
+    canChangeValidationState,
+    renderFeedback,
+    renderSuccess,
+    className,
+    feedbackClassName,
+    errorFeedbackClassName,
+    successFeedbackClassName,
+    errorClassName,
+    successClassName,
+    errorSpanClassName
 }) => {
-    let canShowHasSuccess = hasSuccess && showHasSuccess;
-    let groupClassName = getGroupClassName(hasError, canShowHasSuccess, className, hasErrorClassName, hasSuccessClassName, showHasFeedback, hasFeedbackClassName);
-    return (
-        <div className={groupClassName} id={id}>
-            {children}
-            {showHasFeedback && hasError && <span className={hasErrorFeedbackClassName} aria-hidden="true" />}
-            {showHasFeedback && showHasSuccess && hasSuccess && <span className={hasSuccessFeedbackClassName} aria-hidden="true" />}
-            {hasError ? <span className="help-block">{error}</span> : null}
-        </div>
-    );
+    // 2 states with no renderSuccess: "normal" and "error"
+    // 3 states with renderSuccess: "start", "error" and "success"
+    if (canChangeValidationState) {
+        // * error: if have error + feedback if renderFeedback
+        // * success: if renderSuccess && form submitted or field touched (or other condition) + feedback if renderFeedback
+        let hasError = typeof error != 'undefined' ? true : false;
+        let hasSuccess = renderSuccess && !hasError;
+        let groupClassName = FormGroupHelper.getGroupClassName(renderFeedback, hasError, hasSuccess, className, feedbackClassName, errorClassName, successClassName);
+        return (
+            <div className={groupClassName}>
+                {children}
+                {renderFeedback && hasError && <span className={errorFeedbackClassName} aria-hidden="true" />}
+                {renderFeedback && renderSuccess && <span className={successFeedbackClassName} aria-hidden="true" />}
+                {hasError ? <span className={errorSpanClassName}>{error}</span> : null}
+            </div>
+        );
+    }
+    else {
+        return (
+            <div className={className}>
+                {children}
+            </div>
+        );
+    }
 };
 FormGroup.propTypes = {
-    id: PropTypes.string,
     children: PropTypes.node,
+    canChangeValidationState: PropTypes.bool,
+    renderFeedback: PropTypes.bool,
+    renderSuccess: PropTypes.bool,
+    error: PropTypes.string,
     className: PropTypes.string,
-    hasErrorClassName: PropTypes.string,
-    hasSuccessClassName: PropTypes.string,
-    showHasFeedback: PropTypes.bool,
-    showHasSuccess: PropTypes.bool,
-    hasFeedbackClassName: PropTypes.string,
-    hasErrorFeedbackClassName: PropTypes.string,
-    hasSuccessFeedbackClassName: PropTypes.string
+    feedbackClassName: PropTypes.string,
+    errorFeedbackClassName: PropTypes.string,
+    successFeedbackClassName: PropTypes.string,
+    errorClassName: PropTypes.string,
+    successClassName: PropTypes.string,
+    errorSpanClassName: PropTypes.string
 };
 FormGroup.defaultProps = {
+    canChangeValidationState: false,
+    renderFeedback: false,
+    renderSuccess: false,
     className: 'form-group',
-    hasErrorClassName: 'has-error',
-    hasSuccessClassName: 'has-success',
-    showHasFeedback: true,
-    showHasSuccess: true,
-    hasFeedbackClassName: 'has-feedback',
-    hasErrorFeedbackClassName: 'glyphicon glyphicon-remove form-control-feedback',
-    hasSuccessFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback'
+    errorClassName: 'has-error',
+    successClassName: 'has-success',
+    feedbackClassName: 'has-feedback',
+    errorFeedbackClassName: 'glyphicon glyphicon-remove form-control-feedback',
+    successFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback',
+    errorSpanClassName: 'help-block'
 };
-

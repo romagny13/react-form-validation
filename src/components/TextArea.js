@@ -1,45 +1,32 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormElement } from './FormElement';
-import { getConfig } from '../common/util';
-import { renderTextArea } from './renderFunctions';
+
+import { omit } from '../common/Util';
 
 export class TextArea extends FormElement {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            value: props.value
-        };
-        this.config = getConfig(props, ['onChange', 'onBlur', 'value'], this.onChange, this.onBlur);
+    constructor(props) {
+        super(props);
+
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value']);
+
+        this.onChange = this.onChange.bind(this);
     }
-    getValue() {
-        return this.state.value;
-    }
+
     onChange(event) {
-        let value = event.target.value;
-        this.setState({
-            value
-        });
-        this.tryUpdateFormModel(value);
-        this.notify('onChange', value);
+        if (this.hasOnValueChangeSubscriber()) {
+            this.raiseValueChanged(event.target.value);
+        }
     }
-    onBlur() {
-        this.notify('onBlur', this.state.value);
-    }
+
     render() {
-        let props = Object.assign({}, this.config, { value: this.state.value });
-        return renderTextArea(props);
+        return <textarea value={this.props.value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />;
     }
 }
 TextArea.propTypes = {
-    name: PropTypes.string.isRequired,
     value: PropTypes.string
 };
 TextArea.defaultProps = {
     value: ''
 };
-
-
-
-
-
-

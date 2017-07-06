@@ -1,37 +1,31 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormElement } from './FormElement';
-import { getConfig } from '../common/util';
-import { renderCheckbox } from './renderFunctions';
+
+import { omit, isBoolean } from '../common/Util';
 
 export class Checkbox extends FormElement {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            checked: props.checked
-        };
-        this.config = getConfig(props, ['onChange', 'onBlur', 'checked'], this.onChange, this.onBlur);
-    }
-    getValue() {
-        return this.state.checked;
-    }
-    onChange(event) {
-        let checked = event.target.checked;
-        this.setState({
-            checked
-        });
+    constructor(props) {
+        super(props);
 
-        this.tryUpdateFormModel(checked);
-        this.notify('onChange', checked);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'checked']);
+
+        this.onChange = this.onChange.bind(this);
     }
-    onBlur() {
-        this.notify('onBlur', this.state.checked);
+
+    onChange(event) {
+        if (this.hasOnValueChangeSubscriber()) {
+            let value = Boolean(event.target.checked);
+            this.raiseValueChanged(value);
+        }
     }
+
     render() {
-        return renderCheckbox(this.config, this.state.checked);
+        return <input type="checkbox" checked={this.props.checked} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />;
     }
 }
 Checkbox.propTypes = {
-    name: PropTypes.string.isRequired,
     checked: PropTypes.bool
 };
 Checkbox.defaultProps = {
