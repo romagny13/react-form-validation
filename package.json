@@ -1,6 +1,6 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "description": "React Form Binding and Validation",
   "main": "dist/react-form-validation.min.js",
   "files": [
@@ -44,7 +44,6 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-webpack": "^2.0.3",
     "mocha": "^3.4.2",
-    "nock": "^9.0.13",
     "react-test-renderer": "^15.6.1",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
