@@ -1,5 +1,5 @@
 export * from './common/validations';
-export * from './common/Util';
+export { omit, extend, clone } from './common/Util';
 export * from './common/FormHelper';
 export * from './common/ValidationHelper';
 export * from './components/Color';
