@@ -125,7 +125,7 @@ let count = ValidationHelper.countErrors(errors);
 
 **Form** with **noValidate** by default
 
-_Examples_
+_Example:_
 
 ```xml
  <Form onSubmit={onSubmit}>
@@ -173,7 +173,7 @@ _Examples:_
 </FormGroup>
 ```
 
-With feedback and success
+With _feedback_ and _success_
 
 ```xml
  <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
@@ -182,7 +182,7 @@ With feedback and success
 </FormGroup>
 ```
 
-With no error displayed
+With _no error_ displayed
 
 ```xml
 <FormGroup>
@@ -193,7 +193,7 @@ With no error displayed
 
 ### Label
 
-Allow to display an asterisk (*) for require field if `asterisk` is `true` 
+Allow to display an asterisk (*) for require field if **asterisk** is **true** 
 
 Props | Description
 -------- |  -------- 
@@ -209,7 +209,7 @@ _Example:_
 </FormGroup>
 ```
 
-With asterisk
+With _asterisk_
 
 ```xml
 <FormGroup>
@@ -239,7 +239,7 @@ Shortcuts:
 
 _Examples:_
 
-Input type text:
+_Input type text_
 
 ```xml
 <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
@@ -249,7 +249,7 @@ Or
 <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
 ```
 
-Number:
+_Number_
 
 ```xml
  <Input type="number" id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
@@ -259,7 +259,7 @@ Or
  <Number id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
 ```
 
-Date:
+_Date_
 
 ```html
 <Input type="date" id="date" name="date" value={model["date"]} onValueChange={onValueChange} className="form-control" />
