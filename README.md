@@ -154,28 +154,28 @@ _Example:_
 
 props | description | type | default
 -------- |  -------- |  -------- |  -------- 
-error | the error message | string | /
-canChangeValidationState | allow display error / success / feedback | boolean | false
-renderFeedback | render feedback if true | boolean | false
-renderSuccess | render success if true | boolean | false
-className | group class name | string | form-group
-errorClassName | class added on group div with error | string | has-error
-successClassName | class added on group div with success | string | has-success
-feedbackClassName | class added on group div with feedback | string | has-feedback
-errorFeedbackClassName | class with icon added on span that displays feedback on error | string | glyphicon glyphicon-remove form-control-feedback
-successFeedbackClassName | class with icon added on span that displays feedback on success | string | glyphicon glyphicon-ok form-control-feedback
-errorSpanClassName | class added to span that displays error message | string | help-block
+error | the error message | `string` | /
+canChangeValidationState | allow display error / success / feedback | `boolean` | `false`
+renderFeedback | render feedback if true | `boolean` | `false`
+renderSuccess | render success if true | `boolean` | `false`
+className | group class name | `string` | `form-group`
+errorClassName | class added on group div with error | `string` | `has-error`
+successClassName | class added on group div with success | `string` | `has-success`
+feedbackClassName | class added on group div with feedback | `string` | `has-feedback`
+errorFeedbackClassName | class with icon added on span that displays feedback on error | `string` | `glyphicon glyphicon-remove form-control-feedback`
+successFeedbackClassName | class with icon added on span that displays feedback on success | `string` | `glyphicon glyphicon-ok form-control-feedback`
+errorSpanClassName | class added to span that displays error message | `string` | `help-block`
 
 
 **FormGroup** allow to show error
 
 props | description | type | default
 -------- |  -------- |  -------- |  -------- 
-error | the error message | string | /
-canChangeValidationState | allow display error / success / feedback | boolean | false
-className | group class name | string | form-group
-errorClassName | class added on group div with error | string | has-error
-errorSpanClassName | class added to span that displays error message | string | help-block
+error | the error message | `string` | /
+canChangeValidationState | allow display error / success / feedback | `boolean` | `false`
+className | group class name | `string` | `form-group`
+errorClassName | class added on group div with error | `string` | `has-error`
+errorSpanClassName | class added to span that displays error message | `string` | `help-block`
 
 _Examples:_
 
@@ -210,8 +210,8 @@ Allow to display an asterisk (*) for required field if **asterisk** is **true**
 
 props | description | type | default
 -------- |  -------- |  -------- |  -------- 
-asterisk | allow to display asterisk | boolean | false
-asteriskColor | asterisk color | string | red
+asterisk | allow to display asterisk | `boolean` | `false`
+asteriskColor | asterisk color | `string` | `red`
 
 _Example:_
 
@@ -235,11 +235,11 @@ With _asterisk_
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
+name | form element name | `string` | / | yes
 value | the value to display | `string` or `number` (for input type number and range) | / | no
-type | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) | string | text | no
-onValueChange | notifcation with with form element `name` and current `value` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
+type | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) | `string` | `text` | no
+onValueChange | notifcation with with form element `name` and current `value` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
 
 Shortcuts:
 * _Text_
@@ -284,11 +284,11 @@ An eye is visible if password is not empty. This eye allow to show password `on 
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
-value | the password | string | / | no
-onValueChange | notifcation with with form element `name` and current `value` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
-renderEye | allow to render eye and show password | boolean | true | no 
+name | form element name | `string` | / | yes
+value | the password | `string` | / | no
+onValueChange | notifcation with with form element `name` and current `value` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
+renderEye | allow to render eye and show password | `boolean` | `true` | no 
 
 _Example:_
 
@@ -312,10 +312,10 @@ Change the style
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
-checked | allow to check the checkbox | boolean | false | no
-onValueChange | notifcation with with form element `name` and `checked` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
+name | form element name | `string` | / | yes
+checked | allow to check the checkbox | `boolean` | `false` | no
+onValueChange | notifcation with with form element `name` and `checked` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
 
 _Example:_
 
@@ -327,12 +327,12 @@ _Example:_
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
-dataSource | all values  (example: ['a','b','c']) | array | / | yes
-values | checked values (example: ['a','c']) | array | / | yes
-renderFunction | allow to `customize rendering` | func | / | no
-onValueChange | notifcation with with form element `name` and current `values` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
+name | form element name | `string` | / | yes
+dataSource | all values  (example: ['a','b','c']) | `array` | / | yes
+values | checked values (example: ['a','c']) | `array` | / | yes
+renderFunction | allow to `customize rendering` | `func` | / | no
+onValueChange | notifcation with with form element `name` and current `values` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
 
 _Example:_
 
@@ -344,12 +344,12 @@ _Example:_
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
-dataSource | all values  (example: ['a','b','c']) | array | / | yes
-value | checked value (example: 'a') | string | / | no
-renderFunction | allow to `customize rendering` | func | / | no
-onValueChange | notifcation with with form element `name` and current `value` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
+name | form element name | `string` | / | yes
+dataSource | all values  (example: ['a','b','c']) | `array` | / | yes
+value | checked value (example: 'a') | `string` | / | no
+renderFunction | allow to `customize rendering` | `func` | / | no
+onValueChange | notifcation with with form element `name` and current `value` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
 
 _Example:_
 
@@ -361,11 +361,11 @@ _Example:_
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
-dataSource | all values  (example: ['a','b','c']) | array | / | yes
-value | selected value (example: 'a') | string | / | no
-onValueChange | notifcation with with form element `name` and current `value` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
+name | form element name | `string` | / | yes
+dataSource | all values  (example: ['a','b','c']) | `array` | / | yes
+value | selected value (example: 'a') | `string` | / | no
+onValueChange | notifcation with with form element `name` and current `value` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
 
 _Example:_
 
@@ -378,10 +378,10 @@ _Example:_
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | string | / | yes
-value | the value to display | string | / | no
-onValueChange | notifcation with with form element `name` and current `value` | func | / | no
-onTouch | notification on touch / blur with form element `name` | func | / | no
+name | form element name | `string` | / | yes
+value | the value to display | `string` | / | no
+onValueChange | notifcation with with form element `name` and current `value` | `func` | / | no
+onTouch | notification on touch / blur with form element `name` | `func` | / | no
 
 _Example:_
 
@@ -395,7 +395,7 @@ The submit button is disabled (+ className added `disabled`) if have errors
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-errors | the errors (example: {} or undefined with no error and {firstname:'This field is required'}) | object | / | no
+errors | the errors (example: {} or undefined with no error and {firstname:'This field is required'}) | `object` | / | no
 
 _Example:_
 
@@ -407,7 +407,7 @@ _Example:_
 
 props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
-initialState | the initial state of the form (with model, errors, etc.) | object | / | no
+initialState | the initial state of the form (with model, errors, etc.) | `object` | / | no
 
 _Example:_
 
