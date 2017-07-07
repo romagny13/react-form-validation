@@ -53,9 +53,7 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 
 ### ValidationHelper
 
-validateValue
-
-_Example:_
+**validateValue**
 
 ```js
 let model = {
@@ -74,29 +72,34 @@ let error = ValidationHelper.validateValue(model,value,validations);
 // error => 'Lastname required'
 ```
 
-validateProperty
-
-_Example:_
+**validateProperty**
 
 ```js
 let error = ValidationHelper.validateProperty(model, 'lastname', validations);
 // error => 'Lastname required'
 ```
 
-validateAll
-
-_Example:_
+**validateAll**
 
 ```js
 let errors = ValidationHelper.validateAll(model,validations);
 // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}
 ```
 
+**hasErrors**
+
+```js
+let hasError = ValidationHelper.hasErrors(errors);
+```
+
+**countErrors**
+
+```js
+let count = ValidationHelper.countErrors(errors);
+```
 ### FormHelper
 
-getElementValue
-
-_Example:_
+**getElementValue**
 
 ```xml
 <input name="firstname" value={model["firstname"]} onChange={this.onValueChange} />
@@ -120,7 +123,7 @@ _Example:_
 
 ### Form
 
-Form with noValidate by default
+**Form** with **noValidate** by default
 
 _Examples_
 
@@ -140,12 +143,12 @@ _Examples_
 
 ### FormGroup
 
-* The error is displayed in a `span` if canChangeValidationState is `true` and error is `defined`
-* If renderFeedback is `true` (false by default) a span with a glyphicon remove is displayed
-* If renderSuccess is `true` (false by default) and canChangeValidationState is `true` with no error, a span with a glyphicon ok is displayed
+* The **error message** is displayed (in a `span`) if **canChangeValidationState** is **true** and **error** is defined
+* If **renderFeedback** is **true** (false by default) a **span with a glyphicon** remove is displayed
+* If **renderSuccess** is **true** (false by default) and **canChangeValidationState** is **true** with **no error**, a **span with a glyphicon** ok is displayed
 
-2 states with no renderSuccess: "normal" and "error"
-3 states with renderSuccess: "start", "error" and "success"
+* _2 states_ with _no renderSuccess_: "normal" and "error"
+* _3 states_ with _renderSuccess_: "start", "error" and "success"
 
 Props | Description
 -------- |  -------- 
