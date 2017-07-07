@@ -444,22 +444,21 @@ handle on reset
 }
 ```
 
-## Validation
+## Validation (with ValidationHelper)
 
-Its possible to validate all (with ValidationHelper) on **form Submission**:
+ Validate all on **form Submission**:
 * create a state variable `submitted` (boolean) for example
 * handle `onSubmit` and set `submitted` to true on submit
 * check if is `submitted` `onValueChange` to validate all or only the form element value
 * check on each form group form is `submitted` to set `canChangeValidationState`
 
-... or on form element **touched** all or only the element value (with ValidationHelper)
+... or when a form element is **touched**, validate all or only the element value
 * create a state variable `touched` (object with names of form element touched) for example
 * handle `onTouch` on form element components and set `touched` with the name passed
 * check all errors or only for the form element `onValueChange`
 * check on each form group if the form element component is `touched` to set `canChangeValidationState`
 
-... or specific scenario
-
+... other scenarios
 
 ## Lib examples
 
