@@ -157,7 +157,7 @@ canChangeValidationState | `boolean` (false by default)
 renderFeedback | `boolean` (false by default) 
 renderSuccess | `boolean` (false by default) 
 className | `form-group` by default
-errorClassName: `has-error` by default
+errorClassName | `has-error` by default
 successClassName | `has-success` by default
 feedbackClassName | `has-feedback` by default
 errorFeedbackClassName | `glyphicon glyphicon-remove form-control-feedback` by default
