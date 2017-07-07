@@ -238,8 +238,8 @@ props | description | type | default | required
 name | form element name | `string` | / | `yes`
 value | the value to display | `string` or `number` (for input type number and range) | / | `no`
 type | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) | `string` | `text` | `no`
-onValueChange | `no`tifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and current `value` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 
 Shortcuts:
 * _Text_
@@ -286,8 +286,8 @@ props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | form element name | `string` | / | `yes`
 value | the password | `string` | / | `no`
-onValueChange | `no`tifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and current `value` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 renderEye | allow to render eye and show password | `boolean` | `true` | `no` 
 
 _Example:_
@@ -314,8 +314,8 @@ props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | form element name | `string` | / | `yes`
 checked | allow to check the checkbox | `boolean` | `false` | `no`
-onValueChange | `no`tifcation with with form element `name` and `checked` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and `checked` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 
 _Example:_
 
@@ -331,8 +331,8 @@ name | form element name | `string` | / | `yes`
 dataSource | all values  (example: ['a','b','c']) | `array` | / | `yes`
 values | checked values (example: ['a','c']) | `array` | / | `yes`
 renderFunction | allow to `customize rendering` | `func` | / | `no`
-onValueChange | `no`tifcation with with form element `name` and current `values` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and current `values` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 
 _Example:_
 
@@ -348,8 +348,8 @@ name | form element name | `string` | / | `yes`
 dataSource | all values  (example: ['a','b','c']) | `array` | / | `yes`
 value | checked value (example: 'a') | `string` | / | `no`
 renderFunction | allow to `customize rendering` | `func` | / | `no`
-onValueChange | `no`tifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and current `value` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 
 _Example:_
 
@@ -364,8 +364,8 @@ props | description | type | default | required
 name | form element name | `string` | / | `yes`
 dataSource | all values  (example: ['a','b','c']) | `array` | / | `yes`
 value | selected value (example: 'a') | `string` | / | `no`
-onValueChange | `no`tifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and current `value` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 
 _Example:_
 
@@ -380,8 +380,8 @@ props | description | type | default | required
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | form element name | `string` | / | `yes`
 value | the value to display | `string` | / | `no`
-onValueChange | `no`tifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | `no`tification on touch / blur with form element `name` | `func` | / | `no`
+onValueChange | noifcation with with form element `name` and current `value` | `func` | / | `no`
+onTouch | noification on touch / blur with form element `name` | `func` | / | `no`
 
 _Example:_
 
