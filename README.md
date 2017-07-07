@@ -79,16 +79,6 @@ validateProperty
 _Example:_
 
 ```js
-let model = {
-    firstname: '',
-    lastname: ''
-};
-
-let validations = {
- firstname: [required('Firstname required')],
- lastname: [required('Lastname required')]
-};
-
 let error = ValidationHelper.validateProperty(model, 'lastname', validations);
 // error => 'Lastname required'
 ```
@@ -98,18 +88,6 @@ validateAll
 _Example:_
 
 ```js
-let model = {
-    firstname: '',
-    lastname: ''
-};
-
-let validations = {
- firstname: [required('Firstname required')],
- lastname: [required('Lastname required')]
-};
-
-let value = model['lastname'];
-
 let errors = ValidationHelper.validateAll(model,validations);
 // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}
 ```
