@@ -143,7 +143,7 @@ _Example:_
 
 ### FormGroup and CompleteFormGroup
 
-* **CompleteFormGroup** can show error, success and feedback
+**CompleteFormGroup** can show error, success and feedback
 
 * The **error message** is displayed (in a `span`) if **canChangeValidationState** is **true** and **error** is defined
 * If **renderFeedback** is **true** (false by default) a **span with a glyphicon** remove is displayed
@@ -166,7 +166,8 @@ errorFeedbackClassName | class with icon added on span that displays feedback on
 successFeedbackClassName | class with icon added on span that displays feedback on success | string | glyphicon glyphicon-ok form-control-feedback
 errorSpanClassName | class added to span that displays error message | string | help-block
 
-* **FormGroup** can only show error
+
+**FormGroup** can only show error
 
 props | description | type | default
 -------- |  -------- |  -------- |  -------- 
