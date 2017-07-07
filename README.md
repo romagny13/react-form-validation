@@ -364,8 +364,6 @@ _Example:_
 
 ### Reset
 
-The submit button is disabled (+ className added `disabled`) if have errors
-
 Props | Description
 -------- |  -------- 
 initialState | the initial state (`object`) of the form (with model, errors, etc.)
