@@ -1,6 +1,6 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "React Form Binding and Validation",
   "main": "dist/react-form-validation.min.js",
   "files": [
@@ -34,6 +34,7 @@
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.0.2",
+    "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
     "eslint": "^4.1.1",
     "eslint-plugin-import": "^2.7.0",
@@ -45,6 +46,7 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.4.2",
     "react-test-renderer": "^15.6.1",
+    "style-loader": "^0.18.2",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
   },

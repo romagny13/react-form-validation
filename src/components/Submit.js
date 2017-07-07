@@ -12,7 +12,7 @@ export class Submit extends Component {
     }
 
     render() {
-        let baseClassName = this.rest.className;
+        let baseClassName = this.rest.className ? this.rest.className : '';
         let disabledClassName = 'disabled';
 
         let disabled = this.props.errors && Object.keys(this.props.errors).length > 0;
@@ -32,9 +32,5 @@ export class Submit extends Component {
     }
 }
 Submit.propTypes = {
-    errors: PropTypes.object,
-    className: PropTypes.string
-};
-Submit.defaultProps = {
-    className: 'btn btn-default'
+    errors: PropTypes.object
 };

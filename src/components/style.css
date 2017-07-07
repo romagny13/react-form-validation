@@ -1,0 +1,4 @@
+.hide-ms-eye::-ms-clear,
+.hide-ms-eye::-ms-reveal {
+    display: none;
+}

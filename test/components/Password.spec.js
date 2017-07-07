@@ -15,10 +15,11 @@ describe('Password', () => {
 
         let input = wrapper.find('input');
 
-        assert.equal('<input type="password" value="" name="my-field"/>', input.html());
+        assert.equal('<input type="password" value="" style="position:relative;width:100%;" name="my-field" class="hide-ms-eye"/>', input.html());
+        assert.isFalse(wrapper.find('a').exists());
     });
 
-    it('Should render with value', () => {
+    it('Should render with value show eye', () => {
         let props = {
             name: 'my-field',
             value: 'my value'
@@ -27,7 +28,47 @@ describe('Password', () => {
 
         let input = wrapper.find('input');
 
-        assert.equal('<input type="password" value="my value" name="my-field"/>', input.html());
+        assert.equal('<input type="password" value="my value" style="position:relative;width:100%;" name="my-field" class="hide-ms-eye"/>', input.html());
+        assert.isTrue(wrapper.find('a').exists());
+    });
+
+    it('Should not render eye if renderEye is false', () => {
+        let props = {
+            name: 'my-field',
+            value: 'my value',
+            renderEye: false,
+        };
+        const wrapper = shallow(<Password  {...props} />);
+
+        assert.equal('<input type="password" value="my value" name="my-field"/>', wrapper.html());
+    });
+
+    it('Should change type on mouse down on eye', () => {
+        let props = {
+            name: 'my-field',
+            value: 'my value'
+        };
+
+        const wrapper = shallow(<Password  {...props} />);
+
+        let input = wrapper.find('input');
+
+        assert.equal( '<input type="password" value="my value" style="position:relative;width:100%;" name="my-field" class="hide-ms-eye"/>', input.html());
+
+        let event = {
+            preventDefault: function () { }
+        };
+
+        let a = wrapper.find('a');
+        a.simulate('click', event);
+
+        input = wrapper.find('input');
+        assert.equal('<input type="text" value="my value" style="position:relative;width:100%;" name="my-field" class="hide-ms-eye"/>', input.html());
+
+        a.simulate('click', event);
+
+        input = wrapper.find('input');
+        assert.equal('<input type="password" value="my value" style="position:relative;width:100%;" name="my-field" class="hide-ms-eye"/>', input.html());
     });
 
     it('Should notify on value change', (done) => {

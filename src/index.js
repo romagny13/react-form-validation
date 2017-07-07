@@ -1,7 +1,10 @@
+import './components/style.css';
+
 export * from './common/validations';
 export { omit, extend, clone } from './common/util';
 export * from './common/FormHelper';
 export * from './common/ValidationHelper';
+export * from './components/CompleteFormGroup';
 export * from './components/Color';
 export * from './components/Checkbox';
 export * from './components/CheckboxGroup';

@@ -12,11 +12,13 @@ describe('Submit', () => {
             errors: {}
         };
         const wrapper = shallow(<Submit  {...props} />);
-        assert.equal('<input type="submit" class="btn btn-default"/>', wrapper.html());
+        assert.equal('<input type="submit" class=""/>', wrapper.html());
     });
 
     it('Should disabled with error undefined', () => {
-        let props = {};
+        let props = {
+            className:'btn btn-default'
+        };
         const wrapper = shallow(<Submit  {...props} />);
         assert.equal('<input type="submit" class="btn btn-default"/>', wrapper.html());
     });
@@ -25,7 +27,8 @@ describe('Submit', () => {
         let props = {
             errors: {
                 firsname: 'Tis field is required'
-            }
+            },
+             className:'btn btn-default'
         };
         const wrapper = shallow(<Submit  {...props} />);
         assert.equal('<input type="submit" disabled="" class="btn btn-default disabled"/>', wrapper.html());

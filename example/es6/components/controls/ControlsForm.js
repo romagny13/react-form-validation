@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
     Form,
+    CompleteFormGroup,
     FormGroup,
     Label,
     Text,
@@ -24,35 +25,35 @@ const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitt
     return (
         <Form onSubmit={onSubmit}>
 
-            <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CompleteFormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
                 <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
                 <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CompleteFormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
                 <Label htmlFor="lastname" className="control-label">Lastname</Label>
                 <Text id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} className="form-control" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CompleteFormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess>
                 <Label htmlFor="password" className="control-label" asterisk>Password</Label>
                 <Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CompleteFormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess>
                 <Label htmlFor="confirmPassword" className="control-label" asterisk>Confirm password</Label>
                 <Password id="confirmPassword" name="confirmPassword" value={model["confirmPassword"]} onValueChange={onValueChange} className="form-control" placeholder="Confirm password" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CompleteFormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
                 <Label htmlFor="email" className="control-label">Email</Label>
                 <Email name="email" value={model["email"]} onValueChange={onValueChange} className="form-control" placeholder="example@domain.com" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CompleteFormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
                 <Label htmlFor="age" className="control-label" asterisk>Age</Label>
                 <Number id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
-            </FormGroup>
+            </CompleteFormGroup>
 
             <FormGroup error={errors["file"]} canChangeValidationState={submitted}>
                 <Label htmlFor="file" className="control-label" asterisk>File</Label>
@@ -83,9 +84,9 @@ const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitt
                 <div className="checkbox"><Label asterisk><Checkbox name="agree" checked={model['agree']} onValueChange={onValueChange} />Agree to conditions</Label></div>
             </FormGroup>
 
-            <Submit value="Submit" errors={errors} />
+            <Submit value="Submit" errors={errors} className="btn btn-default" />
 
-            <Reset value="Reset" initialState={initialState} onReset={onReset} />
+            <Reset value="Reset" initialState={initialState} onReset={onReset} className="btn btn-warning" />
 
             <hr />
             <pre>

@@ -26,9 +26,5 @@ export class Reset extends Component {
 }
 Reset.propTypes = {
     initialState: PropTypes.object.isRequired,
-    onReset: PropTypes.func.isRequired,
-    className: PropTypes.string
-};
-Reset.defaultProps = {
-    className: 'btn btn-warning'
+    onReset: PropTypes.func.isRequired
 };

@@ -3,13 +3,13 @@ import { assert } from 'chai';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { FormGroup } from '../../src/index';
+import { CompleteFormGroup } from '../../src/index';
 
-describe('FormGroup', () => {
+describe('CompleteFormGroup', () => {
 
     it('Should render without error and success', () => {
         let props = {};
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
         assert.isTrue(div.hasClass('form-group'));
         assert.isFalse(div.hasClass('has-feedback'));
@@ -24,7 +24,7 @@ describe('FormGroup', () => {
         let props = {
             error: 'my error'
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group"></div>', div.html());
@@ -37,7 +37,7 @@ describe('FormGroup', () => {
             canChangeValidationState: false,
             error: 'my error'
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group"></div>', div.html());
@@ -48,7 +48,7 @@ describe('FormGroup', () => {
             canChangeValidationState: true,
             error: 'my error'
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group has-error"><span class="help-block">my error</span></div>', div.html());
@@ -60,7 +60,7 @@ describe('FormGroup', () => {
         let props = {
             renderSuccess: true
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group"></div>', div.html());
@@ -71,7 +71,7 @@ describe('FormGroup', () => {
             canChangeValidationState: false,
             renderSuccess: true
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group"></div>', div.html());
@@ -82,7 +82,7 @@ describe('FormGroup', () => {
             canChangeValidationState: true,
             renderSuccess: true
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group has-success"></div>', div.html());
@@ -96,7 +96,7 @@ describe('FormGroup', () => {
             renderFeedback: true,
             error: 'my error'
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group has-error has-feedback"><span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span><span class="help-block">my error</span></div>', div.html());
@@ -108,7 +108,7 @@ describe('FormGroup', () => {
             renderFeedback: true,
             renderSuccess: true
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group has-success has-feedback"><span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span></div>', div.html());
@@ -128,7 +128,7 @@ describe('FormGroup', () => {
             successFeedbackClassName: 'my-success-feedback',
             errorSpanClassName: 'my-help-block'
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group my-error my-feedback"><span class="my-error-feedback" aria-hidden="true"></span><span class="my-help-block">my error</span></div>', div.html());
@@ -146,7 +146,7 @@ describe('FormGroup', () => {
             successFeedbackClassName: 'my-success-feedback',
             errorSpanClassName: 'my-help-block'
         };
-        const wrapper = shallow(<FormGroup  {...props} />);
+        const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
         assert.equal('<div class="form-group my-success my-feedback"><span class="my-success-feedback" aria-hidden="true"></span></div>', div.html());

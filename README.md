@@ -1,4 +1,4 @@
-# React Form Validation (v0.5)
+# React Form Validation (v0.6)
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
@@ -33,11 +33,11 @@ Components: allow to bind value and notify on value change (onValueChange) and o
     * _Text_
     * _Email_
     * _Search_
-    * _Password_
     * _File_
     * _Number_
     * _Range_
     * _Color_
+* **Password**: input type type password with eye component (allow to show password)
 * **Checkbox**: _checked_
 * **CheckboxGroup**: _dataSource_ + _values_. Its possible to use a custom **renderFunction**
 * **RadioGroup**: _dataSource_ + _value_. Its possible to use a custom **renderFunction**
@@ -141,7 +141,9 @@ _Example:_
 </Form >
 ```
 
-### FormGroup
+### FormGroup and CompleteFormGroup
+
+* **CompleteFormGroup** can show error, success and feedback
 
 * The **error message** is displayed (in a `span`) if **canChangeValidationState** is **true** and **error** is defined
 * If **renderFeedback** is **true** (false by default) a **span with a glyphicon** remove is displayed
@@ -150,19 +152,29 @@ _Example:_
 * _2 states_ with _no renderSuccess_: "normal" and "error"
 * _3 states_ with _renderSuccess_: "start", "error" and "success"
 
-Props | Description
--------- |  -------- 
-error | the error message
-canChangeValidationState | `boolean` (false by default) 
-renderFeedback | `boolean` (false by default) 
-renderSuccess | `boolean` (false by default) 
-className | `form-group` by default
-errorClassName | `has-error` by default
-successClassName | `has-success` by default
-feedbackClassName | `has-feedback` by default
-errorFeedbackClassName | `glyphicon glyphicon-remove form-control-feedback` by default
-successFeedbackClassName | `glyphicon glyphicon-ok form-control-feedback` by default
-errorSpanClassName | `help-block` by default
+props | description | type | default
+-------- |  -------- |  -------- |  -------- 
+error | the error message | string | /
+canChangeValidationState | allow display error / success / feedback | boolean | false
+renderFeedback | render feedback if true | boolean | false
+renderSuccess | render success if true | boolean | false
+className | group class name | string | form-group
+errorClassName | class added on group div with error | string | has-error
+successClassName | class added on group div with success | string | has-success
+feedbackClassName | class added on group div with feedback | string | has-feedback
+errorFeedbackClassName | class with icon added on span that displays feedback on error | string | glyphicon glyphicon-remove form-control-feedback
+successFeedbackClassName | class with icon added on span that displays feedback on success | string | glyphicon glyphicon-ok form-control-feedback
+errorSpanClassName | class added to span that displays error message | string | help-block
+
+* **FormGroup** can only show error
+
+props | description | type | default
+-------- |  -------- |  -------- |  -------- 
+error | the error message | string | /
+canChangeValidationState | allow display error / success / feedback | boolean | false
+className | group class name | string | form-group
+errorClassName | class added on group div with error | string | has-error
+errorSpanClassName | class added to span that displays error message | string | help-block
 
 _Examples:_
 
@@ -170,13 +182,13 @@ _Examples:_
  <FormGroup error={errors["firstname"]} canChangeValidationState={submitted}>
     <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
     <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
-</FormGroup>
+</CompleteFormGroup>
 ```
 
 With _feedback_ and _success_
 
 ```xml
- <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+ <CompleteFormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
     <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
     <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
 </FormGroup>
@@ -185,7 +197,7 @@ With _feedback_ and _success_
 With _no error_ displayed
 
 ```xml
-<FormGroup>
+<CompleteFormGroup>
     <Label>Note</Label>
     <TextArea name="note" value={model["note"]} onValueChange={onValueChange} className="form-control" rows="5" />
 </FormGroup>
@@ -195,10 +207,10 @@ With _no error_ displayed
 
 Allow to display an asterisk (*) for required field if **asterisk** is **true** 
 
-Props | Description
--------- |  -------- 
-asterisk | display asterisk (`false` by default)
-asteriskColor | `red` by default
+props | description | type | default
+-------- |  -------- |  -------- |  -------- 
+asterisk | allow to display asterisk | boolean | false
+asteriskColor | asterisk color | string | red
 
 _Example:_
 
@@ -220,19 +232,18 @@ With _asterisk_
 
 ### Input
 
-Props | Description
--------- |  -------- 
-name | form element name (required)
-value | `string` or `number` (for input type number and range)
-type | `text` (by default), `email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`
-onValueChange | notifcation with with form element `name` and current `value`
-onTouch | notification on touch / blur with form element `name`
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+value | the value to display | `string` or `number` (for input type number and range) | / | no
+type | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) | string | text | no
+onValueChange | notifcation with with form element `name` and current `value` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
 
 Shortcuts:
 * _Text_
 * _Email_
 * _Search_
-* _Password_
 * _File_
 * _Number_
 * _Range_
@@ -266,14 +277,44 @@ _Date_
 <Input type="date" id="date" name="date" value={model["date"]} onValueChange={onValueChange} className="form-control" />
 ```
 
+### Password
+
+An eye is visible if password is not empty. This eye allow to show password `on click` (change element type `password` to `text`)
+
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+value | the password | string | / | no
+onValueChange | notifcation with with form element `name` and current `value` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
+renderEye | allow to render eye and show password | boolean | true | no 
+
+_Example:_
+
+```xml
+<Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" />
+```
+
+Do not show eye
+
+```xml
+<Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" renderEye={false}/>
+```
+
+Change the style 
+
+```xml
+<Password style={{ display: 'inline-block' }} id="password" name="password" value={model["password"]} onValueChange={onValueChange} placeholder="Password" />
+```   
+
 ### Checkbox
 
-Props | Description
--------- |  -------- 
-name | form element name (required)
-checked | `false` by default
-onValueChange | notifcation with with form element `name` and `checked`
-onTouch | notification on touch / blur with form element `name`
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+checked | allow to check the checkbox | boolean | false | no
+onValueChange | notifcation with with form element `name` and `checked` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
 
 _Example:_
 
@@ -283,14 +324,14 @@ _Example:_
 
 ### CheckboxGroup
 
-Props | Description
--------- |  -------- 
-name | form elements name (required)
-dataSource | `array` (example: ['a','b','c'])
-values | values checked (example: ['a','c'])
-renderFunction | allow to `customize rendering`
-onValueChange | notifcation with with form element `name` and current `values` array 
-onTouch | notification on touch / blur with form element `name`
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+dataSource | all values  (example: ['a','b','c']) | array | / | yes
+values | checked values (example: ['a','c']) | array | / | yes
+renderFunction | allow to `customize rendering` | func | / | no
+onValueChange | notifcation with with form element `name` and current `values` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
 
 _Example:_
 
@@ -300,14 +341,14 @@ _Example:_
 
 ### RadioGroup
 
-Props | Description
--------- |  -------- 
-name | form elements name (required)
-dataSource | `array` (example: ['a','b','c'])
-value | value checked (example: 'a')
-renderFunction | allow to `customize rendering`
-onValueChange | notifcation with with form element `name` and current `value`
-onTouch | notification on touch / blur with form element `name`
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+dataSource | all values  (example: ['a','b','c']) | array | / | yes
+value | checked value (example: 'a') | string | / | no
+renderFunction | allow to `customize rendering` | func | / | no
+onValueChange | notifcation with with form element `name` and current `value` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
 
 _Example:_
 
@@ -317,13 +358,13 @@ _Example:_
 
 ### Select
 
-Props | Description
--------- |  -------- 
-name | form element name (required)
-dataSource | `array` (example: ['a','b','c'])
-value | value selected (example: 'a')
-onValueChange | notifcation with with form element `name` and current `value`
-onTouch | notification on touch / blur with form element `name`
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+dataSource | all values  (example: ['a','b','c']) | array | / | yes
+value | selected value (example: 'a') | string | / | no
+onValueChange | notifcation with with form element `name` and current `value` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
 
 _Example:_
 
@@ -334,12 +375,12 @@ _Example:_
 
 ### TextArea
 
-Props | Description
--------- |  -------- 
-name | form element name (required)
-value | `string`
-onValueChange | notifcation with with form element `name` and current `value`
-onTouch | notification on touch / blur with form element `name`
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+name | form element name | string | / | yes
+value | the value to display | string | / | no
+onValueChange | notifcation with with form element `name` and current `value` | func | / | no
+onTouch | notification on touch / blur with form element `name` | func | / | no
 
 _Example:_
 
@@ -351,23 +392,21 @@ _Example:_
 
 The submit button is disabled (+ className added `disabled`) if have errors
 
-Props | Description
--------- |  -------- 
-errors | the errors `object` (example: {} or undefined with no error and {firstname:'This field is required'})
-className | `btn btn-default` by default
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+errors | the errors (example: {} or undefined with no error and {firstname:'This field is required'}) | object | / | no
 
 _Example:_
 
 ```xml
-<Submit value="Submit" errors={errors} />
+<Submit value="Submit" errors={errors} className="btn btn-default" />
 ```
 
 ### Reset
 
-Props | Description
--------- |  -------- 
-initialState | the initial state (`object`) of the form (with model, errors, etc.)
-className | `btn btn-warning` by default
+props | description | type | default | required
+-------- |  -------- |  -------- |  -------- |  -------- 
+initialState | the initial state of the form (with model, errors, etc.) | object | / | no
 
 _Example:_
 
@@ -394,7 +433,7 @@ Initial State:
 ```
 
 ```xml
-<Reset value="Reset" initialState={initialState} onReset={onReset} />
+<Reset value="Reset" initialState={initialState} onReset={onReset} className="btn btn-warning" />
 ```
 handle on reset
 
@@ -403,6 +442,23 @@ handle on reset
     this.setState(initialState);
 }
 ```
+
+## Validation
+
+Its possible to validate all (with ValidationHelper) on **form Submission**:
+* create a state variable `submitted` (boolean) for example
+* handle `onSubmit` and set `submitted` to true on submit
+* check if is `submitted` `onValueChange` to validate all or only the form element value
+* check on each form group form is `submitted` to set `canChangeValidationState`
+
+... or on form element **touched** all or only the element value (with ValidationHelper)
+* create a state variable `touched` (object with names of form element touched) for example
+* handle `onTouch` on form element components and set `touched` with the name passed
+* check all errors or only for the form element `onValueChange`
+* check on each form group if the form element component is `touched` to set `canChangeValidationState`
+
+... or specific scenario
+
 
 ## Lib examples
 
@@ -510,67 +566,68 @@ const MyForm = ({ model, onSubmit, onReset, onValueChange, errors, submitted, in
     return (
         <Form onSubmit={onSubmit}>
 
-            <FormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="firstname" className="control-label">Firstname:</label>
+            <CompleteFormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+                <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
                 <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="lastname" className="control-label">Lastname:</label>
+            <CompleteFormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+                <Label htmlFor="lastname" className="control-label">Lastname</Label>
                 <Text id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} className="form-control" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="password" className="control-label">Password:</label>
+            <CompleteFormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess>
+                <Label htmlFor="password" className="control-label" asterisk>Password</Label>
                 <Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="confirmPassword" className="control-label">Confirm password:</label>
+            <CompleteFormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess>
+                <Label htmlFor="confirmPassword" className="control-label" asterisk>Confirm password</Label>
                 <Password id="confirmPassword" name="confirmPassword" value={model["confirmPassword"]} onValueChange={onValueChange} className="form-control" placeholder="Confirm password" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="email" className="control-label">Email:</label>
+            <CompleteFormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+                <Label htmlFor="email" className="control-label">Email</Label>
                 <Email name="email" value={model["email"]} onValueChange={onValueChange} className="form-control" placeholder="example@domain.com" />
-            </FormGroup>
+            </CompleteFormGroup>
 
-            <FormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <label htmlFor="age" className="control-label">Age:</label>
+            <CompleteFormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+                <Label htmlFor="age" className="control-label" asterisk>Age</Label>
                 <Number id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
-            </FormGroup>
+            </CompleteFormGroup>
 
             <FormGroup error={errors["file"]} canChangeValidationState={submitted}>
+                <Label htmlFor="file" className="control-label" asterisk>File</Label>
                 <File name="file" value={model["file"]} onValueChange={onValueChange} accept="image/*" />
             </FormGroup>
 
             <FormGroup>
-                <label htmlFor="list" className="control-label">List (no validation):</label>
+                <Label htmlFor="list" className="control-label">List (no validation)</Label>
                 <Select name="list" dataSource={[1, 2, 3]} value={model['list']} onValueChange={onValueChange} className="form-control" />
             </FormGroup>
 
             <FormGroup error={errors["preference"]} canChangeValidationState={submitted}>
-                <label>Preference:</label>
+                <Label>Preference</Label>
                 <RadioGroup name="preference" dataSource={["a", "b", "c"]} value={model["preference"]} onValueChange={onValueChange} />
             </FormGroup>
 
             <FormGroup error={errors["likes"]} canChangeValidationState={submitted}>
-                <label>Like (multiple choice):</label>
+                <Label asterisk>Like (multiple choice)</Label>
                 <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={onValueChange} />
             </FormGroup>
 
             <FormGroup>
-                <label>Note:</label>
+                <Label>Note</Label>
                 <TextArea name="note" value={model["note"]} onValueChange={onValueChange} className="form-control" rows="5" />
             </FormGroup>
 
             <FormGroup error={errors["agree"]} canChangeValidationState={submitted}>
-                <div className="checkbox"><label><Checkbox name="agree" checked={model['agree']} onValueChange={onValueChange} />Agree to conditions</label></div>
+                <div className="checkbox"><Label asterisk><Checkbox name="agree" checked={model['agree']} onValueChange={onValueChange} />Agree to conditions</Label></div>
             </FormGroup>
 
-            <Submit value="Submit" errors={errors} />
+            <Submit value="Submit" errors={errors} className="btn btn-default" />
 
-            <Reset value="Reset" initialState={initialState} onReset={onReset} />
+            <Reset value="Reset" initialState={initialState} onReset={onReset} className="btn btn-warning" />
 
             <hr />
             <pre>
@@ -615,7 +672,7 @@ export default MyForm;
     <script src="../../dist/react-form-validation.min.js"></script>
     <script type="text/babel">
         var Form = ReactFormValidation.Form;
-        var FormGroup = ReactFormValidation.FormGroup;
+        var FormGroup = ReactFormValidation.CompleteFormGroup;
         var Input = ReactFormValidation.Input;
         var required = ReactFormValidation.required;
         var minlength = ReactFormValidation.minlength;
