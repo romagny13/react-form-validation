@@ -193,7 +193,7 @@ With _no error_ displayed
 
 ### Label
 
-Allow to display an asterisk (*) for require field if **asterisk** is **true** 
+Allow to display an asterisk (*) for required field if **asterisk** is **true** 
 
 Props | Description
 -------- |  -------- 
