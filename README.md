@@ -222,6 +222,7 @@ With _asterisk_
 
 Props | Description
 -------- |  -------- 
+name | form element name (required)
 value | `string` or `number` (for input type number and range)
 type | `text` (by default), `email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`
 onValueChange | notifcation with with form element `name` and current `value`
@@ -269,6 +270,7 @@ _Date_
 
 Props | Description
 -------- |  -------- 
+name | form element name (required)
 checked | `false` by default
 onValueChange | notifcation with with form element `name` and `checked`
 onTouch | notification on touch / blur with form element `name`
@@ -283,6 +285,7 @@ _Example:_
 
 Props | Description
 -------- |  -------- 
+name | form elements name (required)
 dataSource | `array` (example: ['a','b','c'])
 values | values checked (example: ['a','c'])
 renderFunction | allow to `customize rendering`
@@ -299,6 +302,7 @@ _Example:_
 
 Props | Description
 -------- |  -------- 
+name | form elements name (required)
 dataSource | `array` (example: ['a','b','c'])
 value | value checked (example: 'a')
 renderFunction | allow to `customize rendering`
@@ -315,6 +319,7 @@ _Example:_
 
 Props | Description
 -------- |  -------- 
+name | form element name (required)
 dataSource | `array` (example: ['a','b','c'])
 value | value selected (example: 'a')
 onValueChange | notifcation with with form element `name` and current `value`
@@ -331,6 +336,7 @@ _Example:_
 
 Props | Description
 -------- |  -------- 
+name | form element name (required)
 value | `string`
 onValueChange | notifcation with with form element `name` and current `value`
 onTouch | notification on touch / blur with form element `name`
