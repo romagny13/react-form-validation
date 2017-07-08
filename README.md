@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
+## Installation
 
 ```
 npm i romagny13-react-form-validation -S
@@ -20,6 +21,8 @@ Import
 ```js
 import '../node_modules/font-awesome/css/font-awesome.css';
 ```
+
+## Presentation
 
 Helpers: allow to validate simple form (without components or with other component framework )
 * **Validations**: 
