@@ -248,11 +248,11 @@ With _asterisk_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-value | `string` or `number` (for input type number and range) | | `no` | the value to display
-type | `string` | `text` | `no` | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) 
-onValueChange | `func` | | `no` | notifcation with with form element `name` and current `value`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+value | `string` or `number` (for input type number and range) | |  | the value to display
+type | `string` | `text` |  | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) 
+onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 
 Shortcuts:
 * _Text_
@@ -297,10 +297,10 @@ An eye is visible if password is not empty. This eye allow to show password `on 
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-value | `string` | | `no` | the password
-onValueChange | `func` | | `no` | notifcation with with form element `name` and current `value`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+value | `string` | |  | the password
+onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 renderEye | `boolean` | `true` | `no`  | allow to render eye and show password
 
 _Example:_
@@ -325,10 +325,10 @@ Change the style
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-checked | `boolean` | `false` | `no` | allow to check the checkbox
-onValueChange | `func` | | `no` | notifcation with with form element `name` and `checked`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+checked | `boolean` | `false` |  | allow to check the checkbox
+onValueChange | `func` | |  | notifcation with with form element `name` and `checked`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -340,12 +340,12 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-dataSource | `array` | | `yes` | all values  (example: ['a','b','c'])
-values  | `array` | | `yes` | checked values (example: ['a','c'])
-renderFunction | `func` | | `no` | allow to `customize rendering`
-onValueChange | `func` | | `no` | notifcation with with form element `name` and current `values`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+dataSource | `array` | | X | all values  (example: ['a','b','c'])
+values  | `array` | | X | checked values (example: ['a','c'])
+renderFunction | `func` | |  | allow to `customize rendering`
+onValueChange | `func` | |  | notifcation with with form element `name` and current `values`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -357,12 +357,12 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-dataSource | `array` | | `yes` | all values  (example: ['a','b','c'])
-value | `string` | | `no` | checked value (example: 'a')
-renderFunction | `func` | | `no` | allow to `customize rendering`
-onValueChange | `func` | | `no` | notifcation with with form element `name` and current `value`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+dataSource | `array` | | X | all values  (example: ['a','b','c'])
+value | `string` | |  | checked value (example: 'a')
+renderFunction | `func` | |  | allow to `customize rendering`
+onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -374,11 +374,11 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-dataSource | `array` | | `yes` | all values  (example: ['a','b','c'])
-value | `string` | | `no` | selected value (example: 'a')
-onValueChange | `func` | | `no` | notifcation with with form element `name` and current `value`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+dataSource | `array` | | X | all values  (example: ['a','b','c'])
+value | `string` | |  | selected value (example: 'a')
+onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -391,10 +391,10 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | `yes` | form element name
-value | `string` | | `no` | the value to display
-onValueChange | `func` | | `no` | notifcation with with form element `name` and current `value`
-onTouch | `func` | | `no` | notification on touch / blur with form element `name`
+name | `string` | | X | form element name
+value | `string` | |  | the value to display
+onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
+onTouch | `func` | |  | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -408,7 +408,7 @@ The submit button is disabled (+ className added `disabled`) if have errors
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-errors | `object` | | `no` | the errors (example: {} or undefined with no error and {firstname:'This field is required'})
+errors | `object` | |  | the errors (example: {} or undefined with no error and {firstname:'This field is required'})
 
 _Example:_
 
@@ -420,7 +420,7 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-initialState | `object` | | `no` | the initial state of the form (with model, errors, etc.)
+initialState | `object` | |  | the initial state of the form (with model, errors, etc.)
 
 _Example:_
 
