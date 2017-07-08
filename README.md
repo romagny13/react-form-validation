@@ -55,7 +55,7 @@ Require **Font Awesome**. With a `cdn`:
 ```xml
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 ```
-... Or with `Webpack` (+ css loader):
+... Or with `Webpack` (+ `css-loader`):
 ```
 npm i font-awesome -S
 ```
