@@ -246,7 +246,7 @@ With _asterisk_
 
 ### Input
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 value | `string` or `number` (for input type number and range) | | `no` | the value to display
@@ -295,7 +295,7 @@ _Date_
 
 An eye is visible if password is not empty. This eye allow to show password `on click` (change element type `password` to `text`)
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 value | `string` | | `no` | the password
@@ -323,7 +323,7 @@ Change the style
 
 ### Checkbox
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 checked | `boolean` | `false` | `no` | allow to check the checkbox
@@ -338,7 +338,7 @@ _Example:_
 
 ### CheckboxGroup
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 dataSource | `array` | | `yes` | all values  (example: ['a','b','c'])
@@ -355,7 +355,7 @@ _Example:_
 
 ### RadioGroup
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 dataSource | `array` | | `yes` | all values  (example: ['a','b','c'])
@@ -372,7 +372,7 @@ _Example:_
 
 ### Select
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 dataSource | `array` | | `yes` | all values  (example: ['a','b','c'])
@@ -389,7 +389,7 @@ _Example:_
 
 ### TextArea
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 name | `string` | | `yes` | form element name
 value | `string` | | `no` | the value to display
@@ -406,7 +406,7 @@ _Example:_
 
 The submit button is disabled (+ className added `disabled`) if have errors
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 errors | `object` | | `no` | the errors (example: {} or undefined with no error and {firstname:'This field is required'})
 
@@ -418,7 +418,7 @@ _Example:_
 
 ### Reset
 
-props | type | default | | required | description 
+props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
 initialState | `object` | | `no` | the initial state of the form (with model, errors, etc.)
 
