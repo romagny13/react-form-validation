@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FormGroupHelper } from '../common/FormGroupHelper';
+import { HelpBlock } from './HelpBlock';
+
 
 export const CompleteFormGroup = ({
     children,
@@ -14,8 +16,7 @@ export const CompleteFormGroup = ({
     errorFeedbackClassName,
     successFeedbackClassName,
     errorClassName,
-    successClassName,
-    errorSpanClassName
+    successClassName
 }) => {
     // 2 states with no renderSuccess: "normal" and "error"
     // 3 states with renderSuccess: "start", "error" and "success"
@@ -29,8 +30,8 @@ export const CompleteFormGroup = ({
             <div className={groupClassName}>
                 {children}
                 {renderFeedback && hasError && <span className={errorFeedbackClassName} aria-hidden="true" />}
-                {renderFeedback && renderSuccess && <span className={successFeedbackClassName} aria-hidden="true" />}
-                {hasError ? <span className={errorSpanClassName}>{error}</span> : null}
+                {renderFeedback && renderSuccess && hasSuccess && <span className={successFeedbackClassName} aria-hidden="true" />}
+                {hasError && <HelpBlock>{error}</HelpBlock>}
             </div>
         );
     }
@@ -53,8 +54,7 @@ CompleteFormGroup.propTypes = {
     errorFeedbackClassName: PropTypes.string,
     successFeedbackClassName: PropTypes.string,
     errorClassName: PropTypes.string,
-    successClassName: PropTypes.string,
-    errorSpanClassName: PropTypes.string
+    successClassName: PropTypes.string
 };
 CompleteFormGroup.defaultProps = {
     canChangeValidationState: false,
@@ -64,7 +64,6 @@ CompleteFormGroup.defaultProps = {
     errorClassName: 'has-error',
     successClassName: 'has-success',
     feedbackClassName: 'has-feedback',
-    errorFeedbackClassName: 'glyphicon glyphicon-remove form-control-feedback',
-    successFeedbackClassName: 'glyphicon glyphicon-ok form-control-feedback',
-    errorSpanClassName: 'help-block'
+    errorFeedbackClassName: 'fa fa-times feedback',
+    successFeedbackClassName: 'fa fa-check feedback',
 };

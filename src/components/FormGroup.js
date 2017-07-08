@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { HelpBlock } from './HelpBlock';
+
 export const FormGroup = ({
     children,
     error,
     canChangeValidationState,
     className,
-    errorClassName,
-    errorSpanClassName
+    errorClassName
 }) => {
     if (canChangeValidationState) {
         let hasError = typeof error != 'undefined' ? true : false;
@@ -15,7 +16,7 @@ export const FormGroup = ({
         return (
             <div className={groupClassName}>
                 {children}
-                {hasError ? <span className={errorSpanClassName}>{error}</span> : null}
+                {hasError && <HelpBlock>{error}</HelpBlock>}
             </div>
         );
     }
@@ -32,12 +33,10 @@ FormGroup.propTypes = {
     canChangeValidationState: PropTypes.bool,
     error: PropTypes.string,
     className: PropTypes.string,
-    errorClassName: PropTypes.string,
-    errorSpanClassName: PropTypes.string
+    errorClassName: PropTypes.string
 };
 FormGroup.defaultProps = {
     canChangeValidationState: false,
     className: 'form-group',
-    errorClassName: 'has-error',
-    errorSpanClassName: 'help-block'
+    errorClassName: 'has-error'
 };

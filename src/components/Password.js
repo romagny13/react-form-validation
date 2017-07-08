@@ -11,7 +11,8 @@ export class Password extends FormElement {
         super(props);
 
         this.state = {
-            elementType: 'password'
+            elementType: 'password',
+            eyeClosed: false
         };
 
         this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value', 'renderEye', 'type']);
@@ -46,10 +47,9 @@ export class Password extends FormElement {
 
     onEyeClick(event) {
         event.preventDefault();
-        
-        this.setState({
-            elementType: this.state.elementType === 'password' ? 'text': 'password'
-        });
+
+        let state = this.state.elementType === 'password' ? { elementType: 'text', eyeClosed: true } : { elementType: 'password', eyeClosed: false };
+        this.setState(state);
     }
 
     render() {
@@ -61,7 +61,7 @@ export class Password extends FormElement {
                     <input type={this.state.elementType} value={value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} style={{ position: 'relative', width: '100%' }} {...this.rest} />
                     {displayEye &&
                         <a href style={this.eyeLinkStyle} onClick={this.onEyeClick}>
-                            <Eye />
+                            <Eye closed={this.state.eyeClosed} />
                         </a>}
                 </div >
             );

@@ -6,6 +6,7 @@ import {
     CompleteFormGroup,
     FormGroup,
     Label,
+    FontIcon,
     Text,
     Checkbox,
     Email,
@@ -25,10 +26,11 @@ const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitt
     return (
         <Form onSubmit={onSubmit}>
 
-            <CompleteFormGroup error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <FormGroup className={submitted ? errors['firstname'] ? 'form-group has-success has-feedback' : 'form-group has-error has-feedback' : 'form-group'} error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
                 <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
                 <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
-            </CompleteFormGroup>
+                {submitted && <FontIcon iconName={errors["firstname"] ? "times" : "check"} className="feedback" />}
+            </FormGroup>
 
             <CompleteFormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
                 <Label htmlFor="lastname" className="control-label">Lastname</Label>

@@ -2,8 +2,23 @@
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
+
 ```
 npm i romagny13-react-form-validation -S
+```
+Require `Font Awesome`. 
+
+With a cdn:
+```xml
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+```
+Or with Webpack (and css loader):
+```
+npm i font-awesome -S
+```
+Import
+```js
+import '../node_modules/font-awesome/css/font-awesome.css';
 ```
 
 Helpers: allow to validate simple form (without components or with other component framework )
@@ -46,6 +61,7 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 * **FormGroup**: allow to show error, success, feedback (classNames based on Bootstrap: has-error, has-feedback, etc.) if **canChangeValidationState** is true and customize all class names
 * **Form**: Form with noValidate by default
 * **Label**: allow to display _asterisk_ for required field
+* **FontIcon**: allow to show an icon (Font Awesome) by name (example: for 'fa fa-check', set the iconName to 'check')
 * **Submit**: can be disabled if has errors (pass _errors_)
 * **Reset**: clone _initialState_ (form model, errors, etc.) and pass inital state **onReset**
 
@@ -152,30 +168,29 @@ _Example:_
 * _2 states_ with _no renderSuccess_: "normal" and "error"
 * _3 states_ with _renderSuccess_: "start", "error" and "success"
 
-props | description | type | default
+props | type | default | description 
 -------- |  -------- |  -------- |  -------- 
-error | the error message | `string` | /
-canChangeValidationState | allow display error / success / feedback | `boolean` | `false`
-renderFeedback | render feedback if true | `boolean` | `false`
-renderSuccess | render success if true | `boolean` | `false`
-className | group class name | `string` | `form-group`
-errorClassName | class added on group div with error | `string` | `has-error`
-successClassName | class added on group div with success | `string` | `has-success`
-feedbackClassName | class added on group div with feedback | `string` | `has-feedback`
-errorFeedbackClassName | class with icon added on span that displays feedback on error | `string` | `glyphicon glyphicon-remove form-control-feedback`
-successFeedbackClassName | class with icon added on span that displays feedback on success | `string` | `glyphicon glyphicon-ok form-control-feedback`
-errorSpanClassName | class added to span that displays error message | `string` | `help-block`
+error | `string` | / | the error message 
+canChangeValidationState | `boolean` | `false` | allow display error / success / feedback 
+renderFeedback  | `boolean` | `false` | render feedback if true
+renderSuccess | `boolean` | `false` | render success if true
+className | `string` | `form-group` | group class name
+errorClassName | `string` | `has-error` | class added on group div with error
+successClassName | `string` | `has-success` | class added on group div with success
+feedbackClassName | `string` | `has-feedback` | class added on group div with feedback
+errorFeedbackClassName | `string` | `fa fa-times feedback` * | class with font icon added on span that displays feedback on error
+successFeedbackClassName  | `string` | `fa fa-check feedback` * | class with icon added on span that displays feedback on success
 
+_*: Use Font Awesome_
 
 **FormGroup** allow to show error
 
-props | description | type | default
+props | type | default | description 
 -------- |  -------- |  -------- |  -------- 
-error | the error message | `string` | /
-canChangeValidationState | allow display error / success / feedback | `boolean` | `false`
-className | group class name | `string` | `form-group`
-errorClassName | class added on group div with error | `string` | `has-error`
-errorSpanClassName | class added to span that displays error message | `string` | `help-block`
+error | `string` | / | the error message
+canChangeValidationState | `boolean` | `false` | allow display error / success / feedback
+className | `string` | `form-group` | group class name
+errorClassName | `string` | `has-error` | class added on group div with error
 
 _Examples:_
 
@@ -208,10 +223,10 @@ With _no error_ displayed
 
 Allow to display an asterisk (*) for required field if **asterisk** is **true** 
 
-props | description | type | default
+props | type | default | description 
 -------- |  -------- |  -------- |  -------- 
-asterisk | allow to display asterisk | `boolean` | `false`
-asteriskColor | asterisk color | `string` | `red`
+asterisk  | `boolean` | `false` | allow to display asterisk
+asteriskColor | `string` | `red` | asterisk color
 
 _Example:_
 
@@ -233,13 +248,13 @@ With _asterisk_
 
 ### Input
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-value | the value to display | `string` or `number` (for input type number and range) | / | `no`
-type | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) | `string` | `text` | `no`
-onValueChange | notifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
+name | `string` | / | `yes` | form element name
+value | `string` or `number` (for input type number and range) | / | `no` | the value to display
+type | `string` | `text` | `no` | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) 
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and current `value`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
 
 Shortcuts:
 * _Text_
@@ -282,13 +297,13 @@ _Date_
 
 An eye is visible if password is not empty. This eye allow to show password `on click` (change element type `password` to `text`)
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-value | the password | `string` | / | `no`
-onValueChange | notifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
-renderEye | allow to render eye and show password | `boolean` | `true` | `no` 
+name | `string` | / | `yes` | form element name
+value | `string` | / | `no` | the password
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and current `value`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
+renderEye | `boolean` | `true` | `no`  | allow to render eye and show password
 
 _Example:_
 
@@ -310,12 +325,12 @@ Change the style
 
 ### Checkbox
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-checked | allow to check the checkbox | `boolean` | `false` | `no`
-onValueChange | notifcation with with form element `name` and `checked` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
+name | `string` | / | `yes` | form element name
+checked | `boolean` | `false` | `no` | allow to check the checkbox
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and `checked`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -325,14 +340,14 @@ _Example:_
 
 ### CheckboxGroup
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-dataSource | all values  (example: ['a','b','c']) | `array` | / | `yes`
-values | checked values (example: ['a','c']) | `array` | / | `yes`
-renderFunction | allow to `customize rendering` | `func` | / | `no`
-onValueChange | notifcation with with form element `name` and current `values` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
+name | `string` | / | `yes` | form element name
+dataSource | `array` | / | `yes` | all values  (example: ['a','b','c'])
+values  | `array` | / | `yes` | checked values (example: ['a','c'])
+renderFunction | `func` | / | `no` | allow to `customize rendering`
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and current `values`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -342,14 +357,14 @@ _Example:_
 
 ### RadioGroup
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-dataSource | all values  (example: ['a','b','c']) | `array` | / | `yes`
-value | checked value (example: 'a') | `string` | / | `no`
-renderFunction | allow to `customize rendering` | `func` | / | `no`
-onValueChange | notifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
+name | `string` | / | `yes` | form element name
+dataSource | `array` | / | `yes` | all values  (example: ['a','b','c'])
+value | `string` | / | `no` | checked value (example: 'a')
+renderFunction | `func` | / | `no` | allow to `customize rendering`
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and current `value`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -359,13 +374,13 @@ _Example:_
 
 ### Select
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-dataSource | all values  (example: ['a','b','c']) | `array` | / | `yes`
-value | selected value (example: 'a') | `string` | / | `no`
-onValueChange | notifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
+name | `string` | / | `yes` | form element name
+dataSource | `array` | / | `yes` | all values  (example: ['a','b','c'])
+value | `string` | / | `no` | selected value (example: 'a')
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and current `value`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -376,12 +391,12 @@ _Example:_
 
 ### TextArea
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | form element name | `string` | / | `yes`
-value | the value to display | `string` | / | `no`
-onValueChange | notifcation with with form element `name` and current `value` | `func` | / | `no`
-onTouch | notification on touch / blur with form element `name` | `func` | / | `no`
+name | `string` | / | `yes` | form element name
+value | `string` | / | `no` | the value to display
+onValueChange | `func` | / | `no` | notifcation with with form element `name` and current `value`
+onTouch | `func` | / | `no` | notification on touch / blur with form element `name`
 
 _Example:_
 
@@ -393,9 +408,9 @@ _Example:_
 
 The submit button is disabled (+ className added `disabled`) if have errors
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-errors | the errors (example: {} or undefined with no error and {firstname:'This field is required'}) | `object` | / | `no`
+errors | `object` | / | `no` | the errors (example: {} or undefined with no error and {firstname:'This field is required'})
 
 _Example:_
 
@@ -405,9 +420,9 @@ _Example:_
 
 ### Reset
 
-props | description | type | default | required
+props | type | default | | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-initialState | the initial state of the form (with model, errors, etc.) | `object` | / | `no`
+initialState | `object` | / | `no` | the initial state of the form (with model, errors, etc.)
 
 _Example:_
 
@@ -653,7 +668,7 @@ MyForm.propTypes = {
 export default MyForm;
 ```
 
-## es5 Example
+## es5 Example (with validation on touch and submit)
 
 ```xml
 <!DOCTYPE html>
@@ -664,16 +679,21 @@ export default MyForm;
     <script src="https://unpkg.com/react@15.6.1/dist/react.min.js"></script>
     <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 </head>
 
 <body>
     <div id="app"></div>
+
     <script src="../../dist/react-form-validation.min.js"></script>
     <script type="text/babel">
         var Form = ReactFormValidation.Form;
         var FormGroup = ReactFormValidation.CompleteFormGroup;
+        var Label = ReactFormValidation.Label;
         var Input = ReactFormValidation.Input;
+        var Password = ReactFormValidation.Password;
         var required = ReactFormValidation.required;
         var minlength = ReactFormValidation.minlength;
         var ValidationHelper = ReactFormValidation.ValidationHelper;
@@ -685,21 +705,19 @@ export default MyForm;
                         firstname: 'Marie'
                     },
                     submitted: false,
-                    validations:{
-                        firstname:[required(), minlength()]
+                    validations: {
+                        firstname: [required(), minlength()],
+                        password: [required(), minlength(6)]
                     },
-                    errors:{},
+                    errors: {},
                     touched: {}
                 };
             },
-            onValueChange: function(name, value) {
-                console.log('value changed', name, value);
-
+            onValueChange: function (name, value) {
                 var model = this.state.model;
                 model[name] = value;
 
-                // with touch
-                if (this.state.touched[name]) {
+                if (this.state.submitted || this.state.touched[name]) {
                     var errors = ValidationHelper.validateAll(model, this.state.validations);
 
                     this.setState({
@@ -712,25 +730,8 @@ export default MyForm;
                         model
                     });
                 }
-
-                // with submitted
-                /*if (this.state.submitted) {
-                    var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
-
-                    this.setState({
-                        model,
-                        errors
-                    });
-                }
-                else {
-                    this.setState({
-                        model
-                    });
-                }*/
             },
-            onTouch : function (name){
-                console.log('touched', name);
-
+            onTouch: function (name) {
                 var touched = this.state.touched;
                 touched[name] = 'touched';
 
@@ -746,20 +747,31 @@ export default MyForm;
                 event.preventDefault();
 
                 var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
-                console.log('submitted', errors);
                 this.setState({
                     submitted: true,
                     errors: errors
                 });
             },
-            render: function() {
+            render: function () {
                 return (
                     <Form onSubmit={this.onSubmit.bind(this)}>
-                            <FormGroup error={this.state.errors["firstname"]} canChangeValidationState={this.state.touched["firstname"]} renderSuccess renderFeedback>
-                                <label htmlFor="firstname">Firstname:</label>
-                                <Input id="firstname" name="firstname" value={this.state.model.firstname} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
-                            </FormGroup>
+                        <FormGroup error={this.state.errors["firstname"]} canChangeValidationState={this.state.submitted || this.state.touched["firstname"]} renderSuccess renderFeedback>
+                            <Label htmlFor="firstname" asterisk>Firstname</Label>
+                            <Input id="firstname" name="firstname" value={this.state.model.firstname} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
+                        </FormGroup>
+                        <FormGroup error={this.state.errors["password"]} canChangeValidationState={this.state.submitted || this.state.touched["password"]} renderSuccess>
+                            <Label htmlFor="password" asterisk>Password</Label>
+                            <Password id="password" name="password" value={this.state.model.password} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
+                        </FormGroup>
                         <input className="btn btn-default" type="submit" value="Submit" />
+                        <hr />
+                        <pre>
+                            {JSON.stringify(this.state.model)}
+                        </pre>
+                        <hr />
+                        <pre>
+                            {JSON.stringify(this.state.errors)}
+                        </pre>
                     </Form>
                 );
             }

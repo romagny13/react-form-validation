@@ -10,6 +10,7 @@ export * from './components/Checkbox';
 export * from './components/CheckboxGroup';
 export * from './components/Email';
 export * from './components/File';
+export * from './components/FontIcon';
 export * from './components/FormElement';
 export * from './components/FormComponent';
 export * from './components/FormGroup';

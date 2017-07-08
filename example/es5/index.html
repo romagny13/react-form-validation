@@ -6,16 +6,29 @@
     <script src="https://unpkg.com/react@15.6.1/dist/react.min.js"></script>
     <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
+
+    <!-- bundle -->
+    <script src="../../dist/react-form-validation.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+   <!--  <style>
+        .has-error .feedback,
+        .has-error .help-block {
+            color: red;
+        }
+    </style>-->
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="../../dist/react-form-validation.min.js"></script>
+
     <script type="text/babel">
-       var Form = ReactFormValidation.Form;
+        var Form = ReactFormValidation.Form;
         var FormGroup = ReactFormValidation.CompleteFormGroup;
+        var Label = ReactFormValidation.Label;
         var Input = ReactFormValidation.Input;
+        var Password = ReactFormValidation.Password;
         var required = ReactFormValidation.required;
         var minlength = ReactFormValidation.minlength;
         var ValidationHelper = ReactFormValidation.ValidationHelper;
@@ -28,7 +41,8 @@
                     },
                     submitted: false,
                     validations:{
-                        firstname:[required(), minlength()]
+                        firstname:[required(), minlength()],
+                        password: [required(), minlength(6)]
                     },
                     errors:{},
                     touched: {}
@@ -40,8 +54,7 @@
                 var model = this.state.model;
                 model[name] = value;
 
-                // with touch
-                if (this.state.touched[name]) {
+                if (this.state.submitted || this.state.touched[name]) {
                     var errors = ValidationHelper.validateAll(model, this.state.validations);
 
                     this.setState({
@@ -54,21 +67,6 @@
                         model
                     });
                 }
-
-                // with submitted
-                /*if (this.state.submitted) {
-                    var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
-
-                    this.setState({
-                        model,
-                        errors
-                    });
-                }
-                else {
-                    this.setState({
-                        model
-                    });
-                }*/
             },
             onTouch : function (name){
                 console.log('touched', name);
@@ -97,11 +95,23 @@
             render: function() {
                 return (
                     <Form onSubmit={this.onSubmit.bind(this)}>
-                            <FormGroup error={this.state.errors["firstname"]} canChangeValidationState={this.state.touched["firstname"]} renderSuccess renderFeedback>
-                                <label htmlFor="firstname">Firstname:</label>
+                            <FormGroup error={this.state.errors["firstname"]} canChangeValidationState={this.state.submitted || this.state.touched["firstname"]} renderSuccess renderFeedback>
+                                <Label htmlFor="firstname" asterisk>Firstname</Label>
                                 <Input id="firstname" name="firstname" value={this.state.model.firstname} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
                             </FormGroup>
+                             <FormGroup error={this.state.errors["password"]} canChangeValidationState={this.state.submitted || this.state.touched["password"]} renderSuccess>
+                                <Label htmlFor="password" asterisk>Password</Label>
+                                <Password id="password" name="password" value={this.state.model.password} onValueChange={this.onValueChange.bind(this)} onTouch={this.onTouch.bind(this)} className="form-control" />
+                            </FormGroup>
                         <input className="btn btn-default" type="submit" value="Submit" />
+                        <hr />
+                        <pre>
+                            {JSON.stringify(this.state.model)}
+                        </pre>
+                        <hr />
+                        <pre>
+                            {JSON.stringify(this.state.errors)}
+                        </pre>
                     </Form>
                 );
             }

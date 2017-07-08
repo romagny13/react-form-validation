@@ -2,3 +2,46 @@
 .hide-ms-eye::-ms-reveal {
     display: none;
 }
+
+.form-group {
+    position: relative;
+}
+
+.form-group .feedback {
+    top: 25px;
+    line-height: 34px;
+}
+
+.feedback {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.has-success .feedback {
+    color: #3c763d;
+}
+
+.has-error .feedback,
+.has-error .help-block {
+    color: #a94442;
+}
+
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+}
+
+.form-eye {
+    color: #555 !important;
+    font-size: 12px !important;
+}

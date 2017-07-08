@@ -15,7 +15,7 @@ export class Input extends FormElement {
     }
 
     isNumberElement() {
-        return this.props.type === 'number' || this.props.type === 'number';
+        return this.props.type === 'number' || this.props.type === 'range';
     }
 
     onChange(event) {

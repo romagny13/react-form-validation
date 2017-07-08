@@ -99,7 +99,7 @@ describe('CompleteFormGroup', () => {
         const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group has-error has-feedback"><span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span><span class="help-block">my error</span></div>', div.html());
+        assert.equal('<div class="form-group has-error has-feedback"><span class="fa fa-times feedback" aria-hidden="true"></span><span class="help-block">my error</span></div>', div.html());
     });
 
     it('Should render with success + feedback', () => {
@@ -111,7 +111,7 @@ describe('CompleteFormGroup', () => {
         const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group has-success has-feedback"><span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span></div>', div.html());
+        assert.equal('<div class="form-group has-success has-feedback"><span class="fa fa-check feedback" aria-hidden="true"></span></div>', div.html());
     });
 
     // custom
@@ -125,13 +125,12 @@ describe('CompleteFormGroup', () => {
             errorClassName: 'my-error',
             successClassName: 'my-success',
             errorFeedbackClassName: 'my-error-feedback',
-            successFeedbackClassName: 'my-success-feedback',
-            errorSpanClassName: 'my-help-block'
+            successFeedbackClassName: 'my-success-feedback'
         };
         const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group my-error my-feedback"><span class="my-error-feedback" aria-hidden="true"></span><span class="my-help-block">my error</span></div>', div.html());
+        assert.equal('<div class="form-group my-error my-feedback"><span class="my-error-feedback" aria-hidden="true"></span><span class="help-block">my error</span></div>', div.html());
     });
 
     it('Should render with success + feedback + feedback with custom class names', () => {
@@ -143,8 +142,7 @@ describe('CompleteFormGroup', () => {
             errorClassName: 'my-error',
             successClassName: 'my-success',
             errorFeedbackClassName: 'my-error-feedback',
-            successFeedbackClassName: 'my-success-feedback',
-            errorSpanClassName: 'my-help-block'
+            successFeedbackClassName: 'my-success-feedback'
         };
         const wrapper = shallow(<CompleteFormGroup  {...props} />);
         let div = wrapper.find('div');
