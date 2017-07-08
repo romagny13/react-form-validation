@@ -2,28 +2,6 @@
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
-## Installation
-
-```
-npm i romagny13-react-form-validation -S
-```
-Require `Font Awesome`. 
-
-With a cdn:
-```xml
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-```
-Or with Webpack (and css loader):
-```
-npm i font-awesome -S
-```
-Import
-```js
-import '../node_modules/font-awesome/css/font-awesome.css';
-```
-
-## Presentation
-
 Helpers: allow to validate simple form (without components or with other component framework )
 * **Validations**: 
     * _required_: default or custom message
@@ -67,6 +45,26 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 * **FontIcon**: allow to show an icon (Font Awesome) by name (example: for 'fa fa-check', set the iconName to 'check')
 * **Submit**: can be disabled if has errors (pass _errors_)
 * **Reset**: clone _initialState_ (form model, errors, etc.) and pass inital state **onReset**
+
+## Installation
+
+```
+npm i romagny13-react-form-validation -S
+```
+Require `Font Awesome`. 
+
+With a cdn:
+```xml
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+```
+Or with Webpack (and css loader):
+```
+npm i font-awesome -S
+```
+Import
+```js
+import '../node_modules/font-awesome/css/font-awesome.css';
+```
 
 ## Helpers
 
