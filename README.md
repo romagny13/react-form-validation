@@ -51,17 +51,14 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 ```
 npm i romagny13-react-form-validation -S
 ```
-Require `Font Awesome`. 
-
-With a cdn:
+Require **Font Awesome**. With a `cdn`:
 ```xml
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 ```
-Or with Webpack (and css loader):
+... Or with `Webpack` (+ css loader):
 ```
 npm i font-awesome -S
 ```
-Import
 ```js
 import '../node_modules/font-awesome/css/font-awesome.css';
 ```
