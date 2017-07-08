@@ -301,7 +301,7 @@ name | `string` | |<p align="center">X</p>| form element name
 value | `string` | |  | the password
 onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
 onTouch | `func` | |  | notification on touch / blur with form element `name`
-renderEye | `boolean` | `true` | `no`  | allow to render eye and show password
+renderEye | `boolean` | `true` | | allow to render eye and show password
 
 _Example:_
 
