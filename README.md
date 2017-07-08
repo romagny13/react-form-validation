@@ -248,7 +248,7 @@ With _asterisk_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
+name | `string` | |<p align="center">X</p>| form element name
 value | `string` or `number` (for input type number and range) | |  | the value to display
 type | `string` | `text` |  | input type (`email`, `password`, `search`, `file`, `color`, `date`, `month`, `time`, `week`, `tel`, `url`, `number`, `range`) 
 onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
@@ -297,7 +297,7 @@ An eye is visible if password is not empty. This eye allow to show password `on 
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
+name | `string` | |<p align="center">X</p>| form element name
 value | `string` | |  | the password
 onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
 onTouch | `func` | |  | notification on touch / blur with form element `name`
@@ -325,7 +325,7 @@ Change the style
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
+name | `string` | |<p align="center">X</p>| form element name
 checked | `boolean` | `false` |  | allow to check the checkbox
 onValueChange | `func` | |  | notifcation with with form element `name` and `checked`
 onTouch | `func` | |  | notification on touch / blur with form element `name`
@@ -340,9 +340,9 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
-dataSource | `array` | | X | all values  (example: ['a','b','c'])
-values  | `array` | | X | checked values (example: ['a','c'])
+name | `string` | |<p align="center">X</p>| form element name
+dataSource | `array` | |<p align="center">X</p>| all values  (example: ['a','b','c'])
+values  | `array` | |<p align="center">X</p>| checked values (example: ['a','c'])
 renderFunction | `func` | |  | allow to `customize rendering`
 onValueChange | `func` | |  | notifcation with with form element `name` and current `values`
 onTouch | `func` | |  | notification on touch / blur with form element `name`
@@ -357,8 +357,8 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
-dataSource | `array` | | X | all values  (example: ['a','b','c'])
+name | `string` | |<p align="center">X</p>| form element name
+dataSource | `array` | |<p align="center">X</p>| all values  (example: ['a','b','c'])
 value | `string` | |  | checked value (example: 'a')
 renderFunction | `func` | |  | allow to `customize rendering`
 onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
@@ -374,8 +374,8 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
-dataSource | `array` | | X | all values  (example: ['a','b','c'])
+name | `string` | |<p align="center">X</p>| form element name
+dataSource | `array` | |<p align="center">X</p>| all values  (example: ['a','b','c'])
 value | `string` | |  | selected value (example: 'a')
 onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
 onTouch | `func` | |  | notification on touch / blur with form element `name`
@@ -391,7 +391,7 @@ _Example:_
 
 props | type | default | required | description 
 -------- |  -------- |  -------- |  -------- |  -------- 
-name | `string` | | X | form element name
+name | `string` | |<p align="center">X</p>| form element name
 value | `string` | |  | the value to display
 onValueChange | `func` | |  | notifcation with with form element `name` and current `value`
 onTouch | `func` | |  | notification on touch / blur with form element `name`
