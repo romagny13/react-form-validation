@@ -143,6 +143,13 @@ td, th {
 }
 
 .copyright{
+    position: relative !important;
+    bottom: 0;
+    width: 100%;
+    height : 40px;
+    background: #181818;
+    border-top: 2px solid #f96816;
     text-align: center;
     padding: 12px;
+    margin-top: 12px;
 }
