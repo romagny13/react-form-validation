@@ -5,7 +5,7 @@ import { EyeIcon } from './EyeIcon';
 
 import { omit, isUndefined, isFunction, extend } from '../common/util';
 
-/**  Create an input type password with an eye icon that allows to show password. */
+/**  Creates an input type password with an eye icon that allows to show password. */
 export class Password extends React.Component {
     constructor(props) {
         super(props);
@@ -83,7 +83,7 @@ export class Password extends React.Component {
                 <div style={this.blockStyle}>
                     <input type={this.state.elementType} value={value} onChange={this.onChange} onBlur={this.onBlur} style={{ position: 'relative', width: '100%' }} {...this.rest} />
                     {displayEye &&
-                        <a href style={this.eyeLinkStyle} onClick={this.onEyeIconClick}>
+                        <a href style={this.eyeLinkStyle} onClick={this.onEyeIconClick} className="eye-link" tabIndex="-1">
                             <EyeIcon closed={this.state.eyeClosed} />
                         </a>}
                 </div >
@@ -105,10 +105,10 @@ Password.propTypes = {
     /** The value to display. */
     value: PropTypes.string,
 
-    /** Allow to display eye if true. */
+    /** Allows to display eye if true. */
     renderEyeIcon: PropTypes.bool,
 
-    /** Allow to set the width of the element. */
+    /** Allows to set the width of the element. */
     width: PropTypes.string,
 
     /** The function called on value change. */

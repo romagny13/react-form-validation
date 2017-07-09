@@ -3,7 +3,10 @@ import { FontIcon } from 'romagny13-react-form-validation';
 
 const Example1 = () => {
     return (
-        <FontIcon iconName="camera"/>
+        <div>
+            <FontIcon iconName="check"/>
+            <FontIcon iconName="times" fixed/>
+        </div>
     );
-}
+};
 export default Example1;

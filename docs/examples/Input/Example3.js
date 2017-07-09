@@ -94,11 +94,7 @@ class Example3 extends React.Component {
                     <Input type="file" id="file" name="file" value={model["file"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                 </FormGroup>
                 <br />
-                <FormGroup error={errors["color"]} canChangeValidationState={submitted || touched["color"]}>
-                    <label htmlFor="color" className="control-label">Color</label>
-                    <Input type="color" id="color" name="color" value={model["color"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </FormGroup>
-                <br />
+
                 <FormGroup error={errors["date"]} canChangeValidationState={submitted || touched["date"]}>
                     <label htmlFor="date" className="control-label">Date</label>
                     <Input type="date" id="date" name="date" value={model["date"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { omit, isFunction, isUndefined } from '../common/util';
 import { FormHelper } from '../common/FormHelper';
 
-/**  Create an input type submit disabled if the form has errors. */
+/**  Creates an input type submit disabled if the form has errors. */
 export class Submit extends Component {
     constructor(props) {
         super(props);
@@ -33,9 +33,9 @@ export class Submit extends Component {
     }
 }
 Submit.propTypes = {
-    /** Allow to disable the button */
+    /** Allows to disable the button. */
     disabled: PropTypes.bool,
 
-    /** Disable the button with errors */
+    /** Disables the button with errors. */
     errors: PropTypes.object
 };

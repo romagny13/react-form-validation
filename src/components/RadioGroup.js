@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { omit, isFunction } from '../common/util';
 
-/**  Create a collection of input type radio. */
+/**  Creates a collection of input type radio with a dataSource. */
 export class RadioGroup extends React.Component {
     constructor(props) {
         super(props);
 
-        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'value', 'dataSource', 'renderFunction']);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'value', 'dataSource', 'blockClassName']);
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -43,36 +43,31 @@ export class RadioGroup extends React.Component {
     }
 
     render() {
-        const { dataSource, value } = this.props;
-        if (this.props.renderFunction) {
-            return this.props.renderFunction({ props: this.config, dataSource, value, onValueChange: this.onChange, onTouch: this.onBlur });
-        }
-        else {
-            return (
-                <div>
-                    {dataSource.map((dataItem, i) => {
-                        return (
-                            <label key={i} className="radio-inline">
-                                <input type="radio" name="title" value={dataItem} checked={dataItem === value} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />
-                                {dataItem}
-                            </label>);
-                    })}
-                </div>);
-        }
+        const { dataSource, value, blockClassName } = this.props;
+        return (
+            <div>
+                {dataSource.map((dataItem, i) => {
+                    return (
+                        <label key={i} className={blockClassName}>
+                            <input type="radio" name="title" value={dataItem} checked={dataItem === value} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />
+                            {dataItem}
+                        </label>);
+                })}
+            </div>);
     }
 }
 RadioGroup.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** All values (example: ['a','b','c']) */
+    /** All values (example: ['a','b','c']). */
     dataSource: PropTypes.array.isRequired,
 
-    /** Checked value (example: 'a')*/
+    /** Checked value (example: 'a'). */
     value: PropTypes.string,
 
-    /** Allow to customize rendering */
-    renderFunction: PropTypes.func,
+    /** The class name to add on block (example: "radio-inline"). */
+    blockClassName: PropTypes.string,
 
     /** The function called on value change. */
     onValueChange: PropTypes.func,

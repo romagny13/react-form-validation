@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { omit, isUndefined, isFunction } from '../common/util';
 
-/**  Create an input element. */
+/**  Creates an input element. */
 export class Input extends React.Component {
     constructor(props) {
         super(props);
@@ -56,10 +56,10 @@ Input.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** The value to display */
+    /** The value to display. */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
-    /** The type of the input field ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range') */
+    /** The type of the input field ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range'). */
     type: PropTypes.oneOf(['text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range']),
 
     /** The function called on value change. */

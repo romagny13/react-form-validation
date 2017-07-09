@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import SimplePage from './simple/SimplePage';
 import ControlsPage from './controls/ControlsPage';
+import CustomPage from './custom/CustomPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -27,6 +28,9 @@ class App extends React.Component {
         }
         else if (active === 'controls') {
             page = <ControlsPage />;
+        }
+        else if (active === 'custom') {
+            page = <CustomPage />;
         }
 
         this.setState({
@@ -53,6 +57,7 @@ class App extends React.Component {
                             <ul className="nav navbar-nav">
                                 <li className={this.state.active === "simple" && "active"}><a href="#/simple" onClick={this.onClickLink}>Simple</a></li>
                                 <li className={this.state.active === "controls" && "active"}><a href="#/controls" onClick={this.onClickLink}>Compoments</a></li>
+                                <li className={this.state.active === "custom" && "active"}><a href="#/custom" onClick={this.onClickLink}>Custom</a></li>
                             </ul>
                         </div>
                     </div>

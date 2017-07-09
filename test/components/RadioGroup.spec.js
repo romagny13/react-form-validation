@@ -28,7 +28,8 @@ describe('RadioGroup', () => {
         let props = {
             name: 'my-field',
             value: 'a',
-            dataSource: ['a', 'b']
+            dataSource: ['a', 'b'],
+            blockClassName:"radio-inline"
         };
         const wrapper = shallow(<RadioGroup  {...props} />);
 

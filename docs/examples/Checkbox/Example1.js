@@ -1,54 +1,24 @@
 import React from 'react';
-import { Checkbox, Label } from 'romagny13-react-form-validation';
+import { Checkbox } from 'romagny13-react-form-validation';
 
-/** Control is touched on lost focus */
-class Example1 extends React.Component {
-    constructor(props) {
-        super(props);
+const Example1 = () => {
+    let values = ['a','c'];
+    return (
+        <div>
+            <h4>Direct check</h4>
+            <Checkbox checked name="g1" />
 
-        this.state = {
-            model: {
-                agree: false
-            },
-            touched: {}
-        };
+            <h4>Grouped by name (all checked are checked)</h4>
+            <Checkbox checked name="g2" />
+            <Checkbox checked name="g2" />
 
-        this.onValueChange = this.onValueChange.bind(this);
-        this.onTouch = this.onTouch.bind(this);
-    }
-    onValueChange(name, value) {
-        let model = this.state.model;
-        model[name] = value;
+            <h4>Checked by value (if values contains control value)</h4>
+            <Checkbox name="g3" value="a" checked={values.indexOf("a") !== -1}/>
+            <Checkbox name="g3" value="b" checked={values.indexOf("b") !== -1}/>
+            <Checkbox name="g3" value="c" checked={values.indexOf("c") !== -1}/>
+        </div>
 
-        this.setState({
-            model
-        });
-    }
-    onTouch(name) {
-        let touched = this.state.touched;
-        touched[name] = true;
-        this.setState({
-            touched
-        });
-    }
-    render() {
-        const { model, touched } = this.state;
-        return (
-            <div>
-                <div className="checkbox">
-                    <Label asterisk>
-                        <Checkbox name="agree" checked={model["agree"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                        I agree to terms
-                    </Label>
-                </div>
-                {touched["agree"] && <span className="touched">Touched!</span>}
-                <pre>
-                    {JSON.stringify(model)}
-                </pre>
-            </div>
-        );
-    }
-}
-
+    );
+};
 export default Example1;
 

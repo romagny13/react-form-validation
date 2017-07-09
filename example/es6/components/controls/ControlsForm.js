@@ -81,12 +81,12 @@ const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitt
 
             <FormGroup error={errors["preference"]} canChangeValidationState={submitted}>
                 <Label>Preference</Label>
-                <RadioGroup name="preference" dataSource={["a", "b", "c"]} value={model["preference"]} onValueChange={onValueChange} />
+                <RadioGroup name="preference" dataSource={["a", "b", "c"]} value={model["preference"]} onValueChange={onValueChange} blockClassName="radio-inline" />
             </FormGroup>
 
             <FormGroup error={errors["likes"]} canChangeValidationState={submitted}>
                 <Label asterisk>Like (multiple choice)</Label>
-                <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={onValueChange} />
+                <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={onValueChange} blockClassName="checkbox" />
             </FormGroup>
 
             <FormGroup>

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { omit, isBoolean, isFunction } from '../common/util';
 
-/**  Creates an input type checkbox. */
-export class Checkbox extends React.Component {
+/**  Creates an input type radio. */
+export class Radio extends React.Component {
     constructor(props) {
         super(props);
 
@@ -44,14 +44,14 @@ export class Checkbox extends React.Component {
     }
 
     render() {
-        return <input type="checkbox" checked={this.props.checked} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />;
+        return <input type="radio" checked={this.props.checked} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />;
     }
 }
-Checkbox.propTypes = {
+Radio.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** Allows to check the checkbox. */
+    /** Allows to check the checkbox */
     checked: PropTypes.bool,
 
     /** The function called on value change. */
@@ -60,6 +60,6 @@ Checkbox.propTypes = {
     /** The function called on touch. */
     onTouch: PropTypes.func
 };
-Checkbox.defaultProps = {
+Radio.defaultProps = {
     checked: false
 };

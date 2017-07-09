@@ -20,7 +20,7 @@ function getFontIconClassName(iconName, className, spin, fixed, larger) {
     return result;
 }
 
-/**  Create an icon (with Font Awesome). */
+/**  Creates an icon (with Font Awesome). */
 export const FontIcon = (props) => {
     // http://fontawesome.io/icons/
     const { iconName, className, spin, fixed, larger } = props;
@@ -31,19 +31,19 @@ export const FontIcon = (props) => {
     return <i className={fontIconClassName} aria-hidden="true" {...rest} />;
 };
 FontIcon.propTypes = {
-    /** The name of the font icon (example: check for 'fa fa-check') */
+    /** The name of the font icon (example: check for 'fa fa-check'). */
     iconName: PropTypes.string.isRequired,
 
-    /** Class name to add on icon */
+    /** Class name to add on icon. */
     className: PropTypes.string,
 
-    /** Animate the icon (add 'fa-spin' to className) */
+    /** Animates the icon (add 'fa-spin' to className). */
     spin: PropTypes.bool,
 
-    /** Fixed width (add 'fa-fw' to className) */
+    /** Fixed width (add 'fa-fw' to className). */
     fixed: PropTypes.bool,
 
-    /** Size of the icon (lg,2x,3x,4x,5x) */
+    /** Size of the icon (lg,2x,3x,4x,5x). */
     larger: PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x'])
 };
 FontIcon.defaultProps = {

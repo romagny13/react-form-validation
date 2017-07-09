@@ -7,7 +7,7 @@ class Example1 extends React.Component {
 
         this.state = {
             model: {
-              list: '2',
+                list: 2,
             },
             touched: {}
         };
@@ -36,9 +36,9 @@ class Example1 extends React.Component {
             <div>
                 <Label htmlFor="list" className="control-label">List (no validation)</Label><br />
                 <Select name="list" dataSource={[1, 2, 3]} value={model['list']} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                {this.state.touched["list"] && <span className="touched">Touched!</span>}
+                {touched["list"] && <span className="touched">Touched!</span>}
                 <pre>
-                    {JSON.stringify(this.state.model)}
+                    {JSON.stringify(model)}
                 </pre>
             </div>
         );

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { omit, isFunction } from '../common/util';
 
-/**  Create a collection of checkbox. */
+/**  Creates a collection of checkbox with a dataSource. */
 export class CheckboxGroup extends React.Component {
     constructor(props) {
         super(props);
 
-        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'dataSource', 'values', 'renderFunction']);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'dataSource', 'values', 'blockClassName']);
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -51,38 +51,33 @@ export class CheckboxGroup extends React.Component {
     }
 
     render() {
-        const { dataSource, values } = this.props;
-        if (this.props.renderFunction) {
-            return this.props.renderFunction({ props: this.config, dataSource, values, onValueChange: this.onChange, onTouch: this.onBlur });
-        }
-        else {
-            return (
-                <div>
-                    {dataSource.map((dataItem, i) => {
-                        return (
-                            <div key={i} className="checkbox">
-                                <label>
-                                    <input type="checkbox" value={dataItem} checked={values.indexOf(dataItem) !== -1} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />
-                                    {dataItem}
-                                </label>
-                            </div>);
-                    })}
-                </div>);
-        }
+        const { dataSource, values, blockClassName } = this.props;
+        return (
+            <div>
+                {dataSource.map((dataItem, i) => {
+                    return (
+                        <div key={i} className={blockClassName}>
+                            <label>
+                                <input type="checkbox" value={dataItem} checked={values.indexOf(dataItem) !== -1} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />
+                                {dataItem}
+                            </label>
+                        </div>);
+                })}
+            </div>);
     }
 }
 CheckboxGroup.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** All values (example: ['a','b','c']) */
+    /** All values (example: ['a','b','c']). */
     dataSource: PropTypes.array.isRequired,
 
-    /** Checked values (example: ['a','c']) */
+    /** Checked values (example: ['a','c']). */
     values: PropTypes.array,
 
-    /** Allow to customize rendering */
-    renderFunction: PropTypes.func,
+    /** The class name to add on block (example: "checkbox-inline").*/
+    blockClassName: PropTypes.string,
 
     /** The function called on value change. */
     onValueChange: PropTypes.func,

@@ -8,10 +8,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
 
     <!-- bundle -->
-    <script src="../../dist/react-form-validation.min.js"></script>
+    <script src="./react-form-validation.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/slate/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/slate/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
      <style>
@@ -125,6 +125,12 @@
                                     <Label htmlFor="password" className="col-lg-2 control-Label">Password</Label>
                                     <div className="col-lg-10">
                                         <Password id="password" name="password" value={model["password"]} onValueChange={this.onValueChange} placeholder="Password" className="form-control" />
+                                    </div>
+                                </FormGroup>
+
+                                  <FormGroup error={errors["agree"]} canChangeValidationState={submitted} renderSuccess>
+                                    <Label htmlFor="password" className="col-lg-2 control-Label">Checkbox</Label>
+                                    <div className="col-lg-10">
                                         <div className="checkbox">
                                             <Label>
                                                 <Checkbox name="agree" checked={model["agree"]} onValueChange={this.onValueChange} />
@@ -171,7 +177,7 @@
             }
         });
 
-        ReactDOM.render(<div className="container"><h2>React Form Validation with es5</h2><Home /></div>, document.getElementById('app'));
+        ReactDOM.render(<div className="container"><h2>Bootstrap</h2><Home /></div>, document.getElementById('app'));
     </script>
 </body>
 

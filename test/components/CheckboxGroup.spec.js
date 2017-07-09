@@ -28,7 +28,8 @@ describe('CheckboxGroup', () => {
         let props = {
             name: 'my-field',
             values: ['a'],
-            dataSource: ['a', 'b']
+            dataSource: ['a', 'b'],
+            blockClassName:"checkbox"
         };
         const wrapper = shallow(<CheckboxGroup  {...props} />);
 

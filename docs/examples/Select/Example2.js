@@ -1,14 +1,14 @@
 import React from 'react';
-import { Checkbox, Label } from 'romagny13-react-form-validation';
+import { Select, Label } from 'romagny13-react-form-validation';
 
-/** Control is touched on lost focus */
+/** Select multiple (set multiple and use values array instead value) */
 class Example2 extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             model: {
-                agree: false
+                list: ['a', 'c'],
             },
             touched: {}
         };
@@ -32,16 +32,12 @@ class Example2 extends React.Component {
         });
     }
     render() {
-        const { model, touched } = this.state;
+        const { model, errors, touched, submitted } = this.state;
         return (
             <div>
-                <div className="checkbox">
-                    <Label asterisk>
-                        <Checkbox name="agree" checked={model["agree"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                        I agree to terms
-                    </Label>
-                </div>
-                {touched["agree"] && <span className="touched">Touched!</span>}
+                <Label htmlFor="list" className="control-label">List (no validation)</Label><br />
+                <Select name="list" multiple dataSource={['a', 'b', 'c']} values={model['list']} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                {touched["list"] && <span className="touched">Touched!</span>}
                 <pre>
                     {JSON.stringify(model)}
                 </pre>
@@ -51,4 +47,3 @@ class Example2 extends React.Component {
 }
 
 export default Example2;
-

@@ -25,9 +25,8 @@ describe('FormGroup', () => {
             error: 'my error'
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group"></div>', div.html());
+        assert.equal('<div class="form-group"></div>', wrapper.html());
     });
 
     // error
@@ -38,9 +37,8 @@ describe('FormGroup', () => {
             error: 'my error'
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group"></div>', div.html());
+        assert.equal('<div class="form-group"></div>', wrapper.html());
     });
 
     it('Should render with error', () => {
@@ -49,9 +47,8 @@ describe('FormGroup', () => {
             error: 'my error'
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group has-error"><span class="help-block">my error</span></div>', div.html());
+        assert.equal('<div class="form-group has-error"><div class="clearfix"></div><span class="error-block">my error</span></div>', wrapper.html());
     });
 
     // success
@@ -61,9 +58,8 @@ describe('FormGroup', () => {
             renderSuccess: true
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group"></div>', div.html());
+        assert.equal('<div class="form-group"></div>', wrapper.html());
     });
 
     it('Should not render success if canValidationState is false', () => {
@@ -72,9 +68,8 @@ describe('FormGroup', () => {
             renderSuccess: true
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group"></div>', div.html());
+        assert.equal('<div class="form-group"></div>', wrapper.html());
     });
 
     it('Should render with success', () => {
@@ -83,13 +78,11 @@ describe('FormGroup', () => {
             renderSuccess: true
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group has-success"></div>', div.html());
+        assert.equal('<div class="form-group has-success"></div>', wrapper.html());
     });
 
    
-
     // custom
 
     it('Should render with error custom', () => {
@@ -102,9 +95,8 @@ describe('FormGroup', () => {
             successClassName: 'my-success'
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group my-error"><span class="help-block">my error</span></div>', div.html());
+        assert.equal('<div class="form-group my-error"><div class="clearfix"></div><span class="error-block">my error</span></div>', wrapper.html());
     });
 
     it('Should render with success custom', () => {
@@ -117,9 +109,8 @@ describe('FormGroup', () => {
             successClassName: 'my-success'
         };
         const wrapper = shallow(<FormGroup  {...props} />);
-        let div = wrapper.find('div');
 
-        assert.equal('<div class="form-group my-success"></div>', div.html());
+        assert.equal('<div class="form-group my-success"></div>', wrapper.html());
     });
 
 });

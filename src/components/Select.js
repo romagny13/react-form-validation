@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { omit, isFunction } from '../common/util';
 
-/**  Create a select element. */
+/**  Creates a select element. */
 export class Select extends React.Component {
     constructor(props) {
         super(props);
 
-        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'value', 'dataSource']);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'value', 'values', 'dataSource']);
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -32,8 +32,22 @@ export class Select extends React.Component {
 
     onChange(event) {
         if (this.hasOnValueChangeSubscriber()) {
-            let value = event.target.options[event.target.selectedIndex].value;
-            this.raiseValueChanged(value);
+            if (this.props.multiple) {
+                let values = [];
+                let options = event.target.options;
+                for (let i = 0; i < options.length; i++) {
+                    let option = options[i];
+                    if (option.selected) {
+                        values.push(option.value);
+                    }
+                }
+
+                this.raiseValueChanged(values);
+            }
+            else {
+                let value = event.target.options[event.target.selectedIndex].value;
+                this.raiseValueChanged(value);
+            }
         }
     }
 
@@ -44,10 +58,10 @@ export class Select extends React.Component {
     }
 
     render() {
-        const { dataSource, value } = this.props;
+        let selectedValues = this.props.multiple ? this.props.values : this.props.value;
         return (
-            <select value={value} onChange={this.onChange} onBlur={this.onBlur} {...this.rest}>
-                {dataSource.map((dataItem, i) => {
+            <select value={selectedValues} onChange={this.onChange} onBlur={this.onBlur} {...this.rest}>
+                {this.props.dataSource.map((dataItem, i) => {
                     return <option key={i} value={dataItem}>{dataItem}</option>;
                 })}
             </select>
@@ -58,11 +72,17 @@ Select.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** all values (example: ['a','b','c']) */
+    /** all values (example: ['a','b','c']). */
     dataSource: PropTypes.array.isRequired,
 
-    /** selected value (example: 'a') */
-    value: PropTypes.string,
+    /** selected value (example: 'a'). */
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+    /** Allows to select multiple values. */
+    multiple: PropTypes.bool,
+
+    /** selected values when multiple is true */
+    values: PropTypes.array,
 
     /** The function called on value change. */
     onValueChange: PropTypes.func,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { omit } from '../common/util';
 
-/**  Create a label with asterisk for required field. */
+/**  Creates a label with asterisk for required field. */
 export class Label extends React.Component {
     constructor(props) {
         super(props);
@@ -16,13 +16,13 @@ export class Label extends React.Component {
     }
 }
 Label.propTypes = {
-    /** The children */
+    /** The children. */
     children: PropTypes.node,
 
-    /** Show asterisk if true */
+    /** Displays the asterisk if true. */
     asterisk: PropTypes.bool,
 
-    /** The color of asterisk */
+    /** The color of asterisk. */
     asteriskColor: PropTypes.string
 };
 Label.defaultProps = {
