@@ -70,7 +70,7 @@ class Example1 extends React.Component {
         return (
             <Form onSubmit={this.onSubmit}>
                 <FormGroup error={errors["firstname"]} canChangeValidationState={submitted || touched["firstname"]}>
-                    <Label htmlFor="firstname" asterisk>Password</Label>
+                    <Label htmlFor="firstname" asterisk>Firstname</Label>
                     <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                 </FormGroup>
                 <input type="submit" value="Submit" />
