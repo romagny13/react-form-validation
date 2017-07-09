@@ -1,8 +1,8 @@
 # React Form Validation
 
-> This Library allows to validate easily React Forms with a collection of helpers and components.
-
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
+
+> This Library allows to validate easily React Forms with a collection of helpers and components.
 
 Helpers: allow to validate simple form (with no component or another component framework )
 * **Validations**: 
