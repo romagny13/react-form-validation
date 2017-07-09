@@ -1,4 +1,4 @@
-# React Form Validation (v0.6)
+# React Form Validation
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
