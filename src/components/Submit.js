@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { omit, isFunction, isUndefined } from '../common/util';
 import { FormHelper } from '../common/FormHelper';
 
+/**  Create an input type submit disabled if the form has errors. */
 export class Submit extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +16,7 @@ export class Submit extends Component {
         let baseClassName = this.rest.className ? this.rest.className : '';
         let disabledClassName = 'disabled';
 
-        let disabled = this.props.errors && Object.keys(this.props.errors).length > 0;
+        let disabled = this.props.disabled === true || (this.props.errors && Object.keys(this.props.errors).length > 0);
         if (disabled) {
             if (!FormHelper.hasClassName(baseClassName, disabledClassName)) {
                 baseClassName = FormHelper.addClassName(baseClassName, disabledClassName);
@@ -32,5 +33,9 @@ export class Submit extends Component {
     }
 }
 Submit.propTypes = {
+    /** Allow to disable the button */
+    disabled: PropTypes.bool,
+
+    /** Disable the button with errors */
     errors: PropTypes.object
 };

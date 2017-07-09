@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 
 import {
     Form,
-    CompleteFormGroup,
     FormGroup,
     Label,
+    Input,
     FontIcon,
-    Text,
     Checkbox,
-    Email,
     Password,
-    File,
-    Number,
     RadioGroup,
     CheckboxGroup,
     TextArea,
@@ -21,45 +17,60 @@ import {
     Reset
 } from '../../../../src/index';
 
+const CustomFormGroup = ({ canChangeValidationState, error, children, onValueChange }) => {
+
+    return (
+        <FormGroup className={canChangeValidationState ? error ? 'form-group has-error has-feedback' : 'form-group has-success has-feedback' : 'form-group'} error={error} canChangeValidationState={canChangeValidationState} renderSuccess>
+            {children}
+            {canChangeValidationState && <FontIcon iconName={error ? "times" : "check"} className="feedback" />}
+        </FormGroup>
+    );
+};
+CustomFormGroup.propTypes = {
+    children: PropTypes.node,
+    canChangeValidationState: PropTypes.bool,
+    error: PropTypes.string,
+    onValueChange: PropTypes.func
+};
+
 const ControlsForm = ({ model, onSubmit, onReset, onValueChange, errors, submitted, initialState }) => {
     console.log('render form', model);
     return (
         <Form onSubmit={onSubmit}>
 
-            <FormGroup className={submitted ? errors['firstname'] ? 'form-group has-success has-feedback' : 'form-group has-error has-feedback' : 'form-group'} error={errors["firstname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <CustomFormGroup error={errors["firstname"]} canChangeValidationState={submitted}>
                 <Label htmlFor="firstname" className="control-label" asterisk>Firstname</Label>
-                <Text id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
-                {submitted && <FontIcon iconName={errors["firstname"] ? "times" : "check"} className="feedback" />}
+                <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} className="form-control" autoFocus />
+            </CustomFormGroup>
+
+            <FormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess>
+                <Label htmlFor="lastname" className="control-label">Lastname</Label>
+                <Input id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} className="form-control" />
             </FormGroup>
 
-            <CompleteFormGroup error={errors["lastname"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
-                <Label htmlFor="lastname" className="control-label">Lastname</Label>
-                <Text id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} className="form-control" />
-            </CompleteFormGroup>
-
-            <CompleteFormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess>
+            <FormGroup error={errors["password"]} canChangeValidationState={submitted} renderSuccess>
                 <Label htmlFor="password" className="control-label" asterisk>Password</Label>
-                <Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" />
-            </CompleteFormGroup>
+                <Password width="100%" id="password" name="password" value={model["password"]} onValueChange={onValueChange} className="form-control" placeholder="Password" />
+            </FormGroup>
 
-            <CompleteFormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess>
+            <FormGroup error={errors["confirmPassword"]} canChangeValidationState={submitted} renderSuccess>
                 <Label htmlFor="confirmPassword" className="control-label" asterisk>Confirm password</Label>
-                <Password id="confirmPassword" name="confirmPassword" value={model["confirmPassword"]} onValueChange={onValueChange} className="form-control" placeholder="Confirm password" />
-            </CompleteFormGroup>
+                <Password width="100%" id="confirmPassword" name="confirmPassword" value={model["confirmPassword"]} onValueChange={onValueChange} className="form-control" placeholder="Confirm password" />
+            </FormGroup>
 
-            <CompleteFormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <FormGroup error={errors["email"]} canChangeValidationState={submitted} renderSuccess>
                 <Label htmlFor="email" className="control-label">Email</Label>
-                <Email name="email" value={model["email"]} onValueChange={onValueChange} className="form-control" placeholder="example@domain.com" />
-            </CompleteFormGroup>
+                <Input type="email" name="email" value={model["email"]} onValueChange={onValueChange} className="form-control" placeholder="example@domain.com" />
+            </FormGroup>
 
-            <CompleteFormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess renderFeedback>
+            <FormGroup error={errors["age"]} canChangeValidationState={submitted} renderSuccess>
                 <Label htmlFor="age" className="control-label" asterisk>Age</Label>
-                <Number id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
-            </CompleteFormGroup>
+                <Input type="number" id="age" name="age" value={model["age"]} onValueChange={onValueChange} className="form-control" />
+            </FormGroup>
 
             <FormGroup error={errors["file"]} canChangeValidationState={submitted}>
                 <Label htmlFor="file" className="control-label" asterisk>File</Label>
-                <File name="file" value={model["file"]} onValueChange={onValueChange} accept="image/*" />
+                <Input type="file" name="file" value={model["file"]} onValueChange={onValueChange} accept="image/*" />
             </FormGroup>
 
             <FormGroup>

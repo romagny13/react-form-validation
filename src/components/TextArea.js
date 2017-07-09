@@ -1,17 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormElement } from './FormElement';
+import { omit, isFunction } from '../common/util';
 
-import { omit } from '../common/util';
-
-export class TextArea extends FormElement {
+export class TextArea extends React.Component {
     constructor(props) {
         super(props);
 
-        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value']);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'value']);
 
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+    }
+
+    hasOnValueChangeSubscriber() {
+        return isFunction(this.props.onValueChange);
+    }
+
+    hasOnTouchSubscriber() {
+        return isFunction(this.props.onTouch);
+    }
+
+    raiseValueChanged(value) {
+        this.props.onValueChange(this.props.name, value);
+    }
+
+    raiseTouched() {
+        this.props.onTouch(this.props.name);
     }
 
     onChange(event) {
@@ -20,12 +35,28 @@ export class TextArea extends FormElement {
         }
     }
 
+    onBlur() {
+        if (this.hasOnTouchSubscriber()) {
+            this.raiseTouched();
+        }
+    }
+
     render() {
-        return <textarea value={this.props.value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />;
+        return <textarea value={this.props.value} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />;
     }
 }
 TextArea.propTypes = {
-    value: PropTypes.string
+    /** Input name.*/
+    name: PropTypes.string.isRequired,
+
+    /** The value to display. */
+    value: PropTypes.string,
+
+    /** The function called on value change. */
+    onValueChange: PropTypes.func,
+
+    /** The function called on touch. */
+    onTouch: PropTypes.func
 };
 TextArea.defaultProps = {
     value: ''

@@ -1,0 +1,14 @@
+react-docgen
+```
+npm i react-docgen -D
+```
+
+highlight.js
+```
+npm i highlight.js -D
+```
+
+NPM Scripts
+```
+"gen:docs": "node scripts/generateComponentData.js"
+```

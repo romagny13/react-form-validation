@@ -4,14 +4,12 @@ export class FormGroupHelper {
         return className && className !== '' ? className + ' ' + classNameToConcat : classNameToConcat;
     }
 
-    static getGroupClassName(hasFeedback, hasError, hasSuccess, groupClassName, feedbackClassName, errorClassName, successClassName) {
+    static getGroupClassName(hasError, hasSuccess, groupClassName, errorClassName, successClassName) {
         if (hasError) {
-            let result = FormGroupHelper.concatClassName(groupClassName, errorClassName);
-            return hasFeedback ? result + ' ' + feedbackClassName : result;
+            return FormGroupHelper.concatClassName(groupClassName, errorClassName);
         }
         else if (hasSuccess) {
-            let result = FormGroupHelper.concatClassName(groupClassName, successClassName);
-            return hasFeedback ? result + ' ' + feedbackClassName : result;
+            return FormGroupHelper.concatClassName(groupClassName, successClassName);
         }
         return groupClassName;
     }

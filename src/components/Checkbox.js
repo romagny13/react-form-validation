@@ -1,17 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormElement } from './FormElement';
+import { omit, isBoolean, isFunction } from '../common/util';
 
-import { omit, isBoolean } from '../common/util';
-
-export class Checkbox extends FormElement {
+/**  Create an input type checkbox. */
+export class Checkbox extends React.Component {
     constructor(props) {
         super(props);
 
-        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'checked']);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'checked']);
 
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+    }
+
+    hasOnValueChangeSubscriber() {
+        return isFunction(this.props.onValueChange);
+    }
+
+    hasOnTouchSubscriber() {
+        return isFunction(this.props.onTouch);
+    }
+
+    raiseValueChanged(value) {
+        this.props.onValueChange(this.props.name, value);
+    }
+
+    raiseTouched() {
+        this.props.onTouch(this.props.name);
     }
 
     onChange(event) {
@@ -21,12 +37,28 @@ export class Checkbox extends FormElement {
         }
     }
 
+    onBlur() {
+        if (this.hasOnTouchSubscriber()) {
+            this.raiseTouched();
+        }
+    }
+
     render() {
-        return <input type="checkbox" checked={this.props.checked} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />;
+        return <input type="checkbox" checked={this.props.checked} onChange={this.onChange} onBlur={this.onBlur} {...this.rest} />;
     }
 }
 Checkbox.propTypes = {
-    checked: PropTypes.bool
+    /** Input name.*/
+    name: PropTypes.string.isRequired,
+
+    /** Allow to check the checkbox */
+    checked: PropTypes.bool,
+
+    /** The function called on value change. */
+    onValueChange: PropTypes.func,
+
+    /** The function called on touch. */
+    onTouch: PropTypes.func
 };
 Checkbox.defaultProps = {
     checked: false

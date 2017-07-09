@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { FormGroup } from '../../../../src/index';
+import { FormGroup } from 'romagny13-react-form-validation';
 
 const SimpleForm = ({ model, onSubmit, onValueChange, errors, submitted }) => {
     console.log('render form', model);

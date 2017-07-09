@@ -5,12 +5,36 @@
     <title>Example es6</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
-    <!-- <style>
-        .has-error .feedback,
+    <style>
+        
+        /*.has-error .feedback,
         .has-error .help-block {
             color: red !important;
+        }*/
+
+        .feedback {
+            position: absolute;
+            top: 25px;
+            right: 0;
+            z-index: 2;
+            display: block;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            pointer-events: none;
+            font-size: 16px !important;
         }
-    </style>-->
+
+        .has-error .feedback {
+            color: #a94442;
+        }
+
+        .has-success .feedback  {
+           color: #3c763d;
+        }
+
+    </style>
 </head>
 
 <body>

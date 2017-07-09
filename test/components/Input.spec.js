@@ -8,7 +8,7 @@ import { Input } from '../../src/index';
 describe('Input', () => {
 
     // check
-
+/*
     it('Should fail without name', () => {
         let failed = false;
         let props = {};
@@ -41,7 +41,7 @@ describe('Input', () => {
         assert.isFalse(failed);
         assert.equal('<input type="text" value="" name="my-field"/>', input.html());
     });
-
+*/
     it('Should render with no value', () => {
         let props = {
             name: 'my-field'

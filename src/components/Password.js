@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormElement } from './FormElement';
-import { Eye } from './EyeIcon';
+import { EyeIcon } from './EyeIcon';
 
-import { omit, isUndefined, extend } from '../common/util';
+import { omit, isUndefined, isFunction, extend } from '../common/util';
 
-export class Password extends FormElement {
+/**  Create an input type password with an eye icon that allows to show password. */
+export class Password extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,13 +15,13 @@ export class Password extends FormElement {
             eyeClosed: false
         };
 
-        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'value', 'renderEye', 'type']);
+        this.rest = omit(props, ['onChange', 'onBlur', 'onValueChange', 'onTouch', 'value', 'renderEyeIcon', 'type', 'style']);
 
-        if (props.renderEye) {
+        if (props.renderEyeIcon) {
 
             this.rest.className = this.rest.className ? this.rest.className + ' hide-ms-eye' : 'hide-ms-eye';
 
-            this.blockStyle = props.style ? extend(props.style, { position: 'relative' }) : { position: 'relative' };
+            this.blockStyle = props.width ? { position: 'relative', width: props.width } : { position: 'relative' };
 
             this.eyeLinkStyle = {
                 display: 'block',
@@ -33,10 +33,27 @@ export class Password extends FormElement {
                 zIndex: 1
             };
 
-            this.onEyeClick = this.onEyeClick.bind(this);
+            this.onEyeIconClick = this.onEyeIconClick.bind(this);
         }
 
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+    }
+
+    hasOnValueChangeSubscriber() {
+        return isFunction(this.props.onValueChange);
+    }
+
+    hasOnTouchSubscriber() {
+        return isFunction(this.props.onTouch);
+    }
+
+    raiseValueChanged(value) {
+        this.props.onValueChange(this.props.name, value);
+    }
+
+    raiseTouched() {
+        this.props.onTouch(this.props.name);
     }
 
     onChange(event) {
@@ -45,7 +62,13 @@ export class Password extends FormElement {
         }
     }
 
-    onEyeClick(event) {
+    onBlur() {
+        if (this.hasOnTouchSubscriber()) {
+            this.raiseTouched();
+        }
+    }
+
+    onEyeIconClick(event) {
         event.preventDefault();
 
         let state = this.state.elementType === 'password' ? { elementType: 'text', eyeClosed: true } : { elementType: 'password', eyeClosed: false };
@@ -54,14 +77,14 @@ export class Password extends FormElement {
 
     render() {
         let value = isUndefined(this.props.value) ? '' : this.props.value;
-        if (this.props.renderEye) {
+        if (this.props.renderEyeIcon) {
             let displayEye = value !== '';
             return (
                 <div style={this.blockStyle}>
-                    <input type={this.state.elementType} value={value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} style={{ position: 'relative', width: '100%' }} {...this.rest} />
+                    <input type={this.state.elementType} value={value} onChange={this.onChange} onBlur={this.onBlur} style={{ position: 'relative', width: '100%' }} {...this.rest} />
                     {displayEye &&
-                        <a href style={this.eyeLinkStyle} onClick={this.onEyeClick}>
-                            <Eye closed={this.state.eyeClosed} />
+                        <a href style={this.eyeLinkStyle} onClick={this.onEyeIconClick}>
+                            <EyeIcon closed={this.state.eyeClosed} />
                         </a>}
                 </div >
             );
@@ -70,14 +93,32 @@ export class Password extends FormElement {
             return <input type="password" value={value} onChange={this.onChange} onBlur={this.checkAndRaiseTouched} {...this.rest} />;
         }
     }
+
 }
-Password.PropTypes = {
+Password.propTypes = {
+    /** Input name.*/
+    name: PropTypes.string.isRequired,
+
+    /** The type of the input field. */
+    type: PropTypes.string,
+
+    /** The value to display. */
     value: PropTypes.string,
-    renderEye: PropTypes.bool,
-    className: PropTypes.string
+
+    /** Allow to display eye if true. */
+    renderEyeIcon: PropTypes.bool,
+
+    /** Allow to set the width of the element. */
+    width: PropTypes.string,
+
+    /** The function called on value change. */
+    onValueChange: PropTypes.func,
+
+    /** The function called on touch. */
+    onTouch: PropTypes.func
 };
 Password.defaultProps = {
+    type: 'password',
     value: '',
-    renderEye: true,
-    type: 'password'
+    renderEyeIcon: true
 };

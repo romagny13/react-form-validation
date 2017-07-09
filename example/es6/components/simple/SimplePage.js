@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { FormGroup, ValidationHelper, required, minlength, maxlength, pattern, email, custom, isNullOrEmpty, FormHelper } from '../../../../src/index';
+import {  ValidationHelper, required, minlength, maxlength, pattern, email, custom, isNullOrEmpty, FormHelper } from '../../../../src/index';
 
 import Form from './SimpleForm';
 

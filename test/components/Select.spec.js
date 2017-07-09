@@ -9,7 +9,7 @@ describe('Select', () => {
 
     // check
 
-    it('Should fail without name', () => {
+  /*  it('Should fail without name', () => {
         let failed = false;
         let props = {
              dataSource: ['a', 'b']
@@ -21,7 +21,7 @@ describe('Select', () => {
             failed = true;
         }
         assert.isTrue(failed);
-    });
+    });*/
 
 
     it('Should render with values', () => {

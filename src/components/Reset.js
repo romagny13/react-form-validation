@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { omit, clone } from '../common/util';
 
+/**  Create a button that allows to reset form model and errors. */
 export class Reset extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +26,9 @@ export class Reset extends Component {
     }
 }
 Reset.propTypes = {
+    /** The initial state (form model, errors, etc.) */
     initialState: PropTypes.object.isRequired,
+    
+    /** The function called on reset */
     onReset: PropTypes.func.isRequired
 };

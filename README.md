@@ -26,23 +26,17 @@ Helpers: allow to validate simple form (with no component or another component f
 
 Components: allow to bind value and notify on value change (onValueChange) and on touch / blur (onTouch)
 * **Input** value + type ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range') and shortcuts:
-    * _Text_
-    * _Email_
-    * _Search_
-    * _File_
-    * _Number_
-    * _Range_
-    * _Color_
 * **Password**: input type type password with eye component (allow to show password)
 * **Checkbox**: _checked_
 * **CheckboxGroup**: _dataSource_ + _values_. Its possible to use a custom **renderFunction**
 * **RadioGroup**: _dataSource_ + _value_. Its possible to use a custom **renderFunction**
 * **Select**: _dataSource_ + _value_
 * **TextArea**: _value_
-* **FormGroup**: allow to show error, success, feedback (classNames based on Bootstrap: has-error, has-feedback, etc.) if **canChangeValidationState** is true and customize all class names
+* **FormGroup**: allow to show error and success (classNames based on Bootstrap: has-error, has-success, etc.) if **canChangeValidationState** is true and customize all class names
 * **Form**: Form with noValidate by default
 * **Label**: allow to display _asterisk_ for required field
-* **FontIcon**: allow to show an icon (Font Awesome) by name (example: for 'fa fa-check', set the iconName to 'check')
+* **FontIcon**: allow to show an icon (Font Awesome) by name (example: for 'fa fa-check', set the iconName to 'check') + **EyeIcon**
+* **HelpBlock** a span with the class name 'help-block'
 * **Submit**: can be disabled if has errors (pass _errors_)
 * **Reset**: clone _initialState_ (form model, errors, etc.) and pass inital state **onReset**
 

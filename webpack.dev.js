@@ -15,7 +15,10 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: [".js", ".jsx"],
+        alias: {
+            'romagny13-react-form-validation': path.resolve(__dirname, './src')
+        }
     },
     devServer: {
         contentBase: './example/es6',

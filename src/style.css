@@ -1,0 +1,28 @@
+.hide-ms-eye::-ms-clear,
+.hide-ms-eye::-ms-reveal {
+    display: none;
+}
+
+.has-success input {
+    border-color: #3c763d;
+}
+
+.has-error input {
+     border-color: #a94442;
+}
+
+.has-error .help-block {
+    color: #a94442;
+}
+
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+}
+
+.form-eye {
+    color: #555 !important;
+    font-size: 12px !important;
+}

@@ -1,28 +1,22 @@
-import './components/style.css';
+import './style.css';
 
 export * from './common/validations';
 export { omit, extend, clone } from './common/util';
 export * from './common/FormHelper';
 export * from './common/ValidationHelper';
-export * from './components/CompleteFormGroup';
-export * from './components/Color';
 export * from './components/Checkbox';
 export * from './components/CheckboxGroup';
-export * from './components/Email';
-export * from './components/File';
+export * from './components/EyeIcon';
 export * from './components/FontIcon';
-export * from './components/FormElement';
-export * from './components/FormComponent';
+export * from './components/Form';
 export * from './components/FormGroup';
+export * from './components/HelpBlock';
 export * from './components/Input';
 export * from './components/Label';
-export * from './components/Number';
 export * from './components/Password';
 export * from './components/RadioGroup';
-export * from './components/Range';
 export * from './components/Reset';
-export * from './components/Search';
 export * from './components/Select';
 export * from './components/Submit';
-export * from './components/Text';
 export * from './components/TextArea';
+

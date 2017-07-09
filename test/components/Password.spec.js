@@ -32,11 +32,11 @@ describe('Password', () => {
         assert.isTrue(wrapper.find('a').exists());
     });
 
-    it('Should not render eye if renderEye is false', () => {
+    it('Should not render eye if renderEyeIcon is false', () => {
         let props = {
             name: 'my-field',
             value: 'my value',
-            renderEye: false,
+            renderEyeIcon: false,
         };
         const wrapper = shallow(<Password  {...props} />);
 

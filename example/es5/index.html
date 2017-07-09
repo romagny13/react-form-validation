@@ -25,7 +25,7 @@
 
     <script type="text/babel">
         var Form = ReactFormValidation.Form;
-        var FormGroup = ReactFormValidation.CompleteFormGroup;
+        var FormGroup = ReactFormValidation.FormGroup;
         var Label = ReactFormValidation.Label;
         var Input = ReactFormValidation.Input;
         var Password = ReactFormValidation.Password;
@@ -72,7 +72,7 @@
                 console.log('touched', name);
 
                 var touched = this.state.touched;
-                touched[name] = 'touched';
+                touched[name] = true;
 
                 var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
 
