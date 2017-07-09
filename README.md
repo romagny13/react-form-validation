@@ -59,6 +59,7 @@ import '../node_modules/font-awesome/css/font-awesome.css';
 
 ## Documentation
 
+* [Components](https://romagny13.github.io/react-form-validation/)
 * [Wiki](https://github.com/romagny13/react-form-validation/wiki)
 
 ## Lib examples
