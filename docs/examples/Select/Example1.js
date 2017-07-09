@@ -7,7 +7,7 @@ class Example1 extends React.Component {
 
         this.state = {
             model: {
-              list: 'b',
+              list: '2',
             },
             touched: {}
         };
