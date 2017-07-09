@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { omit, isUndefined, isFunction } from '../common/util';
 
-/**  Create an input. */
+/**  Create an input element. */
 export class Input extends React.Component {
     constructor(props) {
         super(props);

@@ -1,32 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
 * {
     box-sizing: border-box;
 }
 
 body{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans","Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
     color: #c8c8c8;
-    background-color: #272b30;
+    background-color: #181818;
     margin: 0;
 }
 
-code {
-    font-size: 11px;
+a, a:visited {
+  color: #c8c8c8;
+}
+
+.clear {
+  clear: both;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.description {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    color: #fff;
+    background-color: #f96816;
 }
 
 /* Navigation */
-
-.componentpage {
-  margin-left: 275px;
-  margin-right: 12px;
-}
-
-.navigation-heading {
-   color: #ffffff !important;
-   background-color: #1c1e22 !important;
-   font-weight: bold;
-}
 
 .navigation {
   float: left;
@@ -37,8 +46,8 @@ code {
 }
 
 .navigation li:first-child {
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
+    border-top-right-radius: 2px;
+    border-top-left-radius: 2px;
 }
 
 .navigation li {
@@ -46,8 +55,15 @@ code {
     display: block;
     padding: 10px 15px;
     margin-bottom: -1px;
-    background-color: #32383e;
+    background-color: #222;
+    color: #aaa;
     border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.navigation-heading {
+   color: #fff !important;
+   background-color: #f96816 !important;
+   font-weight: 600;
 }
 
 .navigation a,.navigation a:visited {
@@ -59,29 +75,20 @@ code {
 .navigation li:hover{
     text-decoration: none;
     color: #c8c8c8;
-    background-color: #3e444c;
+    background-color: #2b2b2b;
 }
 
-a, a:visited {
-  color: #c8c8c8;
+.componentpage {
+  margin-left: 275px;
+  margin-right: 12px;
 }
 
-.clear {
-  clear: both;
-}
+/* example */
 
 .example {
-    background-image: -webkit-linear-gradient(#484e55, #3a3f44 60%, #313539);
-    background-image: -o-linear-gradient(#484e55, #3a3f44 60%, #313539);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#484e55), color-stop(60%, #3a3f44), to(#313539));
-    background-image: linear-gradient(#484e55, #3a3f44 60%, #313539);
-    background-repeat: no-repeat;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484e55', endColorstr='#ff313539', GradientType=0);
-    -webkit-filter: none;
-    filter: none;
+    background: #222;
     margin: 12px 0;
     padding: 12px;
-    border-radius:  2px;
     border:1px solid rgba(0, 0, 0, 0.6);
 }
 
@@ -93,6 +100,10 @@ a, a:visited {
    margin-bottom: 0;
 }
 
+code {
+    font-size: 11px;
+}
+
 /* table */
 
 table {
@@ -100,20 +111,22 @@ table {
 }
 
 table.props {
-  border: 5px solid #c8c8c8;
+  border: 3px solid #c8c8c8;
+  background: #222;
 }
+
 .props tr td:last-of-type {
   text-align: center;
 }
 
 .props th, td {
   text-align: left;
-  padding: 5px;
+  padding: 12px;
 }
 
 .props th, td {
   text-align: left;
-  padding: 5px;
+  padding: 12px;
 }
 
 td {
@@ -121,9 +134,8 @@ td {
 }
 
 td, th {
-  padding: 10px;
+  padding: 12px;
 }
-
 
 .alert {
     padding: 15px;
@@ -150,13 +162,7 @@ td, th {
     color: #ffffff;
 }
 
-.well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #1c1e22;
-    border: 1px solid #0c0d0e;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+.touched {
+    font-style: italic;
+    color: #eee;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, TextArea, CheckboxGroup, Label, required, ValidationHelper } from 'romagny13-react-form-validation';
 
-/** With validation (required) */
+/** Validation (required) */
 class Example2 extends React.Component {
     constructor(props) {
         super(props);
@@ -67,7 +67,7 @@ class Example2 extends React.Component {
         return (
             <Form onSubmit={this.onSubmit}>
                 <FormGroup error={errors["note"]} canChangeValidationState={submitted || touched["note"]}>
-                    <Label htmlFor="note" asterisk>Note</Label>
+                    <Label htmlFor="note" asterisk>Note</Label><br />
                     <TextArea id="note" name="note" value={model["note"]} onValueChange={this.onValueChange} onTouch={this.onTouch} rows="5" />
                 </FormGroup>
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextArea, Label } from 'romagny13-react-form-validation';
 
-/** Control is touched on lost focus */
 class Example1 extends React.Component {
     constructor(props) {
         super(props);
@@ -26,19 +25,20 @@ class Example1 extends React.Component {
     }
     onTouch(name) {
         let touched = this.state.touched;
-        touched[name] = 'touched!';
+        touched[name] = true;
         this.setState({
             touched
         });
     }
     render() {
+        const { model, touched } = this.state;
         return (
             <div>
-                <Label htmlFor="note" asterisk>Note</Label>
-                <TextArea id="note" name="note" value={this.state.model["note"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                {this.state.touched["note"] && <span>Touched!</span>}
+                <Label htmlFor="note" asterisk>Note</Label><br />
+                <TextArea id="note" name="note" value={model["note"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                {touched["note"] && <span className="touched">Touched!</span>}
                 <pre>
-                    {JSON.stringify(this.state.model)}
+                    {JSON.stringify(model)}
                 </pre>
             </div>
         );

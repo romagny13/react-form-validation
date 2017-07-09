@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, Label } from 'romagny13-react-form-validation';
 
-/** With validation */
 class Example1 extends React.Component {
     constructor(props) {
         super(props);
@@ -26,7 +25,7 @@ class Example1 extends React.Component {
     }
     onTouch(name) {
         let touched = this.state.touched;
-        touched[name] = 'touched!';
+        touched[name] = true;
         this.setState({
             touched
         });
@@ -38,7 +37,7 @@ class Example1 extends React.Component {
             <div>
                 <Label htmlFor="firstname" asterisk>Firstname</Label>
                 <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                {this.state.touched["firstname"] && <span>Touched!</span>}
+                {this.state.touched["firstname"] && <span className="touched">Touched!</span>}
                 <pre>
                     {JSON.stringify(this.state.model)}
                 </pre>

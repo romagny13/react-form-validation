@@ -1,7 +1,6 @@
 import React from 'react';
 import { CheckboxGroup, Label } from 'romagny13-react-form-validation';
 
-/** Control is touched on lost focus */
 class Example1 extends React.Component {
     constructor(props) {
         super(props);
@@ -26,19 +25,20 @@ class Example1 extends React.Component {
     }
     onTouch(name) {
         let touched = this.state.touched;
-        touched[name] = 'touched!';
+        touched[name] = true;
         this.setState({
             touched
         });
     }
     render() {
+        const { model, touched } = this.state;
         return (
             <div>
                 <Label asterisk>Like (multiple choice)</Label>
-                <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={this.state.model["likes"]} onValueChange={this.onValueChange} onTouch={this.onTouch}/>
-                {this.state.touched["likes"] && <span>Touched!</span>}
+                <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                {touched["likes"] && <span className="touched">Touched!</span>}
                 <pre>
-                    {JSON.stringify(this.state.model)}
+                    {JSON.stringify(model)}
                 </pre>
             </div>
         );

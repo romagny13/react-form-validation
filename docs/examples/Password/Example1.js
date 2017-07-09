@@ -1,7 +1,6 @@
 import React from 'react';
 import { Password, Label } from 'romagny13-react-form-validation';
 
-/** Control is touched on lost focus */
 class Example1 extends React.Component {
     constructor(props) {
         super(props);
@@ -26,19 +25,20 @@ class Example1 extends React.Component {
     }
     onTouch(name) {
         let touched = this.state.touched;
-        touched[name] = 'touched!';
+        touched[name] = true;
         this.setState({
             touched
         });
     }
     render() {
+        const { model, touched } = this.state;
         return (
             <div>
                 <Label htmlFor="password" asterisk>Password</Label>
-                <Password width="200px" id="password" name="password" value={this.state.model["password"]} onValueChange={this.onValueChange} onTouch={this.onTouch} placeholder="Password" />
-                {this.state.touched["password"] && <span>Touched!</span>}
+                <Password width="200px" id="password" name="password" value={model["password"]} onValueChange={this.onValueChange} onTouch={this.onTouch} placeholder="Password" />
+                {touched["password"] && <span className="touched">Touched!</span>}
                 <pre>
-                    {JSON.stringify(this.state.model)}
+                    {JSON.stringify(model)}
                 </pre>
             </div>
         );

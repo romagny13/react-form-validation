@@ -26,23 +26,24 @@ class Example1 extends React.Component {
     }
     onTouch(name) {
         let touched = this.state.touched;
-        touched[name] = 'touched!';
+        touched[name] = true;
         this.setState({
             touched
         });
     }
     render() {
+        const { model, touched } = this.state;
         return (
             <div>
                 <div className="checkbox">
                     <Label asterisk>
-                        <Checkbox name="agree" checked={this.state.model.agree} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                        <Checkbox name="agree" checked={model["agree"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                         I agree to terms
                     </Label>
                 </div>
-                {this.state.touched["agree"] && <span>Touched!</span>}
+                {touched["agree"] && <span className="touched">Touched!</span>}
                 <pre>
-                    {JSON.stringify(this.state.model)}
+                    {JSON.stringify(model)}
                 </pre>
             </div>
         );

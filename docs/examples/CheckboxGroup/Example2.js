@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, CheckboxGroup, Label, custom, ValidationHelper } from 'romagny13-react-form-validation';
 
-/** With validation (one or more selected items) */
+/** Validation (one or more selected items) */
 class Example2 extends React.Component {
     constructor(props) {
         super(props);
@@ -64,15 +64,16 @@ class Example2 extends React.Component {
         });
     }
     render() {
+        const { model, errors, touched, submitted } = this.state;
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={this.state.errors["likes"]} canChangeValidationState={this.state.submitted || this.state.touched["likes"]}>
+                <FormGroup error={errors["likes"]} canChangeValidationState={submitted || touched["likes"]}>
                     <Label asterisk>Like (multiple choice)</Label>
-                    <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={this.state.model["likes"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                    <CheckboxGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} values={model["likes"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                 </FormGroup>
                 <input type="submit" value="Submit" />
                 <pre>
-                    {JSON.stringify(this.state.errors)}
+                    {JSON.stringify(errors)}
                 </pre>
             </Form>
         );

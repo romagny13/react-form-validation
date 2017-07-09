@@ -8,9 +8,9 @@ export const ComponentPage = ({ component }) => {
 
     return (
         <div className="componentpage">
-            <h1 className="well">{name}</h1>
+            <h1 className="page-title">{name}</h1>
 
-            <div className="alert alert-info">{description}</div>
+            <div className="description">{description}</div>
 
             <h3>Example{examples.length > 1 && "s"}</h3>
             {examples.length > 0 ? examples.map(example => <Example key={example.name} example={example} componentName={name} />) : "No examples."}

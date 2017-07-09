@@ -4,8 +4,8 @@ var path = require('path'),
 module.exports = {
     entry: './docs/index.js',
     output: {
-        path: path.resolve(__dirname, "./dist"),
-        publicPath: "/dist/",
+        path: path.resolve(__dirname, "./docs"),
+        publicPath: "/",
         filename: 'build.js'
     },
     module: {
@@ -20,10 +20,10 @@ module.exports = {
            'romagny13-react-form-validation': path.resolve(__dirname, './src')
         }
     },
-   /* devServer: {
+    devServer: {
         contentBase: './docs',
         historyApiFallback: true,
         noInfo: true
-    },*/
+    },
     devtool: "#eval-source-map"
 };

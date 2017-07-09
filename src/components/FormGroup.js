@@ -38,7 +38,7 @@ FormGroup.propTypes = {
     /** The children */
     children: PropTypes.node,
 
-    /** Allow to display error / success / feedback */
+    /** Allow to display error / success */
     canChangeValidationState: PropTypes.bool,
 
     /** The error message */

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { omit, isFunction } from '../common/util';
 
+/** Create a textarea element. */
 export class TextArea extends React.Component {
     constructor(props) {
         super(props);

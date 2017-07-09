@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, Password, CheckboxGroup, Label, required, pattern, custom, ValidationHelper } from 'romagny13-react-form-validation';
 
-/** With validation (required, match) */
+/** Validation (required, match) */
 class Example2 extends React.Component {
     constructor(props) {
         super(props);

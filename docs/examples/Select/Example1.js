@@ -25,7 +25,7 @@ class Example1 extends React.Component {
     }
     onTouch(name) {
         let touched = this.state.touched;
-        touched[name] = 'touched!';
+        touched[name] = true;
         this.setState({
             touched
         });
@@ -34,9 +34,9 @@ class Example1 extends React.Component {
         const { model, errors, touched, submitted } = this.state;
         return (
             <div>
-                <Label htmlFor="list" className="control-label">List (no validation)</Label>
+                <Label htmlFor="list" className="control-label">List (no validation)</Label><br />
                 <Select name="list" dataSource={[1, 2, 3]} value={model['list']} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                {this.state.touched["list"] && <span>Touched!</span>}
+                {this.state.touched["list"] && <span className="touched">Touched!</span>}
                 <pre>
                     {JSON.stringify(this.state.model)}
                 </pre>

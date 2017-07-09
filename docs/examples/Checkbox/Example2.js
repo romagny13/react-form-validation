@@ -63,19 +63,20 @@ class Example2 extends React.Component {
         });
     }
     render() {
+        const { model, errors, touched, submitted } = this.state;
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={this.state.errors["agree"]} canChangeValidationState={this.state.submitted || this.state.touched["agree"]}>
+                <FormGroup error={errors["agree"]} canChangeValidationState={submitted || touched["agree"]}>
                     <div className="checkbox">
                         <Label asterisk>
-                            <Checkbox name="agree" checked={this.state.model.agree} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                            <Checkbox name="agree" checked={model.agree} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                             I agree to terms
                         </Label>
                     </div>
                 </FormGroup>
                 <input type="submit" value="Submit" />
                 <pre>
-                    {JSON.stringify(this.state.errors)}
+                    {JSON.stringify(errors)}
                 </pre>
             </Form>
         );
