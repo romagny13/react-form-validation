@@ -25,6 +25,7 @@ export class Docs extends React.Component {
             <div>
                 <Navigation components={componentData.map(component => component.name)} />
                 <ComponentPage component={component} />
+                <div className="copyright clear"> React Form validation © 2017 ROMAGNY13</div>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "React Form Binding and Validation",
   "main": "dist/react-form-validation.min.js",
   "files": [
@@ -16,6 +16,7 @@
     "gen:docs": "node scripts/generateComponentData.js",
     "build:docs": "webpack --config webpack.doc --progress --hide-modules"
   },
+  "homepage": "https://romagny13.github.io/react-form-validation/",
   "keywords": [
     "romagny13-react-form-validation",
     "react-form-validation",

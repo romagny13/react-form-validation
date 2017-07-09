@@ -1,5 +1,7 @@
 # React Form Validation
 
+> This Library allows to validate easily React Forms with a collection of helpers and components.
+
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
 Helpers: allow to validate simple form (with no component or another component framework )
@@ -32,7 +34,7 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 * **RadioGroup**: _dataSource_ + _value_. Its possible to use a custom **renderFunction**
 * **Select**: _dataSource_ + _value_
 * **TextArea**: _value_
-* **FormGroup**: allow to show error and success (classNames based on Bootstrap: has-error, has-success, etc.) if **canChangeValidationState** is true and customize all class names
+* **FormGroup**: allow to show error and success (classNames based on Bootstrap: has-error, has-success, etc.) if **canChangeValidationState** is true
 * **Form**: Form with noValidate by default
 * **Label**: allow to display _asterisk_ for required field
 * **FontIcon**: allow to show an icon (Font Awesome) by name (example: for 'fa fa-check', set the iconName to 'check') + **EyeIcon**

@@ -20,7 +20,7 @@ function getFontIconClassName(iconName, className, spin, fixed, larger) {
     return result;
 }
 
-/**  Create an icon (with Font Awesome).{ iconName, className, spin, larger } */
+/**  Create an icon (with Font Awesome). */
 export const FontIcon = (props) => {
     // http://fontawesome.io/icons/
     const { iconName, className, spin, fixed, larger } = props;
