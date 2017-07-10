@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormGroupHelper } from '../common/FormGroupHelper';
-
 import { ErrorBlock } from './ErrorBlock';
 
 /**  Creates a block that allows to display error and success. */
@@ -16,14 +14,19 @@ export const FormGroup = ({
     successClassName
 }) => {
     if (canChangeValidationState) {
-        let hasError = typeof error != 'undefined' ? true : false;
-        let hasSuccess = renderSuccess && !hasError;
-        let groupClassName = FormGroupHelper.getGroupClassName(hasError, hasSuccess, className, errorClassName, successClassName);
-        let content = hasError ? <div className="clearfix">{children}</div> : children;
+        let groupClassName = className;
+        if (error) {
+            groupClassName += ' ' + errorClassName;
+        }
+        else if (renderSuccess) {
+            groupClassName += ' ' + successClassName;
+        }
         return (
             <div className={groupClassName}>
-                {content}
-                {hasError && <ErrorBlock>{error}</ErrorBlock>}
+                <div className="clearfix">
+                    {children}
+                </div>
+                {error && <ErrorBlock>{error}</ErrorBlock>}
             </div>
         );
     }

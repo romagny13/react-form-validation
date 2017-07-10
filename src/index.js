@@ -13,6 +13,7 @@ export * from './components/FormGroup';
 export * from './components/ErrorBlock';
 export * from './components/Input';
 export * from './components/Label';
+export * from './components/LightGroup';
 export * from './components/Password';
 export * from './components/Radio';
 export * from './components/RadioGroup';

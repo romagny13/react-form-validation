@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {  ValidationHelper, required, minlength, maxlength, pattern, email, custom, isNullOrEmpty, FormHelper } from '../../../../src/index';
+import { FormGroup, ValidationHelper, required, minlength, maxlength, pattern, email, custom, isNullOrEmpty, FormHelper } from '../../../../src/index';
 
-import Form from './SimpleForm';
+import MyForm from './SimpleForm';
 
 class SimplePage extends Component {
     constructor(props) {
@@ -11,32 +11,33 @@ class SimplePage extends Component {
 
         this.state = {
             model: {
-                firstname: 'Marie',
-                 lastname: 'Bellin',
-                 email: '',
-                 password: 'Secret',
-                 confirmPassword: '',
+                firstname: '',
+                lastname: '',
+                email: '',
+                password: 'Secret',
+                confirmPassword: '',
                 likes: ['Milk', 'Cakes'],
-                list: 'b'
+                list: 'b',
+                agree: false
             },
             submitted: false,
             errors: {}
         };
 
         this.validators = {
-             firstname: [required(), minlength(3)],
-             lastname: [maxlength(10)],
-             email: [email()],
-             password: [
-                 required('Please enter a password.'),
-                 pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter.')
-             ],
-             confirmPassword: [
-                 required('Please confirm the password.'),
-                 custom((value, model) => {
-                     return model.password === value;
-                 }, 'Password and confirm password do not match.')
-             ],
+            firstname: [required(), minlength(3)],
+            lastname: [required(), maxlength(10)],
+            email: [email()],
+            password: [
+                required('Please enter a password.'),
+                pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter.')
+            ],
+            confirmPassword: [
+                required('Please confirm the password.'),
+                custom((value, model) => {
+                    return model.password === value;
+                }, 'Password and confirm password do not match.')
+            ],
             age: [required(), custom((value) => {
                 return value > 0 && value < 120;
             }, 'Oops ??')],
@@ -103,7 +104,8 @@ class SimplePage extends Component {
     }
 
     render() {
-        return <Form
+        const { model, errors, submitted } = this.state;
+        return <MyForm
             model={this.state.model}
             errors={this.state.errors}
             onValueChange={this.onValueChange}
@@ -113,3 +115,4 @@ class SimplePage extends Component {
 }
 
 export default SimplePage;
+

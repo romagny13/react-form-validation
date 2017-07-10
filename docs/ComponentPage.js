@@ -8,7 +8,6 @@ export const ComponentPage = ({ component }) => {
 
     return (
         <div className="componentpage">
-            
             <h1 className="page-title">{name}</h1>
 
             <div className="description">{description}</div>

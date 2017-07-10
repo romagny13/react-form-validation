@@ -38,12 +38,6 @@ const CustomForm = ({ model, onSubmit, onReset, onValueChange, errors, submitted
                         <Label htmlFor="password" className="col-lg-2 control-Label">Password</Label>
                         <div className="col-lg-10">
                             <Password id="password" name="password" value={model["password"]} onValueChange={onValueChange} placeholder="Password" className="form-control" />
-                            {/*<div className="checkbox">
-                                <Label>
-                                    <Checkbox name="agree" checked={model["agree"]} onValueChange={onValueChange} />
-                                    Checkbox
-                                </Label>
-                            </div>*/}
                         </div>
                     </FormGroup>
 

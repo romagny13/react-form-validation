@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigation } from './Navigation';
 import { ComponentPage } from './ComponentPage';
 import componentData from './componentData';
-import {Home } from './Home';
+import { Home } from './Home';
 
 export class Docs extends React.Component {
     constructor(props) {

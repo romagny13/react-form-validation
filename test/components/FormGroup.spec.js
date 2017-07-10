@@ -79,7 +79,7 @@ describe('FormGroup', () => {
         };
         const wrapper = shallow(<FormGroup  {...props} />);
 
-        assert.equal('<div class="form-group has-success"></div>', wrapper.html());
+        assert.equal('<div class="form-group has-success"><div class="clearfix"></div></div>', wrapper.html());
     });
 
    
@@ -110,7 +110,7 @@ describe('FormGroup', () => {
         };
         const wrapper = shallow(<FormGroup  {...props} />);
 
-        assert.equal('<div class="form-group my-success"></div>', wrapper.html());
+        assert.equal('<div class="form-group my-success"><div class="clearfix"></div></div>', wrapper.html());
     });
 
 });
