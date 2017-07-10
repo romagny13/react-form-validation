@@ -1,0 +1,1957 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "name": "helpers/FormHelper.js",
+    "content": "/**\r\n * Allows to resolve element value.\r\n */\r\nexport class FormHelper {\r\n\r\n    /**\r\n     * Checks if the element is an \"input\".\r\n     * @param {Object} element \r\n     * @return {boolean} \r\n     */\r\n    static isInput(element) {\r\n        return element.tagName === 'INPUT';\r\n    }\r\n\r\n    /**\r\n     * Checks if the element is a \"textarea\".\r\n     * @param {Object} element \r\n     * @return {boolean} \r\n     */\r\n    static isTextarea(element) {\r\n        return element.tagName === 'TEXTAREA';\r\n    }\r\n\r\n    /**\r\n     * Checks if the element is a \"select\" element.\r\n     * @param {Object} element \r\n     * @return {boolean} \r\n     */\r\n    static isSelect(element) {\r\n        return element.tagName === 'SELECT';\r\n    }\r\n\r\n    /**\r\n        * Checks if the element is an input with the type \"checkbox\".\r\n        * @param {Object} element \r\n        * @return {boolean} \r\n        */\r\n    static isCheckbox(element) {\r\n        return element.type && element.type === 'checkbox';\r\n    }\r\n\r\n    /**\r\n        * Checks if the element is an input with the type \"radio\".\r\n        * @param {Object} element \r\n        * @return {boolean} \r\n        */\r\n    static isRadio(element) {\r\n        return element.type && element.type === 'radio';\r\n    }\r\n\r\n    /**\r\n        * Checks if the element is an input with the type \"number\" or \"range\".\r\n        * @param {Object} element \r\n        * @return {boolean} \r\n        */\r\n    isNumberElement(element) {\r\n        return element.type && (element.type === 'number' || element.type === 'range');\r\n    }\r\n\r\n    /**\r\n     * Returns cheched or the checbox value.\r\n     * @param {Object} checkbox\r\n     * @return {string|boolean} \r\n     */\r\n    static GetCheckboxValue(checkbox) {\r\n        return checkbox.value !== 'on' ? checkbox.value : checkbox.checked;\r\n    }\r\n\r\n    /**\r\n     * Returns the input value.\r\n     * @param {Object} element\r\n     * @return {string} \r\n     */\r\n    static GetInputValue(element) {\r\n        if (FormHelper.isCheckbox(element)) {\r\n            return FormHelper.GetCheckboxValue(element);\r\n        } else {\r\n            return element.value;\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Returns the selected value or selected values the select is multiple.\r\n     * @param {Object} select\r\n     * @return {string|Array} \r\n     */\r\n    static GetSelectValue(select) {\r\n        if (select.multiple) {\r\n            let values = [];\r\n            let options = select.options;\r\n            for (let i = 0; i < options.length; i++) {\r\n                let option = options[i];\r\n                if (option.selected) {\r\n                    values.push(option.value);\r\n                }\r\n            }\r\n            return values;\r\n        }\r\n        else {\r\n            return select.options[select.selectedIndex].value;\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Check the element type (input, checbox, select, textarea) and returns the value.\r\n     * @param {Object} element\r\n     * @return {Object|Array|string|boolean} \r\n     */\r\n    static getElementValue(element) {\r\n        if (FormHelper.isInput(element)) {\r\n            return FormHelper.GetInputValue(element);\r\n        } else if (FormHelper.isTextarea(element)) {\r\n            return element.value;\r\n        } else if (FormHelper.isSelect(element)) {\r\n            return FormHelper.GetSelectValue(element);\r\n        }\r\n    }\r\n\r\n    static hasClassName(className, classNameToCheck) {\r\n        return className.indexOf(classNameToCheck) != -1;\r\n    }\r\n\r\n    static addClassName(className, classNameToAdd) {\r\n        return className + ' ' + classNameToAdd;\r\n    }\r\n\r\n    static removeClassName(className, classNameToRemove) {\r\n        return className.replace(classNameToRemove, '');\r\n    }\r\n}",
+    "static": true,
+    "longname": "helpers/FormHelper.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 1,
+    "kind": "class",
+    "name": "FormHelper",
+    "memberof": "helpers/FormHelper.js",
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/FormHelper.js",
+    "importStyle": "{FormHelper}",
+    "description": "Allows to resolve element value.",
+    "lineNumber": 4,
+    "interface": false
+  },
+  {
+    "__docId__": 2,
+    "kind": "method",
+    "name": "isInput",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.isInput",
+    "access": null,
+    "description": "Checks if the element is an \"input\".",
+    "lineNumber": 11,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 3,
+    "kind": "method",
+    "name": "isTextarea",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.isTextarea",
+    "access": null,
+    "description": "Checks if the element is a \"textarea\".",
+    "lineNumber": 20,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "method",
+    "name": "isSelect",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.isSelect",
+    "access": null,
+    "description": "Checks if the element is a \"select\" element.",
+    "lineNumber": 29,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 5,
+    "kind": "method",
+    "name": "isCheckbox",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.isCheckbox",
+    "access": null,
+    "description": "Checks if the element is an input with the type \"checkbox\".",
+    "lineNumber": 38,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 6,
+    "kind": "method",
+    "name": "isRadio",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.isRadio",
+    "access": null,
+    "description": "Checks if the element is an input with the type \"radio\".",
+    "lineNumber": 47,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 7,
+    "kind": "method",
+    "name": "isNumberElement",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "helpers/FormHelper.js~FormHelper#isNumberElement",
+    "access": null,
+    "description": "Checks if the element is an input with the type \"number\" or \"range\".",
+    "lineNumber": 56,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 8,
+    "kind": "method",
+    "name": "GetCheckboxValue",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.GetCheckboxValue",
+    "access": null,
+    "description": "Returns cheched or the checbox value.",
+    "lineNumber": 65,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "checkbox",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "method",
+    "name": "GetInputValue",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.GetInputValue",
+    "access": null,
+    "description": "Returns the input value.",
+    "lineNumber": 74,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 10,
+    "kind": "method",
+    "name": "GetSelectValue",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.GetSelectValue",
+    "access": null,
+    "description": "Returns the selected value or selected values the select is multiple.",
+    "lineNumber": 87,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "select",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "Array"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 11,
+    "kind": "method",
+    "name": "getElementValue",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.getElementValue",
+    "access": null,
+    "description": "Check the element type (input, checbox, select, textarea) and returns the value.",
+    "lineNumber": 109,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object",
+        "Array",
+        "string",
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 12,
+    "kind": "method",
+    "name": "hasClassName",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.hasClassName",
+    "access": null,
+    "description": null,
+    "lineNumber": 119,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "className",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "classNameToCheck",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 13,
+    "kind": "method",
+    "name": "addClassName",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.addClassName",
+    "access": null,
+    "description": null,
+    "lineNumber": 123,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "className",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "classNameToAdd",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 14,
+    "kind": "method",
+    "name": "removeClassName",
+    "memberof": "helpers/FormHelper.js~FormHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/FormHelper.js~FormHelper.removeClassName",
+    "access": null,
+    "description": null,
+    "lineNumber": 127,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "className",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "classNameToRemove",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 15,
+    "kind": "file",
+    "name": "helpers/util.js",
+    "content": "import { isObject, isArray } from '../common/util';\r\n\r\n/**\r\n * Extends the target object with the source object.\r\n * @param {Object} source \r\n * @param {Object} target \r\n * @return {Object} The target object.\r\n */\r\nexport function extend(source, target) {\r\n    if (typeof source === 'object') {\r\n        for (let name in source) {\r\n            if (!target.hasOwnProperty(name)) {\r\n                let sourceValue = source[name];\r\n                if (isArray(sourceValue)) {\r\n                    target[name] = sourceValue.slice(0);\r\n                }\r\n                else if (isObject(sourceValue)) {\r\n                    target[name] = extend(sourceValue, {});\r\n                }\r\n                else {\r\n                    target[name] = sourceValue;\r\n                }\r\n            }\r\n        }\r\n    }\r\n    return target;\r\n}\r\n\r\n/**\r\n * Clones an object.\r\n * @param {Object} obj \r\n */\r\nexport function clone(obj) {\r\n    return extend(obj, {});\r\n}\r\n\r\n/**\r\n * Returns the source object without the omitted names.\r\n * @param {Object} obj \r\n * @param {Array} names\r\n */\r\nexport function omit(obj, names = []) {\r\n    let result = {};\r\n    for (let name in obj) {\r\n        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {\r\n            result[name] = obj[name];\r\n        }\r\n    }\r\n    return result;\r\n}\r\n",
+    "static": true,
+    "longname": "helpers/util.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 16,
+    "kind": "function",
+    "name": "extend",
+    "memberof": "helpers/util.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/util.js~extend",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/util.js",
+    "importStyle": "{extend}",
+    "description": "Extends the target object with the source object.",
+    "lineNumber": 9,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "source",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "target",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "The target object."
+    }
+  },
+  {
+    "__docId__": 17,
+    "kind": "function",
+    "name": "clone",
+    "memberof": "helpers/util.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/util.js~clone",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/util.js",
+    "importStyle": "{clone}",
+    "description": "Clones an object.",
+    "lineNumber": 33,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "obj",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 18,
+    "kind": "function",
+    "name": "omit",
+    "memberof": "helpers/util.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/util.js~omit",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/util.js",
+    "importStyle": "{omit}",
+    "description": "Returns the source object without the omitted names.",
+    "lineNumber": 42,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "obj",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "names",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 19,
+    "kind": "file",
+    "name": "helpers/ValidationHelper.js",
+    "content": "import { isObject } from '../common/util';\r\n\r\n/**\r\n * Allows to validate a value, a property or a form model with validations (required, minlength, maxlength, pattern, email, custom).\r\n * \r\n * @example\r\n * let model = {\r\n *   firstname: '',\r\n *   lastname: ''\r\n* };\r\n*\r\n* let validations = {\r\n *  firstname: [required('Firstname required')],\r\n *  lastname: [required('Lastname required')]\r\n* };\r\n*\r\n* let value = model['lastname'];\r\n*\r\n* let error = ValidationHelper.validateValue(model,value,validations);\r\n* // error => 'Lastname required'\r\n * \r\n */\r\nexport class ValidationHelper {\r\n\r\n    /**\r\n     * Checks the value with the validations (pass the model to the custom validations) and returns the first error message.\r\n     * @param {Object} model \r\n     * @param {string|number|boolean} value \r\n     * @param {Array} validations \r\n     * @return {string|undefined} The first error message or undefined.\r\n     */\r\n    static validateValue(model, value, validations) {\r\n        for (let i = 0; i < validations.length; i++) {\r\n            let validator = validations[i];\r\n            let error = validator(value, model);\r\n            if (error) {\r\n                return error;\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Checks the property name with the validations (pass the model to the custom validations) and returns the first error message.\r\n     * \r\n     * @example\r\n     * let error = ValidationHelper.validateProperty(model, 'lastname', validations);\r\n     * // error => 'Lastname required'\r\n     * \r\n     * @param {Object} model \r\n     * @param {string|number|boolean} name \r\n     * @param {Array} validations \r\n     * @return {string|undefined} The first error message or undefined.\r\n     */\r\n    static validateProperty(model, name, validations) {\r\n        let value = model[name];\r\n        return ValidationHelper.validateValue(model, value, validations);\r\n    }\r\n\r\n    /**\r\n     * Checks if the validations object has validations for the name\r\n     * \r\n     * @example\r\n     * let errors = ValidationHelper.validateAll(model,validations);\r\n     * // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}\r\n     * @param {string} name \r\n     * @param {Object} validations \r\n     * @return {boolean}\r\n     */\r\n    static hasValidations(name, validations) {\r\n        return validations.hasOwnProperty(name);\r\n    }\r\n\r\n    /**\r\n     * Returns the length of the errors object.\r\n     * @param {Object} errors \r\n     * @return {number}\r\n     */\r\n    static countErrors(errors) {\r\n        return Object.keys(errors).length;\r\n    }\r\n\r\n    /**\r\n     * Checks if the object is empty.\r\n     * @param {Object} errors \r\n     * @return {boolean}\r\n     */\r\n    static hasErrors(errors) {\r\n        return isObject(errors) && ValidationHelper.countErrors(errors) > 0;\r\n    }\r\n\r\n    /**\r\n     * Validates the form model and returns an object with the errors messages.\r\n     * @param {Object} model \r\n     * @param {Object} validations \r\n     * @return {Object}\r\n     */\r\n    static validateAll(model, validations) {\r\n        let errors = {};\r\n\r\n        for (let name in validations) {\r\n            if (ValidationHelper.hasValidations(name, validations)) {\r\n                let fieldValidations = validations[name];\r\n                if (!Array.isArray(fieldValidations)) { throw new Error('Validations require an Array'); }\r\n\r\n                let error = ValidationHelper.validateProperty(model, name, fieldValidations);\r\n                if (error) {\r\n                    errors[name] = error;\r\n                }\r\n            }\r\n        }\r\n\r\n        return errors;\r\n    }\r\n}",
+    "static": true,
+    "longname": "helpers/ValidationHelper.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 20,
+    "kind": "class",
+    "name": "ValidationHelper",
+    "memberof": "helpers/ValidationHelper.js",
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/ValidationHelper.js",
+    "importStyle": "{ValidationHelper}",
+    "description": "Allows to validate a value, a property or a form model with validations (required, minlength, maxlength, pattern, email, custom).",
+    "examples": [
+      "let model = {\n  firstname: '',\n  lastname: ''\n};\n\nlet validations = {\n firstname: [required('Firstname required')],\n lastname: [required('Lastname required')]\n};\n\nlet value = model['lastname'];\n\nlet error = ValidationHelper.validateValue(model,value,validations);\n// error => 'Lastname required'"
+    ],
+    "lineNumber": 23,
+    "interface": false
+  },
+  {
+    "__docId__": 21,
+    "kind": "method",
+    "name": "validateValue",
+    "memberof": "helpers/ValidationHelper.js~ValidationHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper.validateValue",
+    "access": null,
+    "description": "Checks the value with the validations (pass the model to the custom validations) and returns the first error message.",
+    "lineNumber": 32,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "model",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "number",
+          "boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "validations",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The first error message or undefined."
+    }
+  },
+  {
+    "__docId__": 22,
+    "kind": "method",
+    "name": "validateProperty",
+    "memberof": "helpers/ValidationHelper.js~ValidationHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper.validateProperty",
+    "access": null,
+    "description": "Checks the property name with the validations (pass the model to the custom validations) and returns the first error message.",
+    "examples": [
+      "let error = ValidationHelper.validateProperty(model, 'lastname', validations);\n// error => 'Lastname required'"
+    ],
+    "lineNumber": 54,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "model",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "number",
+          "boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "validations",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The first error message or undefined."
+    }
+  },
+  {
+    "__docId__": 23,
+    "kind": "method",
+    "name": "hasValidations",
+    "memberof": "helpers/ValidationHelper.js~ValidationHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper.hasValidations",
+    "access": null,
+    "description": "Checks if the validations object has validations for the name",
+    "examples": [
+      "let errors = ValidationHelper.validateAll(model,validations);\n// errors => {firstname: 'Firstname required', lastname: 'Lastname required'}"
+    ],
+    "lineNumber": 69,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "validations",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "method",
+    "name": "countErrors",
+    "memberof": "helpers/ValidationHelper.js~ValidationHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper.countErrors",
+    "access": null,
+    "description": "Returns the length of the errors object.",
+    "lineNumber": 78,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "errors",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 25,
+    "kind": "method",
+    "name": "hasErrors",
+    "memberof": "helpers/ValidationHelper.js~ValidationHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper.hasErrors",
+    "access": null,
+    "description": "Checks if the object is empty.",
+    "lineNumber": 87,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "errors",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 26,
+    "kind": "method",
+    "name": "validateAll",
+    "memberof": "helpers/ValidationHelper.js~ValidationHelper",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/ValidationHelper.js~ValidationHelper.validateAll",
+    "access": null,
+    "description": "Validates the form model and returns an object with the errors messages.",
+    "lineNumber": 97,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "model",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "validations",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 27,
+    "kind": "file",
+    "name": "helpers/validations.js",
+    "content": "const defaultErrorMessages = {\r\n    required: 'This field is required.',\r\n    minlength: 'Please enter at least than {0} characters.',\r\n    maxlength: 'Please enter no more than {0} characters.',\r\n    pattern: 'Please fix this field.',\r\n    email: 'Please enter a valid email address.',\r\n    custom: 'Please fix this field.'\r\n};\r\n\r\nexport function formatErrorMessage(message, searchValue, replaceValue) {\r\n    return message.replace(searchValue, replaceValue);\r\n}\r\n\r\n/**\r\n * Checks if value is null or undefined or an empty string\r\n * @param {string} value \r\n * @return {boolean}\r\n */\r\nexport function isNullOrEmpty(value) {\r\n    return value === null || typeof value === 'undefined' || value === '';\r\n}\r\n\r\n/**\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n */\r\nexport const required = (message) => {\r\n    let error = typeof message === 'string' ? message : defaultErrorMessages.required;\r\n    return (value) => {\r\n        if (isNullOrEmpty(value) || (typeof value === 'boolean' && value === false)) {\r\n            return error;\r\n        }\r\n    };\r\n};\r\n\r\n/**\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n */\r\nexport const minlength = (minLength, message) => {\r\n    let _minLength = typeof minLength === 'number' ? minLength : 3;\r\n    let error = typeof message === 'string' ? message : formatErrorMessage(defaultErrorMessages.minlength, '{0}', _minLength);\r\n    return (value) => {\r\n        if (!isNullOrEmpty(value) && value.length < _minLength) {\r\n            return error;\r\n        }\r\n    };\r\n};\r\n\r\n/**\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n */\r\nexport const maxlength = (maxLength, message) => {\r\n    let _maxLength = typeof maxLength === 'number' ? maxLength : 30;\r\n    let error = typeof message === 'string' ? message : formatErrorMessage(defaultErrorMessages.maxlength, '{0}', _maxLength);\r\n    return (value) => {\r\n        if (!isNullOrEmpty(value) && value.length > _maxLength) {\r\n            return error;\r\n        }\r\n    };\r\n};\r\n\r\n/**\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n */\r\nexport const pattern = (pattern, message) => {\r\n    let error = typeof message === 'string' ? message : defaultErrorMessages.pattern;\r\n    return (value) => {\r\n        if (!isNullOrEmpty(value) && !pattern.test(value)) {\r\n            return error;\r\n        }\r\n    };\r\n};\r\n\r\n/**\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n */\r\nexport const email = (message) => {\r\n    let error = typeof message === 'string' ? message : defaultErrorMessages.email;\r\n    return pattern(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i, error);\r\n};\r\n\r\n/**\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n */\r\nexport const custom = (fn, message) => {\r\n    let error = typeof message === 'string' ? message : defaultErrorMessages.custom;\r\n    return (value, model) => {\r\n        if (!isNullOrEmpty(value) && !fn(value, model)) {\r\n            return error;\r\n        }\r\n    };\r\n};\r\n",
+    "static": true,
+    "longname": "helpers/validations.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 28,
+    "kind": "variable",
+    "name": "defaultErrorMessages",
+    "memberof": "helpers/validations.js",
+    "static": true,
+    "longname": "helpers/validations.js~defaultErrorMessages",
+    "access": null,
+    "export": false,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "{\"required\": string, \"minlength\": string, \"maxlength\": string, \"pattern\": string, \"email\": string, \"custom\": string}"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
+    "kind": "function",
+    "name": "formatErrorMessage",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~formatErrorMessage",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{formatErrorMessage}",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "message",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "searchValue",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "replaceValue",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "function",
+    "name": "isNullOrEmpty",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~isNullOrEmpty",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{isNullOrEmpty}",
+    "description": "Checks if value is null or undefined or an empty string",
+    "lineNumber": 19,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 31,
+    "kind": "function",
+    "name": "required",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~required",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{required}",
+    "description": "Checks if a value is undefined or null or an empty string or is false (for a boolean)",
+    "lineNumber": 28,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The error message to display"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The error message or undefined"
+    }
+  },
+  {
+    "__docId__": 32,
+    "kind": "function",
+    "name": "minlength",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~minlength",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{minlength}",
+    "description": "Checks if a value has the min. length.",
+    "lineNumber": 43,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "minLength",
+        "description": "By default 3."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The error message to display."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The error message or undefined."
+    }
+  },
+  {
+    "__docId__": 33,
+    "kind": "function",
+    "name": "maxlength",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~maxlength",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{maxlength}",
+    "description": "Checks if a value has the max. length.",
+    "lineNumber": 59,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "maxLength",
+        "description": "By default 30."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The error message to display."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The error message or undefined."
+    }
+  },
+  {
+    "__docId__": 34,
+    "kind": "function",
+    "name": "pattern",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~pattern",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{pattern}",
+    "description": "Checks if a value match to the regex pattern.",
+    "lineNumber": 75,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pattern",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The error message to display."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The error message or undefined."
+    }
+  },
+  {
+    "__docId__": 35,
+    "kind": "function",
+    "name": "email",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~email",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{email}",
+    "description": "Checks if a value is a valid email.",
+    "lineNumber": 89,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The error message to display."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The error message or undefined."
+    }
+  },
+  {
+    "__docId__": 36,
+    "kind": "function",
+    "name": "custom",
+    "memberof": "helpers/validations.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "helpers/validations.js~custom",
+    "access": null,
+    "export": true,
+    "importPath": "romagny13-react-form-validation/helpers/validations.js",
+    "importStyle": "{custom}",
+    "description": "Calls a function to check if value is valid.",
+    "lineNumber": 100,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fn",
+        "description": "The function that receives the value, the model and returns a boolean."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The error message to display."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The error message or undefined."
+    }
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 49,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 50,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 51,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 52,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 53,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 54,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 56,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 57,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 58,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 59,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 60,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 61,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 62,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 63,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 66,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 73,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 77,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 78,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 83,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": "",
+    "lineNumber": 193,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "external",
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "external",
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 88,
+    "kind": "external",
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 89,
+    "kind": "external",
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 90,
+    "kind": "external",
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "external",
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 92,
+    "kind": "external",
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "external",
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": "",
+    "lineNumber": 34,
+    "builtinExternal": true
+  }
+]

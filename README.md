@@ -30,9 +30,9 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 * **Input** value + type ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range') and shortcuts:
 * **Password**: input type type password with eye component (allow to show password)
 * **Checkbox**: _checked_
-* **CheckboxGroup**: _dataSource_ + _values_. Its possible to use a custom **renderFunction**
+* **CheckboxGroup**: _dataSource_ + _values_.
 * **Radio**: _checked_
-* **RadioGroup**: _dataSource_ + _value_. Its possible to use a custom **renderFunction**
+* **RadioGroup**: _dataSource_ + _value_.
 * **Select**: _dataSource_ + _value_  or _values with multiple_
 * **TextArea**: _value_
 * **FormGroup**: allow to show error and success (classNames based on Bootstrap: has-error, has-success, etc.) if **canChangeValidationState** is true
@@ -48,11 +48,11 @@ Components: allow to bind value and notify on value change (onValueChange) and o
 ```
 npm i romagny13-react-form-validation -S
 ```
-Require **Font Awesome**. With a `cdn`:
+Requires [Font Awesome](http://fontawesome.io/). With a **CDN**:
 ```xml
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 ```
-... Or with `Webpack` (+ `css-loader`):
+... Or with **Webpack** (+ **css-loader**):
 ```
 npm i font-awesome -S
 ```
@@ -62,8 +62,7 @@ import '../node_modules/font-awesome/css/font-awesome.css';
 
 ## Documentation
 
-* [Components](https://romagny13.github.io/react-form-validation/)
-* [Wiki](https://github.com/romagny13/react-form-validation/wiki)
+* [Site](https://romagny13.github.io/react-form-validation/)
 
 ## Lib examples
 

@@ -1,7 +1,8 @@
 // enzyme http://airbnb.io/enzyme/docs/api/ReactWrapper/exists.html
 
 require('./common/FormGroupHelper.spec');
-require('./common/validations.spec');
+
+require('./helpers/validations.spec');
 
 require('./components/FormComponent.spec');
 require('./components/FormGroup.spec');

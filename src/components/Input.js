@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, isUndefined, isFunction } from '../common/util';
+import { isUndefined, isFunction } from '../common/util';
+import { omit } from '../helpers/util';
 
 /**  Creates an input element. */
 export class Input extends React.Component {

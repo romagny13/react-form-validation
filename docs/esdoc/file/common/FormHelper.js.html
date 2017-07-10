@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">common/FormHelper.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/romagny13/react-form-validation" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/common/FormGroupHelper.js~FormGroupHelper.html">FormGroupHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/common/FormHelper.js~FormHelper.html">FormHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/common/ValidationHelper.js~ValidationHelper.html">ValidationHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clone">clone</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extend">extend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isBoolean">isBoolean</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isDate">isDate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isDefined">isDefined</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isFunction">isFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isNumber">isNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isObject">isObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isPromise">isPromise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isString">isString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUndefined">isUndefined</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-omit">omit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-custom">custom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-email">email</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatErrorMessage">formatErrorMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isNullOrEmpty">isNullOrEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-maxlength">maxlength</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-minlength">minlength</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pattern">pattern</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-required">required</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-isArray">isArray</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">common/FormHelper.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * Allows to resolve element value.
+ */
+export class FormHelper {
+
+    /**
+     * Checks if the element is an &quot;input&quot;.
+     * @param {Object} element 
+     * @return {boolean} 
+     */
+    static isInput(element) {
+        return element.tagName === &apos;INPUT&apos;;
+    }
+
+    /**
+     * Checks if the element is a &quot;textarea&quot;.
+     * @param {Object} element 
+     * @return {boolean} 
+     */
+    static isTextarea(element) {
+        return element.tagName === &apos;TEXTAREA&apos;;
+    }
+
+    /**
+     * Checks if the element is a &quot;select&quot; element.
+     * @param {Object} element 
+     * @return {boolean} 
+     */
+    static isSelect(element) {
+        return element.tagName === &apos;SELECT&apos;;
+    }
+
+    /**
+        * Checks if the element is an input with the type &quot;checkbox&quot;.
+        * @param {Object} element 
+        * @return {boolean} 
+        */
+    static isCheckbox(element) {
+        return element.type &amp;&amp; element.type === &apos;checkbox&apos;;
+    }
+
+    /**
+        * Checks if the element is an input with the type &quot;radio&quot;.
+        * @param {Object} element 
+        * @return {boolean} 
+        */
+    static isRadio(element) {
+        return element.type &amp;&amp; element.type === &apos;radio&apos;;
+    }
+
+    /**
+        * Checks if the element is an input with the type &quot;number&quot; or &quot;range&quot;.
+        * @param {Object} element 
+        * @return {boolean} 
+        */
+    isNumberElement(element) {
+        return element.type &amp;&amp; (element.type === &apos;number&apos; || element.type === &apos;range&apos;);
+    }
+
+    /**
+     * Returns cheched or the checbox value.
+     * @param {Object} checkbox
+     * @return {string|boolean} 
+     */
+    static GetCheckboxValue(checkbox) {
+        return checkbox.value !== &apos;on&apos; ? checkbox.value : checkbox.checked;
+    }
+
+    /**
+     * Returns the input value.
+     * @param {Object} element
+     * @return {string} 
+     */
+    static GetInputValue(element) {
+        if (FormHelper.isCheckbox(element)) {
+            return FormHelper.GetCheckboxValue(element);
+        } else {
+            return element.value;
+        }
+    }
+
+    /**
+     * Returns the selected value or selected values the select is multiple.
+     * @param {Object} select
+     * @return {string|Array} 
+     */
+    static GetSelectValue(select) {
+        if (select.multiple) {
+            let values = [];
+            let options = select.options;
+            for (let i = 0; i &lt; options.length; i++) {
+                let option = options[i];
+                if (option.selected) {
+                    values.push(option.value);
+                }
+            }
+            return values;
+        }
+        else {
+            return select.options[select.selectedIndex].value;
+        }
+    }
+
+    /**
+     * Check the element type (input, checbox, select, textarea) and returns the value.
+     * @param {Object} element
+     * @return {Object|Array|string|boolean} 
+     */
+    static getElementValue(element) {
+        if (FormHelper.isInput(element)) {
+            return FormHelper.GetInputValue(element);
+        } else if (FormHelper.isTextarea(element)) {
+            return element.value;
+        } else if (FormHelper.isSelect(element)) {
+            return FormHelper.GetSelectValue(element);
+        }
+    }
+
+    static hasClassName(className, classNameToCheck) {
+        return className.indexOf(classNameToCheck) != -1;
+    }
+
+    static addClassName(className, classNameToAdd) {
+        return className + &apos; &apos; + classNameToAdd;
+    }
+
+    static removeClassName(className, classNameToRemove) {
+        return className.replace(classNameToRemove, &apos;&apos;);
+    }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

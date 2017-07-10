@@ -7,17 +7,21 @@
     <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
 
-    <!-- bundle -->
-    <script src="../../dist/react-form-validation.min.js"></script>
-
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/slate/bootstrap.min.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
      <style>
-    
-        .error-block {
-            margin-left: 200px;
+       
+       .error-block {
+                margin-left: 15px;
+        }
+
+        @media (min-width: 1200px) {
+            .error-block {
+                margin-left: 200px;
+            }
         }
 
     </style>
@@ -25,6 +29,9 @@
 
 <body>
     <div id="app"></div>
+
+    <!-- bundle -->
+    <script src="../../dist/react-form-validation.min.js"></script>
 
     <script type="text/babel">
         var Form = ReactFormValidation.Form;

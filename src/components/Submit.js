@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, isFunction, isUndefined } from '../common/util';
-import { FormHelper } from '../common/FormHelper';
+import { isFunction, isUndefined } from '../common/util';
+import { omit } from '../helpers/util';
+import { FormHelper } from '../helpers/FormHelper';
 
 /**  Creates an input type submit disabled if the form has errors. */
 export class Submit extends Component {

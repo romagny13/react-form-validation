@@ -5,6 +5,11 @@ export const Navigation = ({ components }) => {
     return (
         <div className="navigation">
             <ul>
+                <li className="navigation__home"><a href="#Home">Home</a></li>
+                <li><a href="#Api">Api</a></li>
+            </ul>
+
+            <ul>
                 <li className="navigation__heading">Components</li>
                 {
                     components.map(name => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { omit } from '../common/util';
+import { omit } from '../helpers/util';
 
 /**  Creates a label with asterisk for required field. */
 export class Label extends React.Component {

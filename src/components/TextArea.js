@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, isFunction } from '../common/util';
+import { isFunction } from '../common/util';
+import { omit } from '../helpers/util';
 
 /** Creates a textarea element. */
 export class TextArea extends React.Component {

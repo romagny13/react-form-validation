@@ -74,6 +74,12 @@ a, a:visited {
     list-style-type: none;
 }
 
+.navigation__home {
+   color: #fff !important;
+   background-color: #111 !important;
+   font-weight: 600;
+}
+
 .navigation__heading {
    color: #fff !important;
    background-color: #f96816 !important;
@@ -212,4 +218,26 @@ body,
     padding: 12px;
     margin-top: 12px;
     border-top:2px solid #f96816;
+}
+
+.home {
+    float: left;
+    width: calc(100% - 320px);
+}
+
+.home__presentation {
+    background: #222;
+    margin: 12px 12px 12px 0;
+    padding: 12px 24px;
+}
+
+.home__presentation h1 {
+    margin: 0;
+}
+
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 5px solid #7a8288;
 }

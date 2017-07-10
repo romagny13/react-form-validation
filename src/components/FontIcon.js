@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { omit } from '../common/util';
+import { omit } from '../helpers/util';
 
 function getFontIconClassName(iconName, className, spin, fixed, larger) {
     let result = 'fa fa-' + iconName;

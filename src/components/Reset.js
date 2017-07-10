@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, clone } from '../common/util';
+import { omit, clone } from '../helpers/util';
 
 /**  Creates a button that allows to reset form model and errors. */
 export class Reset extends Component {

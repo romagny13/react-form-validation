@@ -1,3 +1,6 @@
+/**
+ * Helper that allows to resolve the block className for the "FormGroup" Component.
+ */
 export class FormGroupHelper {
 
     static concatClassName(className, classNameToConcat) {

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { omit, isBoolean, isFunction } from '../common/util';
+import { isBoolean, isFunction } from '../common/util';
+import { omit } from '../helpers/util';
 
 /**  Creates an input type radio. */
 export class Radio extends React.Component {

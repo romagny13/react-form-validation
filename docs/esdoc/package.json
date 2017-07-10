@@ -1,0 +1,69 @@
+{
+  "name": "romagny13-react-form-validation",
+  "version": "0.7.2",
+  "description": "React Form Binding and Validation",
+  "main": "dist/react-form-validation.min.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.dev --open --inline --hot",
+    "build": "webpack --config webpack.prod --progress --hide-modules",
+    "lint": "esw src --color",
+    "test": "karma start",
+    "docs": "webpack-dev-server --config webpack.doc --open --inline --hot",
+    "prebuild:docs": "npm run gen:reactdoc && npm run gen:esdoc",
+    "build:docs": "webpack --config webpack.doc --progress --hide-modules",
+    "gen:reactdoc": "node scripts/genDocData.js",
+    "gen:esdoc": "esdoc",
+    "gen:docs": "npm run gen:reactdoc && npm run gen:esdoc"
+  },
+  "homepage": "https://romagny13.github.io/react-form-validation/",
+  "keywords": [
+    "romagny13-react-form-validation",
+    "react-form-validation",
+    "react",
+    "form",
+    "validation"
+  ],
+  "author": "romagny13 <romagny13@yahoo.fr>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:romagny13/react-form-validation.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/mocha": "^2.2.41",
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.1.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "chai": "^4.0.2",
+    "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
+    "esdoc": "^0.5.2",
+    "eslint": "^4.1.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-watch": "^3.1.2",
+    "highlight.js": "^9.12.0",
+    "iframe-loader": "^0.2.0",
+    "karma": "^1.7.0",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-webpack": "^2.0.3",
+    "mocha": "^3.4.2",
+    "react-docgen": "^2.16.0",
+    "react-test-renderer": "^15.6.1",
+    "showdown": "^1.7.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
