@@ -113,11 +113,11 @@ function addExample(sectionItem, example) {
     sectionItem.examples.push(example);
 }
 
-function createExample(name, path, content, description) {
+function createExample(name, path, code, description) {
     return {
         name: name,
         path: path,
-        content: content,
+        code: code,
         description: description
     };
 }
