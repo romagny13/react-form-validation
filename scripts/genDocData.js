@@ -100,7 +100,7 @@ function addSectionItem(section, sectionItem) {
     section.sectionItems.push(sectionItem);
 }
 
-function createSectionItem(name, description, props = {}, examples = []) {
+function createSectionItem(name, description, props, examples) {
     return {
         name: name,
         description: description,
