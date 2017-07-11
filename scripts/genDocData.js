@@ -47,7 +47,7 @@ function getSectionItems(sectionPath, examplesPath) {
             return createSectionItem(sectionItemName, infos.description, infos.props, examples);
         }
         else {
-            return createSectionItem(sectionItemName, infos.description, infos.props);
+            return createSectionItem(sectionItemName, infos.description, infos.props, []);
         }
     });
 }

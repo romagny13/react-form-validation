@@ -1033,7 +1033,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n ",
+              "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message displaying\r\n * @return {string|undefined} The error message or undefined\r\n ",
               "start": 707,
               "end": 924,
               "loc": {
@@ -1070,7 +1070,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n ",
+            "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message displaying\r\n * @return {string|undefined} The error message or undefined\r\n ",
             "start": 707,
             "end": 924,
             "loc": {
@@ -1780,7 +1780,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n ",
+              "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message displaying\r\n * @return {string|undefined} The error message or undefined\r\n ",
               "start": 707,
               "end": 924,
               "loc": {
@@ -1798,7 +1798,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 1219,
               "end": 1435,
               "loc": {
@@ -1817,7 +1817,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n ",
+            "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message displaying\r\n * @return {string|undefined} The error message or undefined\r\n ",
             "start": 707,
             "end": 924,
             "loc": {
@@ -1835,7 +1835,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 1219,
             "end": 1435,
             "loc": {
@@ -2769,7 +2769,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 1219,
               "end": 1435,
               "loc": {
@@ -2787,7 +2787,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 1830,
               "end": 2047,
               "loc": {
@@ -2806,7 +2806,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 1219,
             "end": 1435,
             "loc": {
@@ -2824,7 +2824,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 1830,
             "end": 2047,
             "loc": {
@@ -3758,7 +3758,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 1830,
               "end": 2047,
               "loc": {
@@ -3776,7 +3776,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 2443,
               "end": 2650,
               "loc": {
@@ -3795,7 +3795,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 1830,
             "end": 2047,
             "loc": {
@@ -3813,7 +3813,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 2443,
             "end": 2650,
             "loc": {
@@ -4522,7 +4522,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 2443,
               "end": 2650,
               "loc": {
@@ -4540,7 +4540,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 2926,
               "end": 3095,
               "loc": {
@@ -4559,7 +4559,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 2443,
             "end": 2650,
             "loc": {
@@ -4577,7 +4577,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 2926,
             "end": 3095,
             "loc": {
@@ -5027,7 +5027,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 2926,
               "end": 3095,
               "loc": {
@@ -5045,7 +5045,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 3298,
               "end": 3573,
               "loc": {
@@ -5064,7 +5064,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 2926,
             "end": 3095,
             "loc": {
@@ -5082,7 +5082,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 3298,
             "end": 3573,
             "loc": {
@@ -5792,7 +5792,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 3298,
               "end": 3573,
               "loc": {
@@ -5812,7 +5812,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 3298,
             "end": 3573,
             "loc": {
@@ -5850,7 +5850,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n ",
+      "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message displaying\r\n * @return {string|undefined} The error message or undefined\r\n ",
       "start": 707,
       "end": 924,
       "loc": {
@@ -5866,7 +5866,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 1219,
       "end": 1435,
       "loc": {
@@ -5882,7 +5882,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 1830,
       "end": 2047,
       "loc": {
@@ -5898,7 +5898,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 2443,
       "end": 2650,
       "loc": {
@@ -5914,7 +5914,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 2926,
       "end": 3095,
       "loc": {
@@ -5930,7 +5930,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 3298,
       "end": 3573,
       "loc": {
@@ -7880,7 +7880,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message to display\r\n * @return {string|undefined} The error message or undefined\r\n ",
+      "value": "*\r\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\r\n * @param {string} message The error message displaying\r\n * @return {string|undefined} The error message or undefined\r\n ",
       "start": 707,
       "end": 924,
       "loc": {
@@ -9363,7 +9363,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value has the min. length.\r\n * @param {number} minLength By default 3.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 1219,
       "end": 1435,
       "loc": {
@@ -11291,7 +11291,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value has the max. length.\r\n * @param {number} maxLength By default 30.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 1830,
       "end": 2047,
       "loc": {
@@ -13219,7 +13219,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value match to the regex pattern.\r\n * @param {Object} pattern\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 2443,
       "end": 2650,
       "loc": {
@@ -14696,7 +14696,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Checks if a value is a valid email.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 2926,
       "end": 3095,
       "loc": {
@@ -15582,7 +15582,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message to display.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 3298,
       "end": 3573,
       "loc": {

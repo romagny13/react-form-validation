@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ErrorBlock } from './ErrorBlock';
 
-/**  Creates a block that allows to display error and success. */
+/**  Creates a block that allows displaying error and success. */
 export const FormGroup = ({
     children,
     error,
@@ -42,7 +42,7 @@ FormGroup.propTypes = {
     /** The children. */
     children: PropTypes.node,
 
-    /** Allows to display error / success. */
+    /** Allows displaying error / success. */
     canChangeValidationState: PropTypes.bool,
 
     /** The error message. */

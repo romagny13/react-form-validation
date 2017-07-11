@@ -1,5 +1,5 @@
 /**
- * Allows to resolve element value.
+ * Allows resolving element value.
  */
 export class FormHelper {
 

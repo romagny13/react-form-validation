@@ -1,7 +1,7 @@
 import { isObject } from '../common/util';
 
 /**
- * Allows to validate a value, a property or a form model with validations (required, minlength, maxlength, pattern, email, custom).
+ * Allows validating a value, a property or a form model with validations (required, minlength, maxlength, pattern, email, custom).
  * 
  * @example
  * let model = {

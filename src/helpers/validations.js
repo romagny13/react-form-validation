@@ -22,7 +22,7 @@ export function isNullOrEmpty(value) {
 
 /**
  * Checks if a value is undefined or null or an empty string or is false (for a boolean)
- * @param {string} message The error message to display
+ * @param {string} message The error message displaying
  * @return {string|undefined} The error message or undefined
  */
 export const required = (message) => {
@@ -37,7 +37,7 @@ export const required = (message) => {
 /**
  * Checks if a value has the min. length.
  * @param {number} minLength By default 3.
- * @param {string} message The error message to display.
+ * @param {string} message The error message displaying.
  * @return {string|undefined} The error message or undefined.
  */
 export const minlength = (minLength, message) => {
@@ -53,7 +53,7 @@ export const minlength = (minLength, message) => {
 /**
  * Checks if a value has the max. length.
  * @param {number} maxLength By default 30.
- * @param {string} message The error message to display.
+ * @param {string} message The error message displaying.
  * @return {string|undefined} The error message or undefined.
  */
 export const maxlength = (maxLength, message) => {
@@ -69,7 +69,7 @@ export const maxlength = (maxLength, message) => {
 /**
  * Checks if a value match to the regex pattern.
  * @param {Object} pattern
- * @param {string} message The error message to display.
+ * @param {string} message The error message displaying.
  * @return {string|undefined} The error message or undefined.
  */
 export const pattern = (pattern, message) => {
@@ -83,7 +83,7 @@ export const pattern = (pattern, message) => {
 
 /**
  * Checks if a value is a valid email.
- * @param {string} message The error message to display.
+ * @param {string} message The error message displaying.
  * @return {string|undefined} The error message or undefined.
  */
 export const email = (message) => {
@@ -94,7 +94,7 @@ export const email = (message) => {
 /**
  * Calls a function to check if value is valid.
  * @param {function} fn  The function that receives the value, the model and returns a boolean.
- * @param {string} message The error message to display.
+ * @param {string} message The error message displaying.
  * @return {string|undefined} The error message or undefined.
  */
 export const custom = (fn, message) => {

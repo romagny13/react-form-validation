@@ -27,7 +27,7 @@ export function extend(source, target) {
 }
 
 /**
- * Clones an object.
+ * copies an object.
  * @param {Object} obj 
  */
 export function clone(obj) {

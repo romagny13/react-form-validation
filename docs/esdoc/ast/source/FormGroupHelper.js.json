@@ -918,7 +918,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Helper that allows to resolve the block className for the \"FormGroup\" Component.\r\n ",
+              "value": "*\r\n * Helper that allows resolving the block className for the \"FormGroup\" Component.\r\n ",
               "start": 0,
               "end": 93,
               "loc": {
@@ -938,7 +938,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Helper that allows to resolve the block className for the \"FormGroup\" Component.\r\n ",
+            "value": "*\r\n * Helper that allows resolving the block className for the \"FormGroup\" Component.\r\n ",
             "start": 0,
             "end": 93,
             "loc": {
@@ -960,7 +960,7 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Helper that allows to resolve the block className for the \"FormGroup\" Component.\r\n ",
+      "value": "*\r\n * Helper that allows resolving the block className for the \"FormGroup\" Component.\r\n ",
       "start": 0,
       "end": 93,
       "loc": {
@@ -978,7 +978,7 @@
   "tokens": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Helper that allows to resolve the block className for the \"FormGroup\" Component.\r\n ",
+      "value": "*\r\n * Helper that allows resolving the block className for the \"FormGroup\" Component.\r\n ",
       "start": 0,
       "end": 93,
       "loc": {

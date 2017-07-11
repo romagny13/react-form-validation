@@ -52,59 +52,58 @@
 <div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="react-form-validation">React Form Validation</h1>
 <p><a href="https://travis-ci.org/romagny13/react-form-validation"><img src="https://travis-ci.org/romagny13/react-form-validation.svg?branch=master" alt="Build Status"></a></p>
 <blockquote>
-<p>This Library allows to validate easily React Forms with a collection of helpers and components.</p>
+<p>This Library allows validating React Forms easily with a collection of helpers and components.</p>
 </blockquote>
-<p>Helpers: allow to validate simple form (with no component or another component framework )</p>
+<p>Helpers: allow validating simple form (with no component or another component framework )</p>
 <ul>
 <li><strong>Validations</strong>: <ul>
-<li><em>required</em>: default or custom message</li>
-<li><em>minlength</em>: value (by default 3) + default or custom message</li>
-<li><em>maxlength</em>: value (by default 30) + default or custom message</li>
-<li><em>email</em>: default or custom message</li>
-<li><em>pattern</em>: regex pattern (required)  + default or custom message</li>
-<li><em>custom</em>: function to call (pass value and model)  + default or custom message</li>
-<li>( + isNullOrEmpty function )</li>
+<li><em>required</em></li>
+<li><em>minlength</em> (by default 3 characters)</li>
+<li><em>maxlength</em> (by default 30 characters)</li>
+<li><em>email</em></li>
+<li><em>pattern</em> (with a regular expression)</li>
+<li><em>custom</em> (with a function)</li>
+<li>( + isNullOrEmpty )</li>
 </ul>
 </li>
-<li><strong>ValidationHelper</strong>: allows to validate value, property and form model<ul>
-<li><em>validateValue</em>: model, value, validations array ( example for firstname: [required()] )</li>
-<li><em>validateProperty</em>: model, property name, validations array</li>
-<li><em>validateAll</em>: model, validations object ( example: {firstname:[required()], lastname:[required()]} )</li>
-<li>( + hasErrors, countErrors functions )</li>
+<li><strong>ValidationHelper</strong> allows validating a value, a property or a form model<ul>
+<li><em>validateValue</em></li>
+<li><em>validateProperty</em></li>
+<li><em>validateAll</em></li>
+<li>( + hasErrors, countErrors )</li>
 </ul>
 </li>
-<li><strong>FormHelper</strong>: allows to resolve element value<ul>
+<li><strong>FormHelper</strong> allows resolving element value<ul>
 <li><em>getElementValue</em>: returns the value of a form element (input, select, radio, etc.)</li>
-<li>( + hasClassName, addClassName, removeClassName functions )</li>
 </ul>
 </li>
 <li><strong>Util</strong>: <ul>
-<li><em>omit</em>: allows to omit props for example</li>
-<li><em>clone</em>: clones an object</li>
-<li><em>extend</em>: extends a source object with another object</li>
+<li><em>omit</em></li>
+<li><em>clone</em></li>
+<li><em>extend</em></li>
 </ul>
 </li>
 </ul>
 <p>Components: allow to bind value and notify on value change (onValueChange) and on touch / blur (onTouch)</p>
 <ul>
-<li><strong>Input</strong> value + type (&apos;text&apos;, &apos;email&apos;, &apos;password&apos;, &apos;search&apos;, &apos;file&apos;, &apos;color&apos;, &apos;date&apos;, &apos;month&apos;, &apos;time&apos;, &apos;week&apos;, &apos;tel&apos;, &apos;url&apos;, &apos;number&apos;, &apos;range&apos;) and shortcuts:</li>
-<li><strong>Password</strong>: input type type password with eye component (allow to show password)</li>
-<li><strong>Checkbox</strong>: <em>checked</em></li>
-<li><strong>CheckboxGroup</strong>: <em>dataSource</em> + <em>values</em>.</li>
-<li><strong>Radio</strong>: <em>checked</em></li>
-<li><strong>RadioGroup</strong>: <em>dataSource</em> + <em>value</em>.</li>
-<li><strong>Select</strong>: <em>dataSource</em> + <em>value</em>  or <em>values with multiple</em></li>
-<li><strong>TextArea</strong>: <em>value</em></li>
-<li><strong>LightGroup</strong>: allows to show error</li>
-<li><strong>FormGroup</strong>: allows to show error and success (classNames based on Bootstrap: has-error, has-success, etc.) if <strong>canChangeValidationState</strong> is true</li>
-<li><strong>Form</strong>: Form with noValidate by default</li>
-<li><strong>Label</strong>: allows to display <em>asterisk</em> for required field</li>
-<li><strong>FontIcon</strong>: allows to show an icon (Font Awesome) by name (example: for &apos;fa fa-check&apos;, set the iconName to &apos;check&apos;) + <strong>EyeIcon</strong></li>
-<li><strong>ErrorBlock</strong> a span with the class name &apos;error-block&apos;</li>
-<li><strong>Submit</strong>: could be disabled if has errors (pass <em>errors</em>)</li>
-<li><strong>Reset</strong>: clones the <em>initialState</em> (form model, errors, etc.) and pass initial state <strong>onReset</strong></li>
+<li><strong>Input</strong></li>
+<li><strong>Password</strong> (allows showing password)</li>
+<li><strong>Checkbox</strong></li>
+<li><strong>CheckboxGroup</strong></li>
+<li><strong>Radio</strong></li>
+<li><strong>RadioGroup</strong></li>
+<li><strong>Select</strong> (<em>multiple</em> supported)</li>
+<li><strong>TextArea</strong></li>
+<li><strong>LightGroup</strong> (allows showing error)</li>
+<li><strong>FormGroup</strong> (allows showing error and success)</li>
+<li><strong>Form</strong></li>
+<li><strong>Label</strong> (<em>asterisk</em> for required field)</li>
+<li><strong>FontIcon</strong> (Icon with Font Awesome) + <strong>EyeIcon</strong></li>
+<li><strong>ErrorBlock</strong></li>
+<li><strong>Submit</strong>  (could be disabled with errors)</li>
+<li><strong>Reset</strong> (allows resetting to initial state)<h2 id="installation">Installation</h2>
+</li>
 </ul>
-<h2 id="installation">Installation</h2>
 <pre><code><code class="source-code prettyprint">npm i romagny13-react-form-validation -S</code>
 </code></pre><p>Requires <a href="http://fontawesome.io/">Font Awesome</a>. With a <strong>CDN</strong>:</p>
 <pre><code class="lang-xml"><code class="source-code prettyprint">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css&quot;&gt;</code>

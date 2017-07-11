@@ -2,48 +2,46 @@
 
 [![Build Status](https://travis-ci.org/romagny13/react-form-validation.svg?branch=master)](https://travis-ci.org/romagny13/react-form-validation)
 
-> This Library allows to validate easily React Forms with a collection of helpers and components.
+> This Library allows validating React Forms easily with a collection of helpers and components.
 
-Helpers: allow to validate simple form (with no component or another component framework )
+Helpers: allow validating simple form (with no component or another component framework )
 * **Validations**: 
-    * _required_: default or custom message
-    * _minlength_: value (by default 3) + default or custom message
-    * _maxlength_: value (by default 30) + default or custom message
-    * _email_: default or custom message
-    * _pattern_: regex pattern (required)  + default or custom message
-    * _custom_: function to call (pass value and model)  + default or custom message
-    * ( + isNullOrEmpty function )
-* **ValidationHelper**: allows to validate value, property and form model
-    * _validateValue_: model, value, validations array ( example for firstname: [required()] )
-    * _validateProperty_: model, property name, validations array
-    * _validateAll_: model, validations object ( example: {firstname:[required()], lastname:[required()]} )
-    * ( + hasErrors, countErrors functions )
-* **FormHelper**: allows to resolve element value
+    * _required_
+    * _minlength_ (by default 3 characters)
+    * _maxlength_ (by default 30 characters)
+    * _email_
+    * _pattern_ (with a regular expression)
+    * _custom_ (with a function)
+    * ( + isNullOrEmpty )
+* **ValidationHelper** allows validating a value, a property or a form model
+    * _validateValue_
+    * _validateProperty_
+    * _validateAll_
+    * ( + hasErrors, countErrors )
+* **FormHelper** allows resolving element value
     * _getElementValue_: returns the value of a form element (input, select, radio, etc.)
-    * ( + hasClassName, addClassName, removeClassName functions )
 * **Util**: 
-    * _omit_: allows to omit props for example
-    * _clone_: clones an object
-    * _extend_: extends a source object with another object
+    * _omit_
+    * _clone_
+    * _extend_
 
 Components: allow to bind value and notify on value change (onValueChange) and on touch / blur (onTouch)
-* **Input** value + type ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range') and shortcuts:
-* **Password**: input type type password with eye component (allow to show password)
-* **Checkbox**: _checked_
-* **CheckboxGroup**: _dataSource_ + _values_.
-* **Radio**: _checked_
-* **RadioGroup**: _dataSource_ + _value_.
-* **Select**: _dataSource_ + _value_  or _values with multiple_
-* **TextArea**: _value_
-* **LightGroup**: allows to show error
-* **FormGroup**: allows to show error and success (classNames based on Bootstrap: has-error, has-success, etc.) if **canChangeValidationState** is true
-* **Form**: Form with noValidate by default
-* **Label**: allows to display _asterisk_ for required field
-* **FontIcon**: allows to show an icon (Font Awesome) by name (example: for 'fa fa-check', set the iconName to 'check') + **EyeIcon**
-* **ErrorBlock** a span with the class name 'error-block'
-* **Submit**: could be disabled if has errors (pass _errors_)
-* **Reset**: clones the _initialState_ (form model, errors, etc.) and pass initial state **onReset**
-
+* **Input**
+* **Password** (allows showing password)
+* **Checkbox**
+* **CheckboxGroup**
+* **Radio**
+* **RadioGroup**
+* **Select** (_multiple_ supported)
+* **TextArea**
+* **LightGroup** (allows showing error)
+* **FormGroup** (allows showing error and success)
+* **Form**
+* **Label** (_asterisk_ for required field)
+* **FontIcon** (Icon with Font Awesome) + **EyeIcon**
+* **ErrorBlock**
+* **Submit**  (could be disabled with errors)
+* **Reset** (allows resetting to initial state)
 ## Installation
 
 ```

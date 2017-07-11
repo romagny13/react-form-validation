@@ -1386,7 +1386,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Clones an object.\r\n * @param {Object} obj \r\n ",
+              "value": "*\r\n * copies an object.\r\n * @param {Object} obj \r\n ",
               "start": 833,
               "end": 888,
               "loc": {
@@ -1423,7 +1423,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Clones an object.\r\n * @param {Object} obj \r\n ",
+            "value": "*\r\n * copies an object.\r\n * @param {Object} obj \r\n ",
             "start": 833,
             "end": 888,
             "loc": {
@@ -1613,7 +1613,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Clones an object.\r\n * @param {Object} obj \r\n ",
+              "value": "*\r\n * copies an object.\r\n * @param {Object} obj \r\n ",
               "start": 833,
               "end": 888,
               "loc": {
@@ -1650,7 +1650,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Clones an object.\r\n * @param {Object} obj \r\n ",
+            "value": "*\r\n * copies an object.\r\n * @param {Object} obj \r\n ",
             "start": 833,
             "end": 888,
             "loc": {
@@ -2485,7 +2485,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Clones an object.\r\n * @param {Object} obj \r\n ",
+      "value": "*\r\n * copies an object.\r\n * @param {Object} obj \r\n ",
       "start": 833,
       "end": 888,
       "loc": {
@@ -5497,7 +5497,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Clones an object.\r\n * @param {Object} obj \r\n ",
+      "value": "*\r\n * copies an object.\r\n * @param {Object} obj \r\n ",
       "start": 833,
       "end": 888,
       "loc": {
