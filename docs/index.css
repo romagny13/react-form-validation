@@ -176,11 +176,6 @@ table.props {
   padding: 12px;
 }
 
-.props th, td {
-  text-align: left;
-  padding: 12px;
-}
-
 td {
   border-top: solid 1px #d3d3d3;
 }
@@ -240,4 +235,30 @@ blockquote {
     margin: 0 0 20px;
     font-size: 17.5px;
     border-left: 5px solid #7a8288;
+}
+
+@media (max-width: 750px){
+
+    body {
+        font-size: 13px;
+    }
+    .navigation,
+    .home,
+    .componentpage {
+        width: 100%;
+    }
+
+    .home__presentation{
+        margin-left: 12px;
+    }
+
+    blockquote {
+        padding: 4px 20px;
+        font-size: 15px;
+    }
+
+    .props th, td {
+        text-align: left;
+        padding: 6px;
+    }
 }
