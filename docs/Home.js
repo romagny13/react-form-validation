@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Converter } from 'showdown';
+import { changeMetaDescription } from './util';
 
 let str = `# React Form Validation
 
@@ -69,12 +70,31 @@ import '../node_modules/font-awesome/css/font-awesome.css';
 
 To run examples \`npm i\` then \`npm run dev\``;
 
-export const Home = () => {
-    let converter = new Converter();
-    let html = converter.makeHtml(str);
-    return (
-        <div className="home">
-            <div dangerouslySetInnerHTML={{ __html: html }} className="home__presentation" />
-        </div>
-    );
-};
+export class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        let converter = new Converter();
+        this.html = converter.makeHtml(str);
+    }
+
+    componentWillMount() {
+        this.changeMetaDescription();
+    }
+
+    componentWillReceiveProps() {
+        this.changeMetaDescription();
+    }
+
+    changeMetaDescription(props) {
+        let content = 'This Library allows validating React Forms easily with a collection of helpers and components.';
+        changeMetaDescription(content);
+    }
+
+    render() {
+        return (
+            <div className="home">
+                <div dangerouslySetInnerHTML={{ __html: this.html }} className="home__presentation" />
+            </div>
+        );
+    }
+}

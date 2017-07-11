@@ -7,9 +7,11 @@ import { Home } from './Home';
 export class Docs extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             route: window.location.hash.substr(1)
         };
+        
     }
 
     componentDidMount() {
