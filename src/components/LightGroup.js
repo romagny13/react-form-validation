@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ErrorBlock } from './ErrorBlock';
 
-/**  Creates a block that displays the error when there is an error. */
+/**  Creates a block that allows displaying error. */
 export const LightGroup = ({ error, children, className, errorClassName }) => {
     let groupClassName = error ? className + ' ' + errorClassName : className;
     return (

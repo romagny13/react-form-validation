@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { omit, clone } from '../helpers/util';
 
-/**  Creates a button that allows to reset form model and errors. */
+/**  Creates a button that allows resetting to initial state. */
 export class Reset extends Component {
     constructor(props) {
         super(props);

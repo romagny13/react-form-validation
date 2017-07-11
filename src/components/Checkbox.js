@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { isBoolean, isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
-/**  Creates an input type checkbox. */
+/**  Creates an input with the type "checkbox". */
 export class Checkbox extends React.Component {
     constructor(props) {
         super(props);
