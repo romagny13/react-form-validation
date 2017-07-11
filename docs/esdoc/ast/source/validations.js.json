@@ -5045,7 +5045,7 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Calls a function checking if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 3298,
               "end": 3573,
               "loc": {
@@ -5082,7 +5082,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Calls a function checking if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 3298,
             "end": 3573,
             "loc": {
@@ -5792,7 +5792,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+              "value": "*\r\n * Calls a function checking if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
               "start": 3298,
               "end": 3573,
               "loc": {
@@ -5812,7 +5812,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+            "value": "*\r\n * Calls a function checking if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
             "start": 3298,
             "end": 3573,
             "loc": {
@@ -5930,7 +5930,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Calls a function checking if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 3298,
       "end": 3573,
       "loc": {
@@ -15582,7 +15582,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Calls a function to check if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
+      "value": "*\r\n * Calls a function checking if value is valid.\r\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\r\n * @param {string} message The error message displaying.\r\n * @return {string|undefined} The error message or undefined.\r\n ",
       "start": 3298,
       "end": 3573,
       "loc": {

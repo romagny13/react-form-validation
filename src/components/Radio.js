@@ -52,7 +52,7 @@ Radio.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** Allows to check the checkbox */
+    /** Allows checking the element. */
     checked: PropTypes.bool,
 
     /** The function called on value change. */

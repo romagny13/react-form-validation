@@ -92,7 +92,7 @@ export const email = (message) => {
 };
 
 /**
- * Calls a function to check if value is valid.
+ * Calls a function checking if value is valid.
  * @param {function} fn  The function that receives the value, the model and returns a boolean.
  * @param {string} message The error message displaying.
  * @return {string|undefined} The error message or undefined.

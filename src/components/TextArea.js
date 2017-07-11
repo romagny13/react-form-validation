@@ -51,7 +51,7 @@ TextArea.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** The value displaying. */
+    /** The value. */
     value: PropTypes.string,
 
     /** The function called on value change. */

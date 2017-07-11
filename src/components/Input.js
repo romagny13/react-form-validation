@@ -57,7 +57,7 @@ Input.propTypes = {
     /** Input name.*/
     name: PropTypes.string.isRequired,
 
-    /** The value displaying. */
+    /** The value. */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     /** The type of the input field ('text', 'email', 'password', 'search', 'file', 'color', 'date', 'month', 'time', 'week', 'tel', 'url', 'number', 'range'). */

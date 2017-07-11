@@ -103,7 +103,7 @@ Password.propTypes = {
     /** The type of the input field. */
     type: PropTypes.string,
 
-    /** The value displaying. */
+    /** The value. */
     value: PropTypes.string,
 
     /** Allows displaying eye if true. */
