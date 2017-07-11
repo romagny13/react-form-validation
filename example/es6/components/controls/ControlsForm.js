@@ -26,7 +26,6 @@ const CustomFormGroup = ({ canChangeValidationState, error, children, onValueCha
         </FormGroup>
     );
 };
-
 CustomFormGroup.propTypes = {
     children: PropTypes.node,
     canChangeValidationState: PropTypes.bool,

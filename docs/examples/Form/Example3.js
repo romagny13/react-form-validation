@@ -1,14 +1,14 @@
 import React from 'react';
-import { Form, LightGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, FormGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
 
-/** Validation Strategy "onTouch" */
+/** With FormGroup and "success" state */
 class Example2 extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             model: {
-                firstname: '',
+                firstname: 'Marie',
                 lastname: '',
             },
             errors: {},
@@ -33,12 +33,7 @@ class Example2 extends React.Component {
 
         if (submitted || touched[name]) {
 
-            // validate only the field
-            let fieldValidations = this.validations[name];
-            errors[name] = ValidationHelper.validateProperty(model, name, fieldValidations);
-
-            // ... or all fields with validate all
-            //  let errors = ValidationHelper.validateAll(this.state.model, this.validations);
+            let errors = ValidationHelper.validateAll(this.state.model, this.validations);
 
             this.setState({
                 model,
@@ -86,15 +81,15 @@ class Example2 extends React.Component {
         return (
             <Form onSubmit={this.onSubmit}>
 
-                <LightGroup error={errors["firstname"]}>
+                <FormGroup error={errors["firstname"]} canChangeValidationState={submitted || touched["firstname"]} renderSuccess>
                     <Label htmlFor="firstname" asterisk>Firstname</Label><br />
                     <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </LightGroup>
+                </FormGroup>
 
-                <LightGroup error={errors["lastname"]}>
+                <FormGroup error={errors["lastname"]} canChangeValidationState={submitted || touched["firstname"]} renderSuccess>
                     <Label htmlFor="lastname" asterisk>Lastname</Label><br />
                     <Input id="lastname" name="lastname" value={model["lastname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </LightGroup>
+                </FormGroup>
 
                 <Submit value="Submit" errors={errors} />
 

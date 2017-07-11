@@ -1,17 +1,18 @@
 import React from 'react';
-import { Form, FormGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, LightGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
 
+/** Validation Strategy "onSubmit" */
 class Example1 extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             model: {
-                firstname: 'Marie',
+                firstname: '',
                 lastname: '',
             },
             errors: {},
-            touched: {}
+            submitted: false
         };
 
         this.validations = {
@@ -20,15 +21,22 @@ class Example1 extends React.Component {
         };
 
         this.onValueChange = this.onValueChange.bind(this);
-        this.onTouch = this.onTouch.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onReset = this.onReset.bind(this);
     }
     onValueChange(name, value) {
-        let model = this.state.model;
+        const { model, submitted } = this.state;
+
+        // change the value
         model[name] = value;
 
-        if (this.state.submitted || this.state.touched[name]) {
+        if (submitted) {
+
+            // validate only the field
+            // let fieldValidations = this.validations[name];
+            // errors[name] = ValidationHelper.validateProperty(model, name, fieldValidations);
+
+            // ... or validate all
             let errors = ValidationHelper.validateAll(model, this.validations);
 
             this.setState({
@@ -41,18 +49,6 @@ class Example1 extends React.Component {
                 model
             });
         }
-    }
-    onTouch(name) {
-        let touched = this.state.touched;
-        touched[name] = true;
-
-        let errors = ValidationHelper.validateAll(this.state.model, this.validations);
-
-        this.setState({
-            touched,
-            errors
-        });
-
     }
     onSubmit(event) {
         event.preventDefault();
@@ -71,17 +67,27 @@ class Example1 extends React.Component {
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={errors["firstname"]} canChangeValidationState={submitted || touched["firstname"]}>
-                    <Label htmlFor="firstname" asterisk>Firstname</Label>
-                    <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </FormGroup>
 
-                <FormGroup error={errors["lastname"]} canChangeValidationState={submitted || touched["lastname"]}>
-                    <Label htmlFor="lastname" asterisk>Lastname</Label>
+                <LightGroup error={errors["firstname"]}>
+                    <Label htmlFor="firstname" asterisk>Firstname</Label><br />
+                    <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} autoFocus />
+                </LightGroup>
+
+                <LightGroup error={errors["lastname"]}>
+                    <Label htmlFor="lastname" asterisk>Lastname</Label><br />
                     <Input id="lastname" name="lastname" value={model["lastname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </FormGroup>
+                </LightGroup>
+
                 <Submit value="Submit" errors={errors} />
+
                 <Reset value="Reset" initialState={this.state} onReset={this.onReset} />
+
+                <pre>
+                    {JSON.stringify(model)}
+                </pre>
+                <pre>
+                    {JSON.stringify(errors)}
+                </pre>
             </Form>
         );
     }

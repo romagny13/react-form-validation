@@ -15,19 +15,10 @@
     display: none;
 }
 
-.has-success input {
-    border-color: #62c462;
-}
-
-.has-error input {
-     border-color: #ee5f5b;
-}
-
 .error-block {
     display: block;
     margin-top: 5px;
     margin-bottom: 10px;
-    color:#ee5f5b;
 }
 
 .clearfix::before,
