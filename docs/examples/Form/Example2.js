@@ -81,7 +81,7 @@ class Example2 extends React.Component {
         this.setState(initialState);
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors, touched } = this.state;
 
         return (
             <Form onSubmit={this.onSubmit}>

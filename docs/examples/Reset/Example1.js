@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Reset, Input, CheckboxGroup, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, LightGroup, Reset, Input, CheckboxGroup, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
 
 class Example1 extends React.Component {
     constructor(props) {
@@ -65,14 +65,14 @@ class Example1 extends React.Component {
         this.setState(initialState);
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors } = this.state;
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={errors["firstname"]} canChangeValidationState={submitted || touched["firstname"]}>
+                <LightGroup error={errors["firstname"]}>
                     <Label htmlFor="firstname" asterisk>Firstname</Label>
                     <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </FormGroup>
+                </LightGroup>
                 <input type="submit" value="Submit" />
                 <Reset value="Reset" initialState={this.state} onReset={this.onReset} />
             </Form>

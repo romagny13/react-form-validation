@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Password, CheckboxGroup, Label, required, pattern, custom, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, LightGroup, Password, CheckboxGroup, Label, required, pattern, custom, ValidationHelper } from 'romagny13-react-form-validation';
 
 /** Validation (required, match) */
 class Example2 extends React.Component {
@@ -33,10 +33,11 @@ class Example2 extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
     onValueChange(name, value) {
-        let model = this.state.model;
+        const { model, touched, submitted } = this.state;
+
         model[name] = value;
 
-        if (this.state.submitted || this.state.touched[name]) {
+        if (submitted || touched[name]) {
             let errors = ValidationHelper.validateAll(model, this.validations);
 
             this.setState({
@@ -72,23 +73,23 @@ class Example2 extends React.Component {
         });
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors } = this.state;
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={errors["password"]} canChangeValidationState={submitted || touched["password"]}>
+                <LightGroup error={errors["password"]}>
                     <Label htmlFor="password" asterisk>Password</Label>
                     <Password width="200px" id="password" name="password" value={model["password"]} onValueChange={this.onValueChange} onTouch={this.onTouch} placeholder="Password" />
-                </FormGroup>
+                </LightGroup>
 
-                <FormGroup error={this.state.errors["confirmPassword"]} canChangeValidationState={this.state.submitted || touched["confirmPassword"]}>
+                <LightGroup error={errors["confirmPassword"]}>
                     <Label htmlFor="confirmPassword" asterisk>Confirm password</Label>
                     <Password width="200px" id="confirmPassword" name="confirmPassword" value={model["confirmPassword"]} onValueChange={this.onValueChange} onTouch={this.onTouch} placeholder="Confirm password" />
-                </FormGroup>
+                </LightGroup>
 
                 <input type="submit" value="Submit" />
                 <pre>
-                    {JSON.stringify(this.state.errors)}
+                    {JSON.stringify(errors)}
                 </pre>
             </Form>
         );

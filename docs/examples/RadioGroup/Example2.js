@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Label, RadioGroup, required, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, LightGroup, Label, RadioGroup, required, ValidationHelper } from 'romagny13-react-form-validation';
 
 /** Validation (required) */
 class Example2 extends React.Component {
@@ -60,14 +60,14 @@ class Example2 extends React.Component {
         });
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors } = this.state;
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={errors["likes"]} canChangeValidationState={submitted || touched["likes"]}>
+                <LightGroup error={errors["likes"]}>
                     <Label asterisk>Like (multiple choice)</Label>
                     <RadioGroup name="likes" dataSource={["Milk", "Cakes", "Nutella"]} value={model["likes"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                </FormGroup>
+                </LightGroup>
                 <input type="submit" value="Submit" />
                 <pre>
                     {JSON.stringify(errors)}

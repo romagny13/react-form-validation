@@ -72,7 +72,7 @@ class Example2 extends React.Component {
                 </FormGroup>
                 <input type="submit" value="Submit" />
                 <pre>
-                    {JSON.stringify(this.state.errors)}
+                    {JSON.stringify(errors)}
                 </pre>
             </Form>
         );

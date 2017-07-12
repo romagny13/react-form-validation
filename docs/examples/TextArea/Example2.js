@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, TextArea, CheckboxGroup, Label, required, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, LightGroup, TextArea, CheckboxGroup, Label, required, ValidationHelper } from 'romagny13-react-form-validation';
 
 /** Validation (required) */
 class Example2 extends React.Component {
@@ -23,10 +23,11 @@ class Example2 extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
     onValueChange(name, value) {
-        let model = this.state.model;
+        const { model, touched, submitted } = this.state;
+
         model[name] = value;
 
-        if (this.state.submitted || this.state.touched[name]) {
+        if (submitted || touched[name]) {
             let errors = ValidationHelper.validateAll(model, this.validations);
 
             this.setState({
@@ -62,18 +63,18 @@ class Example2 extends React.Component {
         });
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors } = this.state;
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={errors["note"]} canChangeValidationState={submitted || touched["note"]}>
+                <LightGroup error={errors["note"]}>
                     <Label htmlFor="note" asterisk>Note</Label><br />
                     <TextArea id="note" name="note" value={model["note"]} onValueChange={this.onValueChange} onTouch={this.onTouch} rows="5" />
-                </FormGroup>
+                </LightGroup>
 
                 <input type="submit" value="Submit" />
                 <pre>
-                    {JSON.stringify(this.state.errors)}
+                    {JSON.stringify(errors)}
                 </pre>
             </Form>
         );

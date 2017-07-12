@@ -37,9 +37,9 @@ class Example1 extends React.Component {
             <div>
                 <Label htmlFor="firstname" asterisk>Firstname</Label>
                 <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
-                {this.state.touched["firstname"] && <span className="touched">Touched!</span>}
+                {touched["firstname"] && <span className="touched">Touched!</span>}
                 <pre>
-                    {JSON.stringify(this.state.model)}
+                    {JSON.stringify(model)}
                 </pre>
             </div>
         );

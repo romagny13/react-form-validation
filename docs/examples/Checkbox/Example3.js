@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Checkbox, Label, required, ValidationHelper } from 'romagny13-react-form-validation';
+import { Form, LightGroup, Checkbox, Label, required, ValidationHelper } from 'romagny13-react-form-validation';
 
 /** Validation (required) */
 class Example3 extends React.Component {
@@ -63,17 +63,17 @@ class Example3 extends React.Component {
         });
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors } = this.state;
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormGroup error={errors["agree"]} canChangeValidationState={submitted || touched["agree"]}>
+                <LightGroup error={errors["agree"]}>
                     <div className="checkbox">
                         <Label asterisk>
                             <Checkbox name="agree" checked={model.agree} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                             I agree to terms
                         </Label>
                     </div>
-                </FormGroup>
+                </LightGroup>
                 <input type="submit" value="Submit" />
                 <pre>
                     {JSON.stringify(errors)}

@@ -32,7 +32,7 @@ class Example2 extends React.Component {
         });
     }
     render() {
-        const { model, errors, touched, submitted } = this.state;
+        const { model, errors, touched } = this.state;
         return (
             <div>
                 <Label htmlFor="list" className="control-label">List (no validation)</Label><br />
