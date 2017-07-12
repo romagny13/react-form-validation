@@ -48,6 +48,14 @@ pre {
     white-space: pre-wrap;
 }
 
+.code {
+    padding: 6px !important;
+}
+
+.code code {
+    padding: 6px !important;
+    background: #222 !important;
+}
 
 a, a:visited {
   color: #c8c8c8;

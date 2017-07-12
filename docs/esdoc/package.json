@@ -1,6 +1,6 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "React Form Binding and Validation",
   "main": "dist/react-form-validation.min.js",
   "files": [
