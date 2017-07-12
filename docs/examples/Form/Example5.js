@@ -77,7 +77,7 @@ const MyForm = ({ model, errors, onValueChange, onSubmit }) => {
                 <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} />
             </LightGroup>
 
-            <LightGroup error={errors["lastname"]} asterisk>
+            <LightGroup error={errors["lastname"]}>
                 <Label htmlFor="lastname" asterisk>Lastname</Label><br />
                 <Input id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} />
             </LightGroup>
