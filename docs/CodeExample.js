@@ -1,25 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import hljs from 'highlight.js/lib/highlight';
-import javascript from 'highlight.js/lib/languages/javascript';
-import xml from 'highlight.js/lib/languages/xml';
+import CodeMirror from 'codemirror';
+import 'codemirror/mode/jsx/jsx';
 
 export class CodeExample extends React.Component {
     componentDidMount() {
-        hljs.registerLanguage('javascript', javascript);
-        hljs.registerLanguage('xml', xml);
-        hljs.highlightBlock(this.refs.refcode);
+        CodeMirror(this.refs.refcode, { value: this.props.children, mode: "jsx",  readOnly: true });
     }
 
     render() {
-         return (
-             <pre className="code">
-                 <code ref="refcode">
-                    {this.props.children}
-                 </code>
-             </pre>
-         );
-     }
+        return <pre><code ref="refcode" /></pre>;
+    }
 }
 CodeExample.propTypes = {
     children: PropTypes.string.isRequired

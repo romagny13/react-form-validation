@@ -22,6 +22,10 @@
    clear: both;
 }
 
+.CodeMirror{
+    height: auto !important;
+}
+
 body{
     font-family: "Open Sans","Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -46,15 +50,6 @@ pre {
     border-radius: 4px;
     overflow: auto;
     white-space: pre-wrap;
-}
-
-.code {
-    padding: 6px !important;
-}
-
-.code code {
-    padding: 6px !important;
-    background: #222 !important;
 }
 
 a, a:visited {
