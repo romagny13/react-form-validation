@@ -105,12 +105,12 @@ class Example4 extends React.Component {
 
                 <LightGroup error={errors["email"]}>
                     <Label htmlFor="email" asterisk>Email</Label><br />
-                    <Input type="email" id="email" name="email" value={model["email"]} onValueChange={this.onValueChange} onTouch={this.onTouch} autoFocus />
+                    <Input type="email" id="email" name="email" value={model["email"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
                 </LightGroup>
 
                 <LightGroup error={errors["username"]}>
                     <Label htmlFor="username" asterisk>Username</Label><br />
-                    <Input id="username" name="username" value={model["username"]} onValueChange={this.onValueChange} onTouch={this.onTouch} autoFocus />
+                    <Input id="username" name="username" value={model["username"]} onValueChange={this.onValueChange} onTouch={this.onTouch}  />
                 </LightGroup>
 
                 <LightGroup error={errors["password"]}>
