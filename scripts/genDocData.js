@@ -21,6 +21,17 @@ function genData() {
 
 genData();
 
+
+function getExampleDescription(code) {
+    var regex = /\/\*\*\s*(.*)\s*\*\//;
+    var match = regex.exec(code);
+    if (match) {
+        return match[1];
+    }
+    else {
+        return '';
+    }
+}
 function getExamples(sectionItemName, examplesPath) {
     var exampleFiles = getExampleFiles(examplesPath, sectionItemName);
     return exampleFiles.map(function (file) {
@@ -28,8 +39,9 @@ function getExamples(sectionItemName, examplesPath) {
         var filePath = path.join(examplesPath, sectionItemName, file);
         var exampleName = getFileNameWithoutExtension(file);
         var exampleContent = readFile(filePath);
-        var exampleInfos = getCodeInfos(exampleContent);
-        return createExample(exampleName, filePath, exampleContent, exampleInfos.description);
+        /* var exampleInfos = getCodeInfos(exampleContent);*/
+        var exampleDescription = getExampleDescription(exampleContent);
+        return createExample(exampleName, filePath, exampleContent, exampleDescription);
     });
 }
 
