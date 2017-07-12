@@ -35,7 +35,7 @@ class Example2 extends React.Component {
             errors[name] = ValidationHelper.validateProperty(model, name, fieldValidations);
 
             // ... or all fields with validate all
-            //  let errors = ValidationHelper.validateAll(this.state.model, this.validations);
+            //  let errors = ValidationHelper.validateAll(model, this.validations);
 
             this.setState({
                 model,
