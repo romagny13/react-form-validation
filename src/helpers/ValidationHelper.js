@@ -29,7 +29,7 @@ export class ValidationHelper {
      * @param {Array} validations 
      * @return {string|undefined} The first error message or undefined.
      */
-    static validateValue(model, value, validations) {
+    static validateValue(model, value, validations = []) {
         for (let i = 0; i < validations.length; i++) {
             let validator = validations[i];
             let error = validator(value, model);
@@ -51,7 +51,7 @@ export class ValidationHelper {
      * @param {Array} validations 
      * @return {string|undefined} The first error message or undefined.
      */
-    static validateProperty(model, name, validations) {
+    static validateProperty(model, name, validations = []) {
         let value = model[name];
         return ValidationHelper.validateValue(model, value, validations);
     }
@@ -94,7 +94,7 @@ export class ValidationHelper {
      * @param {Object} validations 
      * @return {Object}
      */
-    static validateAll(model, validations) {
+    static validateAll(model, validations = {}) {
         let errors = {};
 
         for (let name in validations) {

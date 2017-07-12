@@ -7,10 +7,7 @@ class Example2 extends React.Component {
         super(props);
 
         this.state = {
-            model: {
-                firstname: '',
-                lastname: '',
-            },
+            model: {},
             errors: {},
             touched: {},
             submitted: false
