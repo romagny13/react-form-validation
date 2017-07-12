@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Form, LightGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper, clone } from 'romagny13-react-form-validation';
@@ -103,7 +103,7 @@ MyForm.propTypes = {
 
 // container
 
-class MyContainer extends Component {
+class MyContainer extends React.Component {
     constructor(props) {
         super(props);
 
