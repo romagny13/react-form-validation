@@ -5,7 +5,7 @@ import { isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /**  Creates a collection of input type radio with a dataSource. */
-export class RadioGroup extends React.Component {
+class RadioGroup extends React.Component {
     constructor(props) {
         super(props);
 
@@ -76,3 +76,4 @@ RadioGroup.propTypes = {
     /** The function called on touch. */
     onTouch: PropTypes.func
 };
+export default RadioGroup;

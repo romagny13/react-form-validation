@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { omit } from '../helpers/util';
 
 /**  Creates a label with asterisk for required field. */
-export class Label extends React.Component {
+class Label extends React.Component {
     constructor(props) {
         super(props);
 
@@ -29,3 +29,4 @@ Label.defaultProps = {
     asterisk: false,
     asteriskColor: 'red'
 };
+export default Label;

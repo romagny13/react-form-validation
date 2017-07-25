@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**  Creates an icon (with Font Awesome) with two states (eye opened and eye closed). */
-export const EyeIcon = ({ closed }) => {
+const EyeIcon = ({ closed }) => {
     if (closed) {
         return <i className="fa fa-eye-slash eye-icon" aria-hidden="true" />;
     }
@@ -17,3 +17,4 @@ EyeIcon.propTypes = {
 EyeIcon.defaultProps = {
     closed: false
 };
+export default EyeIcon;

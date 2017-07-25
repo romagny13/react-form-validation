@@ -1,7 +1,7 @@
 import { isObject } from '../common/util';
 
 /**
- * Allows validating a value, a property or a form model with validations (required, minlength, maxlength, pattern, email, custom).
+ * Allows validating a value, a property or a form model with validators (required, minlength, maxlength, pattern, email, custom).
  * 
  * @example
  * let model = {
@@ -9,29 +9,29 @@ import { isObject } from '../common/util';
  *   lastname: ''
 * };
 *
-* let validations = {
+* let validators = {
  *  firstname: [required('Firstname required')],
  *  lastname: [required('Lastname required')]
 * };
 *
 * let value = model['lastname'];
 *
-* let error = ValidationHelper.validateValue(model,value,validations);
+* let error = ValidationHelper.validateValue(model,value,validators);
 * // error => 'Lastname required'
  * 
  */
 export class ValidationHelper {
 
     /**
-     * Checks the value with the validations (pass the model to the custom validations) and returns the first error message.
+     * Checks the value with the validators (pass the model to the custom validators) and returns the first error message.
      * @param {Object} model 
      * @param {string|number|boolean} value 
-     * @param {Array} validations 
+     * @param {Array} validators 
      * @return {string|undefined} The first error message or undefined.
      */
-    static validateValue(model, value, validations = []) {
-        for (let i = 0; i < validations.length; i++) {
-            let validator = validations[i];
+    static validateValue(model, value, validators = []) {
+        for (let i = 0; i < validators.length; i++) {
+            let validator = validators[i];
             let error = validator(value, model);
             if (error) {
                 return error;
@@ -40,34 +40,34 @@ export class ValidationHelper {
     }
 
     /**
-     * Checks the property name with the validations (pass the model to the custom validations) and returns the first error message.
+     * Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.
      * 
      * @example
-     * let error = ValidationHelper.validateProperty(model, 'lastname', validations);
+     * let error = ValidationHelper.validateProperty(model, 'lastname', validators);
      * // error => 'Lastname required'
      * 
      * @param {Object} model 
      * @param {string|number|boolean} name 
-     * @param {Array} validations 
+     * @param {Array} validators 
      * @return {string|undefined} The first error message or undefined.
      */
-    static validateProperty(model, name, validations = []) {
+    static validateProperty(model, name, validators = []) {
         let value = model[name];
-        return ValidationHelper.validateValue(model, value, validations);
+        return ValidationHelper.validateValue(model, value, validators);
     }
 
     /**
-     * Checks if the validations object has validations for the name
+     * Checks if has validators for the name
      * 
      * @example
-     * let errors = ValidationHelper.validateAll(model,validations);
+     * let errors = ValidationHelper.validateAll(model,validators);
      * // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}
      * @param {string} name 
-     * @param {Object} validations 
+     * @param {Object} validators 
      * @return {boolean}
      */
-    static hasValidations(name, validations) {
-        return validations.hasOwnProperty(name);
+    static hasValidations(name, validators) {
+        return validators.hasOwnProperty(name);
     }
 
     /**
@@ -91,15 +91,15 @@ export class ValidationHelper {
     /**
      * Validates the form model and returns an object with the errors messages.
      * @param {Object} model 
-     * @param {Object} validations 
+     * @param {Object} validators 
      * @return {Object}
      */
-    static validateAll(model, validations = {}) {
+    static validateAll(model, validators = {}) {
         let errors = {};
 
-        for (let name in validations) {
-            if (ValidationHelper.hasValidations(name, validations)) {
-                let fieldValidations = validations[name];
+        for (let name in validators) {
+            if (ValidationHelper.hasValidations(name, validators)) {
+                let fieldValidations = validators[name];
                 if (!Array.isArray(fieldValidations)) { throw new Error('Validations require an Array'); }
 
                 let error = ValidationHelper.validateProperty(model, name, fieldValidations);

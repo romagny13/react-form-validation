@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { omit, clone } from '../helpers/util';
 
 /**  Creates a button that allows resetting to initial state. */
-export class Reset extends Component {
+class Reset extends Component {
     constructor(props) {
         super(props);
 
@@ -32,3 +32,4 @@ Reset.propTypes = {
     /** The function called on reset. */
     onReset: PropTypes.func.isRequired
 };
+export default Reset;

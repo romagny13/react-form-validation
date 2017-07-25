@@ -1,175 +1,91 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Form from 'romagny13-react-form-validation/components/Form';
+import LightGroup from 'romagny13-react-form-validation/components/LightGroup';
+import Input from 'romagny13-react-form-validation/components/Input';
+import Submit from 'romagny13-react-form-validation/components/Submit';
+import Label from 'romagny13-react-form-validation/components/Label';
+import { required, minlength } from 'romagny13-react-form-validation/helpers/validators';
+import { ValidationHelper } from 'romagny13-react-form-validation/helpers/ValidationHelper';
 
-import { Form, LightGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper, clone } from 'romagny13-react-form-validation';
-
-import { createStore } from 'redux';
-import { connect, Provider } from 'react-redux';
-
-
-// actions
-
-const UPDATE_USER = 'UPDATE_USER';
-const UPDATE_AND_VALIDATE_USER = 'UPDATE_AND_VALIDATE_USER';
-const VALIDATE_ON_SUBMIT = 'VALIDATE_ON_SUBMIT';
-
-const updateUserAction = (name, value) => {
-    return {
-        type: UPDATE_USER,
-        key: name,
-        value: value
-    };
-};
-
-const updateAndValidateUserAction = (name, value) => {
-    return {
-        type: UPDATE_AND_VALIDATE_USER,
-        key: name,
-        value: value
-    };
-};
-
-const validateOnSubmitAction = () => {
-    return {
-        type: VALIDATE_ON_SUBMIT
-    };
-};
-
-// reducer
-
-const validations = {
-    firstname: [required('Firstname required'), minlength()],
-    lastname: [required('Lastname required')]
-};
-
-const userReducer = (state, action) => {
-
-    if (action.type === UPDATE_USER) {
-        const newState = clone(state);
-        newState.model[action.key] = action.value;
-        return newState;
-    }
-    else if (action.type === UPDATE_AND_VALIDATE_USER) {
-        const newState = clone(state);
-        newState.model[action.key] = action.value;
-        newState.errors = ValidationHelper.validateAll(newState.model, validations);
-        return newState;
-    }
-    else if (action.type === VALIDATE_ON_SUBMIT) {
-        const newState = clone(state);
-        newState.errors = ValidationHelper.validateAll(newState.model, validations);
-        newState.submitted = true;
-        return newState;
-    }
-
-    return state;
-};
-
-// form component
-
-const MyForm = ({ model, errors, onValueChange, onSubmit }) => {
-
-    return (
-        <form onSubmit={onSubmit}>
-
-            <LightGroup error={errors["firstname"]}>
-                <Label htmlFor="firstname" asterisk>Firstname</Label><br />
-                <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={onValueChange} />
-            </LightGroup>
-
-            <LightGroup error={errors["lastname"]}>
-                <Label htmlFor="lastname" asterisk>Lastname</Label><br />
-                <Input id="lastname" name="lastname" value={model["lastname"]} onValueChange={onValueChange} />
-            </LightGroup>
-
-            <Submit value="Submit" errors={errors} />
-
-            <pre>
-                {JSON.stringify(model)}
-            </pre>
-
-            <pre>
-                {JSON.stringify(errors)}
-            </pre>
-        </form>
-    );
-};
-MyForm.propTypes = {
-    model: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
-    onValueChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
-};
-
-// container
-
-class MyContainer extends React.Component {
+/** Direct imports (to optimize bundle size) */
+class Example5 extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            model: {
+                firstname: '',
+                lastname: '',
+            },
+            errors: {},
+            submitted: false
+        };
+
+        this.validators = {
+            firstname: [required('Firstname is required'), minlength()],
+            lastname: [required('Lastname is required')]
+        };
 
         this.onValueChange = this.onValueChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
     onValueChange(name, value) {
-        const { submitted } = this.props;
+        const { model, submitted } = this.state;
+
+        model[name] = value;
 
         if (submitted) {
-            this.props.dispatch(updateAndValidateUserAction(name, value));
+            let errors = ValidationHelper.validateAll(model, this.validators);
+
+            this.setState({
+                model,
+                errors
+            });
         }
         else {
-            this.props.dispatch(updateUserAction(name, value));
+            this.setState({
+                model
+            });
         }
     }
     onSubmit(event) {
         event.preventDefault();
 
-        this.props.dispatch(validateOnSubmitAction());
+        let errors = ValidationHelper.validateAll(this.state.model, this.validators);
+        this.setState({
+            submitted: true,
+            errors
+        });
     }
     render() {
-        const { model, errors } = this.props;
-        return <MyForm model={model} errors={errors} onValueChange={this.onValueChange} onSubmit={this.onSubmit} />;
-    }
-}
-MyContainer.propTypes = {
-    model: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
-    submitted: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
-};
+        const { model, errors } = this.state;
 
-const mapStateToProps = (state) => {
-    return {
-        model: state.model,
-        errors: state.errors,
-        submitted: state.submitted
-    };
-};
-const Connected = connect(mapStateToProps)(MyContainer);
-
-// store
-
-const store = createStore(userReducer, {
-    model: {
-        firstname: 'Marie',
-        lastname: ''
-    },
-    errors: {},
-    submitted: false
-});
-
-
-// Provider + connected container
-
-/** Redux */
-export class Example5 extends React.Component {
-    render() {
         return (
-            <Provider store={store}>
-                <Connected />
-            </Provider>
+            <Form onSubmit={this.onSubmit}>
+
+                <LightGroup error={errors["firstname"]}>
+                    <Label htmlFor="firstname" asterisk>Firstname</Label><br />
+                    <Input id="firstname" name="firstname" value={model["firstname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                </LightGroup>
+
+                <LightGroup error={errors["lastname"]}>
+                    <Label htmlFor="lastname" asterisk>Lastname</Label><br />
+                    <Input id="lastname" name="lastname" value={model["lastname"]} onValueChange={this.onValueChange} onTouch={this.onTouch} />
+                </LightGroup>
+
+                <Submit value="Submit" errors={errors} />
+
+                <pre>
+                    {JSON.stringify(model)}
+                </pre>
+                <pre>
+                    {JSON.stringify(errors)}
+                </pre>
+            </Form>
         );
     }
 }
 
 export default Example5;
+
 

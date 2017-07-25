@@ -63,7 +63,7 @@
                         agree: false
                     },
                     submitted: false,
-                    validations: {
+                    validators: {
                         email: [required(),email()],
                         password: [
                             required('Please enter a password.'),
@@ -85,7 +85,7 @@
                 model[name] = value;
 
                 if (this.state.submitted) {
-                    var errors = ValidationHelper.validateAll(model, this.state.validations);
+                    var errors = ValidationHelper.validateAll(model, this.state.validators);
 
                     this.setState({
                         model,
@@ -101,7 +101,7 @@
             onSubmit: function (event) {
                 event.preventDefault();
 
-                var errors = ValidationHelper.validateAll(this.state.model, this.state.validations);
+                var errors = ValidationHelper.validateAll(this.state.model, this.state.validators);
                 console.log('submitted', errors);
                 this.setState({
                     submitted: true,

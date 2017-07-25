@@ -32,6 +32,7 @@ function getExampleDescription(code) {
         return '';
     }
 }
+
 function getExamples(sectionItemName, examplesPath) {
     var exampleFiles = getExampleFiles(examplesPath, sectionItemName);
     return exampleFiles.map(function (file) {
@@ -62,8 +63,7 @@ function getSectionItems(sectionPath, examplesPath) {
             return createSectionItem(sectionItemName, infos.description, infos.props, []);
         }
     });
-}
-
+} 
 
 function getFileNameWithoutExtension(filename) {
     return filename.split('.')[0];

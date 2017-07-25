@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ErrorBlock } from './ErrorBlock';
+import ErrorBlock from './ErrorBlock';
 
 /**  Creates a block that allows displaying error and success. Its possible to customize font and border colors with CSS (class names: "form-group", "has-error", "has-success", "error-block").*/
-export const FormGroup = ({
+const FormGroup = ({
     children,
     error,
     canChangeValidationState,
@@ -67,3 +67,4 @@ FormGroup.defaultProps = {
     errorClassName: 'has-error',
     successClassName: 'has-success',
 };
+export default FormGroup;

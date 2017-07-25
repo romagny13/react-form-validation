@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ErrorBlock } from './ErrorBlock';
+import ErrorBlock from './ErrorBlock';
 
 /**  Creates a block that allows displaying error. */
-export const LightGroup = ({ error, children, className, errorClassName }) => {
+const LightGroup = ({ error, children, className, errorClassName }) => {
     let groupClassName = error ? className + ' ' + errorClassName : className;
     return (
         <div className={groupClassName}>
@@ -32,3 +32,4 @@ LightGroup.defaultProps = {
     className: 'form-group',
     errorClassName: 'has-error'
 };
+export default LightGroup;

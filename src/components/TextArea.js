@@ -5,7 +5,7 @@ import { isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /** Creates a textarea element. */
-export class TextArea extends React.Component {
+class TextArea extends React.Component {
     constructor(props) {
         super(props);
 
@@ -63,3 +63,4 @@ TextArea.propTypes = {
 TextArea.defaultProps = {
     value: ''
 };
+export default TextArea;

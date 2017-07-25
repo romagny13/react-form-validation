@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { EyeIcon } from './EyeIcon';
+import EyeIcon from './EyeIcon';
 
 import { isUndefined, isFunction } from '../common/util';
 import { omit, extend } from '../helpers/util';
 
 /**  Creates an input type password with an eye icon that allows showing password. */
-export class Password extends React.Component {
+class Password extends React.Component {
     constructor(props) {
         super(props);
 
@@ -123,3 +123,4 @@ Password.defaultProps = {
     value: '',
     renderEyeIcon: true
 };
+export default Password;

@@ -76,7 +76,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>Allows validating a value, a property or a form model with validations (required, minlength, maxlength, pattern, email, custom).</p>
+  <div class="description" data-ice="description"><p>Allows validating a value, a property or a form model with validators (required, minlength, maxlength, pattern, email, custom).</p>
 </div>
   
 
@@ -92,14 +92,14 @@
   lastname: &apos;&apos;
 };
 
-let validations = {
+let validators = {
  firstname: [required(&apos;Firstname required&apos;)],
  lastname: [required(&apos;Lastname required&apos;)]
 };
 
 let value = model[&apos;lastname&apos;];
 
-let error = ValidationHelper.validateValue(model,value,validations);
+let error = ValidationHelper.validateValue(model,value,validators);
 // error =&gt; &apos;Lastname required&apos;</code></pre>
     </div>
 </div>
@@ -183,13 +183,13 @@ let error = ValidationHelper.validateValue(model,value,validations);
         <p>
           
           
-          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-hasValidations">hasValidations</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-hasValidations">hasValidations</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Checks if the validations object has validations for the name</p>
+        <div data-ice="description"><p>Checks if has validators for the name</p>
 </div>
       </div>
     </td>
@@ -211,7 +211,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
         <p>
           
           
-          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-validateAll">validateAll</a></span></span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-validateAll">validateAll</a></span></span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
@@ -239,13 +239,13 @@ let error = ValidationHelper.validateValue(model,value,validations);
         <p>
           
           
-          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-validateProperty">validateProperty</a></span></span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-validateProperty">validateProperty</a></span></span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Checks the property name with the validations (pass the model to the custom validations) and returns the first error message.</p>
+        <div data-ice="description"><p>Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.</p>
 </div>
       </div>
     </td>
@@ -267,13 +267,13 @@ let error = ValidationHelper.validateValue(model,value,validations);
         <p>
           
           
-          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-validateValue">validateValue</a></span></span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+          <span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html#static-method-validateValue">validateValue</a></span></span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Checks the value with the validations (pass the model to the custom validations) and returns the first error message.</p>
+        <div data-ice="description"><p>Checks the value with the validators (pass the model to the custom validators) and returns the first error message.</p>
 </div>
       </div>
     </td>
@@ -446,7 +446,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
     
     
     
-    <span data-ice="name">hasValidations</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span data-ice="name">hasValidations</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
     <span class="right-info">
       
       
@@ -457,7 +457,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
   
   
   
-  <div data-ice="description"><p>Checks if the validations object has validations for the name</p>
+  <div data-ice="description"><p>Checks if has validators for the name</p>
 </div>
 
   
@@ -477,7 +477,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">validations</td>
+      <td data-ice="name" data-depth="0">validators</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
@@ -514,7 +514,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
     
   <div class="example-doc" data-ice="exampleDoc">
       
-      <pre class="prettyprint source-code"><code data-ice="exampleCode">let errors = ValidationHelper.validateAll(model,validations);
+      <pre class="prettyprint source-code"><code data-ice="exampleCode">let errors = ValidationHelper.validateAll(model,validators);
 // errors =&gt; {firstname: &apos;Firstname required&apos;, lastname: &apos;Lastname required&apos;}</code></pre>
     </div>
 </div>
@@ -532,7 +532,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
     
     
     
-    <span data-ice="name">validateAll</span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span data-ice="name">validateAll</span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
@@ -563,7 +563,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">validations</td>
+      <td data-ice="name" data-depth="0">validators</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
@@ -610,7 +610,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
     
     
     
-    <span data-ice="name">validateProperty</span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span data-ice="name">validateProperty</span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
     <span class="right-info">
       
       
@@ -621,7 +621,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
   
   
   
-  <div data-ice="description"><p>Checks the property name with the validations (pass the model to the custom validations) and returns the first error message.</p>
+  <div data-ice="description"><p>Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.</p>
 </div>
 
   
@@ -647,7 +647,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">validations</td>
+      <td data-ice="name" data-depth="0">validators</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
@@ -685,7 +685,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
     
   <div class="example-doc" data-ice="exampleDoc">
       
-      <pre class="prettyprint source-code"><code data-ice="exampleCode">let error = ValidationHelper.validateProperty(model, &apos;lastname&apos;, validations);
+      <pre class="prettyprint source-code"><code data-ice="exampleCode">let error = ValidationHelper.validateProperty(model, &apos;lastname&apos;, validators);
 // error =&gt; &apos;Lastname required&apos;</code></pre>
     </div>
 </div>
@@ -703,7 +703,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
     
     
     
-    <span data-ice="name">validateValue</span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validations: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span data-ice="name">validateValue</span><span data-ice="signature">(model: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, validators: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
     <span class="right-info">
       
       
@@ -714,7 +714,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
   
   
   
-  <div data-ice="description"><p>Checks the value with the validations (pass the model to the custom validations) and returns the first error message.</p>
+  <div data-ice="description"><p>Checks the value with the validators (pass the model to the custom validators) and returns the first error message.</p>
 </div>
 
   
@@ -740,7 +740,7 @@ let error = ValidationHelper.validateValue(model,value,validations);
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">validations</td>
+      <td data-ice="name" data-depth="0">validators</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>

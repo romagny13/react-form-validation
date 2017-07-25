@@ -5,7 +5,7 @@ import { isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /**  Creates a select element. */
-export class Select extends React.Component {
+class Select extends React.Component {
     constructor(props) {
         super(props);
 
@@ -91,3 +91,4 @@ Select.propTypes = {
     /** The function called on touch. */
     onTouch: PropTypes.func
 };
+export default Select;

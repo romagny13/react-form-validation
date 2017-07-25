@@ -13,7 +13,7 @@ class Example2 extends React.Component {
             submitted: false
         };
 
-        this.validations = {
+        this.validators = {
             firstname: [required('Firstname is required'), minlength()],
             lastname: [required('Lastname is required')]
         };
@@ -31,11 +31,11 @@ class Example2 extends React.Component {
         if (submitted || touched[name]) {
 
             // validate only the field
-            let fieldValidations = this.validations[name];
+            let fieldValidations = this.validators[name];
             errors[name] = ValidationHelper.validateProperty(model, name, fieldValidations);
 
             // ... or all fields with validate all
-            //  let errors = ValidationHelper.validateAll(model, this.validations);
+            //  let errors = ValidationHelper.validateAll(model, this.validators);
 
             this.setState({
                 model,
@@ -54,7 +54,7 @@ class Example2 extends React.Component {
         touched[name] = true;
 
         // validate only the field
-        let fieldValidations = this.validations[name];
+        let fieldValidations = this.validators[name];
         errors[name] = ValidationHelper.validateProperty(model, name, fieldValidations);
 
         this.setState({
@@ -66,7 +66,7 @@ class Example2 extends React.Component {
         event.preventDefault();
 
         // validate all
-        let errors = ValidationHelper.validateAll(this.state.model, this.validations);
+        let errors = ValidationHelper.validateAll(this.state.model, this.validators);
 
         this.setState({
             submitted: true,

@@ -18,15 +18,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~custom",
+    "romagny13-react-form-validation/helpers/validators.js~custom",
     "function/index.html#static-function-custom",
-    "<span>custom</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>custom</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~email",
+    "romagny13-react-form-validation/helpers/validators.js~email",
     "function/index.html#static-function-email",
-    "<span>email</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>email</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
@@ -36,27 +36,27 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~formaterrormessage",
+    "romagny13-react-form-validation/helpers/validators.js~formaterrormessage",
     "function/index.html#static-function-formatErrorMessage",
-    "<span>formatErrorMessage</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>formatErrorMessage</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~isnullorempty",
+    "romagny13-react-form-validation/helpers/validators.js~isnullorempty",
     "function/index.html#static-function-isNullOrEmpty",
-    "<span>isNullOrEmpty</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>isNullOrEmpty</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~maxlength",
+    "romagny13-react-form-validation/helpers/validators.js~maxlength",
     "function/index.html#static-function-maxlength",
-    "<span>maxlength</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>maxlength</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~minlength",
+    "romagny13-react-form-validation/helpers/validators.js~minlength",
     "function/index.html#static-function-minlength",
-    "<span>minlength</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>minlength</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
@@ -66,15 +66,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~pattern",
+    "romagny13-react-form-validation/helpers/validators.js~pattern",
     "function/index.html#static-function-pattern",
-    "<span>pattern</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>pattern</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
-    "romagny13-react-form-validation/helpers/validations.js~required",
+    "romagny13-react-form-validation/helpers/validators.js~required",
     "function/index.html#static-function-required",
-    "<span>required</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validations.js</span>",
+    "<span>required</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",
     "function"
   ],
   [
@@ -540,9 +540,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "helpers/validations.js",
-    "file/helpers/validations.js.html",
-    "helpers/validations.js",
+    "helpers/validators.js",
+    "file/helpers/validators.js.html",
+    "helpers/validators.js",
     "file"
   ]
 ]

@@ -5,7 +5,7 @@ import { isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /**  Creates a collection of checkbox with a dataSource. */
-export class CheckboxGroup extends React.Component {
+class CheckboxGroup extends React.Component {
     constructor(props) {
         super(props);
 
@@ -86,3 +86,4 @@ CheckboxGroup.propTypes = {
     /** The function called on touch. */
     onTouch: PropTypes.func
 };
+export default CheckboxGroup;

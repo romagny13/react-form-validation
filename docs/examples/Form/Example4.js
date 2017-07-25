@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, LightGroup, Input, Password, Submit, Reset, Label, required, minlength, pattern, email, custom, ValidationHelper } from 'romagny13-react-form-validation';
 
-const validations = {
+const validators = {
     email: [required(), email()],
     username: [required(), minlength()],
     password: [
@@ -57,7 +57,7 @@ class Example4 extends React.Component {
 
         if (submitted) {
 
-            let errors = ValidationHelper.validateAll(model, validations);
+            let errors = ValidationHelper.validateAll(model, validators);
 
             this.setState({
                 model,
@@ -75,7 +75,7 @@ class Example4 extends React.Component {
 
         const { model } = this.state;
 
-        let errors = ValidationHelper.validateAll(model, validations);
+        let errors = ValidationHelper.validateAll(model, validators);
 
         if (!ValidationHelper.hasErrors(errors)) {
 

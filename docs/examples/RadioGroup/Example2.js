@@ -12,7 +12,7 @@ class Example2 extends React.Component {
             touched: {}
         };
 
-        this.validations = {
+        this.validators = {
             likes: [required()],
         };
 
@@ -25,7 +25,7 @@ class Example2 extends React.Component {
         model[name] = value;
 
         if (this.state.submitted || this.state.touched[name]) {
-            let errors = ValidationHelper.validateAll(model, this.validations);
+            let errors = ValidationHelper.validateAll(model, this.validators);
 
             this.setState({
                 model,
@@ -42,7 +42,7 @@ class Example2 extends React.Component {
         let touched = this.state.touched;
         touched[name] = true;
 
-        let errors = ValidationHelper.validateAll(this.state.model, this.validations);
+        let errors = ValidationHelper.validateAll(this.state.model, this.validators);
 
         this.setState({
             touched,
@@ -53,7 +53,7 @@ class Example2 extends React.Component {
     onSubmit(event) {
         event.preventDefault();
 
-        let errors = ValidationHelper.validateAll(this.state.model, this.validations);
+        let errors = ValidationHelper.validateAll(this.state.model, this.validators);
         this.setState({
             submitted: true,
             errors

@@ -21,7 +21,7 @@ function getFontIconClassName(iconName, className, spin, fixed, larger) {
 }
 
 /**  Creates an icon (with Font Awesome). */
-export const FontIcon = (props) => {
+const FontIcon = (props) => {
     // http://fontawesome.io/icons/
     const { iconName, className, spin, fixed, larger } = props;
     let fontIconClassName = getFontIconClassName(iconName, className, spin, fixed, larger);
@@ -50,3 +50,4 @@ FontIcon.defaultProps = {
     spin: false,
     fixed: false
 };
+export default FontIcon;

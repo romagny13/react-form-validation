@@ -99,56 +99,56 @@ describe('Validators', () => {
     describe('FormElements', () => {
 
         it('Should required undefined', () => {
-            let validations = [required(), minlength(3), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, undefined, validations);
+            let validators = [required(), minlength(3), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, undefined, validators);
             assert.equal(result, 'This field is required.');
         });
 
         it('Should required null', () => {
-            let validations = [required(), minlength(3), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, null, validations);
+            let validators = [required(), minlength(3), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, null, validators);
             assert.equal(result, 'This field is required.');
         });
 
         it('Should required string empty', () => {
-            let validations = [required(), minlength(3), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, '', validations);
+            let validators = [required(), minlength(3), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, '', validators);
             assert.equal(result, 'This field is required.');
         });
 
         it('Should required boolean false', () => {
-            let validations = [required(), minlength(3), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, false, validations);
+            let validators = [required(), minlength(3), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, false, validators);
             assert.equal(result, 'This field is required.');
         });
 
         it('Should minlength', () => {
-            let validations = [required(), minlength(3), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, 'ab', validations);
+            let validators = [required(), minlength(3), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, 'ab', validators);
             assert.equal(result, 'Please enter at least than 3 characters.');
         });
 
         it('Should pass without required if string empty', () => {
-            let validations = [maxlength(30), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, '', validations);
+            let validators = [maxlength(30), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, '', validators);
             assert.isUndefined(result);
         });
 
         it('Should pass validation', () => {
-            let validations = [required(), minlength(3), maxlength(10)];
-            let result = ValidationHelper.validateValue({}, 'its ok', validations);
+            let validators = [required(), minlength(3), maxlength(10)];
+            let result = ValidationHelper.validateValue({}, 'its ok', validators);
             assert.isUndefined(result);
         });
 
         it('Should pattern', () => {
-            let validations = [required(), pattern(/^[a-z]+$/)];
-            let result = ValidationHelper.validateValue({}, 120, validations);
+            let validators = [required(), pattern(/^[a-z]+$/)];
+            let result = ValidationHelper.validateValue({}, 120, validators);
             assert.equal(result, 'Please fix this field.');
         });
 
         it('Should pass pattern', () => {
-            let validations = [required(), pattern(/^[a-z]+$/)];
-            let result = ValidationHelper.validateValue({}, 'thisgood', validations);
+            let validators = [required(), pattern(/^[a-z]+$/)];
+            let result = ValidationHelper.validateValue({}, 'thisgood', validators);
             assert.isUndefined(result);
         });
 

@@ -56,7 +56,7 @@
 </blockquote>
 <p>Helpers: allow validating simple form (with no component or another component framework )</p>
 <ul>
-<li><strong>Validations</strong>: <ul>
+<li><strong>Validators</strong>: <ul>
 <li><em>required</em></li>
 <li><em>minlength</em> (by default 3 characters)</li>
 <li><em>maxlength</em> (by default 30 characters)</li>
@@ -101,9 +101,9 @@
 <li><strong>FontIcon</strong> (Icon with Font Awesome) + <strong>EyeIcon</strong></li>
 <li><strong>ErrorBlock</strong></li>
 <li><strong>Submit</strong>  (could be disabled with errors)</li>
-<li><strong>Reset</strong> (allows resetting to initial state)<h2 id="installation">Installation</h2>
-</li>
+<li><strong>Reset</strong> (allows resetting to initial state)</li>
 </ul>
+<h2 id="installation">Installation</h2>
 <pre><code><code class="source-code prettyprint">npm i romagny13-react-form-validation -S</code>
 </code></pre><p>Requires <a href="http://fontawesome.io/">Font Awesome</a>. With a <strong>CDN</strong>:</p>
 <pre><code class="lang-xml"><code class="source-code prettyprint">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css&quot;&gt;</code>
@@ -112,7 +112,11 @@
 <pre><code><code class="source-code prettyprint">npm i font-awesome -S</code>
 </code></pre><pre><code class="lang-js"><code class="source-code prettyprint">import &apos;../node_modules/font-awesome/css/font-awesome.css&apos;;</code>
 </code></pre>
-<h2 id="documentation">Documentation</h2>
+<p>Requires <strong>style-loader</strong> and <strong>css-loader</strong>:</p>
+<pre><code><code class="source-code prettyprint">npm i style-loader css-loader -D</code>
+</code></pre><p><strong>Webpack</strong> configuration file, add the <strong>rule</strong>:</p>
+<pre><code><code class="source-code prettyprint">{ test: /\.css$/, use: [&quot;style-loader&quot;, &quot;css-loader&quot;] }</code>
+</code></pre><h2 id="documentation">Documentation</h2>
 <ul>
 <li><a href="https://romagny13.github.io/react-form-validation/">Site</a></li>
 </ul>

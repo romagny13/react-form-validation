@@ -5,7 +5,7 @@ import { isBoolean, isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /**  Creates an input type radio. */
-export class Radio extends React.Component {
+class Radio extends React.Component {
     constructor(props) {
         super(props);
 
@@ -64,3 +64,4 @@ Radio.propTypes = {
 Radio.defaultProps = {
     checked: false
 };
+export default Radio;

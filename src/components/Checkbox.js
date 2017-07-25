@@ -5,7 +5,7 @@ import { isBoolean, isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /**  Creates an input with the type "checkbox". */
-export class Checkbox extends React.Component {
+class Checkbox extends React.Component {
     constructor(props) {
         super(props);
 
@@ -64,3 +64,4 @@ Checkbox.propTypes = {
 Checkbox.defaultProps = {
     checked: false
 };
+export default Checkbox;

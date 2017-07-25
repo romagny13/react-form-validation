@@ -5,7 +5,7 @@ import { isUndefined, isFunction } from '../common/util';
 import { omit } from '../helpers/util';
 
 /**  Creates an input element. */
-export class Input extends React.Component {
+class Input extends React.Component {
     constructor(props) {
         super(props);
 
@@ -74,3 +74,4 @@ Input.defaultProps = {
     type: 'text',
     value: ''
 };
+export default Input;

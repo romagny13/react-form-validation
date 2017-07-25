@@ -6,7 +6,7 @@ import { omit } from '../helpers/util';
 import { FormHelper } from '../helpers/FormHelper';
 
 /**  Creates an input type submit disabled if the form has errors. */
-export class Submit extends Component {
+class Submit extends Component {
     constructor(props) {
         super(props);
 
@@ -40,3 +40,4 @@ Submit.propTypes = {
     /** Disables the button with errors. */
     errors: PropTypes.object
 };
+export default Submit;

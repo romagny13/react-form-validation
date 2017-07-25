@@ -11,7 +11,7 @@ let str = `# React Form Validation
 > This Library allows validating React Forms easily with a collection of helpers and components.
 
 Helpers: allow validating simple form (with no component or another component framework )
-* **Validations**: 
+* **Validators**: 
     * _required_
     * _minlength_ (by default 3 characters)
     * _maxlength_ (by default 30 characters)
@@ -64,6 +64,15 @@ npm i font-awesome -S
 \`\`\`
 \`\`\`js
 import '../node_modules/font-awesome/css/font-awesome.css';
+\`\`\`
+
+Requires **style-loader** and **css-loader**:
+\`\`\`
+npm i style-loader css-loader -D
+\`\`\`
+**Webpack** configuration file, add the **rule**:
+\`\`\`
+{ test: /\\.css$/, use: ["style-loader", "css-loader"] }
 \`\`\`
 
 ## Lib examples

@@ -22,7 +22,7 @@
       "actualCount": 3,
       "undocumentLines": []
     },
-    "helpers/validations.js": {
+    "helpers/validators.js": {
       "expectCount": 8,
       "actualCount": 7,
       "undocumentLines": [
