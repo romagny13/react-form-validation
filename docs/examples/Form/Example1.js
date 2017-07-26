@@ -1,5 +1,15 @@
 import React from 'react';
 import { Form, LightGroup, Input, Submit, Reset, Label, required, minlength, ValidationHelper } from 'romagny13-react-form-validation';
+/* or direct import to optimize bundle size:
+import Form from 'romagny13-react-form-validation/lib/components/Form';
+import LightGroup from 'romagny13-react-form-validation/lib/components/LightGroup';
+import Input from 'romagny13-react-form-validation/lib/components/Input';
+import Submit from 'romagny13-react-form-validation/lib/components/Submit';
+import Submit from 'romagny13-react-form-validation/lib/components/Submit';
+import Reset from 'romagny13-react-form-validation/lib/components/Reset';
+import { required, minlength } from 'romagny13-react-form-validation/helpers/validators';
+import { ValidationHelper } from 'romagny13-react-form-validation/helpers/ValidationHelper';
+*/
 
 /** Validation Strategy "onSubmit" */
 class Example1 extends React.Component {

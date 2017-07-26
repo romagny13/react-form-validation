@@ -1,8 +1,8 @@
 {
   "name": "romagny13-react-form-validation",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "React Form Binding and Validation",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
     "dist",
     "lib"
@@ -10,23 +10,19 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev --open --inline --hot",
+    "docs": "webpack-dev-server --config webpack.docs --open --inline --hot",
     "lint": "esw src --color",
     "test": "karma start",
-    "docs": "webpack-dev-server --config webpack.doc --open --inline --hot",
+    "build:dist": "webpack --progress --hide-modules && cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:commonjs": "babel ./src/ --out-dir ./lib/lib",
+    "build:copy-files": "node scripts/copy-files.js && cpx \"./src/*.css\" ./lib/lib",
+    "build:lib": "npm run build:commonjs && npm run build:copy-files",
+    "prebuild": "rimraf lib",
+    "build": "npm run build:dist && npm run build:lib",
     "gen:reactdoc": "node scripts/genDocData.js",
     "gen:esdoc": "esdoc",
-    "gen:docs": "npm run gen:reactdoc && npm run gen:esdoc",
     "prebuild:docs": "npm run gen:reactdoc && npm run gen:esdoc",
-    "build:docs": "webpack --config webpack.doc --progress --hide-modules",
-    "prebuild:dist": "rimraf dist",
-    "build:dist": "webpack --config webpack.prod --progress --hide-modules",
-    "build:commonjs": "babel ./src/ --out-dir ./lib",
-    "build:copy-files": "node scripts/copyBuildFiles.js",
-    "build:css": "cpx \"./src/*.css\" ./lib",
-    "prebuild:lib": "rimraf lib",
-    "build:lib": "npm run build:dist && npm run build:commonjs && npm run build:css && npm run build:copy-files",
-    "copy-dist": "cpx \"./dist/*.js\" ./docs/custom",
-    "build": "npm run build:dist && npm run build:lib && npm run build:docs && npm run copy-dist"
+    "build:docs": "webpack --config webpack.docs --progress --hide-modules && cpx \"./lib/dist/*.js\" ./docs/custom"
   },
   "homepage": "https://romagny13.github.io/react-form-validation/",
   "keywords": [
@@ -41,6 +37,10 @@
     "type": "git",
     "url": "git@github.com:romagny13/react-form-validation.git"
   },
+  "peerDependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.0.1",
@@ -52,6 +52,7 @@
     "chai": "^4.0.2",
     "codemirror": "^5.27.4",
     "cpx": "^1.5.0",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
     "esdoc": "^0.5.2",
@@ -66,7 +67,9 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-webpack": "^2.0.3",
     "mocha": "^3.4.2",
+    "react": "^15.6.1",
     "react-docgen": "^2.16.0",
+    "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "react-test-renderer": "^15.6.1",
     "redux": "^3.7.1",
@@ -75,9 +78,5 @@
     "style-loader": "^0.18.2",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
-  },
-  "dependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
   }
 }

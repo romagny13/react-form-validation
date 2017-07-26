@@ -10,6 +10,12 @@ export class Example extends React.Component {
         this.toggleCode = this.toggleCode.bind(this);
     }
 
+    componentWillReceiveProps(props) {
+        if (this.state.showCode) {
+            this.setState({ showCode: false });
+        }
+    }
+
     toggleCode(event) {
         event.preventDefault();
         this.setState(prevState => {
@@ -20,7 +26,6 @@ export class Example extends React.Component {
     render() {
         const { showCode } = this.state;
         const { code, description, name } = this.props.example;
-        // Must use CommonJS require to dynamically require because ES Modules must be statically analyzable.
         const ExampleComponent = require(`./examples/${this.props.componentName}/${name}`).default;
         return (
             <div className="example">
