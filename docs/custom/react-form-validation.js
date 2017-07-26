@@ -1,5 +1,5 @@
 /*!
- * React Form Validation v0.9.0
+ * React Form Validation v0.10.0
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/lib/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 25);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -306,7 +306,7 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(24)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(23)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -391,7 +391,7 @@ function omit(obj) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -405,33 +405,56 @@ exports.isFunction = isFunction;
 exports.isBoolean = isBoolean;
 exports.isDate = isDate;
 exports.isPromise = isPromise;
+exports.hasClassName = hasClassName;
+exports.addClassName = addClassName;
+exports.removeClassName = removeClassName;
 function isUndefined(value) {
-  return typeof value === 'undefined';
+    return typeof value === 'undefined';
 }
 function isDefined(value) {
-  return typeof value !== 'undefined';
+    return typeof value !== 'undefined';
 }
 function isString(value) {
-  return typeof value === 'string';
+    return typeof value === 'string';
 }
 function isNumber(value) {
-  return typeof value === 'number';
+    return typeof value === 'number';
 }
 function isObject(value) {
-  return value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+    return value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
 }
 function isFunction(value) {
-  return typeof value === 'function';
+    return typeof value === 'function';
 }
 function isBoolean(value) {
-  return typeof value === 'boolean';
+    return typeof value === 'boolean';
 }
 function isDate(value) {
-  return toString.call(value) === '[object Date]';
+    return toString.call(value) === '[object Date]';
 }
 var isArray = exports.isArray = Array.isArray;
 function isPromise(obj) {
-  return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+    return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+function hasClassName(className, classNameToCheck) {
+    return className.indexOf(classNameToCheck) != -1;
+}
+
+function addClassName(className, classNameToAdd) {
+    return className && className !== '' ? className + ' ' + classNameToAdd : classNameToAdd;
+}
+
+function removeClassName(className, classNameToRemove) {
+    if (className && className !== '') {
+        var result = className.split(' ');
+        var index = result.indexOf(classNameToRemove);
+        if (index !== -1) {
+            result = result.slice(0, index);
+        }
+        return result.length > 0 ? result.join(' ') : '';
+    }
+    return className;
 }
 
 /***/ }),
@@ -592,7 +615,7 @@ var warning = __webpack_require__(6);
 var canDefineProperty = __webpack_require__(11);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var REACT_ELEMENT_TYPE = __webpack_require__(21);
+var REACT_ELEMENT_TYPE = __webpack_require__(20);
 
 var RESERVED_PROPS = {
   key: true,
@@ -1684,191 +1707,6 @@ exports.default = ErrorBlock;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Allows resolving element value.
- */
-var FormHelper = exports.FormHelper = function () {
-    function FormHelper() {
-        _classCallCheck(this, FormHelper);
-    }
-
-    _createClass(FormHelper, [{
-        key: 'isNumberElement',
-
-
-        /**
-            * Checks if the element is an input with the type "number" or "range".
-            * @param {Object} element 
-            * @return {boolean} 
-            */
-        value: function isNumberElement(element) {
-            return element.type && (element.type === 'number' || element.type === 'range');
-        }
-
-        /**
-         * Returns cheched or the checbox value.
-         * @param {Object} checkbox
-         * @return {string|boolean} 
-         */
-
-    }], [{
-        key: 'isInput',
-
-
-        /**
-         * Checks if the element is an "input".
-         * @param {Object} element 
-         * @return {boolean} 
-         */
-        value: function isInput(element) {
-            return element.tagName === 'INPUT';
-        }
-
-        /**
-         * Checks if the element is a "textarea".
-         * @param {Object} element 
-         * @return {boolean} 
-         */
-
-    }, {
-        key: 'isTextarea',
-        value: function isTextarea(element) {
-            return element.tagName === 'TEXTAREA';
-        }
-
-        /**
-         * Checks if the element is a "select" element.
-         * @param {Object} element 
-         * @return {boolean} 
-         */
-
-    }, {
-        key: 'isSelect',
-        value: function isSelect(element) {
-            return element.tagName === 'SELECT';
-        }
-
-        /**
-            * Checks if the element is an input with the type "checkbox".
-            * @param {Object} element 
-            * @return {boolean} 
-            */
-
-    }, {
-        key: 'isCheckbox',
-        value: function isCheckbox(element) {
-            return element.type && element.type === 'checkbox';
-        }
-
-        /**
-            * Checks if the element is an input with the type "radio".
-            * @param {Object} element 
-            * @return {boolean} 
-            */
-
-    }, {
-        key: 'isRadio',
-        value: function isRadio(element) {
-            return element.type && element.type === 'radio';
-        }
-    }, {
-        key: 'GetCheckboxValue',
-        value: function GetCheckboxValue(checkbox) {
-            return checkbox.value !== 'on' ? checkbox.value : checkbox.checked;
-        }
-
-        /**
-         * Returns the input value.
-         * @param {Object} element
-         * @return {string} 
-         */
-
-    }, {
-        key: 'GetInputValue',
-        value: function GetInputValue(element) {
-            if (FormHelper.isCheckbox(element)) {
-                return FormHelper.GetCheckboxValue(element);
-            } else {
-                return element.value;
-            }
-        }
-
-        /**
-         * Returns the selected value or selected values (multiple).
-         * @param {Object} select
-         * @return {string|Array} 
-         */
-
-    }, {
-        key: 'GetSelectValue',
-        value: function GetSelectValue(select) {
-            if (select.multiple) {
-                var values = [];
-                var options = select.options;
-                for (var i = 0; i < options.length; i++) {
-                    var option = options[i];
-                    if (option.selected) {
-                        values.push(option.value);
-                    }
-                }
-                return values;
-            } else {
-                return select.options[select.selectedIndex].value;
-            }
-        }
-
-        /**
-         * Check the element type (input, checbox, select, textarea) and returns the value.
-         * @param {Object} element
-         * @return {Object|Array|string|boolean} 
-         */
-
-    }, {
-        key: 'getElementValue',
-        value: function getElementValue(element) {
-            if (FormHelper.isInput(element)) {
-                return FormHelper.GetInputValue(element);
-            } else if (FormHelper.isTextarea(element)) {
-                return element.value;
-            } else if (FormHelper.isSelect(element)) {
-                return FormHelper.GetSelectValue(element);
-            }
-        }
-    }, {
-        key: 'hasClassName',
-        value: function hasClassName(className, classNameToCheck) {
-            return className.indexOf(classNameToCheck) != -1;
-        }
-    }, {
-        key: 'addClassName',
-        value: function addClassName(className, classNameToAdd) {
-            return className + ' ' + classNameToAdd;
-        }
-    }, {
-        key: 'removeClassName',
-        value: function removeClassName(className, classNameToRemove) {
-            return className.replace(classNameToRemove, '');
-        }
-    }]);
-
-    return FormHelper;
-}();
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -1884,10 +1722,10 @@ var FormHelper = exports.FormHelper = function () {
 var _prodInvariant = __webpack_require__(8),
     _assign = __webpack_require__(9);
 
-var ReactNoopUpdateQueue = __webpack_require__(19);
+var ReactNoopUpdateQueue = __webpack_require__(18);
 
 var canDefineProperty = __webpack_require__(11);
-var emptyObject = __webpack_require__(20);
+var emptyObject = __webpack_require__(19);
 var invariant = __webpack_require__(5);
 var lowPriorityWarning = __webpack_require__(13);
 
@@ -2014,7 +1852,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2115,7 +1953,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2141,7 +1979,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2166,7 +2004,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2212,7 +2050,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2242,7 +2080,7 @@ var ReactElement = __webpack_require__(7);
 var checkReactTypeSpec = __webpack_require__(36);
 
 var canDefineProperty = __webpack_require__(11);
-var getIteratorFn = __webpack_require__(22);
+var getIteratorFn = __webpack_require__(21);
 var warning = __webpack_require__(6);
 var lowPriorityWarning = __webpack_require__(13);
 
@@ -2473,7 +2311,7 @@ module.exports = ReactElementValidator;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2993,7 +2831,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3033,7 +2871,7 @@ EyeIcon.defaultProps = {
 exports.default = EyeIcon;
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3056,7 +2894,7 @@ Object.keys(_util).forEach(function (key) {
   });
 });
 
-var _validators = __webpack_require__(27);
+var _validators = __webpack_require__(26);
 
 Object.keys(_validators).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3068,7 +2906,7 @@ Object.keys(_validators).forEach(function (key) {
   });
 });
 
-var _FormHelper = __webpack_require__(17);
+var _FormHelper = __webpack_require__(27);
 
 Object.keys(_FormHelper).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3110,7 +2948,7 @@ Object.defineProperty(exports, 'CheckboxGroup', {
   }
 });
 
-var _EyeIcon = __webpack_require__(25);
+var _EyeIcon = __webpack_require__(24);
 
 Object.defineProperty(exports, 'EyeIcon', {
   enumerable: true,
@@ -3250,7 +3088,7 @@ __webpack_require__(61);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3368,6 +3206,176 @@ var custom = exports.custom = function custom(fn, message) {
         }
     };
 };
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Allows resolving element value.
+ */
+var FormHelper = exports.FormHelper = function () {
+    function FormHelper() {
+        _classCallCheck(this, FormHelper);
+    }
+
+    _createClass(FormHelper, null, [{
+        key: 'isInput',
+
+
+        /**
+         * Checks if the element is an "input".
+         * @param {Object} element 
+         * @return {boolean} 
+         */
+        value: function isInput(element) {
+            return element.tagName === 'INPUT';
+        }
+
+        /**
+         * Checks if the element is a "textarea".
+         * @param {Object} element 
+         * @return {boolean} 
+         */
+
+    }, {
+        key: 'isTextarea',
+        value: function isTextarea(element) {
+            return element.tagName === 'TEXTAREA';
+        }
+
+        /**
+         * Checks if the element is a "select" element.
+         * @param {Object} element 
+         * @return {boolean} 
+         */
+
+    }, {
+        key: 'isSelect',
+        value: function isSelect(element) {
+            return element.tagName === 'SELECT';
+        }
+
+        /**
+            * Checks if the element is an input with the type "checkbox".
+            * @param {Object} element 
+            * @return {boolean} 
+            */
+
+    }, {
+        key: 'isCheckbox',
+        value: function isCheckbox(element) {
+            return element.type && element.type === 'checkbox';
+        }
+
+        /**
+            * Checks if the element is an input with the type "radio".
+            * @param {Object} element 
+            * @return {boolean} 
+            */
+
+    }, {
+        key: 'isRadio',
+        value: function isRadio(element) {
+            return element.type && element.type === 'radio';
+        }
+
+        /**
+            * Checks if the element is an input with the type "number" or "range".
+            * @param {Object} element 
+            * @return {boolean} 
+            */
+
+    }, {
+        key: 'isNumberElement',
+        value: function isNumberElement(element) {
+            return element.type && (element.type === 'number' || element.type === 'range');
+        }
+
+        /**
+         * Returns cheched or the checbox value.
+         * @param {Object} checkbox
+         * @return {string|boolean} 
+         */
+
+    }, {
+        key: 'getCheckboxValue',
+        value: function getCheckboxValue(checkbox) {
+            return checkbox.value && checkbox.value !== 'on' ? checkbox.value : checkbox.checked;
+        }
+
+        /**
+         * Returns the input value.
+         * @param {Object} element
+         * @return {string} 
+         */
+
+    }, {
+        key: 'getInputValue',
+        value: function getInputValue(element) {
+            if (FormHelper.isCheckbox(element)) {
+                return FormHelper.getCheckboxValue(element);
+            } else {
+                return element.value;
+            }
+        }
+
+        /**
+         * Returns the selected value or selected values (multiple).
+         * @param {Object} select
+         * @return {string|Array} 
+         */
+
+    }, {
+        key: 'getSelectValue',
+        value: function getSelectValue(select) {
+            if (select.multiple) {
+                var values = [];
+                var options = select.options;
+                for (var i = 0; i < options.length; i++) {
+                    var option = options[i];
+                    if (option.selected) {
+                        values.push(option.value);
+                    }
+                }
+                return values;
+            } else {
+                return select.options[select.selectedIndex].value;
+            }
+        }
+
+        /**
+         * Check the element type (input, checbox, select, textarea) and returns the value.
+         * @param {Object} element
+         * @return {Object|Array|string|boolean} 
+         */
+
+    }, {
+        key: 'getElementValue',
+        value: function getElementValue(element) {
+            if (FormHelper.isInput(element)) {
+                return FormHelper.getInputValue(element);
+            } else if (FormHelper.isTextarea(element)) {
+                return element.value;
+            } else if (FormHelper.isSelect(element)) {
+                return FormHelper.getSelectValue(element);
+            }
+        }
+    }]);
+
+    return FormHelper;
+}();
 
 /***/ }),
 /* 28 */
@@ -3666,7 +3674,7 @@ exports.default = Checkbox;
 
 var _assign = __webpack_require__(9);
 
-var ReactBaseClasses = __webpack_require__(18);
+var ReactBaseClasses = __webpack_require__(17);
 var ReactChildren = __webpack_require__(31);
 var ReactDOMFactories = __webpack_require__(35);
 var ReactElement = __webpack_require__(7);
@@ -3683,7 +3691,7 @@ var cloneElement = ReactElement.cloneElement;
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(13);
   var canDefineProperty = __webpack_require__(11);
-  var ReactElementValidator = __webpack_require__(23);
+  var ReactElementValidator = __webpack_require__(22);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
@@ -4119,9 +4127,9 @@ module.exports = PooledClass;
 var _prodInvariant = __webpack_require__(8);
 
 var ReactCurrentOwner = __webpack_require__(12);
-var REACT_ELEMENT_TYPE = __webpack_require__(21);
+var REACT_ELEMENT_TYPE = __webpack_require__(20);
 
-var getIteratorFn = __webpack_require__(22);
+var getIteratorFn = __webpack_require__(21);
 var invariant = __webpack_require__(5);
 var KeyEscapeUtils = __webpack_require__(34);
 var warning = __webpack_require__(6);
@@ -4371,7 +4379,7 @@ var ReactElement = __webpack_require__(7);
  */
 var createDOMFactory = ReactElement.createFactory;
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(23);
+  var ReactElementValidator = __webpack_require__(22);
   createDOMFactory = ReactElementValidator.createFactory;
 }
 
@@ -4710,7 +4718,7 @@ module.exports = factory(isValidElement);
 // Therefore we re-export development-only version with all the PropTypes checks here.
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
-var factory = __webpack_require__(24);
+var factory = __webpack_require__(23);
 module.exports = function(isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -4823,13 +4831,13 @@ module.exports = '15.6.1';
 
 
 
-var _require = __webpack_require__(18),
+var _require = __webpack_require__(17),
     Component = _require.Component;
 
 var _require2 = __webpack_require__(7),
     isValidElement = _require2.isValidElement;
 
-var ReactNoopUpdateQueue = __webpack_require__(19);
+var ReactNoopUpdateQueue = __webpack_require__(18);
 var factory = __webpack_require__(44);
 
 module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
@@ -4853,7 +4861,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(9);
 
-var emptyObject = __webpack_require__(20);
+var emptyObject = __webpack_require__(19);
 var _invariant = __webpack_require__(5);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -6470,7 +6478,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _EyeIcon = __webpack_require__(25);
+var _EyeIcon = __webpack_require__(24);
 
 var _EyeIcon2 = _interopRequireDefault(_EyeIcon);
 
@@ -7117,8 +7125,6 @@ var _util = __webpack_require__(4);
 
 var _util2 = __webpack_require__(3);
 
-var _FormHelper = __webpack_require__(17);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7148,12 +7154,12 @@ var Submit = function (_Component) {
 
             var disabled = this.props.disabled === true || this.props.errors && Object.keys(this.props.errors).length > 0;
             if (disabled) {
-                if (!_FormHelper.FormHelper.hasClassName(baseClassName, disabledClassName)) {
-                    baseClassName = _FormHelper.FormHelper.addClassName(baseClassName, disabledClassName);
+                if (!(0, _util.hasClassName)(baseClassName, disabledClassName)) {
+                    baseClassName = (0, _util.addClassName)(baseClassName, disabledClassName);
                 }
             } else {
-                if (_FormHelper.FormHelper.hasClassName(baseClassName, disabledClassName)) {
-                    baseClassName = _FormHelper.FormHelper.removeClassName(baseClassName, disabledClassName);
+                if ((0, _util.hasClassName)(baseClassName, disabledClassName)) {
+                    baseClassName = (0, _util.removeClassName)(baseClassName, disabledClassName);
                 }
             }
 

@@ -1,16 +1,12 @@
 {
-  "coverage": "87.5%",
-  "expectCount": 32,
+  "coverage": "96.55%",
+  "expectCount": 29,
   "actualCount": 28,
   "files": {
     "helpers/FormHelper.js": {
-      "expectCount": 14,
+      "expectCount": 11,
       "actualCount": 11,
-      "undocumentLines": [
-        123,
-        119,
-        127
-      ]
+      "undocumentLines": []
     },
     "helpers/ValidationHelper.js": {
       "expectCount": 7,

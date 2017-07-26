@@ -14,8 +14,7 @@ class CustomPage extends Component {
             model: {
                 email: '',
                 password: 'Secret',
-                likes: ['Milk', 'Cakes'],
-                agree: false
+                likes: ['Milk', 'Cakes']
             },
             submitted: false,
             errors: {},
@@ -29,7 +28,6 @@ class CustomPage extends Component {
                 pattern(/^(?=.*[A-Z]).{6}/, '6 characters minimum and one uppercase letter.')
             ],
             note: [required(), minlength()],
-            agree: [required()],
             likes: [custom((value, model) => {
                 return model.likes.length > 0;
             }, 'Please select one or more items.')]

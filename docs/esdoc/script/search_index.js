@@ -414,33 +414,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "helpers/formhelper.js~formhelper#isnumberelement",
-    "class/helpers/FormHelper.js~FormHelper.html#instance-method-isNumberElement",
-    "helpers/FormHelper.js~FormHelper#isNumberElement",
-    "method"
-  ],
-  [
     "helpers/formhelper.js~formhelper.getcheckboxvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-GetCheckboxValue",
-    "helpers/FormHelper.js~FormHelper.GetCheckboxValue",
-    "method"
-  ],
-  [
-    "helpers/formhelper.js~formhelper.getinputvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-GetInputValue",
-    "helpers/FormHelper.js~FormHelper.GetInputValue",
-    "method"
-  ],
-  [
-    "helpers/formhelper.js~formhelper.getselectvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-GetSelectValue",
-    "helpers/FormHelper.js~FormHelper.GetSelectValue",
-    "method"
-  ],
-  [
-    "helpers/formhelper.js~formhelper.addclassname",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-addClassName",
-    "helpers/FormHelper.js~FormHelper.addClassName",
+    "class/helpers/FormHelper.js~FormHelper.html#static-method-getCheckboxValue",
+    "helpers/FormHelper.js~FormHelper.getCheckboxValue",
     "method"
   ],
   [
@@ -450,9 +426,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.hasclassname",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-hasClassName",
-    "helpers/FormHelper.js~FormHelper.hasClassName",
+    "helpers/formhelper.js~formhelper.getinputvalue",
+    "class/helpers/FormHelper.js~FormHelper.html#static-method-getInputValue",
+    "helpers/FormHelper.js~FormHelper.getInputValue",
+    "method"
+  ],
+  [
+    "helpers/formhelper.js~formhelper.getselectvalue",
+    "class/helpers/FormHelper.js~FormHelper.html#static-method-getSelectValue",
+    "helpers/FormHelper.js~FormHelper.getSelectValue",
     "method"
   ],
   [
@@ -465,6 +447,12 @@ window.esdocSearchIndex = [
     "helpers/formhelper.js~formhelper.isinput",
     "class/helpers/FormHelper.js~FormHelper.html#static-method-isInput",
     "helpers/FormHelper.js~FormHelper.isInput",
+    "method"
+  ],
+  [
+    "helpers/formhelper.js~formhelper.isnumberelement",
+    "class/helpers/FormHelper.js~FormHelper.html#static-method-isNumberElement",
+    "helpers/FormHelper.js~FormHelper.isNumberElement",
     "method"
   ],
   [
@@ -483,12 +471,6 @@ window.esdocSearchIndex = [
     "helpers/formhelper.js~formhelper.istextarea",
     "class/helpers/FormHelper.js~FormHelper.html#static-method-isTextarea",
     "helpers/FormHelper.js~FormHelper.isTextarea",
-    "method"
-  ],
-  [
-    "helpers/formhelper.js~formhelper.removeclassname",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-removeClassName",
-    "helpers/FormHelper.js~FormHelper.removeClassName",
     "method"
   ],
   [

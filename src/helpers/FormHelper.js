@@ -53,7 +53,7 @@ export class FormHelper {
         * @param {Object} element 
         * @return {boolean} 
         */
-    isNumberElement(element) {
+    static isNumberElement(element) {
         return element.type && (element.type === 'number' || element.type === 'range');
     }
 
@@ -62,8 +62,8 @@ export class FormHelper {
      * @param {Object} checkbox
      * @return {string|boolean} 
      */
-    static GetCheckboxValue(checkbox) {
-        return checkbox.value !== 'on' ? checkbox.value : checkbox.checked;
+    static getCheckboxValue(checkbox) {
+        return checkbox.value && checkbox.value !== 'on' ? checkbox.value : checkbox.checked;
     }
 
     /**
@@ -71,9 +71,9 @@ export class FormHelper {
      * @param {Object} element
      * @return {string} 
      */
-    static GetInputValue(element) {
+    static getInputValue(element) {
         if (FormHelper.isCheckbox(element)) {
-            return FormHelper.GetCheckboxValue(element);
+            return FormHelper.getCheckboxValue(element);
         } else {
             return element.value;
         }
@@ -84,7 +84,7 @@ export class FormHelper {
      * @param {Object} select
      * @return {string|Array} 
      */
-    static GetSelectValue(select) {
+    static getSelectValue(select) {
         if (select.multiple) {
             let values = [];
             let options = select.options;
@@ -108,23 +108,11 @@ export class FormHelper {
      */
     static getElementValue(element) {
         if (FormHelper.isInput(element)) {
-            return FormHelper.GetInputValue(element);
+            return FormHelper.getInputValue(element);
         } else if (FormHelper.isTextarea(element)) {
             return element.value;
         } else if (FormHelper.isSelect(element)) {
-            return FormHelper.GetSelectValue(element);
+            return FormHelper.getSelectValue(element);
         }
-    }
-
-    static hasClassName(className, classNameToCheck) {
-        return className.indexOf(classNameToCheck) != -1;
-    }
-
-    static addClassName(className, classNameToAdd) {
-        return className + ' ' + classNameToAdd;
-    }
-
-    static removeClassName(className, classNameToRemove) {
-        return className.replace(classNameToRemove, '');
     }
 }

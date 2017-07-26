@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction, isUndefined } from '../common/util';
+import { isFunction, isUndefined, hasClassName, addClassName, removeClassName } from '../common/util';
 import { omit } from '../helpers/util';
-import { FormHelper } from '../helpers/FormHelper';
 
 /**  Creates an input type submit disabled if the form has errors. */
 class Submit extends Component {
@@ -19,13 +18,13 @@ class Submit extends Component {
 
         let disabled = this.props.disabled === true || (this.props.errors && Object.keys(this.props.errors).length > 0);
         if (disabled) {
-            if (!FormHelper.hasClassName(baseClassName, disabledClassName)) {
-                baseClassName = FormHelper.addClassName(baseClassName, disabledClassName);
+            if (!hasClassName(baseClassName, disabledClassName)) {
+                baseClassName = addClassName(baseClassName, disabledClassName);
             }
         }
         else {
-            if (FormHelper.hasClassName(baseClassName, disabledClassName)) {
-                baseClassName = FormHelper.removeClassName(baseClassName, disabledClassName);
+            if (hasClassName(baseClassName, disabledClassName)) {
+                baseClassName = removeClassName(baseClassName, disabledClassName);
             }
         }
 

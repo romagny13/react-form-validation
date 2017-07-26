@@ -105,7 +105,7 @@ export class FormHelper {
         * @param {Object} element 
         * @return {boolean} 
         */
-    isNumberElement(element) {
+    static isNumberElement(element) {
         return element.type &amp;&amp; (element.type === &apos;number&apos; || element.type === &apos;range&apos;);
     }
 
@@ -114,8 +114,8 @@ export class FormHelper {
      * @param {Object} checkbox
      * @return {string|boolean} 
      */
-    static GetCheckboxValue(checkbox) {
-        return checkbox.value !== &apos;on&apos; ? checkbox.value : checkbox.checked;
+    static getCheckboxValue(checkbox) {
+        return checkbox.value &amp;&amp; checkbox.value !== &apos;on&apos; ? checkbox.value : checkbox.checked;
     }
 
     /**
@@ -123,9 +123,9 @@ export class FormHelper {
      * @param {Object} element
      * @return {string} 
      */
-    static GetInputValue(element) {
+    static getInputValue(element) {
         if (FormHelper.isCheckbox(element)) {
-            return FormHelper.GetCheckboxValue(element);
+            return FormHelper.getCheckboxValue(element);
         } else {
             return element.value;
         }
@@ -136,7 +136,7 @@ export class FormHelper {
      * @param {Object} select
      * @return {string|Array} 
      */
-    static GetSelectValue(select) {
+    static getSelectValue(select) {
         if (select.multiple) {
             let values = [];
             let options = select.options;
@@ -160,24 +160,12 @@ export class FormHelper {
      */
     static getElementValue(element) {
         if (FormHelper.isInput(element)) {
-            return FormHelper.GetInputValue(element);
+            return FormHelper.getInputValue(element);
         } else if (FormHelper.isTextarea(element)) {
             return element.value;
         } else if (FormHelper.isSelect(element)) {
-            return FormHelper.GetSelectValue(element);
+            return FormHelper.getSelectValue(element);
         }
-    }
-
-    static hasClassName(className, classNameToCheck) {
-        return className.indexOf(classNameToCheck) != -1;
-    }
-
-    static addClassName(className, classNameToAdd) {
-        return className + &apos; &apos; + classNameToAdd;
-    }
-
-    static removeClassName(className, classNameToRemove) {
-        return className.replace(classNameToRemove, &apos;&apos;);
     }
 }</code></pre>
 
