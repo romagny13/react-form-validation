@@ -58,7 +58,7 @@ import ValidationHelper from 'romagny13-react-form-validation/lib/helpers/Valida
 ## ES5
 
 \`\`\`xml
- <script src="node_modules/romagny13-react-form-validation/lib/dist/react-form-validation.min.js"></script>
+ <script src="node_modules/romagny13-react-form-validation/dist/react-form-validation.min.js"></script>
 \`\`\`
 
 ## Examples
