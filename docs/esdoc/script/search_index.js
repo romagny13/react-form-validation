@@ -1,8 +1,8 @@
 window.esdocSearchIndex = [
   [
-    "romagny13-react-form-validation/helpers/formhelper.js~formhelper",
-    "class/helpers/FormHelper.js~FormHelper.html",
-    "<span>FormHelper</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/FormHelper.js</span>",
+    "romagny13-react-form-validation/helpers/domformhelper.js~domformhelper",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html",
+    "<span>DOMFormHelper</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/DOMFormHelper.js</span>",
     "class"
   ],
   [
@@ -408,69 +408,69 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "helpers/formhelper.js",
-    "file/helpers/FormHelper.js.html",
-    "helpers/FormHelper.js",
+    "helpers/domformhelper.js",
+    "file/helpers/DOMFormHelper.js.html",
+    "helpers/DOMFormHelper.js",
     "file"
   ],
   [
-    "helpers/formhelper.js~formhelper.getcheckboxvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-getCheckboxValue",
-    "helpers/FormHelper.js~FormHelper.getCheckboxValue",
+    "helpers/domformhelper.js~domformhelper.getcheckboxvalue",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-getCheckboxValue",
+    "helpers/DOMFormHelper.js~DOMFormHelper.getCheckboxValue",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.getelementvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-getElementValue",
-    "helpers/FormHelper.js~FormHelper.getElementValue",
+    "helpers/domformhelper.js~domformhelper.getelementvalue",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-getElementValue",
+    "helpers/DOMFormHelper.js~DOMFormHelper.getElementValue",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.getinputvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-getInputValue",
-    "helpers/FormHelper.js~FormHelper.getInputValue",
+    "helpers/domformhelper.js~domformhelper.getinputvalue",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-getInputValue",
+    "helpers/DOMFormHelper.js~DOMFormHelper.getInputValue",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.getselectvalue",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-getSelectValue",
-    "helpers/FormHelper.js~FormHelper.getSelectValue",
+    "helpers/domformhelper.js~domformhelper.getselectvalue",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-getSelectValue",
+    "helpers/DOMFormHelper.js~DOMFormHelper.getSelectValue",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.ischeckbox",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-isCheckbox",
-    "helpers/FormHelper.js~FormHelper.isCheckbox",
+    "helpers/domformhelper.js~domformhelper.ischeckbox",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-isCheckbox",
+    "helpers/DOMFormHelper.js~DOMFormHelper.isCheckbox",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.isinput",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-isInput",
-    "helpers/FormHelper.js~FormHelper.isInput",
+    "helpers/domformhelper.js~domformhelper.isinput",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-isInput",
+    "helpers/DOMFormHelper.js~DOMFormHelper.isInput",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.isnumberelement",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-isNumberElement",
-    "helpers/FormHelper.js~FormHelper.isNumberElement",
+    "helpers/domformhelper.js~domformhelper.isnumberelement",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-isNumberElement",
+    "helpers/DOMFormHelper.js~DOMFormHelper.isNumberElement",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.isradio",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-isRadio",
-    "helpers/FormHelper.js~FormHelper.isRadio",
+    "helpers/domformhelper.js~domformhelper.isradio",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-isRadio",
+    "helpers/DOMFormHelper.js~DOMFormHelper.isRadio",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.isselect",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-isSelect",
-    "helpers/FormHelper.js~FormHelper.isSelect",
+    "helpers/domformhelper.js~domformhelper.isselect",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-isSelect",
+    "helpers/DOMFormHelper.js~DOMFormHelper.isSelect",
     "method"
   ],
   [
-    "helpers/formhelper.js~formhelper.istextarea",
-    "class/helpers/FormHelper.js~FormHelper.html#static-method-isTextarea",
-    "helpers/FormHelper.js~FormHelper.isTextarea",
+    "helpers/domformhelper.js~domformhelper.istextarea",
+    "class/helpers/DOMFormHelper.js~DOMFormHelper.html#static-method-isTextarea",
+    "helpers/DOMFormHelper.js~DOMFormHelper.isTextarea",
     "method"
   ],
   [

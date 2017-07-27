@@ -32,7 +32,7 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/helpers/FormHelper.js~FormHelper.html">FormHelper</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/helpers/DOMFormHelper.js~DOMFormHelper.html">DOMFormHelper</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html">ValidationHelper</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clone">clone</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extend">extend</a></span></span></li>
@@ -75,7 +75,7 @@ export function isNullOrEmpty(value) {
 /**
  * Checks if a value is undefined or null or an empty string or is false (for a boolean)
  * @param {string} message The error message displaying
- * @return {string|undefined} The error message or undefined
+ * @return {Function} A function that returns the error message or undefined
  */
 export const required = (message) =&gt; {
     let error = typeof message === &apos;string&apos; ? message : defaultErrorMessages.required;
@@ -90,7 +90,7 @@ export const required = (message) =&gt; {
  * Checks if a value has the min. length.
  * @param {number} minLength By default 3.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 export const minlength = (minLength, message) =&gt; {
     let _minLength = typeof minLength === &apos;number&apos; ? minLength : 3;
@@ -106,7 +106,7 @@ export const minlength = (minLength, message) =&gt; {
  * Checks if a value has the max. length.
  * @param {number} maxLength By default 30.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 export const maxlength = (maxLength, message) =&gt; {
     let _maxLength = typeof maxLength === &apos;number&apos; ? maxLength : 30;
@@ -122,7 +122,7 @@ export const maxlength = (maxLength, message) =&gt; {
  * Checks if a value match to the regex pattern.
  * @param {Object} pattern
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 export const pattern = (pattern, message) =&gt; {
     let error = typeof message === &apos;string&apos; ? message : defaultErrorMessages.pattern;
@@ -136,7 +136,7 @@ export const pattern = (pattern, message) =&gt; {
 /**
  * Checks if a value is a valid email.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 export const email = (message) =&gt; {
     let error = typeof message === &apos;string&apos; ? message : defaultErrorMessages.email;
@@ -147,7 +147,7 @@ export const email = (message) =&gt; {
  * Calls a function checking if value is valid.
  * @param {function} fn  The function that receives the value, the model and returns a boolean.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 export const custom = (fn, message) =&gt; {
     let error = typeof message === &apos;string&apos; ? message : defaultErrorMessages.custom;

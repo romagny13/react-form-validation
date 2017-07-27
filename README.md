@@ -18,7 +18,7 @@ Helpers: allow validating simple form (with no component or another component fr
     * _validateProperty_
     * _validateAll_
     * ( + hasErrors, countErrors )
-* **FormHelper** allows resolving element value
+* **DOMFormHelper** allows resolving element value
     * _getElementValue_: returns the value of a form element (input, select, radio, etc.)
 * **Util**: 
     * _omit_
@@ -57,23 +57,11 @@ Requires [Font Awesome](http://fontawesome.io/). With a **CDN**:
 ```
 npm i font-awesome -S
 ```
-```js
-import '../node_modules/font-awesome/css/font-awesome.css';
-```
-
-Requires **style-loader** and **css-loader**:
-```
-npm i style-loader css-loader -D
-```
-**Webpack** configuration file, add the **rule**:
-```
-{ test: /\.css$/, use: ["style-loader", "css-loader"] }
-```
 
 ## Documentation
 
 * [Site](https://romagny13.github.io/react-form-validation/)
 
-## Lib examples
+## Examples
 
 To run examples `npm i` then `npm run dev`

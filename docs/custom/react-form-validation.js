@@ -1,5 +1,5 @@
 /*!
- * React Form Validation v0.10.0
+ * React Form Validation v0.11.0
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -336,6 +336,7 @@ var _util = __webpack_require__(4);
 
 /**
  * Extends the target object with the source object.
+ * 
  * @param {Object} source 
  * @param {Object} target 
  * @return {Object} The target object.
@@ -2906,14 +2907,14 @@ Object.keys(_validators).forEach(function (key) {
   });
 });
 
-var _FormHelper = __webpack_require__(27);
+var _DOMFormHelper = __webpack_require__(27);
 
-Object.keys(_FormHelper).forEach(function (key) {
+Object.keys(_DOMFormHelper).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _FormHelper[key];
+      return _DOMFormHelper[key];
     }
   });
 });
@@ -3124,7 +3125,7 @@ function isNullOrEmpty(value) {
 /**
  * Checks if a value is undefined or null or an empty string or is false (for a boolean)
  * @param {string} message The error message displaying
- * @return {string|undefined} The error message or undefined
+ * @return {Function} A function that returns the error message or undefined
  */
 var required = exports.required = function required(message) {
     var error = typeof message === 'string' ? message : defaultErrorMessages.required;
@@ -3139,7 +3140,7 @@ var required = exports.required = function required(message) {
  * Checks if a value has the min. length.
  * @param {number} minLength By default 3.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 var minlength = exports.minlength = function minlength(minLength, message) {
     var _minLength = typeof minLength === 'number' ? minLength : 3;
@@ -3155,7 +3156,7 @@ var minlength = exports.minlength = function minlength(minLength, message) {
  * Checks if a value has the max. length.
  * @param {number} maxLength By default 30.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 var maxlength = exports.maxlength = function maxlength(maxLength, message) {
     var _maxLength = typeof maxLength === 'number' ? maxLength : 30;
@@ -3171,7 +3172,7 @@ var maxlength = exports.maxlength = function maxlength(maxLength, message) {
  * Checks if a value match to the regex pattern.
  * @param {Object} pattern
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 var pattern = exports.pattern = function pattern(_pattern, message) {
     var error = typeof message === 'string' ? message : defaultErrorMessages.pattern;
@@ -3185,7 +3186,7 @@ var pattern = exports.pattern = function pattern(_pattern, message) {
 /**
  * Checks if a value is a valid email.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 var email = exports.email = function email(message) {
     var error = typeof message === 'string' ? message : defaultErrorMessages.email;
@@ -3196,7 +3197,7 @@ var email = exports.email = function email(message) {
  * Calls a function checking if value is valid.
  * @param {function} fn  The function that receives the value, the model and returns a boolean.
  * @param {string} message The error message displaying.
- * @return {string|undefined} The error message or undefined.
+ * @return {Function} A function that returns the error message or undefined
  */
 var custom = exports.custom = function custom(fn, message) {
     var error = typeof message === 'string' ? message : defaultErrorMessages.custom;
@@ -3223,14 +3224,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * Allows resolving element value.
+ * Allows resolving form element value (on change, on blur, etc.).
  */
-var FormHelper = exports.FormHelper = function () {
-    function FormHelper() {
-        _classCallCheck(this, FormHelper);
+var DOMFormHelper = exports.DOMFormHelper = function () {
+    function DOMFormHelper() {
+        _classCallCheck(this, DOMFormHelper);
     }
 
-    _createClass(FormHelper, null, [{
+    _createClass(DOMFormHelper, null, [{
         key: 'isInput',
 
 
@@ -3304,7 +3305,7 @@ var FormHelper = exports.FormHelper = function () {
         }
 
         /**
-         * Returns cheched or the checbox value.
+         * Returns checked or the checkbox value.
          * @param {Object} checkbox
          * @return {string|boolean} 
          */
@@ -3324,15 +3325,15 @@ var FormHelper = exports.FormHelper = function () {
     }, {
         key: 'getInputValue',
         value: function getInputValue(element) {
-            if (FormHelper.isCheckbox(element)) {
-                return FormHelper.getCheckboxValue(element);
+            if (DOMFormHelper.isCheckbox(element)) {
+                return DOMFormHelper.getCheckboxValue(element);
             } else {
                 return element.value;
             }
         }
 
         /**
-         * Returns the selected value or selected values (multiple).
+         * Returns the selected value(s) (multiple supported).
          * @param {Object} select
          * @return {string|Array} 
          */
@@ -3356,7 +3357,7 @@ var FormHelper = exports.FormHelper = function () {
         }
 
         /**
-         * Check the element type (input, checbox, select, textarea) and returns the value.
+         * Checks the element type (input, checbox, select, textarea) and returns the value.
          * @param {Object} element
          * @return {Object|Array|string|boolean} 
          */
@@ -3364,17 +3365,17 @@ var FormHelper = exports.FormHelper = function () {
     }, {
         key: 'getElementValue',
         value: function getElementValue(element) {
-            if (FormHelper.isInput(element)) {
-                return FormHelper.getInputValue(element);
-            } else if (FormHelper.isTextarea(element)) {
+            if (DOMFormHelper.isInput(element)) {
+                return DOMFormHelper.getInputValue(element);
+            } else if (DOMFormHelper.isTextarea(element)) {
                 return element.value;
-            } else if (FormHelper.isSelect(element)) {
-                return FormHelper.getSelectValue(element);
+            } else if (DOMFormHelper.isSelect(element)) {
+                return DOMFormHelper.getSelectValue(element);
             }
         }
     }]);
 
-    return FormHelper;
+    return DOMFormHelper;
 }();
 
 /***/ }),
@@ -3405,16 +3406,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 * };
 *
 * let validators = {
- *  firstname: [required('Firstname required')],
- *  lastname: [required('Lastname required')]
+ *  firstname: [required('First name required')],
+ *  lastname: [required('Last name required')]
 * };
 *
 * let value = model['lastname'];
 *
-* let error = ValidationHelper.validateValue(model,value,validators);
-* // error => 'Lastname required'
- * 
- */
+* // validate a value
+* let error = ValidationHelper.validateValue(model, value, validators); // error => 'Last name required'
+* 
+* @example
+* // validate property
+* let error = ValidationHelper.validateProperty(model, 'lastname', validators); // error => 'Last name required'
+*
+* @example
+* // validate all
+* let errors = ValidationHelper.validateAll(model, validators); // errors => {firstname: 'First name required', lastname: 'Last name required'}
+* 
+*/
 var ValidationHelper = exports.ValidationHelper = function () {
     function ValidationHelper() {
         _classCallCheck(this, ValidationHelper);
@@ -3425,7 +3434,7 @@ var ValidationHelper = exports.ValidationHelper = function () {
 
 
         /**
-         * Checks the value with the validators (pass the model to the custom validators) and returns the first error message.
+         * Checks the value with validators and returns the first error message.
          * @param {Object} model 
          * @param {string|number|boolean} value 
          * @param {Array} validators 
@@ -3444,11 +3453,7 @@ var ValidationHelper = exports.ValidationHelper = function () {
         }
 
         /**
-         * Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.
-         * 
-         * @example
-         * let error = ValidationHelper.validateProperty(model, 'lastname', validators);
-         * // error => 'Lastname required'
+         * Checks the property with validators and returns the first error message.
          * 
          * @param {Object} model 
          * @param {string|number|boolean} name 
@@ -3466,11 +3471,8 @@ var ValidationHelper = exports.ValidationHelper = function () {
         }
 
         /**
-         * Checks if has validators for the name
+         * Checks presence of validators for the name
          * 
-         * @example
-         * let errors = ValidationHelper.validateAll(model,validators);
-         * // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}
          * @param {string} name 
          * @param {Object} validators 
          * @return {boolean}
@@ -3483,7 +3485,7 @@ var ValidationHelper = exports.ValidationHelper = function () {
         }
 
         /**
-         * Returns the length of the errors object.
+         * Returns the length of the object.
          * @param {Object} errors 
          * @return {number}
          */
@@ -3507,7 +3509,7 @@ var ValidationHelper = exports.ValidationHelper = function () {
         }
 
         /**
-         * Validates the form model and returns an object with the errors messages.
+         * Validates all values and returns errors messages.
          * @param {Object} model 
          * @param {Object} validators 
          * @return {Object}

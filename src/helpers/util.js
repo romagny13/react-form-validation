@@ -2,6 +2,7 @@ import { isObject, isArray } from '../common/util';
 
 /**
  * Extends the target object with the source object.
+ * 
  * @param {Object} source 
  * @param {Object} target 
  * @return {Object} The target object.

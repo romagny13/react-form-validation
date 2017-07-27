@@ -2,10 +2,10 @@
   {
     "__docId__": 0,
     "kind": "file",
-    "name": "helpers/FormHelper.js",
-    "content": "/**\n * Allows resolving element value.\n */\nexport class FormHelper {\n\n    /**\n     * Checks if the element is an \"input\".\n     * @param {Object} element \n     * @return {boolean} \n     */\n    static isInput(element) {\n        return element.tagName === 'INPUT';\n    }\n\n    /**\n     * Checks if the element is a \"textarea\".\n     * @param {Object} element \n     * @return {boolean} \n     */\n    static isTextarea(element) {\n        return element.tagName === 'TEXTAREA';\n    }\n\n    /**\n     * Checks if the element is a \"select\" element.\n     * @param {Object} element \n     * @return {boolean} \n     */\n    static isSelect(element) {\n        return element.tagName === 'SELECT';\n    }\n\n    /**\n        * Checks if the element is an input with the type \"checkbox\".\n        * @param {Object} element \n        * @return {boolean} \n        */\n    static isCheckbox(element) {\n        return element.type && element.type === 'checkbox';\n    }\n\n    /**\n        * Checks if the element is an input with the type \"radio\".\n        * @param {Object} element \n        * @return {boolean} \n        */\n    static isRadio(element) {\n        return element.type && element.type === 'radio';\n    }\n\n    /**\n        * Checks if the element is an input with the type \"number\" or \"range\".\n        * @param {Object} element \n        * @return {boolean} \n        */\n    static isNumberElement(element) {\n        return element.type && (element.type === 'number' || element.type === 'range');\n    }\n\n    /**\n     * Returns cheched or the checbox value.\n     * @param {Object} checkbox\n     * @return {string|boolean} \n     */\n    static getCheckboxValue(checkbox) {\n        return checkbox.value && checkbox.value !== 'on' ? checkbox.value : checkbox.checked;\n    }\n\n    /**\n     * Returns the input value.\n     * @param {Object} element\n     * @return {string} \n     */\n    static getInputValue(element) {\n        if (FormHelper.isCheckbox(element)) {\n            return FormHelper.getCheckboxValue(element);\n        } else {\n            return element.value;\n        }\n    }\n\n    /**\n     * Returns the selected value or selected values (multiple).\n     * @param {Object} select\n     * @return {string|Array} \n     */\n    static getSelectValue(select) {\n        if (select.multiple) {\n            let values = [];\n            let options = select.options;\n            for (let i = 0; i < options.length; i++) {\n                let option = options[i];\n                if (option.selected) {\n                    values.push(option.value);\n                }\n            }\n            return values;\n        }\n        else {\n            return select.options[select.selectedIndex].value;\n        }\n    }\n\n    /**\n     * Check the element type (input, checbox, select, textarea) and returns the value.\n     * @param {Object} element\n     * @return {Object|Array|string|boolean} \n     */\n    static getElementValue(element) {\n        if (FormHelper.isInput(element)) {\n            return FormHelper.getInputValue(element);\n        } else if (FormHelper.isTextarea(element)) {\n            return element.value;\n        } else if (FormHelper.isSelect(element)) {\n            return FormHelper.getSelectValue(element);\n        }\n    }\n}",
+    "name": "helpers/DOMFormHelper.js",
+    "content": "/**\n * Allows resolving form element value (on change, on blur, etc.).\n */\nexport class DOMFormHelper {\n\n    /**\n     * Checks if the element is an \"input\".\n     * @param {Object} element \n     * @return {boolean} \n     */\n    static isInput(element) {\n        return element.tagName === 'INPUT';\n    }\n\n    /**\n     * Checks if the element is a \"textarea\".\n     * @param {Object} element \n     * @return {boolean} \n     */\n    static isTextarea(element) {\n        return element.tagName === 'TEXTAREA';\n    }\n\n    /**\n     * Checks if the element is a \"select\" element.\n     * @param {Object} element \n     * @return {boolean} \n     */\n    static isSelect(element) {\n        return element.tagName === 'SELECT';\n    }\n\n    /**\n        * Checks if the element is an input with the type \"checkbox\".\n        * @param {Object} element \n        * @return {boolean} \n        */\n    static isCheckbox(element) {\n        return element.type && element.type === 'checkbox';\n    }\n\n    /**\n        * Checks if the element is an input with the type \"radio\".\n        * @param {Object} element \n        * @return {boolean} \n        */\n    static isRadio(element) {\n        return element.type && element.type === 'radio';\n    }\n\n    /**\n        * Checks if the element is an input with the type \"number\" or \"range\".\n        * @param {Object} element \n        * @return {boolean} \n        */\n    static isNumberElement(element) {\n        return element.type && (element.type === 'number' || element.type === 'range');\n    }\n\n    /**\n     * Returns checked or the checkbox value.\n     * @param {Object} checkbox\n     * @return {string|boolean} \n     */\n    static getCheckboxValue(checkbox) {\n        return checkbox.value && checkbox.value !== 'on' ? checkbox.value : checkbox.checked;\n    }\n\n    /**\n     * Returns the input value.\n     * @param {Object} element\n     * @return {string} \n     */\n    static getInputValue(element) {\n        if (DOMFormHelper.isCheckbox(element)) {\n            return DOMFormHelper.getCheckboxValue(element);\n        } else {\n            return element.value;\n        }\n    }\n\n    /**\n     * Returns the selected value(s) (multiple supported).\n     * @param {Object} select\n     * @return {string|Array} \n     */\n    static getSelectValue(select) {\n        if (select.multiple) {\n            let values = [];\n            let options = select.options;\n            for (let i = 0; i < options.length; i++) {\n                let option = options[i];\n                if (option.selected) {\n                    values.push(option.value);\n                }\n            }\n            return values;\n        }\n        else {\n            return select.options[select.selectedIndex].value;\n        }\n    }\n\n    /**\n     * Checks the element type (input, checbox, select, textarea) and returns the value.\n     * @param {Object} element\n     * @return {Object|Array|string|boolean} \n     */\n    static getElementValue(element) {\n        if (DOMFormHelper.isInput(element)) {\n            return DOMFormHelper.getInputValue(element);\n        } else if (DOMFormHelper.isTextarea(element)) {\n            return element.value;\n        } else if (DOMFormHelper.isSelect(element)) {\n            return DOMFormHelper.getSelectValue(element);\n        }\n    }\n}",
     "static": true,
-    "longname": "helpers/FormHelper.js",
+    "longname": "helpers/DOMFormHelper.js",
     "access": null,
     "description": null,
     "lineNumber": 1
@@ -13,15 +13,15 @@
   {
     "__docId__": 1,
     "kind": "class",
-    "name": "FormHelper",
-    "memberof": "helpers/FormHelper.js",
+    "name": "DOMFormHelper",
+    "memberof": "helpers/DOMFormHelper.js",
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper",
     "access": null,
     "export": true,
-    "importPath": "romagny13-react-form-validation/helpers/FormHelper.js",
-    "importStyle": "{FormHelper}",
-    "description": "Allows resolving element value.",
+    "importPath": "romagny13-react-form-validation/helpers/DOMFormHelper.js",
+    "importStyle": "{DOMFormHelper}",
+    "description": "Allows resolving form element value (on change, on blur, etc.).",
     "lineNumber": 4,
     "interface": false
   },
@@ -29,11 +29,11 @@
     "__docId__": 2,
     "kind": "method",
     "name": "isInput",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.isInput",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.isInput",
     "access": null,
     "description": "Checks if the element is an \"input\".",
     "lineNumber": 11,
@@ -62,11 +62,11 @@
     "__docId__": 3,
     "kind": "method",
     "name": "isTextarea",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.isTextarea",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.isTextarea",
     "access": null,
     "description": "Checks if the element is a \"textarea\".",
     "lineNumber": 20,
@@ -95,11 +95,11 @@
     "__docId__": 4,
     "kind": "method",
     "name": "isSelect",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.isSelect",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.isSelect",
     "access": null,
     "description": "Checks if the element is a \"select\" element.",
     "lineNumber": 29,
@@ -128,11 +128,11 @@
     "__docId__": 5,
     "kind": "method",
     "name": "isCheckbox",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.isCheckbox",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.isCheckbox",
     "access": null,
     "description": "Checks if the element is an input with the type \"checkbox\".",
     "lineNumber": 38,
@@ -161,11 +161,11 @@
     "__docId__": 6,
     "kind": "method",
     "name": "isRadio",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.isRadio",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.isRadio",
     "access": null,
     "description": "Checks if the element is an input with the type \"radio\".",
     "lineNumber": 47,
@@ -194,11 +194,11 @@
     "__docId__": 7,
     "kind": "method",
     "name": "isNumberElement",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.isNumberElement",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.isNumberElement",
     "access": null,
     "description": "Checks if the element is an input with the type \"number\" or \"range\".",
     "lineNumber": 56,
@@ -227,13 +227,13 @@
     "__docId__": 8,
     "kind": "method",
     "name": "getCheckboxValue",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.getCheckboxValue",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.getCheckboxValue",
     "access": null,
-    "description": "Returns cheched or the checbox value.",
+    "description": "Returns checked or the checkbox value.",
     "lineNumber": 65,
     "params": [
       {
@@ -261,11 +261,11 @@
     "__docId__": 9,
     "kind": "method",
     "name": "getInputValue",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.getInputValue",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.getInputValue",
     "access": null,
     "description": "Returns the input value.",
     "lineNumber": 74,
@@ -294,13 +294,13 @@
     "__docId__": 10,
     "kind": "method",
     "name": "getSelectValue",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.getSelectValue",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.getSelectValue",
     "access": null,
-    "description": "Returns the selected value or selected values (multiple).",
+    "description": "Returns the selected value(s) (multiple supported).",
     "lineNumber": 87,
     "params": [
       {
@@ -328,13 +328,13 @@
     "__docId__": 11,
     "kind": "method",
     "name": "getElementValue",
-    "memberof": "helpers/FormHelper.js~FormHelper",
+    "memberof": "helpers/DOMFormHelper.js~DOMFormHelper",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "helpers/FormHelper.js~FormHelper.getElementValue",
+    "longname": "helpers/DOMFormHelper.js~DOMFormHelper.getElementValue",
     "access": null,
-    "description": "Check the element type (input, checbox, select, textarea) and returns the value.",
+    "description": "Checks the element type (input, checbox, select, textarea) and returns the value.",
     "lineNumber": 109,
     "params": [
       {
@@ -364,7 +364,7 @@
     "__docId__": 12,
     "kind": "file",
     "name": "helpers/util.js",
-    "content": "import { isObject, isArray } from '../common/util';\n\n/**\n * Extends the target object with the source object.\n * @param {Object} source \n * @param {Object} target \n * @return {Object} The target object.\n */\nexport function extend(source, target) {\n    if (typeof source === 'object') {\n        for (let name in source) {\n            if (!target.hasOwnProperty(name)) {\n                let sourceValue = source[name];\n                if (isArray(sourceValue)) {\n                    target[name] = sourceValue.slice(0);\n                }\n                else if (isObject(sourceValue)) {\n                    target[name] = extend(sourceValue, {});\n                }\n                else {\n                    target[name] = sourceValue;\n                }\n            }\n        }\n    }\n    return target;\n}\n\n/**\n * copies an object.\n * @param {Object} obj \n */\nexport function clone(obj) {\n    return extend(obj, {});\n}\n\n/**\n * Returns the source object without the omitted names.\n * @param {Object} obj \n * @param {Array} names\n */\nexport function omit(obj, names = []) {\n    let result = {};\n    for (let name in obj) {\n        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {\n            result[name] = obj[name];\n        }\n    }\n    return result;\n}\n",
+    "content": "import { isObject, isArray } from '../common/util';\n\n/**\n * Extends the target object with the source object.\n * \n * @param {Object} source \n * @param {Object} target \n * @return {Object} The target object.\n */\nexport function extend(source, target) {\n    if (typeof source === 'object') {\n        for (let name in source) {\n            if (!target.hasOwnProperty(name)) {\n                let sourceValue = source[name];\n                if (isArray(sourceValue)) {\n                    target[name] = sourceValue.slice(0);\n                }\n                else if (isObject(sourceValue)) {\n                    target[name] = extend(sourceValue, {});\n                }\n                else {\n                    target[name] = sourceValue;\n                }\n            }\n        }\n    }\n    return target;\n}\n\n/**\n * copies an object.\n * @param {Object} obj \n */\nexport function clone(obj) {\n    return extend(obj, {});\n}\n\n/**\n * Returns the source object without the omitted names.\n * @param {Object} obj \n * @param {Array} names\n */\nexport function omit(obj, names = []) {\n    let result = {};\n    for (let name in obj) {\n        if (obj.hasOwnProperty(name) && names.indexOf(name) === -1) {\n            result[name] = obj[name];\n        }\n    }\n    return result;\n}\n",
     "static": true,
     "longname": "helpers/util.js",
     "access": null,
@@ -385,7 +385,7 @@
     "importPath": "romagny13-react-form-validation/helpers/util.js",
     "importStyle": "{extend}",
     "description": "Extends the target object with the source object.",
-    "lineNumber": 9,
+    "lineNumber": 10,
     "params": [
       {
         "nullable": null,
@@ -431,7 +431,7 @@
     "importPath": "romagny13-react-form-validation/helpers/util.js",
     "importStyle": "{clone}",
     "description": "copies an object.",
-    "lineNumber": 33,
+    "lineNumber": 34,
     "params": [
       {
         "nullable": null,
@@ -464,7 +464,7 @@
     "importPath": "romagny13-react-form-validation/helpers/util.js",
     "importStyle": "{omit}",
     "description": "Returns the source object without the omitted names.",
-    "lineNumber": 42,
+    "lineNumber": 43,
     "params": [
       {
         "nullable": null,
@@ -497,7 +497,7 @@
     "__docId__": 16,
     "kind": "file",
     "name": "helpers/ValidationHelper.js",
-    "content": "import { isObject } from '../common/util';\n\n/**\n * Allows validating a value, a property or a form model with validators (required, minlength, maxlength, pattern, email, custom).\n * \n * @example\n * let model = {\n *   firstname: '',\n *   lastname: ''\n* };\n*\n* let validators = {\n *  firstname: [required('Firstname required')],\n *  lastname: [required('Lastname required')]\n* };\n*\n* let value = model['lastname'];\n*\n* let error = ValidationHelper.validateValue(model,value,validators);\n* // error => 'Lastname required'\n * \n */\nexport class ValidationHelper {\n\n    /**\n     * Checks the value with the validators (pass the model to the custom validators) and returns the first error message.\n     * @param {Object} model \n     * @param {string|number|boolean} value \n     * @param {Array} validators \n     * @return {string|undefined} The first error message or undefined.\n     */\n    static validateValue(model, value, validators = []) {\n        for (let i = 0; i < validators.length; i++) {\n            let validator = validators[i];\n            let error = validator(value, model);\n            if (error) {\n                return error;\n            }\n        }\n    }\n\n    /**\n     * Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.\n     * \n     * @example\n     * let error = ValidationHelper.validateProperty(model, 'lastname', validators);\n     * // error => 'Lastname required'\n     * \n     * @param {Object} model \n     * @param {string|number|boolean} name \n     * @param {Array} validators \n     * @return {string|undefined} The first error message or undefined.\n     */\n    static validateProperty(model, name, validators = []) {\n        let value = model[name];\n        return ValidationHelper.validateValue(model, value, validators);\n    }\n\n    /**\n     * Checks if has validators for the name\n     * \n     * @example\n     * let errors = ValidationHelper.validateAll(model,validators);\n     * // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}\n     * @param {string} name \n     * @param {Object} validators \n     * @return {boolean}\n     */\n    static hasValidations(name, validators) {\n        return validators.hasOwnProperty(name);\n    }\n\n    /**\n     * Returns the length of the errors object.\n     * @param {Object} errors \n     * @return {number}\n     */\n    static countErrors(errors) {\n        return Object.keys(errors).length;\n    }\n\n    /**\n     * Checks if the object is empty.\n     * @param {Object} errors \n     * @return {boolean}\n     */\n    static hasErrors(errors) {\n        return isObject(errors) && ValidationHelper.countErrors(errors) > 0;\n    }\n\n    /**\n     * Validates the form model and returns an object with the errors messages.\n     * @param {Object} model \n     * @param {Object} validators \n     * @return {Object}\n     */\n    static validateAll(model, validators = {}) {\n        let errors = {};\n\n        for (let name in validators) {\n            if (ValidationHelper.hasValidations(name, validators)) {\n                let fieldValidations = validators[name];\n                if (!Array.isArray(fieldValidations)) { throw new Error('Validations require an Array'); }\n\n                let error = ValidationHelper.validateProperty(model, name, fieldValidations);\n                if (error) {\n                    errors[name] = error;\n                }\n            }\n        }\n\n        return errors;\n    }\n}",
+    "content": "import { isObject } from '../common/util';\n\n/**\n * Allows validating a value, a property or a form model with validators (required, minlength, maxlength, pattern, email, custom).\n * \n * @example\n * let model = {\n *   firstname: '',\n *   lastname: ''\n* };\n*\n* let validators = {\n *  firstname: [required('First name required')],\n *  lastname: [required('Last name required')]\n* };\n*\n* let value = model['lastname'];\n*\n* // validate a value\n* let error = ValidationHelper.validateValue(model, value, validators); // error => 'Last name required'\n* \n* @example\n* // validate property\n* let error = ValidationHelper.validateProperty(model, 'lastname', validators); // error => 'Last name required'\n*\n* @example\n* // validate all\n* let errors = ValidationHelper.validateAll(model, validators); // errors => {firstname: 'First name required', lastname: 'Last name required'}\n* \n*/\nexport class ValidationHelper {\n\n    /**\n     * Checks the value with validators and returns the first error message.\n     * @param {Object} model \n     * @param {string|number|boolean} value \n     * @param {Array} validators \n     * @return {string|undefined} The first error message or undefined.\n     */\n    static validateValue(model, value, validators = []) {\n        for (let i = 0; i < validators.length; i++) {\n            let validator = validators[i];\n            let error = validator(value, model);\n            if (error) {\n                return error;\n            }\n        }\n    }\n\n    /**\n     * Checks the property with validators and returns the first error message.\n     * \n     * @param {Object} model \n     * @param {string|number|boolean} name \n     * @param {Array} validators \n     * @return {string|undefined} The first error message or undefined.\n     */\n    static validateProperty(model, name, validators = []) {\n        let value = model[name];\n        return ValidationHelper.validateValue(model, value, validators);\n    }\n\n    /**\n     * Checks presence of validators for the name\n     * \n     * @param {string} name \n     * @param {Object} validators \n     * @return {boolean}\n     */\n    static hasValidations(name, validators) {\n        return validators.hasOwnProperty(name);\n    }\n\n    /**\n     * Returns the length of the object.\n     * @param {Object} errors \n     * @return {number}\n     */\n    static countErrors(errors) {\n        return Object.keys(errors).length;\n    }\n\n    /**\n     * Checks if the object is empty.\n     * @param {Object} errors \n     * @return {boolean}\n     */\n    static hasErrors(errors) {\n        return isObject(errors) && ValidationHelper.countErrors(errors) > 0;\n    }\n\n    /**\n     * Validates all values and returns errors messages.\n     * @param {Object} model \n     * @param {Object} validators \n     * @return {Object}\n     */\n    static validateAll(model, validators = {}) {\n        let errors = {};\n\n        for (let name in validators) {\n            if (ValidationHelper.hasValidations(name, validators)) {\n                let fieldValidations = validators[name];\n                if (!Array.isArray(fieldValidations)) { throw new Error('Validations require an Array'); }\n\n                let error = ValidationHelper.validateProperty(model, name, fieldValidations);\n                if (error) {\n                    errors[name] = error;\n                }\n            }\n        }\n\n        return errors;\n    }\n}",
     "static": true,
     "longname": "helpers/ValidationHelper.js",
     "access": null,
@@ -517,9 +517,11 @@
     "importStyle": "{ValidationHelper}",
     "description": "Allows validating a value, a property or a form model with validators (required, minlength, maxlength, pattern, email, custom).",
     "examples": [
-      "let model = {\n  firstname: '',\n  lastname: ''\n};\n\nlet validators = {\n firstname: [required('Firstname required')],\n lastname: [required('Lastname required')]\n};\n\nlet value = model['lastname'];\n\nlet error = ValidationHelper.validateValue(model,value,validators);\n// error => 'Lastname required'"
+      "let model = {\n  firstname: '',\n  lastname: ''\n};\n\nlet validators = {\n firstname: [required('First name required')],\n lastname: [required('Last name required')]\n};\n\nlet value = model['lastname'];\n\n// validate a value\nlet error = ValidationHelper.validateValue(model, value, validators); // error => 'Last name required'",
+      "// validate property\nlet error = ValidationHelper.validateProperty(model, 'lastname', validators); // error => 'Last name required'",
+      "// validate all\nlet errors = ValidationHelper.validateAll(model, validators); // errors => {firstname: 'First name required', lastname: 'Last name required'}"
     ],
-    "lineNumber": 23,
+    "lineNumber": 31,
     "interface": false
   },
   {
@@ -532,8 +534,8 @@
     "static": true,
     "longname": "helpers/ValidationHelper.js~ValidationHelper.validateValue",
     "access": null,
-    "description": "Checks the value with the validators (pass the model to the custom validators) and returns the first error message.",
-    "lineNumber": 32,
+    "description": "Checks the value with validators and returns the first error message.",
+    "lineNumber": 40,
     "params": [
       {
         "nullable": null,
@@ -588,11 +590,8 @@
     "static": true,
     "longname": "helpers/ValidationHelper.js~ValidationHelper.validateProperty",
     "access": null,
-    "description": "Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.",
-    "examples": [
-      "let error = ValidationHelper.validateProperty(model, 'lastname', validators);\n// error => 'Lastname required'"
-    ],
-    "lineNumber": 54,
+    "description": "Checks the property with validators and returns the first error message.",
+    "lineNumber": 58,
     "params": [
       {
         "nullable": null,
@@ -647,11 +646,8 @@
     "static": true,
     "longname": "helpers/ValidationHelper.js~ValidationHelper.hasValidations",
     "access": null,
-    "description": "Checks if has validators for the name",
-    "examples": [
-      "let errors = ValidationHelper.validateAll(model,validators);\n// errors => {firstname: 'Firstname required', lastname: 'Lastname required'}"
-    ],
-    "lineNumber": 69,
+    "description": "Checks presence of validators for the name",
+    "lineNumber": 70,
     "params": [
       {
         "nullable": null,
@@ -693,8 +689,8 @@
     "static": true,
     "longname": "helpers/ValidationHelper.js~ValidationHelper.countErrors",
     "access": null,
-    "description": "Returns the length of the errors object.",
-    "lineNumber": 78,
+    "description": "Returns the length of the object.",
+    "lineNumber": 79,
     "params": [
       {
         "nullable": null,
@@ -727,7 +723,7 @@
     "longname": "helpers/ValidationHelper.js~ValidationHelper.hasErrors",
     "access": null,
     "description": "Checks if the object is empty.",
-    "lineNumber": 87,
+    "lineNumber": 88,
     "params": [
       {
         "nullable": null,
@@ -759,8 +755,8 @@
     "static": true,
     "longname": "helpers/ValidationHelper.js~ValidationHelper.validateAll",
     "access": null,
-    "description": "Validates the form model and returns an object with the errors messages.",
-    "lineNumber": 97,
+    "description": "Validates all values and returns errors messages.",
+    "lineNumber": 98,
     "params": [
       {
         "nullable": null,
@@ -796,7 +792,7 @@
     "__docId__": 24,
     "kind": "file",
     "name": "helpers/validators.js",
-    "content": "const defaultErrorMessages = {\n    required: 'This field is required.',\n    minlength: 'Please enter at least than {0} characters.',\n    maxlength: 'Please enter no more than {0} characters.',\n    pattern: 'Please fix this field.',\n    email: 'Please enter a valid email address.',\n    custom: 'Please fix this field.'\n};\n\nexport function formatErrorMessage(message, searchValue, replaceValue) {\n    return message.replace(searchValue, replaceValue);\n}\n\n/**\n * Checks if value is null or undefined or an empty string\n * @param {string} value \n * @return {boolean}\n */\nexport function isNullOrEmpty(value) {\n    return value === null || typeof value === 'undefined' || value === '';\n}\n\n/**\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\n * @param {string} message The error message displaying\n * @return {string|undefined} The error message or undefined\n */\nexport const required = (message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.required;\n    return (value) => {\n        if (isNullOrEmpty(value) || (typeof value === 'boolean' && value === false)) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value has the min. length.\n * @param {number} minLength By default 3.\n * @param {string} message The error message displaying.\n * @return {string|undefined} The error message or undefined.\n */\nexport const minlength = (minLength, message) => {\n    let _minLength = typeof minLength === 'number' ? minLength : 3;\n    let error = typeof message === 'string' ? message : formatErrorMessage(defaultErrorMessages.minlength, '{0}', _minLength);\n    return (value) => {\n        if (!isNullOrEmpty(value) && value.length < _minLength) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value has the max. length.\n * @param {number} maxLength By default 30.\n * @param {string} message The error message displaying.\n * @return {string|undefined} The error message or undefined.\n */\nexport const maxlength = (maxLength, message) => {\n    let _maxLength = typeof maxLength === 'number' ? maxLength : 30;\n    let error = typeof message === 'string' ? message : formatErrorMessage(defaultErrorMessages.maxlength, '{0}', _maxLength);\n    return (value) => {\n        if (!isNullOrEmpty(value) && value.length > _maxLength) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value match to the regex pattern.\n * @param {Object} pattern\n * @param {string} message The error message displaying.\n * @return {string|undefined} The error message or undefined.\n */\nexport const pattern = (pattern, message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.pattern;\n    return (value) => {\n        if (!isNullOrEmpty(value) && !pattern.test(value)) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value is a valid email.\n * @param {string} message The error message displaying.\n * @return {string|undefined} The error message or undefined.\n */\nexport const email = (message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.email;\n    return pattern(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i, error);\n};\n\n/**\n * Calls a function checking if value is valid.\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\n * @param {string} message The error message displaying.\n * @return {string|undefined} The error message or undefined.\n */\nexport const custom = (fn, message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.custom;\n    return (value, model) => {\n        if (!isNullOrEmpty(value) && !fn(value, model)) {\n            return error;\n        }\n    };\n};\n",
+    "content": "const defaultErrorMessages = {\n    required: 'This field is required.',\n    minlength: 'Please enter at least than {0} characters.',\n    maxlength: 'Please enter no more than {0} characters.',\n    pattern: 'Please fix this field.',\n    email: 'Please enter a valid email address.',\n    custom: 'Please fix this field.'\n};\n\nexport function formatErrorMessage(message, searchValue, replaceValue) {\n    return message.replace(searchValue, replaceValue);\n}\n\n/**\n * Checks if value is null or undefined or an empty string\n * @param {string} value \n * @return {boolean}\n */\nexport function isNullOrEmpty(value) {\n    return value === null || typeof value === 'undefined' || value === '';\n}\n\n/**\n * Checks if a value is undefined or null or an empty string or is false (for a boolean)\n * @param {string} message The error message displaying\n * @return {Function} A function that returns the error message or undefined\n */\nexport const required = (message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.required;\n    return (value) => {\n        if (isNullOrEmpty(value) || (typeof value === 'boolean' && value === false)) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value has the min. length.\n * @param {number} minLength By default 3.\n * @param {string} message The error message displaying.\n * @return {Function} A function that returns the error message or undefined\n */\nexport const minlength = (minLength, message) => {\n    let _minLength = typeof minLength === 'number' ? minLength : 3;\n    let error = typeof message === 'string' ? message : formatErrorMessage(defaultErrorMessages.minlength, '{0}', _minLength);\n    return (value) => {\n        if (!isNullOrEmpty(value) && value.length < _minLength) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value has the max. length.\n * @param {number} maxLength By default 30.\n * @param {string} message The error message displaying.\n * @return {Function} A function that returns the error message or undefined\n */\nexport const maxlength = (maxLength, message) => {\n    let _maxLength = typeof maxLength === 'number' ? maxLength : 30;\n    let error = typeof message === 'string' ? message : formatErrorMessage(defaultErrorMessages.maxlength, '{0}', _maxLength);\n    return (value) => {\n        if (!isNullOrEmpty(value) && value.length > _maxLength) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value match to the regex pattern.\n * @param {Object} pattern\n * @param {string} message The error message displaying.\n * @return {Function} A function that returns the error message or undefined\n */\nexport const pattern = (pattern, message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.pattern;\n    return (value) => {\n        if (!isNullOrEmpty(value) && !pattern.test(value)) {\n            return error;\n        }\n    };\n};\n\n/**\n * Checks if a value is a valid email.\n * @param {string} message The error message displaying.\n * @return {Function} A function that returns the error message or undefined\n */\nexport const email = (message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.email;\n    return pattern(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i, error);\n};\n\n/**\n * Calls a function checking if value is valid.\n * @param {function} fn  The function that receives the value, the model and returns a boolean.\n * @param {string} message The error message displaying.\n * @return {Function} A function that returns the error message or undefined\n */\nexport const custom = (fn, message) => {\n    let error = typeof message === 'string' ? message : defaultErrorMessages.custom;\n    return (value, model) => {\n        if (!isNullOrEmpty(value) && !fn(value, model)) {\n            return error;\n        }\n    };\n};\n",
     "static": true,
     "longname": "helpers/validators.js",
     "access": null,
@@ -943,11 +939,10 @@
     "return": {
       "nullable": null,
       "types": [
-        "string",
-        "undefined"
+        "Function"
       ],
       "spread": false,
-      "description": "The error message or undefined"
+      "description": "A function that returns the error message or undefined"
     }
   },
   {
@@ -990,11 +985,10 @@
     "return": {
       "nullable": null,
       "types": [
-        "string",
-        "undefined"
+        "Function"
       ],
       "spread": false,
-      "description": "The error message or undefined."
+      "description": "A function that returns the error message or undefined"
     }
   },
   {
@@ -1037,11 +1031,10 @@
     "return": {
       "nullable": null,
       "types": [
-        "string",
-        "undefined"
+        "Function"
       ],
       "spread": false,
-      "description": "The error message or undefined."
+      "description": "A function that returns the error message or undefined"
     }
   },
   {
@@ -1084,11 +1077,10 @@
     "return": {
       "nullable": null,
       "types": [
-        "string",
-        "undefined"
+        "Function"
       ],
       "spread": false,
-      "description": "The error message or undefined."
+      "description": "A function that returns the error message or undefined"
     }
   },
   {
@@ -1121,11 +1113,10 @@
     "return": {
       "nullable": null,
       "types": [
-        "string",
-        "undefined"
+        "Function"
       ],
       "spread": false,
-      "description": "The error message or undefined."
+      "description": "A function that returns the error message or undefined"
     }
   },
   {
@@ -1168,11 +1159,10 @@
     "return": {
       "nullable": null,
       "types": [
-        "string",
-        "undefined"
+        "Function"
       ],
       "spread": false,
-      "description": "The error message or undefined."
+      "description": "A function that returns the error message or undefined"
     }
   },
   {

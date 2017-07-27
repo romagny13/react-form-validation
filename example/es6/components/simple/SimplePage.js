@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { FormGroup, ValidationHelper, required, minlength, maxlength, pattern, email, custom, isNullOrEmpty, FormHelper } from '../../../../src/index';
+import { FormGroup, ValidationHelper, required, minlength, maxlength, pattern, email, custom, isNullOrEmpty, DOMFormHelper } from '../../../../src/index';
 
 import MyForm from './SimpleForm';
 
@@ -56,7 +56,7 @@ class SimplePage extends Component {
     onValueChange(event) {
         // change model value
         let name = event.target.name;
-        let value = FormHelper.getElementValue(event.target);
+        let value = DOMFormHelper.getElementValue(event.target);
         let model = this.state.model;
 
         if (name === 'likes') {

@@ -2,7 +2,7 @@ import './style.css';
 
 export * from './helpers/util';
 export * from './helpers/validators';
-export * from './helpers/FormHelper';
+export * from './helpers/DOMFormHelper';
 export * from './helpers/ValidationHelper';
 export {default as Checkbox} from './components/Checkbox';
 export {default as CheckboxGroup} from './components/CheckboxGroup';

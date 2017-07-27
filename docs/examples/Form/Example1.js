@@ -7,8 +7,8 @@ import Input from 'romagny13-react-form-validation/lib/components/Input';
 import Submit from 'romagny13-react-form-validation/lib/components/Submit';
 import Submit from 'romagny13-react-form-validation/lib/components/Submit';
 import Reset from 'romagny13-react-form-validation/lib/components/Reset';
-import { required, minlength } from 'romagny13-react-form-validation/helpers/validators';
-import { ValidationHelper } from 'romagny13-react-form-validation/helpers/ValidationHelper';
+import { required, minlength } from 'romagny13-react-form-validation/lib/helpers/validators';
+import { ValidationHelper } from 'romagny13-react-form-validation/lib/helpers/ValidationHelper';
 */
 
 /** Validation Strategy "onSubmit" */
@@ -43,8 +43,8 @@ class Example1 extends React.Component {
         if (submitted) {
 
             // validate only the field
-            // let fieldValidations = this.validators[name];
-            // errors[name] = ValidationHelper.validateProperty(model, name, fieldValidations);
+            // let fieldValidators = this.validators[name];
+            // errors[name] = ValidationHelper.validateProperty(model, name, fieldValidators);
 
             // ... or validate all
             let errors = ValidationHelper.validateAll(model, this.validators);

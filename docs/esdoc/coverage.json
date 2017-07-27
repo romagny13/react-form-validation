@@ -3,7 +3,7 @@
   "expectCount": 29,
   "actualCount": 28,
   "files": {
-    "helpers/FormHelper.js": {
+    "helpers/DOMFormHelper.js": {
       "expectCount": 11,
       "actualCount": 11,
       "undocumentLines": []

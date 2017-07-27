@@ -10,20 +10,28 @@ import { isObject } from '../common/util';
 * };
 *
 * let validators = {
- *  firstname: [required('Firstname required')],
- *  lastname: [required('Lastname required')]
+ *  firstname: [required('First name required')],
+ *  lastname: [required('Last name required')]
 * };
 *
 * let value = model['lastname'];
 *
-* let error = ValidationHelper.validateValue(model,value,validators);
-* // error => 'Lastname required'
- * 
- */
+* // validate a value
+* let error = ValidationHelper.validateValue(model, value, validators); // error => 'Last name required'
+* 
+* @example
+* // validate property
+* let error = ValidationHelper.validateProperty(model, 'lastname', validators); // error => 'Last name required'
+*
+* @example
+* // validate all
+* let errors = ValidationHelper.validateAll(model, validators); // errors => {firstname: 'First name required', lastname: 'Last name required'}
+* 
+*/
 export class ValidationHelper {
 
     /**
-     * Checks the value with the validators (pass the model to the custom validators) and returns the first error message.
+     * Checks the value with validators and returns the first error message.
      * @param {Object} model 
      * @param {string|number|boolean} value 
      * @param {Array} validators 
@@ -40,11 +48,7 @@ export class ValidationHelper {
     }
 
     /**
-     * Checks the property name with the validators (pass the model to the custom validators) and returns the first error message.
-     * 
-     * @example
-     * let error = ValidationHelper.validateProperty(model, 'lastname', validators);
-     * // error => 'Lastname required'
+     * Checks the property with validators and returns the first error message.
      * 
      * @param {Object} model 
      * @param {string|number|boolean} name 
@@ -57,11 +61,8 @@ export class ValidationHelper {
     }
 
     /**
-     * Checks if has validators for the name
+     * Checks presence of validators for the name
      * 
-     * @example
-     * let errors = ValidationHelper.validateAll(model,validators);
-     * // errors => {firstname: 'Firstname required', lastname: 'Lastname required'}
      * @param {string} name 
      * @param {Object} validators 
      * @return {boolean}
@@ -71,7 +72,7 @@ export class ValidationHelper {
     }
 
     /**
-     * Returns the length of the errors object.
+     * Returns the length of the object.
      * @param {Object} errors 
      * @return {number}
      */
@@ -89,7 +90,7 @@ export class ValidationHelper {
     }
 
     /**
-     * Validates the form model and returns an object with the errors messages.
+     * Validates all values and returns errors messages.
      * @param {Object} model 
      * @param {Object} validators 
      * @return {Object}
