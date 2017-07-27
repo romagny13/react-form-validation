@@ -50,7 +50,7 @@ function getPage(route) {
         return <GettingStartedPage />;
     }
     else if (route === 'Helpers') {
-        window.location.replace('../esdoc/index.html');
+        window.location.replace('./esdoc/index.html');
     }
     else {
         const component = componentData.filter(component => component.name === route)[0];
