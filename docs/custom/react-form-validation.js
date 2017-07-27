@@ -1,5 +1,5 @@
 /*!
- * React Form Validation v0.11.0
+ * React Form Validation v0.11.1
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -2881,54 +2881,90 @@ exports.default = EyeIcon;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TextArea = exports.Submit = exports.Select = exports.Reset = exports.RadioGroup = exports.Radio = exports.Password = exports.LightGroup = exports.Label = exports.Input = exports.ErrorBlock = exports.FormGroup = exports.Form = exports.FontIcon = exports.EyeIcon = exports.CheckboxGroup = exports.Checkbox = undefined;
+exports.TextArea = exports.Submit = exports.Select = exports.Reset = exports.RadioGroup = exports.Radio = exports.Password = exports.LightGroup = exports.Label = exports.Input = exports.ErrorBlock = exports.FormGroup = exports.Form = exports.FontIcon = exports.EyeIcon = exports.CheckboxGroup = exports.Checkbox = exports.ValidationHelper = exports.DOMFormHelper = exports.pattern = exports.required = exports.minlength = exports.maxlength = exports.isNullOrEmpty = exports.email = exports.custom = exports.omit = exports.extend = exports.clone = undefined;
 
 var _util = __webpack_require__(3);
 
-Object.keys(_util).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _util[key];
-    }
-  });
+Object.defineProperty(exports, 'clone', {
+  enumerable: true,
+  get: function get() {
+    return _util.clone;
+  }
+});
+Object.defineProperty(exports, 'extend', {
+  enumerable: true,
+  get: function get() {
+    return _util.extend;
+  }
+});
+Object.defineProperty(exports, 'omit', {
+  enumerable: true,
+  get: function get() {
+    return _util.omit;
+  }
 });
 
 var _validators = __webpack_require__(26);
 
-Object.keys(_validators).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _validators[key];
-    }
-  });
+Object.defineProperty(exports, 'custom', {
+  enumerable: true,
+  get: function get() {
+    return _validators.custom;
+  }
+});
+Object.defineProperty(exports, 'email', {
+  enumerable: true,
+  get: function get() {
+    return _validators.email;
+  }
+});
+Object.defineProperty(exports, 'isNullOrEmpty', {
+  enumerable: true,
+  get: function get() {
+    return _validators.isNullOrEmpty;
+  }
+});
+Object.defineProperty(exports, 'maxlength', {
+  enumerable: true,
+  get: function get() {
+    return _validators.maxlength;
+  }
+});
+Object.defineProperty(exports, 'minlength', {
+  enumerable: true,
+  get: function get() {
+    return _validators.minlength;
+  }
+});
+Object.defineProperty(exports, 'required', {
+  enumerable: true,
+  get: function get() {
+    return _validators.required;
+  }
+});
+Object.defineProperty(exports, 'pattern', {
+  enumerable: true,
+  get: function get() {
+    return _validators.pattern;
+  }
 });
 
 var _DOMFormHelper = __webpack_require__(27);
 
-Object.keys(_DOMFormHelper).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _DOMFormHelper[key];
-    }
-  });
+Object.defineProperty(exports, 'DOMFormHelper', {
+  enumerable: true,
+  get: function get() {
+    return _DOMFormHelper.DOMFormHelper;
+  }
 });
 
 var _ValidationHelper = __webpack_require__(28);
 
-Object.keys(_ValidationHelper).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _ValidationHelper[key];
-    }
-  });
+Object.defineProperty(exports, 'ValidationHelper', {
+  enumerable: true,
+  get: function get() {
+    return _ValidationHelper.ValidationHelper;
+  }
 });
 
 var _Checkbox = __webpack_require__(29);
