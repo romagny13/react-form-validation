@@ -61,7 +61,7 @@ import ValidationHelper from 'romagny13-react-form-validation/lib/helpers/Valida
  <script src="node_modules/romagny13-react-form-validation/lib/dist/react-form-validation.min.js"></script>
 \`\`\`
 
-## Lib examples
+## Examples
 
 To run examples \`npm i\` then \`npm run dev\`
 `;
