@@ -15,6 +15,10 @@ class RadioGroup extends React.Component {
         this.onBlur = this.onBlur.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.value !== this.props.value;
+    }
+
     hasOnValueChangeSubscriber() {
         return isFunction(this.props.onValueChange);
     }

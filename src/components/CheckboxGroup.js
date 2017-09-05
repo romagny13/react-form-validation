@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isFunction } from '../common/util';
-import { omit } from '../helpers/util';
+import { omit, clone, deepEqual } from '../helpers/util';
 
 /**  Creates a collection of checkbox with a dataSource. */
 class CheckboxGroup extends React.Component {
@@ -13,6 +13,10 @@ class CheckboxGroup extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return deepEqual(nextProps.values, this.props.values) === false;
     }
 
     hasOnValueChangeSubscriber() {
@@ -35,7 +39,7 @@ class CheckboxGroup extends React.Component {
         if (this.hasOnValueChangeSubscriber()) {
 
             let value = event.target.value;
-            let values = this.props.values;
+            let values = this.props.values.slice();
             let index = values.indexOf(value);
 
             if (index !== -1) { values.splice(index, 1); }

@@ -35,6 +35,7 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/helpers/DOMFormHelper.js~DOMFormHelper.html">DOMFormHelper</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/helpers/ValidationHelper.js~ValidationHelper.html">ValidationHelper</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clone">clone</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deepEqual">deepEqual</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extend">extend</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-omit">omit</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-custom">custom</a></span></span></li>
@@ -101,7 +102,37 @@ export function omit(obj, names = []) {
     }
     return result;
 }
-</code></pre>
+
+
+/**
+ * Checks if x and y have same properties.
+ * @param {Object} x 
+ * @param {Object} y 
+ */
+export function deepEqual(x, y) {
+    if ((typeof x == &apos;object&apos; &amp;&amp; x != null) &amp;&amp; (typeof y == &apos;object&apos; &amp;&amp; y != null)) {
+
+        if (Object.keys(x).length != Object.keys(y).length) { return false; }
+
+        for (let prop in x) {
+            if (y.hasOwnProperty(prop)) {
+                if (deepEqual(x[prop], y[prop]) === false) {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+    else if (x !== y) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}</code></pre>
 
 </div>
 

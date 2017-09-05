@@ -24,6 +24,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "romagny13-react-form-validation/helpers/util.js~deepequal",
+    "function/index.html#static-function-deepEqual",
+    "<span>deepEqual</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/util.js</span>",
+    "function"
+  ],
+  [
     "romagny13-react-form-validation/helpers/validators.js~email",
     "function/index.html#static-function-email",
     "<span>email</span> <span class=\"search-result-import-path\">romagny13-react-form-validation/helpers/validators.js</span>",

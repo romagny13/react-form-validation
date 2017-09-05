@@ -28,7 +28,7 @@ class Reset extends Component {
 Reset.propTypes = {
     /** The initial state (form model, errors, etc.). */
     initialState: PropTypes.object.isRequired,
-    
+
     /** The function called on reset. */
     onReset: PropTypes.func.isRequired
 };

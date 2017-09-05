@@ -1,5 +1,5 @@
 /*!
- * React Form Validation v0.11.1
+ * React Form Validation v0.11.2
  * (c) 2017 romagny13
  * Released under the MIT License.
  */
@@ -331,6 +331,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.extend = extend;
 exports.clone = clone;
 exports.omit = omit;
+exports.deepEqual = deepEqual;
 
 var _util = __webpack_require__(4);
 
@@ -382,6 +383,35 @@ function omit(obj) {
         }
     }
     return result;
+}
+
+/**
+ * Checks if x and y have same properties.
+ * @param {Object} x 
+ * @param {Object} y 
+ */
+function deepEqual(x, y) {
+    if ((typeof x === 'undefined' ? 'undefined' : _typeof(x)) == 'object' && x != null && (typeof y === 'undefined' ? 'undefined' : _typeof(y)) == 'object' && y != null) {
+
+        if (Object.keys(x).length != Object.keys(y).length) {
+            return false;
+        }
+
+        for (var prop in x) {
+            if (y.hasOwnProperty(prop)) {
+                if (deepEqual(x[prop], y[prop]) === false) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    } else if (x !== y) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /***/ }),
@@ -3631,6 +3661,11 @@ var Checkbox = function (_React$Component) {
     }
 
     _createClass(Checkbox, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return nextProps.checked !== this.props.checked;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -5922,6 +5957,11 @@ var CheckboxGroup = function (_React$Component) {
     }
 
     _createClass(CheckboxGroup, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return (0, _util2.deepEqual)(nextProps.values, this.props.values) === false;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -5947,7 +5987,7 @@ var CheckboxGroup = function (_React$Component) {
             if (this.hasOnValueChangeSubscriber()) {
 
                 var value = event.target.value;
-                var values = this.props.values;
+                var values = this.props.values.slice();
                 var index = values.indexOf(value);
 
                 if (index !== -1) {
@@ -6273,6 +6313,11 @@ var Input = function (_React$Component) {
     }
 
     _createClass(Input, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return nextProps.value !== this.props.value;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -6573,6 +6618,11 @@ var Password = function (_React$Component) {
     }
 
     _createClass(Password, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return nextProps.value !== this.props.value || nextState.eyeClosed !== this.state.eyeClosed;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -6720,6 +6770,11 @@ var Radio = function (_React$Component) {
     }
 
     _createClass(Radio, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return nextProps.checked !== this.props.checked;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -6834,6 +6889,11 @@ var RadioGroup = function (_React$Component) {
     }
 
     _createClass(RadioGroup, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return nextProps.value !== this.props.value;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -7044,6 +7104,11 @@ var Select = function (_React$Component) {
     }
 
     _createClass(Select, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return this.props.multiple ? (0, _util2.deepEqual)(nextProps.values, this.props.values) === false : nextProps.value !== this.props.value;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);
@@ -7270,6 +7335,11 @@ var TextArea = function (_React$Component) {
     }
 
     _createClass(TextArea, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return nextProps.value !== this.props.value;
+        }
+    }, {
         key: 'hasOnValueChangeSubscriber',
         value: function hasOnValueChangeSubscriber() {
             return (0, _util.isFunction)(this.props.onValueChange);

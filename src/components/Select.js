@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isFunction } from '../common/util';
-import { omit } from '../helpers/util';
+import { omit, deepEqual } from '../helpers/util';
 
 /**  Creates a select element. */
 class Select extends React.Component {
@@ -13,6 +13,10 @@ class Select extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.multiple ? deepEqual(nextProps.values, this.props.values) === false : nextProps.value !== this.props.value;
     }
 
     hasOnValueChangeSubscriber() {

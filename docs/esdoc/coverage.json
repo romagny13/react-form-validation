@@ -1,7 +1,7 @@
 {
-  "coverage": "96.55%",
-  "expectCount": 29,
-  "actualCount": 28,
+  "coverage": "96.66%",
+  "expectCount": 30,
+  "actualCount": 29,
   "files": {
     "helpers/DOMFormHelper.js": {
       "expectCount": 11,
@@ -14,8 +14,8 @@
       "undocumentLines": []
     },
     "helpers/util.js": {
-      "expectCount": 3,
-      "actualCount": 3,
+      "expectCount": 4,
+      "actualCount": 4,
       "undocumentLines": []
     },
     "helpers/validators.js": {

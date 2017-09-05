@@ -15,6 +15,10 @@ class Radio extends React.Component {
         this.onBlur = this.onBlur.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.checked !== this.props.checked;
+    }
+
     hasOnValueChangeSubscriber() {
         return isFunction(this.props.onValueChange);
     }

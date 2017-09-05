@@ -41,6 +41,10 @@ class Password extends React.Component {
         this.onBlur = this.onBlur.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.value !== this.props.value || nextState.eyeClosed !== this.state.eyeClosed;
+    }
+
     hasOnValueChangeSubscriber() {
         return isFunction(this.props.onValueChange);
     }
